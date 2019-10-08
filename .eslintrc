@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "extends": ["react-app", "prettier", "prettier/react"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "plugins": ["import", "promise", "compat", "react", "react-hooks"],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "configs/webpack.config.eslint.js"
+      }
+    }
+  }
+}
