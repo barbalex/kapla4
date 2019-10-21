@@ -14,7 +14,8 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(12, calc((100% - 55px) / 12));
   grid-template-rows: auto;
-  grid-template-areas: 'areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle'
+  grid-template-areas:
+    'areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle areaGeschaeftTitle'
     'fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand fieldGegenstand'
     'fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser fieldAusloeser'
     'fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt fieldOrt'
@@ -46,24 +47,54 @@ const StyledTextarea = styled(Textarea)`
   &:focus {
     border-color: #66afe9;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+      0 0 8px rgba(102, 175, 233, 0.6);
   }
 `
-const Ausloeser = styled.div`grid-area: fieldAusloeser;`
-const Ort = styled.div`grid-area: fieldOrt;`
-const Geschaeftsart = styled.div`grid-area: fieldGeschaeftsart;`
-const Gegenstand = styled.div`grid-area: fieldGegenstand;`
-const Details = styled.div`grid-area: fieldDetails;`
-const Status = styled.div`grid-area: fieldStatus;`
-const Abteilung = styled.div`grid-area: fieldAbteilung;`
-const NaechsterSchritt = styled.div`grid-area: fieldNaechsterSchritt;`
-const Vermerk = styled.div`grid-area: fieldVermerk;`
-const VermerkIntern = styled.div`grid-area: fieldVermerkIntern;`
+const Ausloeser = styled.div`
+  grid-area: fieldAusloeser;
+`
+const Ort = styled.div`
+  grid-area: fieldOrt;
+`
+const Geschaeftsart = styled.div`
+  grid-area: fieldGeschaeftsart;
+`
+const Gegenstand = styled.div`
+  grid-area: fieldGegenstand;
+`
+const Details = styled.div`
+  grid-area: fieldDetails;
+`
+const Status = styled.div`
+  grid-area: fieldStatus;
+`
+const Abteilung = styled.div`
+  grid-area: fieldAbteilung;
+`
+const NaechsterSchritt = styled.div`
+  grid-area: fieldNaechsterSchritt;
+`
+const Vermerk = styled.div`
+  grid-area: fieldVermerk;
+`
+const VermerkIntern = styled.div`
+  grid-area: fieldVermerkIntern;
+`
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte, statusOptions, abteilungOptions, geschaeftsartOptions } = store.geschaefte
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+    statusOptions,
+    abteilungOptions,
+    geschaeftsartOptions,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
@@ -71,15 +102,27 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
 
   return (
     <Container data-ispdf={isPdf}>
-      <Title>Geschäft</Title>
+      <Title>Geschäft test</Title>
       <Gegenstand>
         <ControlLabel>Gegenstand</ControlLabel>
-        <StyledTextarea value={geschaeft.gegenstand || ''} name="gegenstand" onChange={change} onBlur={blur} tabIndex={1 + tabsToAdd} />
+        <StyledTextarea
+          value={geschaeft.gegenstand || ''}
+          name="gegenstand"
+          onChange={change}
+          onBlur={blur}
+          tabIndex={1 + tabsToAdd}
+        />
       </Gegenstand>
       {!(!geschaeft.ausloeser && isPdf) && (
         <Ausloeser>
           <ControlLabel>Auslöser</ControlLabel>
-          <StyledTextarea value={geschaeft.ausloeser || ''} name="ausloeser" onChange={change} onBlur={blur} tabIndex={2 + tabsToAdd} />
+          <StyledTextarea
+            value={geschaeft.ausloeser || ''}
+            name="ausloeser"
+            onChange={change}
+            onBlur={blur}
+            tabIndex={2 + tabsToAdd}
+          />
         </Ausloeser>
       )}
       {!(!geschaeft.ort && isPdf) && (
@@ -144,7 +187,13 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
       {!(!geschaeft.details && isPdf) && (
         <Details>
           <ControlLabel>Details</ControlLabel>
-          <StyledTextarea value={geschaeft.details || ''} name="details" onChange={change} onBlur={blur} tabIndex={7 + tabsToAdd} />
+          <StyledTextarea
+            value={geschaeft.details || ''}
+            name="details"
+            onChange={change}
+            onBlur={blur}
+            tabIndex={7 + tabsToAdd}
+          />
         </Details>
       )}
       {!(!geschaeft.naechsterSchritt && isPdf) && (
@@ -162,11 +211,19 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
       {!(!geschaeft.vermerk && isPdf) && (
         <Vermerk>
           <ControlLabel>Vermerk</ControlLabel>
-          <StyledTextarea value={geschaeft.vermerk || ''} name="vermerk" onChange={change} onBlur={blur} tabIndex={9 + tabsToAdd} />
+          <StyledTextarea
+            value={geschaeft.vermerk || ''}
+            name="vermerk"
+            onChange={change}
+            onBlur={blur}
+            tabIndex={9 + tabsToAdd}
+          />
         </Vermerk>
       )}
       <VermerkIntern>
-        <ControlLabel>Vermerk intern (in Berichten nicht angezeigt)</ControlLabel>
+        <ControlLabel>
+          Vermerk intern (in Berichten nicht angezeigt)
+        </ControlLabel>
         <StyledTextarea
           value={geschaeft.vermerkIntern || ''}
           name="vermerkIntern"
