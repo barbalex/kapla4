@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
+
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaZuletztMutiert;
@@ -18,27 +18,36 @@ const Field = styled.div`
   font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
 `
 
-const enhance = compose(inject('store'), observer)
-
-const AreaZuletztMutiert = ({ store }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte, interneOptions } = store.geschaefte
+const AreaZuletztMutiert = () => {
+  const store = useContext(storeContext)
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+    interneOptions,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const isPdf = path === '/geschaeftPdf'
   let zuletztMutiertText
 
   if (!geschaeft || !geschaeft.mutationsperson) {
-    zuletztMutiertText = 'Bei diesem Geschäft wurde (noch) keine Mutationsperson gespeichert'
+    zuletztMutiertText =
+      'Bei diesem Geschäft wurde (noch) keine Mutationsperson gespeichert'
   } else {
     const mutPersonOptions = interneOptions.find(o => {
       if (o.itKonto) {
         // seems that data contains lower case differences
         // and whitespace
-        return o.itKonto.toLowerCase().replace(/ /g, '') === geschaeft.mutationsperson.toLowerCase().replace(/ /g, '')
+        return (
+          o.itKonto.toLowerCase().replace(/ /g, '') ===
+          geschaeft.mutationsperson.toLowerCase().replace(/ /g, '')
+        )
       }
       return false
     })
-    const name = mutPersonOptions ? ` (${mutPersonOptions.vorname} ${mutPersonOptions.name})` : ''
+    const name = mutPersonOptions
+      ? ` (${mutPersonOptions.vorname} ${mutPersonOptions.name})`
+      : ''
     zuletztMutiertText = `Zuletzt mutiert durch ${geschaeft.mutationsperson}${name} am ${geschaeft.mutationsdatum}`
   }
 
@@ -49,10 +58,4 @@ const AreaZuletztMutiert = ({ store }) => {
   )
 }
 
-AreaZuletztMutiert.displayName = 'AreaZuletztMutiert'
-
-AreaZuletztMutiert.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(AreaZuletztMutiert)
+export default observer(AreaZuletztMutiert)

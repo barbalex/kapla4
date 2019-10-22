@@ -1,11 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import AreaHistoryRows from './AreaHistoryRows'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const Container = styled.div`
@@ -13,7 +12,8 @@ const Container = styled.div`
   background-color: rgb(227, 232, 255);
   display: grid;
   grid-template-columns: calc(100% - 156px) 70px 70px;
-  grid-template-areas: 'areaHistoryTitle labelVorgeschaeft fieldVorgeschaeft'
+  grid-template-areas:
+    'areaHistoryTitle labelVorgeschaeft fieldVorgeschaeft'
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   grid-row-gap: ${props => (props['data-ispdf'] ? '1px' : '8px')};
@@ -26,7 +26,9 @@ const Title = styled.div`
   font-size: 16px;
   grid-area: areaHistoryTitle;
 `
-const FieldVorgeschaeft = styled.div`grid-area: fieldVorgeschaeft;`
+const FieldVorgeschaeft = styled.div`
+  grid-area: fieldVorgeschaeft;
+`
 // eslint-disable-next-line no-unused-vars
 const LabelVorgeschaeft = styled(ControlLabel)`
   grid-area: labelVorgeschaeft;
@@ -34,10 +36,12 @@ const LabelVorgeschaeft = styled(ControlLabel)`
   text-align: right;
 `
 
-const enhance = compose(inject('store'), observer)
-
-const AreaHistory = ({ store, blur, change }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
+const AreaHistory = ({ blur, change }) => {
+  const store = useContext(storeContext)
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const isPdf = path === '/geschaeftPdf'
@@ -49,7 +53,11 @@ const AreaHistory = ({ store, blur, change }) => {
       <FieldVorgeschaeft>
         <FormControl
           type="number"
-          value={geschaeft && geschaeft.idVorgeschaeft ? geschaeft.idVorgeschaeft : ''}
+          value={
+            geschaeft && geschaeft.idVorgeschaeft
+              ? geschaeft.idVorgeschaeft
+              : ''
+          }
           name="idVorgeschaeft"
           onChange={change}
           onBlur={blur}
@@ -63,12 +71,4 @@ const AreaHistory = ({ store, blur, change }) => {
   )
 }
 
-AreaHistory.displayName = 'AreaHistory'
-
-AreaHistory.propTypes = {
-  store: PropTypes.object.isRequired,
-  blur: PropTypes.func.isRequired,
-  change: PropTypes.func.isRequired,
-}
-
-export default enhance(AreaHistory)
+export default observer(AreaHistory)

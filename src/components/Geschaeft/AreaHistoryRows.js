@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
+
+import storeContext from '../../storeContext'
 
 const FieldsContainer = styled.div`
   grid-area: areaHistoryFieldsContainer;
@@ -42,12 +42,8 @@ const Gegenstand = styled.div`
   grid-column: 3;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const AreaHistoryRows = ({ store }) => {
+const AreaHistoryRows = () => {
+  const store = useContext(storeContext)
   const { geschaeftToggleActivated } = store
   const {
     activeId,
@@ -90,10 +86,4 @@ const AreaHistoryRows = ({ store }) => {
   )
 }
 
-AreaHistoryRows.displayName = 'AreaHistoryRows'
-
-AreaHistoryRows.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(AreaHistoryRows)
+export default observer(AreaHistoryRows)

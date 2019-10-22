@@ -1,12 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import Dropzone from 'react-dropzone'
 import { FaRegTimesCircle } from 'react-icons/fa'
 import { shell } from 'electron'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
+
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaLinks;
@@ -88,25 +87,18 @@ const DropzoneInnerDiv = styled.div`
   padding: 5px;
 `
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onDrop: props => files => {
-      const { store } = props
-      const { linkNewCreate } = store
-      const { activeId } = store.geschaefte
-      linkNewCreate(activeId, files[0].path)
-    },
-  }),
-  observer,
-)
-
-const AreaLinks = ({ store, onDrop }) => {
-  const { linkRemove } = store
+const AreaLinks = () => {
+  const store = useContext(storeContext)
+  const { linkRemove, linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter(l => l.idGeschaeft === activeId)
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
+
+  const onDrop = useCallback(files => linkNewCreate(activeId, files[0].path), [
+    activeId,
+    linkNewCreate,
+  ])
 
   return (
     <Container data-ispdf={isPdf}>
@@ -165,11 +157,4 @@ const AreaLinks = ({ store, onDrop }) => {
   )
 }
 
-AreaLinks.displayName = 'AreaLinks'
-
-AreaLinks.propTypes = {
-  store: PropTypes.object.isRequired,
-  onDrop: PropTypes.func.isRequired,
-}
-
-export default enhance(AreaLinks)
+export default observer(AreaLinks)

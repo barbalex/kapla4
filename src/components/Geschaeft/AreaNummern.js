@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import GekoNrField from './GekoNrField'
+import storeContext from '../../storeContext'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -176,12 +176,8 @@ const FieldAktennummer = styled(Field)`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
+const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
+  const store = useContext(storeContext)
   const {
     aktenstandortOptions,
     activeId,
@@ -351,4 +347,4 @@ const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
   )
 }
 
-export default enhance(AreaNummern)
+export default observer(AreaNummern)

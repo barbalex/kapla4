@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { FormControl, ControlLabel, Radio } from 'react-bootstrap'
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
@@ -157,14 +156,6 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
       )}
     </Container>
   )
-}
-
-AreaParlVorstoss.displayName = 'AreaParlVorstoss'
-
-AreaParlVorstoss.propTypes = {
-  store: PropTypes.object.isRequired,
-  nrOfFieldsBeforePv: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
 }
 
 export default observer(AreaParlVorstoss)

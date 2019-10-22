@@ -1,13 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'
+import storeContext from '../../storeContext'
 
 const verwantwortlichOptions = interneOptions => {
   // sort interneOptions by kurzzeichen
@@ -16,7 +15,8 @@ const verwantwortlichOptions = interneOptions => {
     return sort.toLowerCase()
   })
   const options = interneOptionsSorted.map(o => {
-    const name = `${o.name || '(kein Name)'} ${o.vorname || '(kein Vorname)'} (${o.kurzzeichen})`
+    const name = `${o.name || '(kein Name)'} ${o.vorname ||
+      '(kein Vorname)'} (${o.kurzzeichen})`
     return (
       <option key={o.id} value={o.kurzzeichen}>
         {name}
@@ -54,8 +54,12 @@ const verantwortlichData = (geschaeft, interneOptions, isPdf) => {
   return <span>{`${name}${abt}${telefon}`}</span>
 }
 
-const ContainerBase = styled.div`grid-area: areaPersonen;`
-const ContainerView = styled(ContainerBase)`background-color: rgb(246, 255, 245);`
+const ContainerBase = styled.div`
+  grid-area: areaPersonen;
+`
+const ContainerView = styled(ContainerBase)`
+  background-color: rgb(246, 255, 245);
+`
 const ContainerPrint = styled(ContainerBase)`
   border: 1px solid #ccc;
   border-bottom: none;
@@ -81,7 +85,9 @@ const Title = styled.div`
   font-size: 16px;
   grid-column: 1;
 `
-const SubtitleBase = styled.div`font-weight: 900;`
+const SubtitleBase = styled.div`
+  font-weight: 900;
+`
 const SubtitleView = styled(SubtitleBase)`
   font-size: 12px;
   margin-top: 5px;
@@ -92,7 +98,9 @@ const SubtitlePrint = styled(SubtitleBase)`
   margin-top: 2px;
   grid-column: 1;
 `
-const VerantwortlichView = styled.div`grid-column: 1 / span 1;`
+const VerantwortlichView = styled.div`
+  grid-column: 1 / span 1;
+`
 const VerantwortlichPrint = styled.div`
   grid-column: 1;
   display: none;
@@ -116,10 +124,13 @@ const StyledFormcontrolStaticPrint = styled(FormControl.Static)`
   min-height: 0;
 `
 
-const enhance = compose(inject('store'), observer)
-
-const AreaPersonen = ({ store, nrOfFieldsBeforePersonen = 0, change }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte, interneOptions } = store.geschaefte
+const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
+  const store = useContext(storeContext)
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+    interneOptions,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
@@ -127,14 +138,20 @@ const AreaPersonen = ({ store, nrOfFieldsBeforePersonen = 0, change }) => {
   const AreaPersonenDiv = isPdf ? AreaPersonenDivPrint : AreaPersonenDivView
   const Subtitle = isPdf ? SubtitlePrint : SubtitleView
   const Verantwortlich = isPdf ? VerantwortlichPrint : VerantwortlichView
-  const VerantwortlichName = isPdf ? VerantwortlichNamePrint : VerantwortlichNameView
-  const StyledFormcontrolStatic = isPdf ? StyledFormcontrolStaticPrint : StyledFormcontrolStaticView
+  const VerantwortlichName = isPdf
+    ? VerantwortlichNamePrint
+    : VerantwortlichNameView
+  const StyledFormcontrolStatic = isPdf
+    ? StyledFormcontrolStaticPrint
+    : StyledFormcontrolStaticView
 
   return (
     <Container>
       <AreaPersonenDiv>
         <Title>Personen</Title>
-        {!(isPdf && !geschaeft.verantwortlich) && <Subtitle>Verantwortlich</Subtitle>}
+        {!(isPdf && !geschaeft.verantwortlich) && (
+          <Subtitle>Verantwortlich</Subtitle>
+        )}
         {!(isPdf && !geschaeft.verantwortlich) && (
           <Verantwortlich>
             <FormControl
@@ -151,24 +168,26 @@ const AreaPersonen = ({ store, nrOfFieldsBeforePersonen = 0, change }) => {
         )}
         {!(isPdf && !geschaeft.verantwortlich) && (
           <VerantwortlichName>
-            <StyledFormcontrolStatic>{verantwortlichData(geschaeft, interneOptions, isPdf)}</StyledFormcontrolStatic>
+            <StyledFormcontrolStatic>
+              {verantwortlichData(geschaeft, interneOptions, isPdf)}
+            </StyledFormcontrolStatic>
           </VerantwortlichName>
         )}
-        {!(isPdf && geschaeft.interne.length === 0) && <Subtitle>Interne Kontakte</Subtitle>}
-        {!(isPdf && geschaeft.interne.length === 0) && <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />}
-        {!(isPdf && geschaeft.externe.length === 0) && <Subtitle>Externe Kontakte</Subtitle>}
-        {!(isPdf && geschaeft.externe.length === 0) && <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />}
+        {!(isPdf && geschaeft.interne.length === 0) && (
+          <Subtitle>Interne Kontakte</Subtitle>
+        )}
+        {!(isPdf && geschaeft.interne.length === 0) && (
+          <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />
+        )}
+        {!(isPdf && geschaeft.externe.length === 0) && (
+          <Subtitle>Externe Kontakte</Subtitle>
+        )}
+        {!(isPdf && geschaeft.externe.length === 0) && (
+          <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />
+        )}
       </AreaPersonenDiv>
     </Container>
   )
 }
 
-AreaPersonen.displayName = 'AreaPersonen'
-
-AreaPersonen.propTypes = {
-  store: PropTypes.object.isRequired,
-  nrOfFieldsBeforePersonen: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-}
-
-export default enhance(AreaPersonen)
+export default observer(AreaPersonen)

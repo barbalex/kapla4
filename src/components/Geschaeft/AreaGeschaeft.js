@@ -1,12 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
-import createOptions from '../../src/createOptions'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -82,12 +80,8 @@ const VermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
+const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -236,18 +230,4 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
   )
 }
 
-AreaGeschaeft.displayName = 'AreaGeschaeft'
-
-/**
- * do not make options required
- * as they may be loaded after the component
- */
-AreaGeschaeft.propTypes = {
-  store: PropTypes.object.isRequired,
-  change: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
-  viewIsNarrow: PropTypes.bool.isRequired,
-  nrOfGFields: PropTypes.number.isRequired,
-}
-
-export default enhance(AreaGeschaeft)
+export default observer(AreaGeschaeft)
