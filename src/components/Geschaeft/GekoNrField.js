@@ -1,14 +1,8 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { FormControl } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import storeContext from '../../storeContext'
-
-const enhance = compose(
-  inject('store'),
-  observer,
-)
 
 const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
   const store = useContext(storeContext)
@@ -47,4 +41,4 @@ const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
   )
 }
 
-export default enhance(GekoNrField)
+export default observer(GekoNrField)

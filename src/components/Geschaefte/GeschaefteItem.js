@@ -1,9 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import React, { useContext, useCallback } from 'react'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
+
+import storeContext from '../../storeContext'
 
 const StyledId = styled.div`
   flex: 1;
@@ -48,8 +47,10 @@ const FristMitarbeiterWarnungDiv = styled.div`
   font-weight: ${props => (props.fristInStyle ? 900 : 'inherit')};
   letter-spacing: ${props => (props.fristInStyle ? '0.35em' : 'inherit')};
   font-size: ${props => (props.fristInStyle ? '16px' : 'inherit')};
-  -webkit-text-stroke-color: ${props => (props.fristInStyle ? 'black' : 'inherit')};
-  -webkit-text-stroke-width: ${props => (props.fristInStyle ? '1.3px' : 'inherit')};
+  -webkit-text-stroke-color: ${props =>
+    props.fristInStyle ? 'black' : 'inherit'};
+  -webkit-text-stroke-width: ${props =>
+    props.fristInStyle ? '1.3px' : 'inherit'};
   -webkit-text-fill-color: ${props => {
     if (props.fristInStyle === 'red') return 'red'
     if (props.fristInStyle === 'yellow') return 'yellow'
@@ -84,33 +85,31 @@ const getStatusFristInStyle = fristMitarbeiterWarnung => {
   return null
 }
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onClick: props => () => {
-      const { store, index } = props
-      const { geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
-      const { geschaeftToggleActivated } = store
-      const path = store.history.location.pathname
-      const geschaeft = geschaefte[index]
-      // if path is not '/geschaefte', make it that
-      // because this is also called from '/fieldFilter'
-      if (path === '/filterFields') {
-        store.history.push('/geschaefte')
-      }
-      geschaeftToggleActivated(geschaeft.idGeschaeft)
-    },
-  }),
-  observer,
-)
-
-const GeschaefteItem = ({ store, index, onClick }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
+const GeschaefteItem = ({ index }) => {
+  const store = useContext(storeContext)
+  const { geschaeftToggleActivated } = store
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+  } = store.geschaefte
   const geschaeft = geschaefte[index]
   const active = activeId && activeId === geschaeft.idGeschaeft
+
+  const onClick = useCallback(() => {
+    const path = store.history.location.pathname
+    const geschaeft = geschaefte[index]
+    // if path is not '/geschaefte', make it that
+    // because this is also called from '/fieldFilter'
+    if (path === '/filterFields') {
+      store.history.push('/geschaefte')
+    }
+    geschaeftToggleActivated(geschaeft.idGeschaeft)
+  }, [geschaeftToggleActivated, geschaefte, index, store.history])
   // make sure geschaeft exists
   if (!geschaeft) return null
-  const fristMitarbeiter = geschaeft.fristMitarbeiter ? `Frist: ${geschaeft.fristMitarbeiter}` : ''
+  const fristMitarbeiter = geschaeft.fristMitarbeiter
+    ? `Frist: ${geschaeft.fristMitarbeiter}`
+    : ''
 
   return (
     <StyledRow active={active} onClick={onClick}>
@@ -123,7 +122,11 @@ const GeschaefteItem = ({ store, index, onClick }) => {
       <StyledStatus>
         <div>{geschaeft.status}</div>
         <div>{fristMitarbeiter}</div>
-        <FristMitarbeiterWarnungDiv fristInStyle={getStatusFristInStyle(geschaeft.fristMitarbeiterWarnung)}>
+        <FristMitarbeiterWarnungDiv
+          fristInStyle={getStatusFristInStyle(
+            geschaeft.fristMitarbeiterWarnung,
+          )}
+        >
           {geschaeft.fristMitarbeiterWarnung}
         </FristMitarbeiterWarnungDiv>
       </StyledStatus>
@@ -135,12 +138,4 @@ const GeschaefteItem = ({ store, index, onClick }) => {
   )
 }
 
-GeschaefteItem.displayName = 'GeschaefteItem'
-
-GeschaefteItem.propTypes = {
-  store: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  onClick: PropTypes.func.isRequired,
-}
-
-export default enhance(GeschaefteItem)
+export default observer(GeschaefteItem)

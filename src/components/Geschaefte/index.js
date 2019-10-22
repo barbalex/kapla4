@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
@@ -9,6 +9,7 @@ import styled from 'styled-components'
 
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   background-image: linear-gradient(
