@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import {
   MenuItem,
   Button,
@@ -8,9 +8,7 @@ import {
 } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
 import moment from 'moment'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
@@ -54,100 +52,16 @@ const RemoveIcon = styled(FaTimes)`
   vertical-align: sub;
 `
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onChangeVolltextControl: ({ store }) => e =>
-      store.geschaefteFilterByFulltext(e.target.value),
-    onSelectFaelligeGeschaefte: ({ store }) => () => {
-      const {
-        geschaefteFilterByFields,
-        geschaefteResetSort,
-        geschaefteSortByFields,
-      } = store
-      geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
-      // order by frist desc
-      geschaefteResetSort()
-      geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-    },
-    onSelectEigeneFaelligeGeschaefte: ({ store }) => () => {
-      const {
-        geschaefteFilterByFields,
-        geschaefteResetSort,
-        geschaefteSortByFields,
-      } = store
-      const { username } = store.user
-      const now = moment().format('YYYY-MM-DD')
-      const filter = [
-        {
-          field: 'fristMitarbeiter',
-          value: now,
-          comparator: '<=',
-        },
-        {
-          field: 'kannFaelligSein',
-          value: true,
-          comparator: '===',
-        },
-        {
-          field: 'verantwortlichItKonto',
-          value: username,
-          comparator: '===',
-        },
-      ]
-      geschaefteFilterByFields(filter, 'eigene fällige')
-      // order by frist desc
-      geschaefteResetSort()
-      geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-    },
-    onSelectAngekVernehmlassungen: ({ store }) => () => {
-      const {
-        geschaefteFilterByFields,
-        geschaefteResetSort,
-        geschaefteSortByFields,
-      } = store
-      geschaefteFilterByFields(
-        filterForVernehmlAngek,
-        'angekündigte Vernehmlassungen',
-      )
-      geschaefteResetSort()
-      geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-    },
-    onSelectLaufendeVernehmlassungen: ({ store }) => () => {
-      const {
-        geschaefteFilterByFields,
-        geschaefteResetSort,
-        geschaefteSortByFields,
-      } = store
-      geschaefteFilterByFields(
-        filterForVernehmlLaeuft,
-        'laufende Vernehmlassungen',
-      )
-      geschaefteResetSort()
-      geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-      geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-    },
-    onClickFilterDropdown: ({ store }) => () => {
-      const path = store.history.location.pathname
-      if (path !== '/filterFields') {
-        store.history.push('/filterFields')
-        store.geschaefteRemoveFilters()
-      }
-    },
-  }),
-  observer,
-)
-
-const FilterNav = ({
-  onChangeVolltextControl,
-  onSelectFaelligeGeschaefte,
-  onSelectEigeneFaelligeGeschaefte,
-  onSelectAngekVernehmlassungen,
-  onSelectLaufendeVernehmlassungen,
-  onClickFilterDropdown,
-}) => {
+const FilterNav = () => {
   const store = useContext(storeContext)
-  const { geschaefteRemoveFilters } = store
+  const {
+    geschaefteRemoveFilters,
+    geschaefteFilterByFulltext,
+    geschaefteFilterByFields,
+    geschaefteResetSort,
+    geschaefteSortByFields,
+    history,
+  } = store
   const {
     geschaefte: geschaefteUnfiltered,
     filterFields,
@@ -156,6 +70,7 @@ const FilterNav = ({
     sortFields,
     geschaeftePlusFilteredAndSorted: geschaefte,
   } = store.geschaefte
+  const { username } = store.user
   const dataIsFilteredByFulltext =
     geschaefte.length !== geschaefteUnfiltered.length && filterFulltext
   const dataIsFilteredByFields =
@@ -171,6 +86,70 @@ const FilterNav = ({
   const title = filterType
     ? `Filter: ${filterType}`
     : 'Felder filtern / sortieren'
+
+  const onChangeVolltextControl = useCallback(
+    e => geschaefteFilterByFulltext(e.target.value),
+    [geschaefteFilterByFulltext],
+  )
+  const onSelectFaelligeGeschaefte = useCallback(() => {
+    geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
+    // order by frist desc
+    geschaefteResetSort()
+    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
+  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  const onSelectEigeneFaelligeGeschaefte = useCallback(() => {
+    const now = moment().format('YYYY-MM-DD')
+    const filter = [
+      {
+        field: 'fristMitarbeiter',
+        value: now,
+        comparator: '<=',
+      },
+      {
+        field: 'kannFaelligSein',
+        value: true,
+        comparator: '===',
+      },
+      {
+        field: 'verantwortlichItKonto',
+        value: username,
+        comparator: '===',
+      },
+    ]
+    geschaefteFilterByFields(filter, 'eigene fällige')
+    // order by frist desc
+    geschaefteResetSort()
+    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
+  }, [
+    geschaefteFilterByFields,
+    geschaefteResetSort,
+    geschaefteSortByFields,
+    username,
+  ])
+  const onSelectAngekVernehmlassungen = useCallback(() => {
+    geschaefteFilterByFields(
+      filterForVernehmlAngek,
+      'angekündigte Vernehmlassungen',
+    )
+    geschaefteResetSort()
+    geschaefteSortByFields('idGeschaeft', 'DESCENDING')
+  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  const onSelectLaufendeVernehmlassungen = useCallback(() => {
+    geschaefteFilterByFields(
+      filterForVernehmlLaeuft,
+      'laufende Vernehmlassungen',
+    )
+    geschaefteResetSort()
+    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
+    geschaefteSortByFields('idGeschaeft', 'DESCENDING')
+  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  const onClickFilterDropdown = useCallback(() => {
+    const path = history.location.pathname
+    if (path !== '/filterFields') {
+      history.push('/filterFields')
+      geschaefteRemoveFilters()
+    }
+  }, [geschaefteRemoveFilters, history])
 
   return (
     <Container pullLeft>
@@ -238,7 +217,7 @@ const FilterNav = ({
         </StyledFilterDropdown>
         <FilterRemoveButton
           disabled={!dataIsFiltered}
-          onClick={() => geschaefteRemoveFilters()}
+          onClick={geschaefteRemoveFilters}
         >
           <RemoveIcon title="Filter und Sortierung entfernen" />
         </FilterRemoveButton>
@@ -247,4 +226,4 @@ const FilterNav = ({
   )
 }
 
-export default enhance(FilterNav)
+export default observer(FilterNav)

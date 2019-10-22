@@ -16,9 +16,9 @@ function getDataArrayFromExportObjects(exportObjects) {
     dataArray.push(
       Object.keys(object).map((key, index) => {
         /**
-           * exceljs errors out if first member of array is null
-           * see: https://github.com/guyonroche/exceljs/issues/111
-           */
+         * exceljs errors out if first member of array is null
+         * see: https://github.com/guyonroche/exceljs/issues/111
+         */
         if (object[key] === null && index === 0) {
           return ''
         }
@@ -29,16 +29,17 @@ function getDataArrayFromExportObjects(exportObjects) {
   return dataArray
 }
 
+const dialogOptions = {
+  title: 'exportierte Geschäfte speichern',
+  filters: [
+    {
+      name: 'Excel-Datei',
+      extensions: ['xlsx'],
+    },
+  ],
+}
+
 export default (geschaefte, messageShow) => {
-  const dialogOptions = {
-    title: 'exportierte Geschäfte speichern',
-    filters: [
-      {
-        name: 'Excel-Datei',
-        extensions: ['xlsx'],
-      },
-    ],
-  }
   dialog.showSaveDialog(dialogOptions, path => {
     if (path) {
       messageShow(true, 'Der Export wird aufgebaut...', '')
@@ -46,6 +47,7 @@ export default (geschaefte, messageShow) => {
       // and possibly blocks execution of message
       setTimeout(() => {
         const dataArray = getDataArrayFromExportObjects(geschaefte)
+        console.log('exportGeschaefte, dataArray:', dataArray)
         writeExport(path, dataArray)
           .then(() => {
             messageShow(false, '', '')
