@@ -1,7 +1,13 @@
 import React from 'react'
-import { NavItem, Glyphicon } from 'react-bootstrap'
+import { NavItem } from 'react-bootstrap'
+import { MdPrint } from 'react-icons/md'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+import styled from 'styled-components'
+
+const PrintIcon = styled(MdPrint)`
+  font-size: 1.3em;
+`
 
 const onClickPrint = () => {
   // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprintoptions
@@ -18,11 +24,14 @@ const onClickPrint = () => {
   window.print()
 }
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const NavbarPrintNav = () => (
   <NavItem onClick={onClickPrint} title="Drucken">
-    <Glyphicon glyph="print" />
+    <PrintIcon />
   </NavItem>
 )
 

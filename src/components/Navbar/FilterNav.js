@@ -5,9 +5,9 @@ import {
   Button,
   SplitButton,
   Navbar,
-  Glyphicon,
   FormControl,
 } from 'react-bootstrap'
+import { FaTimes } from 'react-icons/fa'
 import moment from 'moment'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
@@ -47,6 +47,11 @@ const StyledCriteria = styled.span`
 const FilterRemoveButton = styled(Button)`
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+`
+const RemoveIcon = styled(FaTimes)`
+  font-weight: 900;
+  font-size: 1.1em;
+  vertical-align: sub;
 `
 
 const enhance = compose(
@@ -235,7 +240,7 @@ const FilterNav = ({
           disabled={!dataIsFiltered}
           onClick={() => geschaefteRemoveFilters()}
         >
-          <Glyphicon glyph="remove" title="Filter und Sortierung entfernen" />
+          <RemoveIcon title="Filter und Sortierung entfernen" />
         </FilterRemoveButton>
       </SubContainer>
     </Container>

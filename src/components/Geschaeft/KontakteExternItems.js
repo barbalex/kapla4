@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Glyphicon } from 'react-bootstrap'
+import { FaRegTimesCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
@@ -16,7 +16,8 @@ const verantwortlichData = (gKE, externeOptions) => {
   const data = externeOptions.find(o => o.id === gKE.idKontakt)
   if (!data) return ''
   let info = ''
-  const name = `${data.name || '(kein Name)'} ${data.vorname || '(kein Vorname)'}`
+  const name = `${data.name || '(kein Name)'} ${data.vorname ||
+    '(kein Vorname)'}`
   info = addValueToInfo(info, name)
   info = addValueToInfo(info, data.firma)
   info = addValueToInfo(info, data.eMail)
@@ -40,7 +41,8 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${props => (props['data-ispdf'] ? 'calc(100% - 10px)' : 'calc(100% - 20px) 20px')};
+  grid-template-columns: ${props =>
+    props['data-ispdf'] ? 'calc(100% - 10px)' : 'calc(100% - 20px) 20px'};
   grid-gap: 0;
   padding: 3px;
   margin-right: ${props => (props['data-ispdf'] ? '9px' : 'inherit')};
@@ -70,18 +72,21 @@ const Field = styled.div`
   }
 `
 // eslint-disable-next-line no-unused-vars
-const GlyphiconDiv = styled.div`
+const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
   display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
-const StyledGlyphicon = styled(Glyphicon)`
+const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
   font-size: 18px;
   cursor: pointer;
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const GeschaefteKontakteExtern = ({ store }) => {
   const { geschaeftKontaktExternRemove } = store
@@ -90,7 +95,9 @@ const GeschaefteKontakteExtern = ({ store }) => {
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
   const isPdf = path === '/geschaeftPdf'
   // filter for this geschaeft
-  const gkIFiltered = geschaefteKontakteExtern.filter(g => g.idGeschaeft === activeId)
+  const gkIFiltered = geschaefteKontakteExtern.filter(
+    g => g.idGeschaeft === activeId,
+  )
   const gKISorted = _.sortBy(gkIFiltered, g => {
     const intOption = externeOptions.find(o => o.id === g.idKontakt)
     return `${intOption.name} ${intOption.vorname}`.toLowerCase()
@@ -100,14 +107,17 @@ const GeschaefteKontakteExtern = ({ store }) => {
     <Container>
       {gKISorted.map(gKE => (
         <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
-          <Field data-ispdf={isPdf}>{verantwortlichData(gKE, externeOptions)}</Field>
-          <GlyphiconDiv data-ispdf={isPdf}>
-            <StyledGlyphicon
-              glyph="remove-circle"
-              onClick={() => geschaeftKontaktExternRemove(activeId, gKE.idKontakt)}
+          <Field data-ispdf={isPdf}>
+            {verantwortlichData(gKE, externeOptions)}
+          </Field>
+          <RemoveIconContainer data-ispdf={isPdf}>
+            <RemoveIcon
+              onClick={() =>
+                geschaeftKontaktExternRemove(activeId, gKE.idKontakt)
+              }
               title={titleText(gKE.idKontakt, externeOptions)}
             />
-          </GlyphiconDiv>
+          </RemoveIconContainer>
         </Row>
       ))}
     </Container>

@@ -2,13 +2,20 @@ import { remote, shell } from 'electron'
 import fs from 'fs'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavItem, Glyphicon } from 'react-bootstrap'
+import { NavItem } from 'react-bootstrap'
+import { FaFile } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 // eslint-disable-next-line no-unused-vars
-const StyledNavItem = styled(NavItem)`border-right: ${props => (props['data-showberichtenavs'] ? 'solid grey 1px' : 'dotted #505050 1px')};`
+const StyledNavItem = styled(NavItem)`
+  border-right: ${props =>
+    props['data-showberichtenavs'] ? 'solid grey 1px' : 'dotted #505050 1px'};
+`
+const Icon = styled(FaFile)`
+  font-size: 1.3em;
+`
 
 const { dialog } = remote
 
@@ -46,7 +53,10 @@ const onClickPrint = (e, path) => {
   })
 }
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const NavbarPrintNav = ({ store, showBerichteNavs }) => (
   <StyledNavItem
@@ -54,7 +64,7 @@ const NavbarPrintNav = ({ store, showBerichteNavs }) => (
     title="PDF erzeugen"
     data-showberichtenavs={showBerichteNavs}
   >
-    <Glyphicon glyph="file" />
+    <Icon />
   </StyledNavItem>
 )
 

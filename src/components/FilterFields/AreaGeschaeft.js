@@ -184,16 +184,4 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
 
 AreaGeschaeft.displayName = 'AreaGeschaeft'
 
-/**
- * do not make options required
- * as they may be loaded after the component
- */
-AreaGeschaeft.propTypes = {
-  store: PropTypes.object.isRequired,
-  change: PropTypes.func.isRequired,
-  values: PropTypes.object.isRequired,
-  firstTabIndex: PropTypes.number.isRequired,
-  changeComparator: PropTypes.func.isRequired,
-}
-
 export default observer(AreaGeschaeft)

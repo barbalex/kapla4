@@ -1,21 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavItem, Glyphicon } from 'react-bootstrap'
+import { NavItem } from 'react-bootstrap'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+import { FaPlus } from 'react-icons/fa'
 
 const enhance = compose(
   inject('store'),
-  observer
+  observer,
 )
 
-const NavbarGeschaeftNeuNav = ({ store }) =>
-  <NavItem
-    onClick={store.geschaeftNewCreate}
-    title="neues Geschäft"
-  >
-    <Glyphicon glyph="plus" />
+const NavbarGeschaeftNeuNav = ({ store }) => (
+  <NavItem onClick={store.geschaeftNewCreate} title="neues Geschäft">
+    <FaPlus />
   </NavItem>
+)
 
 NavbarGeschaeftNeuNav.displayName = 'NavbarGeschaeftNeuNav'
 

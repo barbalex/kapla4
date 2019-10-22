@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
-import { Glyphicon } from 'react-bootstrap'
+import { FaRegTimesCircle } from 'react-icons/fa'
 import { shell } from 'electron'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
@@ -56,12 +56,12 @@ const UrlDiv = styled.div`
   grid-column: 1 / span 1;
   grid-column: 1;
 `
-const RemoveGlyphiconDiv = styled.div`
+const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
   display: ${props => (props['data-ispdf'] ? 'none' : 'block')};
 `
-const RemoveGlyphicon = styled(Glyphicon)`
+const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
   font-size: 18px;
   cursor: pointer;
@@ -125,13 +125,12 @@ const AreaLinks = ({ store, onDrop }) => {
                 {link.url}
               </a>
             </UrlDiv>
-            <RemoveGlyphiconDiv data-ispdf={isPdf}>
-              <RemoveGlyphicon
-                glyph="remove-circle"
+            <RemoveIconContainer data-ispdf={isPdf}>
+              <RemoveIcon
                 onClick={() => linkRemove(activeId, link.url)}
                 title="Link entfernen"
               />
-            </RemoveGlyphiconDiv>
+            </RemoveIconContainer>
           </Field>
         ))}
       </Links>
