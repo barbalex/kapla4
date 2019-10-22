@@ -21,12 +21,12 @@ module.exports = [
     //  process.env.NODE_ENV === 'development' ? /node_modules/ : undefined,
     use: {
       loader: 'babel-loader',
-      //options: {
-      //  cacheDirectory: true,
-      //},
+      options: {
+        cacheDirectory: true,
+      },
     },
   },
-  /*{
+  {
     test: /\.global\.css$/,
     use: [
       {
@@ -39,7 +39,7 @@ module.exports = [
         },
       },
     ],
-  },*/
+  },
   // EOT Font
   {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,

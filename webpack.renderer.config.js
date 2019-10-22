@@ -12,6 +12,10 @@ module.exports = {
   module: {
     rules,
   },
+  // declare better-sqlite3 external and copy all of it
+  // see https://github.com/electron-userland/electron-forge/issues/1224#issuecomment-544294836
+  // and https://github.com/electron-userland/electron-forge/issues/1224#issuecomment-544204354
+  // and https://github.com/electron-userland/electron-forge/issues/1224#issuecomment-544294836
   externals: {
     'better-sqlite3': 'commonjs better-sqlite3',
   },
@@ -31,9 +35,5 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-    //modules: ['node_modules', 'tools'],
-    //alias: {
-    //  'node-pre-gyp': 'node-pre-gyp-bypass',
-    //},
   },
 }
