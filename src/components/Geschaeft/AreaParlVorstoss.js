@@ -5,9 +5,10 @@ import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 
-import createOptions from '../../src/createOptions'
-
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -28,12 +29,22 @@ const Title = styled.div`
   font-size: 16px;
   grid-area: areaParlVorstTitle;
 `
-const FieldParlVorstossTyp = styled.div`grid-area: fieldParlVorstossTyp;`
-const FieldStufe = styled.div`grid-area: fieldStufe;`
-const FieldZustaendigkeit = styled.div`grid-area: fieldZustaendigkeit;`
+const FieldParlVorstossTyp = styled.div`
+  grid-area: fieldParlVorstossTyp;
+`
+const FieldStufe = styled.div`
+  grid-area: fieldStufe;
+`
+const FieldZustaendigkeit = styled.div`
+  grid-area: fieldZustaendigkeit;
+`
 
 const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte, parlVorstossTypOptions } = store.geschaefte
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+    parlVorstossTypOptions,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
@@ -58,7 +69,7 @@ const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
             bsSize="small"
             tabIndex={1 + nrOfFieldsBeforePv}
           >
-            {createOptions(parlVorstossTypOptions)}
+            {parlVorstossTypOptions}
           </FormControl>
         </FieldParlVorstossTyp>
       )}
@@ -92,7 +103,12 @@ const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
           {isPdf && (
             <div>
               <ControlLabel>Stufe</ControlLabel>
-              <FormControl type="text" defaultValue={stufeValue} bsSize="small" tabIndex={2 + nrOfFieldsBeforePv} />
+              <FormControl
+                type="text"
+                defaultValue={stufeValue}
+                bsSize="small"
+                tabIndex={2 + nrOfFieldsBeforePv}
+              />
             </div>
           )}
         </FieldStufe>
@@ -102,7 +118,12 @@ const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
           {isPdf && (
             <div>
               <ControlLabel>Zuständigkeit</ControlLabel>
-              <FormControl type="text" defaultValue={zustaendigkeitValue} bsSize="small" tabIndex={6 + nrOfFieldsBeforePv} />
+              <FormControl
+                type="text"
+                defaultValue={zustaendigkeitValue}
+                bsSize="small"
+                tabIndex={6 + nrOfFieldsBeforePv}
+              />
             </div>
           )}
           {!isPdf && (
@@ -110,7 +131,9 @@ const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
               <ControlLabel>Zuständigkeit</ControlLabel>
               <Radio
                 data-value="hauptzuständig"
-                checked={geschaeft.parlVorstossZustaendigkeitAwel === 'hauptzuständig'}
+                checked={
+                  geschaeft.parlVorstossZustaendigkeitAwel === 'hauptzuständig'
+                }
                 name="parlVorstossZustaendigkeitAwel"
                 onChange={change}
                 bsSize="small"
@@ -120,7 +143,10 @@ const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
               </Radio>
               <Radio
                 data-value="mitberichtzuständig"
-                checked={geschaeft.parlVorstossZustaendigkeitAwel === 'mitberichtzuständig'}
+                checked={
+                  geschaeft.parlVorstossZustaendigkeitAwel ===
+                  'mitberichtzuständig'
+                }
                 name="parlVorstossZustaendigkeitAwel"
                 onChange={change}
                 bsSize="small"

@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import getDropdownOptions from '../../src/getDropdownOptions'
 import geschaefteSortByFieldsGetSortFields from '../../src/geschaefteSortByFieldsGetSortFields'
+import createOptions from '../../src/createOptions'
 import convertDateToDdMmYyyy from '../../src/convertDateToDdMmYyyy'
 import convertDateToYyyyMmDd from '../../src/convertDateToYyyyMmDd'
 import isDateField from '../../src/isDateField'
@@ -320,7 +321,9 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.rechtsmittelErledigungOptions = rechtsmittelErledigungOptions
+    store.geschaefte.rechtsmittelErledigungOptions = createOptions(
+      rechtsmittelErledigungOptions,
+    )
   }),
   parlVorstossTypOptionsGet: action(() => {
     let parlVorstossTypOptions = []
@@ -329,7 +332,9 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.parlVorstossTypOptions = parlVorstossTypOptions
+    store.geschaefte.parlVorstossTypOptions = createOptions(
+      parlVorstossTypOptions,
+    )
   }),
   statusOptionsGet: action(() => {
     let statusOptions = []
@@ -338,7 +343,7 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.statusOptions = statusOptions
+    store.geschaefte.statusOptions = createOptions(statusOptions)
   }),
   faelligeStatiOptionsGet: action(() => {
     let options = []
@@ -366,7 +371,7 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.geschaeftsartOptions = geschaeftsartOptions
+    store.geschaefte.geschaeftsartOptions = createOptions(geschaeftsartOptions)
   }),
   aktenstandortOptionsGet: action(() => {
     let aktenstandortOptions = []
@@ -375,7 +380,7 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.aktenstandortOptions = aktenstandortOptions
+    store.geschaefte.aktenstandortOptions = createOptions(aktenstandortOptions)
   }),
   interneOptionsGet: action(() => {
     let interneOptions = []
@@ -418,7 +423,9 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.rechtsmittelInstanzOptions = rechtsmittelInstanzOptions
+    store.geschaefte.rechtsmittelInstanzOptions = createOptions(
+      rechtsmittelInstanzOptions,
+    )
   }),
   abteilungOptionsGet: action(() => {
     let abteilungOptions = []
@@ -427,7 +434,7 @@ export default store => ({
     } catch (error) {
       return
     }
-    store.geschaefte.abteilungOptions = abteilungOptions
+    store.geschaefte.abteilungOptions = createOptions(abteilungOptions)
   }),
   gekoNewCreate: action((idGeschaeft, gekoNr) => {
     let geko

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -114,6 +113,7 @@ const FieldAktennummer = styled.div`
 
 const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
   const store = useContext(storeContext)
+  const { aktenstandortOptions } = store.geschaefte
 
   return (
     <Container>
@@ -201,7 +201,7 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={13 + firstTabIndex}
-          options={toJS(store.geschaefte.aktenstandortOptions)}
+          options={toJS(aktenstandortOptions)}
         />
       </FieldAktenstandort>
       <FieldAktennummer>
@@ -217,15 +217,6 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
       </FieldAktennummer>
     </Container>
   )
-}
-
-AreaNummern.displayName = 'AreaNummern'
-
-AreaNummern.propTypes = {
-  values: PropTypes.object,
-  change: PropTypes.func.isRequired,
-  firstTabIndex: PropTypes.number.isRequired,
-  changeComparator: PropTypes.func.isRequired,
 }
 
 export default observer(AreaNummern)

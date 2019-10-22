@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { ControlLabel } from 'react-bootstrap'
-import { toJS } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -111,7 +109,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={4 + firstTabIndex}
-          options={toJS(geschaeftsartOptions)}
+          options={geschaeftsartOptions}
         />
       </FieldGeschaeftsart>
       <FieldStatus>
@@ -122,7 +120,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={5 + firstTabIndex}
-          options={toJS(statusOptions)}
+          options={statusOptions}
         />
       </FieldStatus>
       <FieldAbteilung>
@@ -133,7 +131,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={6 + firstTabIndex}
-          options={toJS(abteilungOptions)}
+          options={abteilungOptions}
         />
       </FieldAbteilung>
       <FieldDetails>
@@ -181,7 +179,5 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
     </Container>
   )
 }
-
-AreaGeschaeft.displayName = 'AreaGeschaeft'
 
 export default observer(AreaGeschaeft)

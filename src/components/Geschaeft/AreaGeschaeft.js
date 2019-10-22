@@ -150,7 +150,7 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={4 + tabsToAdd}
           >
-            {createOptions(geschaeftsartOptions)}
+            {geschaeftsartOptions}
           </FormControl>
         </Geschaeftsart>
       )}
@@ -165,7 +165,7 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={5 + tabsToAdd}
           >
-            {createOptions(statusOptions)}
+            {statusOptions}
           </FormControl>
         </Status>
       )}
@@ -180,7 +180,7 @@ const AreaGeschaeft = ({ store, blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={6 + tabsToAdd}
           >
-            {createOptions(abteilungOptions)}
+            {abteilungOptions}
           </FormControl>
         </Abteilung>
       )}

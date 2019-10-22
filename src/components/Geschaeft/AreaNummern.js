@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
@@ -7,7 +6,6 @@ import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
 import GekoNrField from './GekoNrField'
-import createOptions from '../../src/createOptions'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -178,7 +176,10 @@ const FieldAktennummer = styled(Field)`
   }
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
 const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
   const {
@@ -208,7 +209,7 @@ const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
       idGeschaeft={geschaeft.idGeschaeft}
       gekoNr=""
       tabsToAdd={tabsToAdd}
-    />
+    />,
   )
 
   return (
@@ -328,7 +329,7 @@ const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
             bsSize="small"
             tabIndex={12 + tabsToAdd}
           >
-            {createOptions(aktenstandortOptions)}
+            {aktenstandortOptions}
           </FormControl>
         </FieldAktenstandort>
       )}
@@ -348,16 +349,6 @@ const AreaNummern = ({ store, viewIsNarrow, nrOfGFields, change, blur }) => {
       )}
     </Container>
   )
-}
-
-AreaNummern.displayName = 'AreaNummern'
-
-AreaNummern.propTypes = {
-  store: PropTypes.object.isRequired,
-  change: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
-  viewIsNarrow: PropTypes.bool.isRequired,
-  nrOfGFields: PropTypes.number.isRequired,
 }
 
 export default enhance(AreaNummern)

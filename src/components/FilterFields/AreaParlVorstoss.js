@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { FormControl, ControlLabel, Radio, InputGroup } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'
-import createOptions from '../../src/createOptions'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
@@ -62,7 +60,7 @@ const AreaParlVorstoss = ({
             onChange={change}
             tabIndex={1 + firstTabIndex}
           >
-            {createOptions(store.geschaefte.parlVorstossTypOptions)}
+            {store.geschaefte.parlVorstossTypOptions}
           </FormControl>
         </InputGroup>
       </FieldParlVorstossTyp>
@@ -112,15 +110,6 @@ const AreaParlVorstoss = ({
       </FieldZustaendigkeit>
     </Container>
   )
-}
-
-AreaParlVorstoss.displayName = 'AreaParlVorstoss'
-
-AreaParlVorstoss.propTypes = {
-  values: PropTypes.object,
-  firstTabIndex: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-  changeComparator: PropTypes.func.isRequired,
 }
 
 export default observer(AreaParlVorstoss)

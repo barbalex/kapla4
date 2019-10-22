@@ -84,13 +84,4 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
   </Container>
 )
 
-AreaFristen.displayName = 'AreaFristen'
-
-AreaFristen.propTypes = {
-  values: PropTypes.object,
-  change: PropTypes.func.isRequired,
-  changeComparator: PropTypes.func.isRequired,
-  firstTabIndex: PropTypes.number.isRequired,
-}
-
 export default observer(AreaFristen)
