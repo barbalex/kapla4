@@ -1,12 +1,9 @@
 import React from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
 import { observer } from 'mobx-react'
-import compose from 'recompose/compose'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
-
-const enhance = compose(observer)
 
 const SelectInput = ({
   name,
@@ -33,4 +30,4 @@ const SelectInput = ({
   </InputGroup>
 )
 
-export default enhance(SelectInput)
+export default observer(SelectInput)

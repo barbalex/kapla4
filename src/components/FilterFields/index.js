@@ -2,8 +2,7 @@
  * using hooks here results in error:
  * Hooks can only be called inside the body of a function component.
  */
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 import { observer, inject } from 'mobx-react'
@@ -20,6 +19,8 @@ import AreaPersonen from './AreaPersonen'
 import AreaHistory from './AreaHistory'
 import AreaZuletztMutiert from './AreaZuletztMutiert'
 import isDateField from '../../src/isDateField'
+
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -81,10 +82,19 @@ const Wrapper = styled.div`
 
 const enhance = compose(
   inject('store'),
-  withHandlers({
-    changeComparator: props => (value, name) => {
-      const { geschaefteFilterByFields } = props.store
-      const { filterFields } = props.store.geschaefte
+  withHandlers({}),
+  observer,
+)
+
+const FilterFields = () => {
+  const store = useContext(storeContext)
+  const { geschaefteFilterByFields } = store
+  let { filterFields } = store.geschaefte
+  const { config } = store.app
+
+  const changeComparator = useCallback(
+    (value, name) => {
+      const { filterFields } = store.geschaefte
       const newFilterFields = []
       let changedField = {
         comparator: '=',
@@ -104,9 +114,11 @@ const enhance = compose(
       newFilterFields.push(changedField)
       geschaefteFilterByFields(newFilterFields)
     },
-    change: props => e => {
-      const { geschaefteFilterByFields } = props.store
-      const { filterFields } = props.store.geschaefte
+    [geschaefteFilterByFields, store.geschaefte],
+  )
+  const change = useCallback(
+    e => {
+      const { filterFields } = store.geschaefte
       const { type, name, dataset } = e.target
       const newFilterFields = []
       let changedField = {
@@ -139,13 +151,9 @@ const enhance = compose(
       newFilterFields.push(changedField)
       geschaefteFilterByFields(newFilterFields)
     },
-  }),
-  observer,
-)
+    [geschaefteFilterByFields, store.geschaefte],
+  )
 
-const FilterFields = ({ store, changeComparator, change }) => {
-  let { filterFields } = store.geschaefte
-  const { config } = store.app
   // build a fields hash for the values
   const values = {}
   if (filterFields.forEach) {
@@ -239,12 +247,6 @@ const FilterFields = ({ store, changeComparator, change }) => {
       </Wrapper>
     </ScrollContainer>
   )
-}
-
-FilterFields.propTypes = {
-  store: PropTypes.object.isRequired,
-  changeComparator: PropTypes.func.isRequired,
-  change: PropTypes.func.isRequired,
 }
 
 export default enhance(FilterFields)

@@ -9,7 +9,6 @@ import {
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import { observer } from 'mobx-react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 import { FaCalendarAlt } from 'react-icons/fa'
 
@@ -70,8 +69,6 @@ const CalendarIconContainer = styled.div`
   padding-left: 12px;
   padding-right: 12px;
 `
-
-const enhance = compose(observer)
 
 class DateField extends Component {
   static propTypes = {
@@ -201,4 +198,4 @@ class DateField extends Component {
   }
 }
 
-export default enhance(DateField)
+export default observer(DateField)

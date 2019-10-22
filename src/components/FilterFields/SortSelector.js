@@ -2,12 +2,12 @@
  * using hooks here results in error:
  * Hooks can only be called inside the body of a function component.
  */
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { InputGroup, FormControl } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
+
+import storeContext from '../../storeContext'
 
 const StyledFormControl = styled(FormControl)`
   width: 45px !important;
@@ -22,12 +22,8 @@ const StyledFormControl = styled(FormControl)`
   font-size: 14px;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const SortSelector = ({ store, name }) => {
+const SortSelector = ({ name }) => {
+  const store = useContext(storeContext)
   const filterField = store.geschaefte.sortFields.find(ff => ff.field === name)
   const direction = filterField ? filterField.direction : ''
 
@@ -46,11 +42,4 @@ const SortSelector = ({ store, name }) => {
   )
 }
 
-SortSelector.displayName = 'SortSelector'
-
-SortSelector.propTypes = {
-  store: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-}
-
-export default enhance(SortSelector)
+export default observer(SortSelector)

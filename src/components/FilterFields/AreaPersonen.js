@@ -1,14 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled, { css } from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
+import storeContext from '../../storeContext'
 
 const interneOptionsList = interneOptions => {
   // sort interneOptions by kurzzeichen
@@ -152,97 +151,81 @@ const KontakteDropdown = styled(FormControl)`
   width: 80px;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
 const AreaPersonen = ({
-  store,
   values,
   firstTabIndex = 0,
   change,
   changeComparator,
-}) => (
-  <Container>
-    <Title>Personen</Title>
-    <VerantwortlichSubTitle>Verantwortlich</VerantwortlichSubTitle>
-    <VerantwortlichSelector>
-      <SortSelector name="verantwortlich" />
-      <ComparatorSelector
-        name="verantwortlich"
-        changeComparator={changeComparator}
-      />
-      <KontakteDropdown
-        componentClass="select"
-        value={values.verantwortlich || ''}
-        name="verantwortlich"
-        onChange={change}
-        tabIndex={1 + firstTabIndex}
-      >
-        {verantwortlichOptionsList(store.geschaefte.interneOptions)}
-      </KontakteDropdown>
-    </VerantwortlichSelector>
-    <VerantwortlichName>
-      {verantwortlichData(values, store.geschaefte.interneOptions)}
-    </VerantwortlichName>
+}) => {
+  const store = useContext(storeContext)
 
-    <InterneKontakteSubTitle>Interne Kontakte</InterneKontakteSubTitle>
-    <InterneKontakteSelector>
-      <SortSelector name="kontaktInternVornameName" />
-      <ComparatorSelector
-        name="kontaktInternVornameName"
-        changeComparator={changeComparator}
-      />
-      <KontakteDropdown
-        componentClass="select"
-        value={values.kontaktInternVornameName || ''}
-        name="kontaktInternVornameName"
-        onChange={change}
-        tabIndex={2 + firstTabIndex}
-      >
-        {interneOptionsList(store.geschaefte.interneOptions)}
-      </KontakteDropdown>
-    </InterneKontakteSelector>
-    <InterneKontakteName>
-      {interneData(values, store.geschaefte.interneOptions)}
-    </InterneKontakteName>
+  return (
+    <Container>
+      <Title>Personen</Title>
+      <VerantwortlichSubTitle>Verantwortlich</VerantwortlichSubTitle>
+      <VerantwortlichSelector>
+        <SortSelector name="verantwortlich" />
+        <ComparatorSelector
+          name="verantwortlich"
+          changeComparator={changeComparator}
+        />
+        <KontakteDropdown
+          componentClass="select"
+          value={values.verantwortlich || ''}
+          name="verantwortlich"
+          onChange={change}
+          tabIndex={1 + firstTabIndex}
+        >
+          {verantwortlichOptionsList(store.geschaefte.interneOptions)}
+        </KontakteDropdown>
+      </VerantwortlichSelector>
+      <VerantwortlichName>
+        {verantwortlichData(values, store.geschaefte.interneOptions)}
+      </VerantwortlichName>
 
-    <ExterneKontakteSubTitle>Externe Kontakte</ExterneKontakteSubTitle>
-    <ExterneKontakteSelector>
-      <SortSelector name="kontaktExternNameVorname" />
-      <ComparatorSelector
-        name="kontaktExternNameVorname"
-        changeComparator={changeComparator}
-      />
-      <KontakteDropdown
-        componentClass="select"
-        value={values.kontaktExternNameVorname || ''}
-        name="kontaktExternNameVorname"
-        onChange={change}
-        tabIndex={3 + firstTabIndex}
-      >
-        {externeOptionsList(store.geschaefte.externeOptions)}
-      </KontakteDropdown>
-    </ExterneKontakteSelector>
-    <ExterneKontakteName>
-      {externeData(values, store.geschaefte.externeOptions)}
-    </ExterneKontakteName>
-  </Container>
-)
+      <InterneKontakteSubTitle>Interne Kontakte</InterneKontakteSubTitle>
+      <InterneKontakteSelector>
+        <SortSelector name="kontaktInternVornameName" />
+        <ComparatorSelector
+          name="kontaktInternVornameName"
+          changeComparator={changeComparator}
+        />
+        <KontakteDropdown
+          componentClass="select"
+          value={values.kontaktInternVornameName || ''}
+          name="kontaktInternVornameName"
+          onChange={change}
+          tabIndex={2 + firstTabIndex}
+        >
+          {interneOptionsList(store.geschaefte.interneOptions)}
+        </KontakteDropdown>
+      </InterneKontakteSelector>
+      <InterneKontakteName>
+        {interneData(values, store.geschaefte.interneOptions)}
+      </InterneKontakteName>
 
-AreaPersonen.displayName = 'AreaPersonen'
-
-/**
- * do not make options required
- * as they may be loaded after the component
- */
-AreaPersonen.propTypes = {
-  store: PropTypes.object.isRequired,
-  values: PropTypes.object.isRequired,
-  firstTabIndex: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-  changeComparator: PropTypes.func.isRequired,
+      <ExterneKontakteSubTitle>Externe Kontakte</ExterneKontakteSubTitle>
+      <ExterneKontakteSelector>
+        <SortSelector name="kontaktExternNameVorname" />
+        <ComparatorSelector
+          name="kontaktExternNameVorname"
+          changeComparator={changeComparator}
+        />
+        <KontakteDropdown
+          componentClass="select"
+          value={values.kontaktExternNameVorname || ''}
+          name="kontaktExternNameVorname"
+          onChange={change}
+          tabIndex={3 + firstTabIndex}
+        >
+          {externeOptionsList(store.geschaefte.externeOptions)}
+        </KontakteDropdown>
+      </ExterneKontakteSelector>
+      <ExterneKontakteName>
+        {externeData(values, store.geschaefte.externeOptions)}
+      </ExterneKontakteName>
+    </Container>
+  )
 }
 
-export default enhance(AreaPersonen)
+export default observer(AreaPersonen)

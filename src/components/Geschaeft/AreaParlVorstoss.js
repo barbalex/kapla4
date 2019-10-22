@@ -1,14 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { FormControl, ControlLabel, Radio } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -39,7 +35,8 @@ const FieldZustaendigkeit = styled.div`
   grid-area: fieldZustaendigkeit;
 `
 
-const AreaParlVorstoss = ({ store, nrOfFieldsBeforePv, change }) => {
+const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -170,4 +167,4 @@ AreaParlVorstoss.propTypes = {
   change: PropTypes.func.isRequired,
 }
 
-export default enhance(AreaParlVorstoss)
+export default observer(AreaParlVorstoss)
