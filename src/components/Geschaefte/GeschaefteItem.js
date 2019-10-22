@@ -60,6 +60,8 @@ const FristMitarbeiterWarnungDiv = styled.div`
 const StyledRow = styled.div`
   display: flex;
   padding: 5px;
+  /* Scrollbar overlays row so need to add 12px padding */
+  padding-right: 17px;
   border-bottom: 1px solid #bbbbbb;
   cursor: pointer;
   min-height: 77px;

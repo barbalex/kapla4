@@ -1,7 +1,6 @@
 import { extendObservable } from 'mobx'
 
 import observablehistory from './observableHistory'
-import uiActions from './actions/ui'
 import app from './app'
 import appActions from './actions/app'
 import user from './user'
@@ -23,11 +22,6 @@ import getHistoryOfGeschaeft from '../src/getHistoryOfGeschaeft'
 function Store() {
   const store = this
   this.history = observablehistory
-  this.ui = {}
-  extendObservable(this.ui, {
-    geschaefteListOverflowing: true,
-  })
-  extendObservable(this, uiActions(this))
   this.app = app
   this.dirty = false
   extendObservable(this, appActions(this))

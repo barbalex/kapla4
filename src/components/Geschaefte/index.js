@@ -1,10 +1,7 @@
-import React, { Component, useContext } from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useRef } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import RowRenderer from './RowRenderer'
@@ -32,7 +29,7 @@ const StyledHeader = styled.div`
 const StyledRow = styled.div`
   display: flex;
   padding: 5px;
-  padding-right: ${props => (props['data-overflowing'] ? '17px' : '5px')};
+  padding-right: 17px;
 `
 const StyledId = styled.div`
   flex: 1;
@@ -69,84 +66,52 @@ const StyledBody = styled.div`
   height: calc(100vh - 82px);
   overflow: hidden;
 `
+const StyledList = styled(List)`
+  overflow-y: overlay !important;
+`
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onChange: props => size =>
-      props.store.configSetKey('geschaefteColumnWidth', size),
-  }),
-  observer,
-)
+const Geschaefte = () => {
+  const store = useContext(storeContext)
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+  } = store.geschaefte
+  // get index of active id
+  const indexOfActiveId = _.findIndex(
+    geschaefte,
+    g => g.idGeschaeft === activeId,
+  )
 
-/**
- * need to keep this as es6 class
- * at least: after refactoring to a functional component
- * the row renderer rendered no rows any more :-(
- */
-class Geschaefte extends Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-  }
-
-  render() {
-    const { store } = this.props
-    const { setGeschaefteListOverflowing } = store
-    const { geschaefteListOverflowing } = store.ui
-    const {
-      activeId,
-      geschaeftePlusFilteredAndSorted: geschaefte,
-    } = store.geschaefte
-    // get index of active id
-    const indexOfActiveId = _.findIndex(
-      geschaefte,
-      g => g.idGeschaeft === activeId,
-    )
-
-    return (
-      <Container>
-        <StyledTable>
-          <StyledHeader>
-            <StyledRow data-overflowing={geschaefteListOverflowing}>
-              <StyledId>ID</StyledId>
-              <StyledGegenstand>Gegenstand</StyledGegenstand>
-              <StyledStatus>Status</StyledStatus>
-              <StyledKontakt>Verantwortlich</StyledKontakt>
-            </StyledRow>
-          </StyledHeader>
-          <StyledBody
-            ref={c => {
-              this.tableBody = c
-            }}
-          >
-            <AutoSizer>
-              {({ height, width }) => {
-                const overflowing = height < geschaefte.length * 77
-                // need to setTimeout because changing state in render
-                // is a no go
-                setTimeout(() => setGeschaefteListOverflowing(overflowing))
-                return (
-                  <List
-                    height={height}
-                    rowCount={geschaefte.length}
-                    rowHeight={77}
-                    rowRenderer={RowRenderer}
-                    noRowsRenderer={() => <NoRowsRenderer />}
-                    width={width}
-                    scrollToIndex={indexOfActiveId}
-                    ref={c => {
-                      this.reactList = c
-                    }}
-                    {...geschaefte}
-                  />
-                )
-              }}
-            </AutoSizer>
-          </StyledBody>
-        </StyledTable>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <StyledTable>
+        <StyledHeader>
+          <StyledRow>
+            <StyledId>ID</StyledId>
+            <StyledGegenstand>Gegenstand</StyledGegenstand>
+            <StyledStatus>Status</StyledStatus>
+            <StyledKontakt>Verantwortlich</StyledKontakt>
+          </StyledRow>
+        </StyledHeader>
+        <StyledBody>
+          <AutoSizer>
+            {({ height, width }) => (
+              <StyledList
+                height={height}
+                rowCount={geschaefte.length}
+                rowHeight={77}
+                rowRenderer={RowRenderer}
+                noRowsRenderer={() => <NoRowsRenderer />}
+                width={width}
+                scrollToIndex={indexOfActiveId}
+                {...geschaefte}
+              />
+            )}
+          </AutoSizer>
+        </StyledBody>
+      </StyledTable>
+    </Container>
+  )
 }
 
-export default enhance(Geschaefte)
+export default observer(Geschaefte)
