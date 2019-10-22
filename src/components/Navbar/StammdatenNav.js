@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+
+import storeContext from '../../storeContext'
 
 const tableNameObject = {
   interne: 'Stammdaten: Interne',
@@ -23,12 +25,10 @@ const StyledNavDropdown = styled(NavDropdown)`
     props['data-showtablenavs'] ? 'none' : 'dotted #505050 1px'};
 `
 
-const enhance = compose(inject('store'), observer)
+const enhance = compose(observer)
 
-const NavbarStammdatenNav = ({
-  store,
-  showTableNavs,
-}) => {
+const NavbarStammdatenNav = ({ showTableNavs }) => {
+  const store = useContext(storeContext)
   const { getTable } = store
   const { table, rows } = store.table
   const tableName = tableNameObject[table] || table
@@ -97,7 +97,5 @@ const NavbarStammdatenNav = ({
     </StyledNavDropdown>
   )
 }
-
-NavbarStammdatenNav.displayName = 'NavbarStammdatenNav'
 
 export default enhance(NavbarStammdatenNav)

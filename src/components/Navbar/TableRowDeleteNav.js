@@ -1,10 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaTrashAlt } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavItem = styled(({ showTableNavs, children, ...rest }) => (
@@ -14,12 +15,10 @@ const StyledNavItem = styled(({ showTableNavs, children, ...rest }) => (
     props['data-showtablenavs'] ? 'solid grey 1px' : 'dotted #505050 1px'};
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+const enhance = compose(observer)
 
-const NavbarTableRowDeleteNav = ({ store, showTableNavs }) => {
+const NavbarTableRowDeleteNav = ({ showTableNavs }) => {
+  const store = useContext(storeContext)
   const { tableRowRemove } = store
   const { table, id } = store.table
 
@@ -33,13 +32,6 @@ const NavbarTableRowDeleteNav = ({ store, showTableNavs }) => {
       <FaTrashAlt />
     </StyledNavItem>
   )
-}
-
-NavbarTableRowDeleteNav.displayName = 'NavbarTableRowDeleteNav'
-
-NavbarTableRowDeleteNav.propTypes = {
-  store: PropTypes.object.isRequired,
-  showTableNavs: PropTypes.bool.isRequired,
 }
 
 export default enhance(NavbarTableRowDeleteNav)

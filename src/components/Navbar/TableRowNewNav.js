@@ -1,28 +1,24 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+import storeContext from '../../storeContext'
 
-const NavbarTableRowNeuNav = ({ store }) => (
-  <NavItem
-    onClick={() => store.tableRowNewCreate(store.table.table)}
-    title="neuer Datensatz"
-  >
-    <FaPlus />
-  </NavItem>
-)
+const enhance = compose(observer)
 
-NavbarTableRowNeuNav.displayName = 'NavbarTableRowNeuNav'
+const NavbarTableRowNeuNav = () => {
+  const store = useContext(storeContext)
 
-NavbarTableRowNeuNav.propTypes = {
-  store: PropTypes.object.isRequired,
+  return (
+    <NavItem
+      onClick={() => store.tableRowNewCreate(store.table.table)}
+      title="neuer Datensatz"
+    >
+      <FaPlus />
+    </NavItem>
+  )
 }
 
 export default enhance(NavbarTableRowNeuNav)

@@ -1,12 +1,13 @@
 import { remote, shell } from 'electron'
 import fs from 'fs'
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaFile } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
+
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavItem = styled(NavItem)`
@@ -53,26 +54,20 @@ const onClickPrint = (e, path) => {
   })
 }
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+const enhance = compose(observer)
 
-const NavbarPrintNav = ({ store, showBerichteNavs }) => (
-  <StyledNavItem
-    onClick={e => onClickPrint(e, store.history.location.pathname)}
-    title="PDF erzeugen"
-    data-showberichtenavs={showBerichteNavs}
-  >
-    <Icon />
-  </StyledNavItem>
-)
+const NavbarPrintNav = ({ showBerichteNavs }) => {
+  const store = useContext(storeContext)
 
-NavbarPrintNav.displayName = 'NavbarPrintNav'
-
-NavbarPrintNav.propTypes = {
-  store: PropTypes.object.isRequired,
-  showBerichteNavs: PropTypes.bool.isRequired,
+  return (
+    <StyledNavItem
+      onClick={e => onClickPrint(e, store.history.location.pathname)}
+      title="PDF erzeugen"
+      data-showberichtenavs={showBerichteNavs}
+    >
+      <Icon />
+    </StyledNavItem>
+  )
 }
 
 export default enhance(NavbarPrintNav)

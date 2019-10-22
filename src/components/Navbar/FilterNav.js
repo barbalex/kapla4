@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import {
   MenuItem,
   Button,
@@ -19,6 +18,7 @@ import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
 import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStrings'
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
+import storeContext from '../../storeContext'
 
 const Container = styled(Navbar.Form)`
   padding-right: 10px;
@@ -139,7 +139,6 @@ const enhance = compose(
 )
 
 const FilterNav = ({
-  store,
   onChangeVolltextControl,
   onSelectFaelligeGeschaefte,
   onSelectEigeneFaelligeGeschaefte,
@@ -147,6 +146,7 @@ const FilterNav = ({
   onSelectLaufendeVernehmlassungen,
   onClickFilterDropdown,
 }) => {
+  const store = useContext(storeContext)
   const { geschaefteRemoveFilters } = store
   const {
     geschaefte: geschaefteUnfiltered,
@@ -245,12 +245,6 @@ const FilterNav = ({
       </SubContainer>
     </Container>
   )
-}
-
-FilterNav.displayName = 'FilterNav'
-
-FilterNav.propTypes = {
-  store: PropTypes.object.isRequired,
 }
 
 export default enhance(FilterNav)

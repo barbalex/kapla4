@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer, inject } from 'mobx-react'
@@ -8,6 +7,7 @@ import compose from 'recompose/compose'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavDropdown = styled(NavDropdown)`
@@ -26,12 +26,10 @@ const StyledNavDropdown = styled(NavDropdown)`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+const enhance = compose(observer)
 
-const BerichteNav = ({ store, showBerichteNavs }) => {
+const BerichteNav = ({ showBerichteNavs }) => {
+  const store = useContext(storeContext)
   const {
     pages,
     pagesInitiate,
@@ -138,13 +136,6 @@ const BerichteNav = ({ store, showBerichteNavs }) => {
       {activeId && <MenuItem eventKey={7.5}>Deckblatt</MenuItem>}
     </StyledNavDropdown>
   )
-}
-
-BerichteNav.displayName = 'BerichteNav'
-
-BerichteNav.propTypes = {
-  store: PropTypes.object.isRequired,
-  showBerichteNavs: PropTypes.bool.isRequired,
 }
 
 export default enhance(BerichteNav)

@@ -1,8 +1,6 @@
 import React from 'react'
 import { NavItem } from 'react-bootstrap'
 import { MdPrint } from 'react-icons/md'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 
 const PrintIcon = styled(MdPrint)`
@@ -24,11 +22,6 @@ const onClickPrint = () => {
   window.print()
 }
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
 const NavbarPrintNav = () => (
   <NavItem onClick={onClickPrint} title="Drucken">
     <PrintIcon />
@@ -37,4 +30,4 @@ const NavbarPrintNav = () => (
 
 NavbarPrintNav.displayName = 'NavbarPrintNav'
 
-export default enhance(NavbarPrintNav)
+export default NavbarPrintNav
