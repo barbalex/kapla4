@@ -1,28 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { NavItem } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import { FaTrashAlt } from 'react-icons/fa'
 
 import storeContext from '../../storeContext'
 
-// eslint-disable-next-line no-unused-vars
 const StyledNavItem = styled(NavItem)`
   border-right: ${props =>
     props['data-showgeschaeftenavs'] ? 'solid grey 1px' : 'dotted #505050 1px'};
 `
 
-const enhance = compose(observer)
-
 const NavbarGeschaeftLoeschenNav = () => {
   const store = useContext(storeContext)
   const { geschaeftSetDeleteIntended, showGeschaefteNavs } = store
   const { activeId } = store.geschaefte
+  const onClick = useCallback(() => geschaeftSetDeleteIntended(activeId), [
+    activeId,
+    geschaeftSetDeleteIntended,
+  ])
 
   return (
     <StyledNavItem
-      onClick={() => geschaeftSetDeleteIntended(activeId)}
+      onClick={onClick}
       title="Geschäft löschen"
       disabled={!activeId}
       data-showgeschaeftenavs={showGeschaefteNavs}
@@ -32,4 +32,4 @@ const NavbarGeschaeftLoeschenNav = () => {
   )
 }
 
-export default enhance(NavbarGeschaeftLoeschenNav)
+export default observer(NavbarGeschaeftLoeschenNav)

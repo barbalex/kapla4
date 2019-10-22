@@ -2,8 +2,7 @@ import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
 import { shell } from 'electron'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import storeContext from '../../storeContext'
 
@@ -25,8 +24,6 @@ const onGetProjektbeschreibung = () => {
 const onClickIssues = () => {
   shell.openItem('https://github.com/barbalex/kapla3/issues')
 }
-
-const enhance = compose(observer)
 
 const OptionsNav = () => {
   const store = useContext(storeContext)
@@ -51,4 +48,4 @@ const OptionsNav = () => {
   )
 }
 
-export default enhance(OptionsNav)
+export default observer(OptionsNav)

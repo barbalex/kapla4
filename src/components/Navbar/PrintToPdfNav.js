@@ -1,11 +1,10 @@
 import { remote, shell } from 'electron'
 import fs from 'fs'
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaFile } from 'react-icons/fa'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import storeContext from '../../storeContext'
 
@@ -54,14 +53,16 @@ const onClickPrint = (e, path) => {
   })
 }
 
-const enhance = compose(observer)
-
 const NavbarPrintNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
+  const onClick = useCallback(
+    e => onClickPrint(e, store.history.location.pathname),
+    [store.history.location.pathname],
+  )
 
   return (
     <StyledNavItem
-      onClick={e => onClickPrint(e, store.history.location.pathname)}
+      onClick={onClick}
       title="PDF erzeugen"
       data-showberichtenavs={showBerichteNavs}
     >
@@ -70,4 +71,4 @@ const NavbarPrintNav = ({ showBerichteNavs }) => {
   )
 }
 
-export default enhance(NavbarPrintNav)
+export default observer(NavbarPrintNav)

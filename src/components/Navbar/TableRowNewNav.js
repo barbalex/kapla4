@@ -1,24 +1,22 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import storeContext from '../../storeContext'
 
-const enhance = compose(observer)
-
 const NavbarTableRowNeuNav = () => {
   const store = useContext(storeContext)
+  const onClick = useCallback(
+    () => store.tableRowNewCreate(store.table.table),
+    [store],
+  )
 
   return (
-    <NavItem
-      onClick={() => store.tableRowNewCreate(store.table.table)}
-      title="neuer Datensatz"
-    >
+    <NavItem onClick={onClick} title="neuer Datensatz">
       <FaPlus />
     </NavItem>
   )
 }
 
-export default enhance(NavbarTableRowNeuNav)
+export default observer(NavbarTableRowNeuNav)

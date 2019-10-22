@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import storeContext from '../../storeContext'
 
@@ -24,8 +23,6 @@ const StyledNavDropdown = styled(NavDropdown)`
   border-right: ${props =>
     props['data-showtablenavs'] ? 'none' : 'dotted #505050 1px'};
 `
-
-const enhance = compose(observer)
 
 const NavbarStammdatenNav = ({ showTableNavs }) => {
   const store = useContext(storeContext)
@@ -98,4 +95,4 @@ const NavbarStammdatenNav = ({ showTableNavs }) => {
   )
 }
 
-export default enhance(NavbarStammdatenNav)
+export default observer(NavbarStammdatenNav)
