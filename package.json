@@ -21,14 +21,11 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "@babel/core": "7.6.4",
-    "@babel/preset-env": "7.6.3",
     "better-sqlite3": "5.4.3",
     "bootstrap": "3.x",
-    "copy-webpack-plugin": "^5.0.4",
+    "copy-webpack-plugin": "5.0.4",
     "date-fns": "2.0.0-alpha.25",
     "electron-squirrel-startup": "1.0.0",
-    "eslint-plugin-react-hooks": "2.1.2",
     "exceljs": "3.2.0",
     "font-awesome": "4.7.0",
     "global": "4.4.0",
@@ -58,6 +55,7 @@
     "react-dropzone": "Do not upgrade past v8.1.0, will break due to only filename being returned in the path property, not entire path. See https://github.com/react-dropzone/file-selector/issues/10"
   },
   "devDependencies": {
+    "@babel/core": "7.6.4",
     "@babel/plugin-proposal-class-properties": "7.5.5",
     "@babel/plugin-proposal-decorators": "7.6.0",
     "@babel/plugin-proposal-do-expressions": "7.6.0",
@@ -74,6 +72,7 @@
     "@babel/plugin-proposal-throw-expressions": "7.2.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/plugin-syntax-import-meta": "7.2.0",
+    "@babel/preset-env": "7.6.3",
     "@babel/preset-react": "7.6.3",
     "@electron-forge/cli": "6.0.0-beta.45",
     "@electron-forge/maker-deb": "6.0.0-beta.45",
@@ -84,9 +83,14 @@
     "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
     "babel-loader": "8.0.6",
     "css-loader": "3.2.0",
-    "electron": "6.0.12",
+    "electron": "7.0.0",
+    "eslint": "6.5.1",
+    "eslint-plugin-react": "7.16.0",
+    "eslint-plugin-react-app": "6.0.3",
+    "eslint-plugin-react-hooks": "2.1.2",
     "file-loader": "4.2.0",
     "node-loader": "0.6.0",
+    "prettier": "^1.18.2",
     "style-loader": "1.0.0",
     "url-loader": "2.2.0"
   }
