@@ -1,56 +1,50 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { FormControl } from 'react-bootstrap'
 import { observer, inject } from 'mobx-react'
 import compose from 'recompose/compose'
 
-const enhance = compose(inject('store'), observer)
+import storeContext from '../../storeContext'
 
-class GekoNrField extends Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-    // id seems missing when deleting geschaeft
-    // so not required
-    idGeschaeft: PropTypes.number,
-    gekoNr: PropTypes.string.isRequired,
-    tabsToAdd: PropTypes.number.isRequired,
-  }
+const enhance = compose(
+  inject('store'),
+  observer,
+)
 
-  constructor(props) {
-    super(props)
-    const { gekoNr } = this.props
-    this.state = {
-      gekoNr,
-      oldGekoNr: gekoNr,
-    }
-  }
+const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
+  const store = useContext(storeContext)
+  const { gekoRemove, gekoNewCreate } = store
 
-  onChange = e => {
-    this.setState({ gekoNr: e.target.value })
-  }
+  const [gekoNr, setGekoNr] = useState(gekoNrPassed)
+  const [oldGekoNr, setOldGekoNr] = useState(gekoNrPassed)
 
-  onBlur = () => {
-    const { idGeschaeft, store } = this.props
-    const { gekoRemove, gekoNewCreate } = store
-    const { gekoNr, oldGekoNr } = this.state
+  useEffect(() => {
+    setOldGekoNr(gekoNrPassed)
+  }, [gekoNrPassed, idGeschaeft])
+
+  const onChange = useCallback(e => setGekoNr(e.target.value), [])
+  const onBlur = useCallback(() => {
     // need old value
     if (gekoNr && oldGekoNr && gekoNr !== oldGekoNr) {
       gekoRemove(idGeschaeft, oldGekoNr)
       gekoNewCreate(idGeschaeft, gekoNr)
     } else if (gekoNr && !oldGekoNr) {
       gekoNewCreate(idGeschaeft, gekoNr)
-      this.setState({ gekoNr: '' })
+      setGekoNr('')
     } else if (!gekoNr && oldGekoNr) {
       gekoRemove(idGeschaeft, oldGekoNr)
     }
-  }
+  }, [gekoNewCreate, gekoNr, gekoRemove, idGeschaeft, oldGekoNr])
 
-  render() {
-    const { tabsToAdd } = this.props
-    const { gekoNr } = this.state
-
-    return <FormControl type="text" value={gekoNr} onChange={this.onChange} onBlur={this.onBlur} bsSize="small" tabIndex={1 + tabsToAdd} />
-  }
+  return (
+    <FormControl
+      type="text"
+      value={gekoNr}
+      onChange={onChange}
+      onBlur={onBlur}
+      bsSize="small"
+      tabIndex={1 + tabsToAdd}
+    />
+  )
 }
 
 export default enhance(GekoNrField)

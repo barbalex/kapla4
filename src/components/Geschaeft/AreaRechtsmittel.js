@@ -1,13 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import DateField from './DateField'
-import createOptions from '../../src/createOptions'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -65,18 +63,13 @@ const StyledTextarea = styled(Textarea)`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
 const AreaRechtsmittel = ({
-  store,
   nrOfFieldsBeforePv,
   change,
   blur,
   onChangeDatePicker,
 }) => {
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -162,14 +155,4 @@ const AreaRechtsmittel = ({
   )
 }
 
-AreaRechtsmittel.displayName = 'AreaRechtsmittel'
-
-AreaRechtsmittel.propTypes = {
-  store: PropTypes.object.isRequired,
-  nrOfFieldsBeforePv: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
-  onChangeDatePicker: PropTypes.func.isRequired,
-}
-
-export default enhance(AreaRechtsmittel)
+export default observer(AreaRechtsmittel)

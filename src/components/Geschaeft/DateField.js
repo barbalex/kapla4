@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import {
   FormGroup,
   InputGroup,
@@ -9,11 +8,11 @@ import {
 import { FaCalendarAlt } from 'react-icons/fa'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import getDateValidationStateDate from '../../src/getDateValidationStateDate'
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -74,13 +73,7 @@ const datePickerAddonStyle = {
   padding: 0,
 }
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
 const DateField = ({
-  store,
   name,
   label,
   change,
@@ -88,6 +81,7 @@ const DateField = ({
   onChangeDatePicker,
   tabIndex,
 }) => {
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -126,16 +120,4 @@ const DateField = ({
   )
 }
 
-DateField.displayName = 'DateField'
-
-DateField.propTypes = {
-  store: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  change: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
-  onChangeDatePicker: PropTypes.func.isRequired,
-  tabIndex: PropTypes.number.isRequired,
-}
-
-export default enhance(DateField)
+export default observer(DateField)

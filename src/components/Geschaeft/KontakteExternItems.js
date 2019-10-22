@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FaRegTimesCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
+
+import storeContext from '../../storeContext'
 
 const verantwortlichData = (gKE, externeOptions) => {
   function addValueToInfo(info, value) {
@@ -83,12 +83,8 @@ const RemoveIcon = styled(FaRegTimesCircle)`
   cursor: pointer;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const GeschaefteKontakteExtern = ({ store }) => {
+const GeschaefteKontakteExtern = () => {
+  const store = useContext(storeContext)
   const { geschaeftKontaktExternRemove } = store
   const { externeOptions, activeId } = store.geschaefte
   const path = store.history.location.pathname
@@ -124,10 +120,4 @@ const GeschaefteKontakteExtern = ({ store }) => {
   )
 }
 
-GeschaefteKontakteExtern.displayName = 'GeschaefteKontakteExtern'
-
-GeschaefteKontakteExtern.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(GeschaefteKontakteExtern)
+export default observer(GeschaefteKontakteExtern)

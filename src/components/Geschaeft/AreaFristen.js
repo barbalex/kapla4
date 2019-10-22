@@ -1,12 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import moment from 'moment'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import DateField from './DateField'
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -43,10 +42,17 @@ const StyledFristDauerBisMitarbeiter = styled(FormControl.Static)`
   -webkit-text-fill-color: ${props => props.color};
 `
 
-const enhance = compose(inject('store'), observer)
-
-const AreaFristen = ({ store, blur, change, nrOfFieldsBeforeFristen, onChangeDatePicker }) => {
-  const { activeId, geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
+const AreaFristen = ({
+  blur,
+  change,
+  nrOfFieldsBeforeFristen,
+  onChangeDatePicker,
+}) => {
+  const store = useContext(storeContext)
+  const {
+    activeId,
+    geschaeftePlusFilteredAndSorted: geschaefte,
+  } = store.geschaefte
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
@@ -112,10 +118,15 @@ const AreaFristen = ({ store, blur, change, nrOfFieldsBeforeFristen, onChangeDat
           tabIndex={5 + nrOfFieldsBeforeFristen}
         />
       )}
-      {(!!geschaeft.dauerBisFristMitarbeiter || geschaeft.dauerBisFristMitarbeiter === 0) && (
+      {(!!geschaeft.dauerBisFristMitarbeiter ||
+        geschaeft.dauerBisFristMitarbeiter === 0) && (
         <FieldFristDauerBisMitarbeiter>
           <ControlLabel>Tage bis Frist Mitarbeiter</ControlLabel>
-          <StyledFristDauerBisMitarbeiter color={colorDauerBisFristMitarbeiter} data-ispdf={isPdf} className="formControlStatic">
+          <StyledFristDauerBisMitarbeiter
+            color={colorDauerBisFristMitarbeiter}
+            data-ispdf={isPdf}
+            className="formControlStatic"
+          >
             {geschaeft.dauerBisFristMitarbeiter}
           </StyledFristDauerBisMitarbeiter>
         </FieldFristDauerBisMitarbeiter>
@@ -144,14 +155,4 @@ const AreaFristen = ({ store, blur, change, nrOfFieldsBeforeFristen, onChangeDat
   )
 }
 
-AreaFristen.displayName = 'AreaFristen'
-
-AreaFristen.propTypes = {
-  store: PropTypes.object.isRequired,
-  change: PropTypes.func.isRequired,
-  blur: PropTypes.func.isRequired,
-  onChangeDatePicker: PropTypes.func.isRequired,
-  nrOfFieldsBeforeFristen: PropTypes.number.isRequired,
-}
-
-export default enhance(AreaFristen)
+export default observer(AreaFristen)

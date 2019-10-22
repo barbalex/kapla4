@@ -1,24 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useState } from 'react'
 import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
+import { observer } from 'mobx-react'
 
 import KontakteInternItems from './KontakteInternItems'
+import storeContext from '../../storeContext'
 
 const optionsList = (interneOptions, geschaefteKontakteIntern, activeId) => {
   // filter out options already choosen
   const kontakteInternOfActiveGeschaeft = geschaefteKontakteIntern.filter(
-    g => g.idGeschaeft === activeId
+    g => g.idGeschaeft === activeId,
   )
   const idKontakteOfGkiOfActiveGeschaeft = kontakteInternOfActiveGeschaeft.map(
-    kI => kI.idKontakt
+    kI => kI.idKontakt,
   )
   const interneOptionsFiltered = interneOptions.filter(
-    o => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id)
+    o => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id),
   )
   // sort interneOptions by kurzzeichen
   const interneOptionsSorted = _.sortBy(interneOptionsFiltered, o => {
@@ -59,18 +57,15 @@ const FvDropdown = styled.div`
   display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 
-const enhance = compose(
-  withState('value', 'setValue', ''),
-  inject('store'),
-  observer
-)
-
-const GeschaefteKontakteIntern = ({ tabIndex, store, value, setValue }) => {
+const GeschaefteKontakteIntern = ({ tabIndex }) => {
+  const store = useContext(storeContext)
   const { geschaeftKontaktInternNewCreate } = store
   const { interneOptions, activeId } = store.geschaefte
   const { geschaefteKontakteIntern } = store.geschaefteKontakteIntern
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
+
+  const [value, setValue] = useState('')
 
   return (
     <Container data-ispdf={isPdf}>
@@ -99,13 +94,4 @@ const GeschaefteKontakteIntern = ({ tabIndex, store, value, setValue }) => {
   )
 }
 
-GeschaefteKontakteIntern.displayName = 'GeschaefteKontakteIntern'
-
-GeschaefteKontakteIntern.propTypes = {
-  store: PropTypes.object.isRequired,
-  tabIndex: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
-}
-
-export default enhance(GeschaefteKontakteIntern)
+export default observer(GeschaefteKontakteIntern)

@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { FaRegTimesCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
+
+import storeContext from '../../storeContext'
 
 const titleText = (idKontakt, interneOptions) => {
   const data = interneOptions.find(o => o.id === idKontakt)
@@ -74,12 +74,8 @@ const RemoveIcon = styled(FaRegTimesCircle)`
   cursor: pointer;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
-const GeschaefteKontakteInternItems = ({ store }) => {
+const GeschaefteKontakteInternItems = () => {
+  const store = useContext(storeContext)
   const { geschaeftKontaktInternRemove } = store
   const { interneOptions, activeId } = store.geschaefte
   const path = store.history.location.pathname
@@ -114,10 +110,4 @@ const GeschaefteKontakteInternItems = ({ store }) => {
   )
 }
 
-GeschaefteKontakteInternItems.displayName = 'GeschaefteKontakteInternItems'
-
-GeschaefteKontakteInternItems.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(GeschaefteKontakteInternItems)
+export default observer(GeschaefteKontakteInternItems)

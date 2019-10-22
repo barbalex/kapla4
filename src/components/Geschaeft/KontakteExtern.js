@@ -1,13 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useState } from 'react'
 import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withState from 'recompose/withState'
+import { observer } from 'mobx-react'
 
 import KontakteExternItems from './KontakteExternItems'
+import storeContext from '../../storeContext'
 
 const optionsList = (externeOptions, geschaefteKontakteExtern, activeId) => {
   // filter out options already choosen
@@ -57,18 +55,15 @@ const FvDropdown = styled.div`
   display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 
-const enhance = compose(
-  withState('value', 'setValue', ''),
-  inject('store'),
-  observer,
-)
-
-const GeschaefteKontakteExtern = ({ store, tabIndex, value, setValue }) => {
+const GeschaefteKontakteExtern = ({ tabIndex }) => {
+  const store = useContext(storeContext)
   const { geschaeftKontaktExternNewCreate } = store
   const { externeOptions, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
+
+  const [value, setValue] = useState('')
 
   return (
     <Container data-ispdf={isPdf}>
@@ -97,13 +92,4 @@ const GeschaefteKontakteExtern = ({ store, tabIndex, value, setValue }) => {
   )
 }
 
-GeschaefteKontakteExtern.displayName = 'GeschaefteKontakteExtern'
-
-GeschaefteKontakteExtern.propTypes = {
-  store: PropTypes.object.isRequired,
-  tabIndex: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
-}
-
-export default enhance(GeschaefteKontakteExtern)
+export default observer(GeschaefteKontakteExtern)
