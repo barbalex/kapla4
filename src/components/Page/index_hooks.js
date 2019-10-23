@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+/**
+ * This is A LOT SLOWER than the version using classes
+ * Do not know why
+ */
+import React, { useContext, useCallback, useEffect, useRef } from 'react'
 import moment from 'moment'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import FaelligeGeschaefteHeader from './faelligeGeschaefte/Header'
@@ -15,6 +17,7 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import logoImg from '../../etc/logo.png'
 import PageTitle from './PageTitle'
+import storeContext from '../../storeContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -142,65 +145,73 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
+const Page = ({ pageIndex }) => {
+  const store = useContext(storeContext)
+  const {
+    pageAddGeschaeft,
+    pagesMoveGeschaeftToNewPage,
+    pagesFinishedBuilding,
+    pagesModalShow,
+  } = store
+  const {
+    pages,
+    remainingGeschaefte,
+    activePageIndex,
+    reportType,
+    building,
+  } = store.pages
+  const {
+    geschaeftePlusFilteredAndSorted,
+    filterFields,
+    sortFields,
+  } = store.geschaefte
 
-class Page extends Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-    pageIndex: PropTypes.number.isRequired,
-  }
+  const firstPage = pageIndex === 0
+  const page = pages[pageIndex]
+  const geschaefte = page.geschaefte
 
-  componentDidMount = () => {
-    const { store } = this.props
-    const { pageAddGeschaeft } = store
-    this.showPagesModal()
-    // wait with next stepp until message is shown
+  const showPagesModal = useCallback(() => {
+    const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
+    const msgLine2 =
+      geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
+    pagesModalShow(true, 'Der Bericht wird aufgebaut...', msgLine2)
+  }, [
+    geschaeftePlusFilteredAndSorted.length,
+    pages.length,
+    pagesModalShow,
+    remainingGeschaefte.length,
+  ])
+
+  const rowsContainer = useRef(null)
+
+  useEffect(() => {
+    /**
+     * - measure height of pageSize-component
+     * - if > desired page height:
+     *  - move last row to next page
+     *  - render
+     * - else:
+     *  - insert next row
+     *  - render
+     */
+
+    // for some reason need to wait
+    // maybe for filtering to have happended?
     setTimeout(() => {
-      pageAddGeschaeft()
-    }, 100)
-  }
-
-  componentDidUpdate = () => {
-    // need to wait for next tick
-    // otherwise in vernehmlassungen
-    // some rows were only listed on second call
-    setTimeout(() => {
-      /**
-       * - measure height of pageSize-component
-       * - if > desired page height:
-       *  - move last row to next page
-       *  - render
-       * - else:
-       *  - insert next row
-       *  - render
-       */
-      const { store, pageIndex } = this.props
-      const {
-        pageAddGeschaeft,
-        pagesMoveGeschaeftToNewPage,
-        pagesFinishedBuilding,
-        pagesModalShow,
-      } = store
-      const { pages, activePageIndex, remainingGeschaefte } = store.pages
-
       // don't do anything on not active pages
       if (pageIndex === activePageIndex) {
-        const rowsContainerPageIndex = this[`rowsContainer${pageIndex}`]
-        const offsetHeight = rowsContainerPageIndex
-          ? rowsContainerPageIndex.offsetHeight
+        const offsetHeight = rowsContainer
+          ? rowsContainer.current.offsetHeight
           : null
-        const scrollHeight = rowsContainerPageIndex
-          ? rowsContainerPageIndex.scrollHeight
+        const scrollHeight = rowsContainer
+          ? rowsContainer.current.scrollHeight
           : null
-        const activePageIsFull = pages[pageIndex].full
+        const activePageIsFull = page.full
 
         if (!activePageIsFull && remainingGeschaefte.length > 0) {
           if (offsetHeight < scrollHeight) {
             pagesMoveGeschaeftToNewPage(activePageIndex)
-            this.showPagesModal()
+            showPagesModal()
           } else {
             pageAddGeschaeft()
           }
@@ -208,7 +219,7 @@ class Page extends Component {
         if (remainingGeschaefte.length === 0) {
           if (offsetHeight < scrollHeight) {
             pagesMoveGeschaeftToNewPage(activePageIndex)
-            this.showPagesModal()
+            showPagesModal()
           } else {
             // for unknown reason setTimeout is needed
             setTimeout(() => {
@@ -219,89 +230,70 @@ class Page extends Component {
         }
       }
     })
-  }
+  }, [
+    activePageIndex,
+    page.full,
+    pageAddGeschaeft,
+    pageIndex,
+    pagesFinishedBuilding,
+    pagesModalShow,
+    pagesMoveGeschaeftToNewPage,
+    remainingGeschaefte.length,
+    showPagesModal,
+  ])
 
-  showPagesModal = () => {
-    const { store } = this.props
-    const { pagesModalShow } = store
-    const { pages, remainingGeschaefte } = store.pages
-    const { geschaeftePlusFilteredAndSorted } = store.geschaefte
-    const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 =
-      geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
-    pagesModalShow(true, 'Der Bericht wird aufgebaut...', msgLine2)
-  }
-
-  render() {
-    const { store, pageIndex } = this.props
-    const { pages, building, reportType } = store.pages
-    const { filterFields, sortFields } = store.geschaefte
-    const geschaefte = pages[pageIndex].geschaefte
-      /**
-       * for unknown reason in bericht "laufende Vernehmlassungen"
-       * an undefined geschaeft exists
-       */
-      .filter(g => !!g)
-    const firstPage = pageIndex === 0
-
-    return (
-      <PageContainer building={building} className="querformat">
-        <GlobalStyle />
-        <InnerPageContainer>
-          <StyledRowsContainer
-            building={building}
-            ref={c => {
-              this[`rowsContainer${pageIndex}`] = c
-            }}
-          >
-            {firstPage && (
-              <img
-                src={logoImg}
-                height="70"
-                style={{ marginBottom: 15 }}
-                alt="Logo"
-              />
-            )}
-            <PageTitle firstPage={firstPage} />
-            {firstPage && (
-              <StyledFilterCriteria>
-                Filterkriterien:{' '}
-                {filterCriteriaToArrayOfStrings(filterFields).join(' & ')}
-              </StyledFilterCriteria>
-            )}
-            {firstPage && (
-              <StyledSortCriteria>
-                Sortierkriterien:{' '}
-                {sortCriteriaToArrayOfStrings(sortFields).join(' & ')}
-              </StyledSortCriteria>
-            )}
-            {reportType === 'typFaelligeGeschaefte' && (
-              <FaelligeGeschaefteHeader />
-            )}
-            {reportType === 'angekVernehml' && <VernehmlassungenHeader />}
-            {reportType === 'laufendeVernehml' && <VernehmlassungenHeader />}
-            {reportType === 'list1' && <List1Header />}
-            {reportType === 'typFaelligeGeschaefte' && (
-              <FaelligeGeschaefteRows geschaefte={geschaefte} />
-            )}
-            {reportType === 'angekVernehml' && (
-              <VernehmlassungenRows geschaefte={geschaefte} />
-            )}
-            {reportType === 'laufendeVernehml' && (
-              <VernehmlassungenRows geschaefte={geschaefte} />
-            )}
-            {reportType === 'list1' && <List1Rows geschaefte={geschaefte} />}
-          </StyledRowsContainer>
-          <StyledFooter>
-            <div>{moment().format('DD.MM.YYYY')}</div>
-            <div>
-              Seite {pageIndex + 1}/{pages.length}
-            </div>
-          </StyledFooter>
-        </InnerPageContainer>
-      </PageContainer>
-    )
-  }
+  return (
+    <PageContainer building={building} className="querformat">
+      <GlobalStyle />
+      <InnerPageContainer>
+        <StyledRowsContainer building={building} ref={rowsContainer}>
+          {firstPage && (
+            <img
+              src={logoImg}
+              height="70"
+              style={{ marginBottom: 15 }}
+              alt="Logo"
+            />
+          )}
+          <PageTitle firstPage={firstPage} />
+          {firstPage && (
+            <StyledFilterCriteria>
+              Filterkriterien:{' '}
+              {filterCriteriaToArrayOfStrings(filterFields).join(' & ')}
+            </StyledFilterCriteria>
+          )}
+          {firstPage && (
+            <StyledSortCriteria>
+              Sortierkriterien:{' '}
+              {sortCriteriaToArrayOfStrings(sortFields).join(' & ')}
+            </StyledSortCriteria>
+          )}
+          {reportType === 'typFaelligeGeschaefte' && (
+            <FaelligeGeschaefteHeader />
+          )}
+          {(reportType === 'angekVernehml' ||
+            reportType === 'laufendeVernehml') && <VernehmlassungenHeader />}
+          {reportType === 'list1' && <List1Header />}
+          {reportType === 'typFaelligeGeschaefte' && (
+            <FaelligeGeschaefteRows geschaefte={geschaefte} />
+          )}
+          {reportType === 'angekVernehml' && (
+            <VernehmlassungenRows geschaefte={geschaefte} />
+          )}
+          {reportType === 'laufendeVernehml' && (
+            <VernehmlassungenRows geschaefte={geschaefte} />
+          )}
+          {reportType === 'list1' && <List1Rows geschaefte={geschaefte} />}
+        </StyledRowsContainer>
+        <StyledFooter>
+          <div>{moment().format('DD.MM.YYYY')}</div>
+          <div>
+            Seite {pageIndex + 1}/{pages.length}
+          </div>
+        </StyledFooter>
+      </InnerPageContainer>
+    </PageContainer>
+  )
 }
 
-export default enhance(Page)
+export default observer(Page)
