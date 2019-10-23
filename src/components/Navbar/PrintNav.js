@@ -28,6 +28,4 @@ const NavbarPrintNav = () => (
   </NavItem>
 )
 
-NavbarPrintNav.displayName = 'NavbarPrintNav'
-
 export default NavbarPrintNav

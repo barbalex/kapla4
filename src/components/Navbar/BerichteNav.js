@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
@@ -26,8 +25,6 @@ const StyledNavDropdown = styled(NavDropdown)`
   }
 `
 
-const enhance = compose(observer)
-
 const BerichteNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
   const {
@@ -49,6 +46,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
   }
   const name = nameObject[pages.reportType] || 'Berichte'
   const title = isActive ? name : 'Berichte'
+
   return (
     <StyledNavDropdown
       data-showberichtenavs={showBerichteNavs}
@@ -65,9 +63,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
          * to get the menu item to close immediately
          */
         if (eventKey === 7.2) {
-          setTimeout(() => {
-            pagesInitiate('list1')
-          }, 0)
+          setTimeout(() => pagesInitiate('list1'))
         }
         if (eventKey === 7.7) {
           setTimeout(() => {
@@ -77,8 +73,8 @@ const BerichteNav = ({ showBerichteNavs }) => {
               geschaefteResetSort()
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('typFaelligeGeschaefte')
-            }, 0)
-          }, 0)
+            })
+          })
         }
         if (eventKey === 7.3) {
           setTimeout(() => {
@@ -91,8 +87,8 @@ const BerichteNav = ({ showBerichteNavs }) => {
               geschaefteResetSort()
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('angekVernehml')
-            }, 0)
-          }, 0)
+            })
+          })
         }
         if (eventKey === 7.4) {
           setTimeout(() => {
@@ -107,12 +103,10 @@ const BerichteNav = ({ showBerichteNavs }) => {
               geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
             })
-          }, 0)
+          })
         }
         if (eventKey === 7.5) {
-          setTimeout(() => {
-            geschaeftPdfShow()
-          }, 0)
+          setTimeout(() => geschaeftPdfShow())
         }
       }}
     >
@@ -138,4 +132,4 @@ const BerichteNav = ({ showBerichteNavs }) => {
   )
 }
 
-export default enhance(BerichteNav)
+export default observer(BerichteNav)

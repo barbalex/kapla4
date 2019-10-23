@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 
 const StyledRow = styled.div`
   display: flex;
   padding: 3px;
-  background-color: ${props => (props.shaded ? 'rgba(0, 0, 0, 0.05)' : 'inherit')};
+  background-color: ${props =>
+    props.shaded ? 'rgba(0, 0, 0, 0.05)' : 'inherit'};
 `
 const StyledGegenstand = styled.div`
   flex: 1;
@@ -53,6 +53,7 @@ const StyledId = styled.div`
 function isOdd(num) {
   return num % 2
 }
+const maxStringLength = 2000
 
 const PageList1Rows = ({ geschaeft, rowIndex }) => {
   /**
@@ -60,15 +61,17 @@ const PageList1Rows = ({ geschaeft, rowIndex }) => {
    * if a field contains more text than fits on a page
    * the page is (re-)created infinitely...
    */
-  const maxStringLength = 2000
-  let gegenstand = geschaeft.gegenstand
-  if (geschaeft.ausloeser) {
-    gegenstand = `${gegenstand}. Auslöser: ${geschaeft.ausloeser}`
-  }
-  if (gegenstand && gegenstand.length > maxStringLength) {
-    gegenstand = gegenstand.substring(0, maxStringLength)
-    gegenstand += '... (Text gekürzt)'
-  }
+  const gegenstand = useMemo(() => {
+    let g = geschaeft.gegenstand
+    if (geschaeft.ausloeser) {
+      g = `${g}. Auslöser: ${geschaeft.ausloeser}`
+    }
+    if (g && g.length > maxStringLength) {
+      g = g.substring(0, maxStringLength)
+      g += '... (Text gekürzt)'
+    }
+    return g
+  }, [geschaeft.ausloeser, geschaeft.gegenstand])
 
   const shaded = !isOdd(rowIndex)
 
@@ -97,13 +100,6 @@ const PageList1Rows = ({ geschaeft, rowIndex }) => {
       </StyledId>
     </StyledRow>
   )
-}
-
-PageList1Rows.displayName = 'PageList1Rows'
-
-PageList1Rows.propTypes = {
-  geschaeft: PropTypes.object.isRequired,
-  rowIndex: PropTypes.number.isRequired,
 }
 
 export default PageList1Rows

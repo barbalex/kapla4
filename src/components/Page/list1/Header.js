@@ -66,6 +66,4 @@ const PageList1Header = () => (
   </StyledHeader>
 )
 
-PageList1Header.displayName = 'PageList1Header'
-
 export default PageList1Header

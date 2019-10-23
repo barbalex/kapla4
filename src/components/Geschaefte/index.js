@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
 import { observer } from 'mobx-react'

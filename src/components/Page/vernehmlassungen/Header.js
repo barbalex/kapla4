@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Container = styled.div`border-bottom: 2px solid #717171;`
+const Container = styled.div`
+  border-bottom: 2px solid #717171;
+`
 const StyledRow = styled.div`
   display: flex;
   padding: 3px;
@@ -35,24 +37,26 @@ const PageFristenHeader = () => (
     <StyledRow>
       <StyledId>
         <b>ID</b>
-        <br />Geko Nr.
+        <br />
+        Geko Nr.
       </StyledId>
       <StyledGegenstand>
         <b>Gegenstand</b>
-        <br />Auslöser / Details / Vermerk / nächster Schritt
+        <br />
+        Auslöser / Details / Vermerk / nächster Schritt
       </StyledGegenstand>
       <StyledStatus>
         <b>Status</b>
-        <br />Frist
+        <br />
+        Frist
       </StyledStatus>
       <StyledKontaktIntern>
         <b>Verantwortlich</b>
-        <br />Abteilung
+        <br />
+        Abteilung
       </StyledKontaktIntern>
     </StyledRow>
   </Container>
 )
-
-PageFristenHeader.displayName = 'PageFristenHeader'
 
 export default PageFristenHeader

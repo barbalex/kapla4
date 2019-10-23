@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import shorten from '../../../src/shortenGegenstandField'
@@ -65,7 +64,7 @@ const PageFristenRows = ({ geschaeft, rowIndex }) => {
   const naechsterSchritt = shorten(
     geschaeft.naechsterSchritt,
     'Nächster Schritt',
-    maxStringLength
+    maxStringLength,
   )
   const details = shorten(geschaeft.details, 'Details', maxStringLength)
   const faelligkeitText = shorten(geschaeft.faelligkeitText, '', 200)
@@ -105,13 +104,6 @@ const PageFristenRows = ({ geschaeft, rowIndex }) => {
       </StyledKontakt>
     </StyledRow>
   )
-}
-
-PageFristenRows.displayName = 'PageFristenRows'
-
-PageFristenRows.propTypes = {
-  geschaeft: PropTypes.object.isRequired,
-  rowIndex: PropTypes.number.isRequired,
 }
 
 export default PageFristenRows

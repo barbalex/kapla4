@@ -37,15 +37,18 @@ const PageFristenHeader = () => (
     <StyledRow>
       <StyledId>
         <b>ID</b>
-        <br />KR Nr.
+        <br />
+        KR Nr.
       </StyledId>
       <StyledGegenstand>
         <b>Gegenstand</b>
-        <br />Auslöser / Details / nächster Schritt
+        <br />
+        Auslöser / Details / nächster Schritt
       </StyledGegenstand>
       <StyledStatus>
         <b>Status</b>
-        <br />Frist
+        <br />
+        Frist
       </StyledStatus>
       <StyledKontakt>
         <b>Verantwortlich</b>
@@ -53,7 +56,5 @@ const PageFristenHeader = () => (
     </StyledRow>
   </StyledHeader>
 )
-
-PageFristenHeader.displayName = 'PageFristenHeader'
 
 export default PageFristenHeader
