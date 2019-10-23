@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import React, { useContext } from 'react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import Page from './Page'
+import storeContext from '../storeContext'
 
 const Container = styled.div`
   background-color: #eee;
@@ -31,16 +30,16 @@ const Container = styled.div`
   }
 `
 
-const enhance = compose(inject('store'), observer)
+const Pages = () => {
+  const store = useContext(storeContext)
 
-const Pages = ({ store }) => (
-  <Container>{store.pages.pages.map((page, pageIndex) => <Page key={pageIndex} pageIndex={pageIndex} />)}</Container>
-)
-
-Pages.displayName = 'Pages'
-
-Pages.propTypes = {
-  store: PropTypes.object.isRequired,
+  return (
+    <Container>
+      {store.pages.pages.map((page, pageIndex) => (
+        <Page key={pageIndex} pageIndex={pageIndex} />
+      ))}
+    </Container>
+  )
 }
 
-export default enhance(Pages)
+export default observer(Pages)

@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react-lite'
+
+import storeContext from '../storeContext'
 
 const Body = styled(Modal.Body)`
   display: flex;
@@ -19,45 +19,24 @@ const P = styled.p`
   margin-bottom: 3px;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer
-)
-
-const PagesModal = ({ store }) => {
+const PagesModal = () => {
+  const store = useContext(storeContext)
   const { pagesStop } = store
   const { modalTextLine1, modalTextLine2 } = store.pages
 
   return (
-    <Modal.Dialog
-      bsSize={modalTextLine2 ? 'large' : 'small'}
-    >
+    <Modal.Dialog bsSize={modalTextLine2 ? 'large' : 'small'}>
       <Body>
         <div>
-          <P>
-            {modalTextLine1}
-          </P>
-          {
-            modalTextLine2 &&
-            <P>
-              {modalTextLine2}
-            </P>
-          }
+          <P>{modalTextLine1}</P>
+          {modalTextLine2 && <P>{modalTextLine2}</P>}
         </div>
         <RightDiv>
-          <Button onClick={pagesStop}>
-            Abbrechen
-          </Button>
+          <Button onClick={pagesStop}>Abbrechen</Button>
         </RightDiv>
       </Body>
     </Modal.Dialog>
   )
 }
 
-PagesModal.displayName = 'PagesModal'
-
-PagesModal.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(PagesModal)
+export default observer(PagesModal)
