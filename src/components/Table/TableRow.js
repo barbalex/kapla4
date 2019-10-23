@@ -1,12 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
+import storeContext from '../../storeContext'
+
 const StyledRow = styled.div`
-  background-image: linear-gradient(45deg, rgba(255, 236, 195, 0.5) 10%, rgba(255, 232, 147, 0.7));
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 236, 195, 0.5) 10%,
+    rgba(255, 232, 147, 0.7)
+  );
   height: calc(100vh - 52px);
   padding: 10px;
   overflow-y: auto;
@@ -16,72 +20,61 @@ const StyledFormGroup = styled(FormGroup)`
   padding-bottom: 3px;
 `
 
-const change = ({ event, id, tableChangeState }) => {
-  const { type, name, dataset } = event.target
-  let { value } = event.target
-  if (type === 'radio') {
-    value = dataset.value
-    // blur does not occur in radio
-    blur(event)
-  }
-  tableChangeState(id, name, value)
-}
-
-const blur = ({ event, table, id, changeTableInDb }) => {
-  const { type, name, dataset } = event.target
-  let { value } = event.target
-  if (type === 'radio') value = dataset.value
-  changeTableInDb(table, id, name, value)
-}
-
-const fields = ({ row, table, id, tableChangeState, changeTableInDb }) =>
-  Object.keys(row).map((fieldName, index) => {
-    let value = row[fieldName]
-    // react complains if value is null
-    if (value === null) value = ''
-    const field = (
-      <StyledFormGroup key={index}>
-        <ControlLabel>{fieldName}</ControlLabel>
-        <FormControl
-          type="text"
-          name={fieldName}
-          value={value}
-          onChange={event => change({ event, table, id, tableChangeState })}
-          onBlur={event => blur({ event, table, id, changeTableInDb })}
-        />
-      </StyledFormGroup>
-    )
-    return field
-  })
-
-const enhance = compose(inject('store'), observer)
-
-const TableRow = ({ store }) => {
+const TableRow = () => {
+  const store = useContext(storeContext)
   const { tableChangeState, changeTableInDb } = store
   const { rows, id, table } = store.table
   const row = rows.find(r => r.id === id)
+
+  const onBlur = useCallback(
+    event => {
+      const { type, name, dataset } = event.target
+      let { value } = event.target
+      if (type === 'radio') value = dataset.value
+      changeTableInDb(table, id, name, value)
+    },
+    [changeTableInDb, id, table],
+  )
+  const onChange = useCallback(
+    event => {
+      const { type, name, dataset } = event.target
+      let { value } = event.target
+      if (type === 'radio') {
+        value = dataset.value
+        // onBlur does not occur in radio
+        onBlur(event)
+      }
+      tableChangeState(id, name, value)
+    },
+    [id, onBlur, tableChangeState],
+  )
 
   if (row === undefined) return null
 
   return (
     <StyledRow>
       <Form>
-        {fields({
-          row,
-          table,
-          id,
-          tableChangeState,
-          changeTableInDb,
+        {Object.keys(row).map((fieldName, index) => {
+          let value = row[fieldName]
+          // react complains if value is null
+          if (value === null) value = ''
+          const field = (
+            <StyledFormGroup key={index}>
+              <ControlLabel>{fieldName}</ControlLabel>
+              <FormControl
+                type="text"
+                name={fieldName}
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+              />
+            </StyledFormGroup>
+          )
+          return field
         })}
       </Form>
     </StyledRow>
   )
 }
 
-TableRow.displayName = 'TableRow'
-
-TableRow.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(TableRow)
+export default observer(TableRow)
