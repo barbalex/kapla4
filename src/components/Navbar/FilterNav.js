@@ -32,9 +32,9 @@ const StyledVolltextControl = styled(FormControl)`
     props['data-dataisfilteredbyfulltext'] ? '#FFBF73 !important' : 'white'};
 `
 const StyledFilterDropdown = styled(SplitButton)`
-  border-radius: 0 !important;
   min-width: 160px !important;
   font-weight: 700 !important;
+  border-radius: 0 !important;
   background-color: ${props =>
     props['data-dataisfilteredbyfields'] ? '#FFBF73 !important' : 'white'};
 `
