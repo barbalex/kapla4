@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react-lite'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import FaelligeGeschaefteHeader from './faelligeGeschaefte/Header'
@@ -15,6 +14,7 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import logoImg from '../../etc/logo.png'
 import PageTitle from './PageTitle'
+import storeContext from '../../storeContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -142,19 +142,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
-)
-
 class Page extends Component {
   static propTypes = {
-    store: PropTypes.object.isRequired,
     pageIndex: PropTypes.number.isRequired,
   }
 
   componentDidMount = () => {
-    const { store } = this.props
+    const store = this.context
     const { pageAddGeschaeft } = store
     this.showPagesModal()
     // wait with next stepp until message is shown
@@ -177,7 +171,8 @@ class Page extends Component {
        *  - insert next row
        *  - render
        */
-      const { store, pageIndex } = this.props
+      const store = this.context
+      const { pageIndex } = this.props
       const {
         pageAddGeschaeft,
         pagesMoveGeschaeftToNewPage,
@@ -222,7 +217,7 @@ class Page extends Component {
   }
 
   showPagesModal = () => {
-    const { store } = this.props
+    const store = this.context
     const { pagesModalShow } = store
     const { pages, remainingGeschaefte } = store.pages
     const { geschaeftePlusFilteredAndSorted } = store.geschaefte
@@ -233,7 +228,8 @@ class Page extends Component {
   }
 
   render() {
-    const { store, pageIndex } = this.props
+    const store = this.context
+    const { pageIndex } = this.props
     const { pages, building, reportType } = store.pages
     const { filterFields, sortFields } = store.geschaefte
     const geschaefte = pages[pageIndex].geschaefte
@@ -304,4 +300,6 @@ class Page extends Component {
   }
 }
 
-export default enhance(Page)
+Page.contextType = storeContext
+
+export default observer(Page)

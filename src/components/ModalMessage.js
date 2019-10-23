@@ -1,18 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { Modal } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+
+import storeContext from '../storeContext'
 
 const StyledP = styled.p`
   text-align: center;
   margin-top: 8px;
 `
 
-const enhance = compose(inject('store'), observer)
-
-const ModalMessage = ({ store }) => {
+const ModalMessage = () => {
+  const store = useContext(storeContext)
   const { messageTextLine1, messageTextLine2 } = store.app
 
   return (
@@ -25,10 +24,4 @@ const ModalMessage = ({ store }) => {
   )
 }
 
-ModalMessage.displayName = 'ModalMessage'
-
-ModalMessage.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(ModalMessage)
+export default observer(ModalMessage)

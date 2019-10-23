@@ -1,40 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react-lite'
 
-const enhance = compose(
-  inject('store'),
-  observer
-)
+import storeContext from '../storeContext'
 
-const ModalGeschaeftDelete = ({ store }) => {
+const ModalGeschaeftDelete = () => {
+  const store = useContext(storeContext)
   const { geschaeftRemove, geschaeftRemoveDeleteIntended } = store
   const { activeId } = store.geschaefte
 
   return (
     <Modal.Dialog>
       <Modal.Header>
-        <Modal.Title>
-          Geschäft löschen
-        </Modal.Title>
+        <Modal.Title>Geschäft löschen</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         Möchten Sie das Geschäft Nr. {activeId} wirklich löschen?
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          onClick={geschaeftRemoveDeleteIntended}
-        >
-          Nein
-        </Button>
-        <Button
-          bsStyle="primary"
-          onClick={() =>
-            geschaeftRemove(activeId)
-          }
-        >
+        <Button onClick={geschaeftRemoveDeleteIntended}>Nein</Button>
+        <Button bsStyle="primary" onClick={() => geschaeftRemove(activeId)}>
           Ja
         </Button>
       </Modal.Footer>
@@ -42,10 +27,4 @@ const ModalGeschaeftDelete = ({ store }) => {
   )
 }
 
-ModalGeschaeftDelete.displayName = 'ModalGeschaeftDelete'
-
-ModalGeschaeftDelete.propTypes = {
-  store: PropTypes.object.isRequired,
-}
-
-export default enhance(ModalGeschaeftDelete)
+export default observer(ModalGeschaeftDelete)
