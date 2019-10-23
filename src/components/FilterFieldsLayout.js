@@ -1,42 +1,34 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import SplitPane from 'react-split-pane'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import FilterFields from './FilterFields'
 import Geschaefte from './Geschaefte'
+import storeContext from '../storeContext'
 
 const StyledSplitPane = styled(SplitPane)`
   top: 52px;
 `
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onChange: props => size =>
-      props.store.configSetKey('geschaefteColumnWidth', size),
-  }),
-  observer,
-)
+const FilterFieldsLayout = () => {
+  const store = useContext(storeContext)
+  const onChange = useCallback(
+    size => store.configSetKey('geschaefteColumnWidth', size),
+    [store],
+  )
 
-const FilterFieldsLayout = ({ store, onChange }) => (
-  <StyledSplitPane
-    split="vertical"
-    minSize={100}
-    defaultSize={store.app.config.geschaefteColumnWidth}
-    onChange={onChange}
-  >
-    <Geschaefte />
-    <FilterFields />
-  </StyledSplitPane>
-)
-
-FilterFieldsLayout.propTypes = {
-  store: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  return (
+    <StyledSplitPane
+      split="vertical"
+      minSize={100}
+      defaultSize={store.app.config.geschaefteColumnWidth}
+      onChange={onChange}
+    >
+      <Geschaefte />
+      <FilterFields />
+    </StyledSplitPane>
+  )
 }
 
-export default enhance(FilterFieldsLayout)
+export default observer(FilterFieldsLayout)

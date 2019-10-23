@@ -5,9 +5,7 @@
 import React, { useContext, useCallback } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import AreaGeschaeft from './AreaGeschaeft'
@@ -79,12 +77,6 @@ const Wrapper = styled.div`
       props['data-showareaforgeschaeftsart'],
     )};
 `
-
-const enhance = compose(
-  inject('store'),
-  withHandlers({}),
-  observer,
-)
 
 const FilterFields = () => {
   const store = useContext(storeContext)
@@ -249,4 +241,4 @@ const FilterFields = () => {
   )
 }
 
-export default enhance(FilterFields)
+export default observer(FilterFields)
