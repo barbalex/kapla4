@@ -1,5 +1,4 @@
-import { remote, shell } from 'electron'
-import fs from 'fs'
+import { remote, shell, ipcRenderer } from 'electron'
 import React, { useContext, useCallback } from 'react'
 import { NavItem } from 'react-bootstrap'
 import { FaFile } from 'react-icons/fa'
@@ -19,44 +18,44 @@ const Icon = styled(FaFile)`
 
 const { dialog } = remote
 
-const onClickPrint = (e, path) => {
-  e.preventDefault()
-  const landscape = path === '/pages'
-  const win = remote.getCurrentWindow()
-  const printToPDFOptions = {
-    marginsType: 0,
-    pageSize: 'A4',
-    landscape,
-    printBackground: false,
-  }
-  const dialogOptions = {
-    title: 'pdf speichern',
-    filters: [
-      {
-        name: 'pdf',
-        extensions: ['pdf'],
-      },
-    ],
-  }
-
-  // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
-  win.webContents.printToPDF(printToPDFOptions, (error, data) => {
-    if (error) throw error
-    dialog.showSaveDialog(dialogOptions, filePath => {
-      if (filePath) {
-        fs.writeFile(filePath, data, err => {
-          if (err) throw err
-          shell.openItem(filePath)
-        })
-      }
-    })
-  })
+const dialogOptions = {
+  title: 'pdf speichern',
+  filters: [
+    {
+      name: 'pdf',
+      extensions: ['pdf'],
+    },
+  ],
 }
 
 const NavbarPrintNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
+
   const onClick = useCallback(
-    e => onClickPrint(e, store.history.location.pathname),
+    async e => {
+      e.preventDefault()
+      const landscape = store.history.location.pathname === '/pages'
+      const win = remote.getCurrentWindow()
+      const printToPDFOptions = {
+        marginsType: 0,
+        pageSize: 'A4',
+        landscape,
+        printBackground: false,
+      }
+
+      // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
+      const data = await win.webContents.printToPDF(printToPDFOptions)
+      const { filePath } = await dialog.showSaveDialog(dialogOptions)
+      if (filePath) {
+        ipcRenderer.send('SAVE_FILE', filePath, data)
+        ipcRenderer.once('SAVED_FILE', () => {
+          shell.openItem(filePath)
+        })
+        ipcRenderer.once('ERROR', error => {
+          throw new Error(error)
+        })
+      }
+    },
     [store.history.location.pathname],
   )
 

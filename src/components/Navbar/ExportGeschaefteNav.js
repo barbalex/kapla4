@@ -59,7 +59,6 @@ const NavbarExportGeschaefteNav = () => {
         delete g.kannFaelligSein
         return g
       })
-      console.log('will export:', { geschaefteReadable, messageShow })
       exportGeschaefte(geschaefteReadable, messageShow)
     },
     [geschaefte, messageShow],
@@ -116,7 +115,6 @@ const NavbarExportGeschaefteNav = () => {
         })
         return newGeschaeft
       })
-      console.log('will export:', { geschaefteWithNewFieldNames, messageShow })
       exportGeschaefte(geschaefteWithNewFieldNames, messageShow)
     },
     [geschaefte, messageShow],

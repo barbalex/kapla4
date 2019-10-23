@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const fs = require('fs-extra')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -90,6 +91,14 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+// exceljs workbook.xlsx.writeFile does not work
+// so export in main thread
+ipcMain.on('SAVE_FILE', (event, path, data) => {
+  fs.outputFile(path, data)
+    .then(() => event.sender.send('SAVED_FILE'))
+    .catch(error => event.sender.send('ERROR', error.message))
 })
 
 // In this file you can include the rest of your app's specific main process

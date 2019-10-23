@@ -2,11 +2,13 @@
  * writes a dataArray to an Excel workbook
  */
 
+import { ipcRenderer } from 'electron'
 import Excel from 'exceljs'
 
-export default (path, dataArray) => {
+export default async (path, dataArray, callback) => {
   const workbook = new Excel.Workbook()
-  const numberOfColumns = dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
+  const numberOfColumns =
+    dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
   const worksheet = workbook.addWorksheet('Geschäfte', {
     views: [
       {
@@ -31,7 +33,10 @@ export default (path, dataArray) => {
     type: 'gradient',
     gradient: 'angle',
     degree: 0,
-    stops: [{ position: 0, color: { argb: 'FFD3D3D3' } }, { position: 1, color: { argb: 'FFD3D3D3' } }],
+    stops: [
+      { position: 0, color: { argb: 'FFD3D3D3' } },
+      { position: 1, color: { argb: 'FFD3D3D3' } },
+    ],
   }
   worksheet.getRow(1).font = {
     bold: true,
@@ -41,10 +46,15 @@ export default (path, dataArray) => {
       style: 'thin',
     },
   }
-  return workbook.xlsx
-    .writeFile(path)
-    .then(() => null)
-    .catch(err => {
-      throw err
-    })
+  // exceljs workbook.xlsx.writeFile does not work
+  // so export in main thread
+  const buffer = await workbook.xlsx.writeBuffer()
+  ipcRenderer.send('SAVE_FILE', path, buffer)
+  ipcRenderer.once('SAVED_FILE', () => {
+    if (callback) return callback()
+  })
+  ipcRenderer.once('ERROR', message => {
+    throw new Error({ message })
+  })
+  return
 }

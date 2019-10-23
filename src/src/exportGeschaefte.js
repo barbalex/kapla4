@@ -39,25 +39,25 @@ const dialogOptions = {
   ],
 }
 
-export default (geschaefte, messageShow) => {
-  dialog.showSaveDialog(dialogOptions, path => {
-    if (path) {
-      messageShow(true, 'Der Export wird aufgebaut...', '')
-      // set timeout so message appears before exceljs starts working
-      // and possibly blocks execution of message
-      setTimeout(() => {
-        const dataArray = getDataArrayFromExportObjects(geschaefte)
-        console.log('exportGeschaefte, dataArray:', dataArray)
-        writeExport(path, dataArray)
-          .then(() => {
-            messageShow(false, '', '')
-            shell.openItem(path)
-          })
-          .catch(error => {
-            messageShow(true, 'Fehler:', error)
-            setTimeout(() => messageShow(false, '', ''), 8000)
-          })
-      }, 0)
-    }
-  })
+export default async (geschaefte, messageShow) => {
+  const { filePath: path } = await dialog.showSaveDialog(dialogOptions)
+  if (path) {
+    messageShow(true, 'Der Export wird aufgebaut...', '')
+    // set timeout so message appears before exceljs starts working
+    // and possibly blocks execution of message
+    setTimeout(async () => {
+      const dataArray = getDataArrayFromExportObjects(geschaefte)
+      const callback = () => {
+        messageShow(false, '', '')
+        shell.openItem(path)
+      }
+      try {
+        await writeExport(path, dataArray, callback)
+      } catch (error) {
+        messageShow(true, 'Fehler:', error.message)
+        setTimeout(() => messageShow(false, '', ''), 8000)
+        return
+      }
+    })
+  }
 }
