@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
+import { observer } from 'mobx-react'
 
 import TableItem from './TableItem'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   background-image: linear-gradient(
@@ -51,80 +50,63 @@ const StyledList = styled(List)`
   overflow-y: overlay !important;
 `
 
-const enhance = compose(
-  inject('store'),
-  observer,
+const rowRenderer = ({ key, index, style }) => (
+  <div key={key} style={style}>
+    <TableItem index={index} />
+  </div>
 )
+const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
-class Table extends Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-  }
+const Table = () => {
+  const store = useContext(storeContext)
+  const { tableReset } = store
+  const { config } = store.app
+  const { rows, id } = store.table
 
-  componentWillUnmount = () => {
-    const { tableReset } = this.props.store
-    tableReset()
-  }
+  const indexOfActiveId = _.findIndex(rows, r => r.id === id)
+  const headers = Object.keys(rows[0] || {})
+  const windowWidth = $(window).width()
+  const tableWidth = (windowWidth * config.tableColumnWidth) / 100
+  const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
 
-  tableHeaders = () => {
-    const { rows } = this.props.store.table
-    const { config } = this.props.store.app
-    const headers = Object.keys(rows[0])
-    const windowWidth = $(window).width()
-    const tableWidth = (windowWidth * config.tableColumnWidth) / 100
-    const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
+  useEffect(() => {
+    return () => tableReset()
+  }, [tableReset])
 
-    return headers.map((header, index) => (
-      <StyledTableHeaderCell
-        key={index}
-        maxWidth={header === 'id' ? 50 : normalFieldWidth}
-      >
-        {header}
-      </StyledTableHeaderCell>
-    ))
-  }
-
-  rowRenderer = ({ key, index, style }) => (
-    <div key={key} style={style}>
-      <TableItem index={index} />
-    </div>
+  return (
+    <Container>
+      <StyledTable>
+        <StyledTableHeader>
+          <StyledTableHeaderRow>
+            {headers.map((header, index) => (
+              <StyledTableHeaderCell
+                key={index}
+                maxWidth={header === 'id' ? 50 : normalFieldWidth}
+              >
+                {header}
+              </StyledTableHeaderCell>
+            ))}
+          </StyledTableHeaderRow>
+        </StyledTableHeader>
+        <StyledTableBody>
+          <AutoSizer>
+            {({ height, width }) => (
+              <StyledList
+                height={height}
+                rowCount={rows.length}
+                rowHeight={38}
+                rowRenderer={rowRenderer}
+                noRowsRenderer={noRowsRenderer}
+                width={width}
+                scrollToIndex={indexOfActiveId}
+                {...rows}
+              />
+            )}
+          </AutoSizer>
+        </StyledTableBody>
+      </StyledTable>
+    </Container>
   )
-
-  noRowsRenderer = () => {
-    const text = 'lade Daten...'
-    return <StyledNoRowsDiv>{text}</StyledNoRowsDiv>
-  }
-
-  render() {
-    const { rows, id } = this.props.store.table
-    const indexOfActiveId = _.findIndex(rows, r => r.id === id)
-
-    return (
-      <Container>
-        <StyledTable>
-          <StyledTableHeader>
-            <StyledTableHeaderRow>{this.tableHeaders()}</StyledTableHeaderRow>
-          </StyledTableHeader>
-          <StyledTableBody>
-            <AutoSizer>
-              {({ height, width }) => (
-                <StyledList
-                  height={height}
-                  rowCount={rows.length}
-                  rowHeight={38}
-                  rowRenderer={this.rowRenderer}
-                  noRowsRenderer={this.noRowsRenderer}
-                  width={width}
-                  scrollToIndex={indexOfActiveId}
-                  {...rows}
-                />
-              )}
-            </AutoSizer>
-          </StyledTableBody>
-        </StyledTable>
-      </Container>
-    )
-  }
 }
 
-export default enhance(Table)
+export default observer(Table)
