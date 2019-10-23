@@ -6,14 +6,33 @@ import { observer } from 'mobx-react-lite'
 
 import storeContext from '../../storeContext'
 
+const StyledNavDropdown = styled(NavDropdown)`
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+  width: 20px;
+  > a {
+    font-size: 28px !important;
+    color: #9d9d9d;
+  }
+  > a:hover {
+    color: white;
+    text-decoration: none !important;
+  }
+  > a:focus {
+    color: white;
+    text-decoration: none !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
+  }
+`
 const DbPathDiv = styled.div`
-  font-style: italic;
+  color: rgba(0, 0, 0, 0.47);
 `
 const Version = styled.div`
-  padding: 12px 20px;
-  color: rgba(0, 0, 0, 0.87);
+  padding: 0 20px 8px 20px;
+  color: rgba(0, 0, 0, 0.47);
   user-select: none;
-  font-style: italic;
 `
 
 const onGetProjektbeschreibung = () => {
@@ -31,7 +50,7 @@ const OptionsNav = () => {
   const { config } = store.app
 
   return (
-    <NavDropdown title="&#8942;" id="last-nav-dropdown" noCaret>
+    <StyledNavDropdown title="&#8942;" id="last-nav-dropdown" noCaret>
       <MenuItem onClick={dbGet}>
         Datenbank wählen
         {config.dbPath && <DbPathDiv>Aktuell: {config.dbPath}</DbPathDiv>}
@@ -42,9 +61,11 @@ const OptionsNav = () => {
       <MenuItem onClick={onGetProjektbeschreibung}>
         Projektbeschreibung herunterladen
       </MenuItem>
+      <MenuItem divider />
       <MenuItem onClick={onClickIssues}>Fehler und Wünsche melden</MenuItem>
-      <Version>Version: 2.0.3 vom 24.07.2019</Version>
-    </NavDropdown>
+      <MenuItem divider />
+      <Version>Version: 2.0.4 vom 23.10.2019</Version>
+    </StyledNavDropdown>
   )
 }
 

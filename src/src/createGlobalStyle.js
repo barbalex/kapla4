@@ -93,9 +93,6 @@ export default () => createGlobalStyle`
   #field-filter-dropdown {
     border-radius: 0;
   }
-  #last-nav-dropdown {
-    font-size: 27px;
-  }
 
   @media print {
     /**
