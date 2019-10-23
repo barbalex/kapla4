@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import { FormGroup, FormControl } from 'react-bootstrap'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
+
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   @media print {
@@ -31,35 +30,34 @@ const StyledTitle = styled.div`
   }
 `
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onClickH1: props => () => props.store.pagesQueryTitle(true),
-    onKeyPressTitle: props => e => {
-      const { pagesQueryTitle } = props.store
-      const { title } = props.store.pages
+const Page = ({ firstPage }) => {
+  const store = useContext(storeContext)
+  const { pagesQueryTitle, pagesSetTitle } = store
+  const { queryTitle, title } = store.pages
+
+  const onClickH1 = useCallback(() => pagesQueryTitle(true), [pagesQueryTitle])
+  const onKeyPressTitle = useCallback(
+    e => {
       if (e.key === 'Enter' && title) {
         pagesQueryTitle(false)
       }
     },
-    onBlurTitle: props => () => {
-      const { pagesQueryTitle } = props.store
-      const { title } = props.store.pages
-      if (title) pagesQueryTitle(false)
-    },
-    changeQueryTitle: props => e => props.store.pagesSetTitle(e.target.value),
-  }),
-  observer,
-)
+    [pagesQueryTitle, title],
+  )
+  const onBlurTitle = useCallback(() => {
+    if (title) pagesQueryTitle(false)
+  }, [pagesQueryTitle, title])
+  const changeQueryTitle = useCallback(e => pagesSetTitle(e.target.value), [
+    pagesSetTitle,
+  ])
 
-const Page = ({ store, firstPage, onClickH1, onKeyPressTitle, onBlurTitle, changeQueryTitle }) => (
-  <Container>
-    {firstPage &&
-      store.pages.queryTitle && (
+  return (
+    <Container>
+      {firstPage && queryTitle && (
         <FormGroup>
           <StyledTitleInput
             type="text"
-            value={store.pages.title}
+            value={title}
             placeholder="Titel erfassen"
             onChange={changeQueryTitle}
             onKeyPress={onKeyPressTitle}
@@ -69,24 +67,11 @@ const Page = ({ store, firstPage, onClickH1, onKeyPressTitle, onBlurTitle, chang
           />
         </FormGroup>
       )}
-    {firstPage &&
-      !store.pages.queryTitle && (
-        <StyledTitle // eslint-disable-line jsx-a11y/no-static-element-interactions
-          onClick={onClickH1}
-        >
-          {store.pages.title}
-        </StyledTitle>
+      {firstPage && !queryTitle && (
+        <StyledTitle onClick={onClickH1}>{title}</StyledTitle>
       )}
-  </Container>
-)
-
-Page.propTypes = {
-  store: PropTypes.object.isRequired,
-  firstPage: PropTypes.bool.isRequired,
-  onClickH1: PropTypes.func.isRequired,
-  onKeyPressTitle: PropTypes.func.isRequired,
-  onBlurTitle: PropTypes.func.isRequired,
-  changeQueryTitle: PropTypes.func.isRequired,
+    </Container>
+  )
 }
 
-export default enhance(Page)
+export default observer(Page)
