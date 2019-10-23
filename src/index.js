@@ -4,21 +4,21 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker'
 import { de } from 'date-fns/locale'
 
 import App from './components/App'
-import { Provider as MobxProvider } from './storeContext'
+import { Provider as MobxProvider } from './mobxStoreContext'
 import createGlobalStyle from './src/createGlobalStyle'
 
-import store from './store'
+import mobxStore from './mobxStore'
 
 registerLocale('de', de)
 setDefaultLocale('de')
 
 // make store accessible in dev
-//window.store = store
+//window.mobxStore = mobxStore
 
 const GlobalStyle = createGlobalStyle()
 
 render(
-  <MobxProvider value={store}>
+  <MobxProvider value={mobxStore}>
     <>
       <GlobalStyle />
       <App />

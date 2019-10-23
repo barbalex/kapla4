@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   @media print {
@@ -31,7 +31,7 @@ const StyledTitle = styled.div`
 `
 
 const Page = ({ firstPage }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { pagesQueryTitle, pagesSetTitle } = store
   const { queryTitle, title } = store.pages
 

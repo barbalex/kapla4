@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   grid-area: areaZuletztMutiert;
@@ -19,7 +19,7 @@ const Field = styled.div`
 `
 
 const AreaZuletztMutiert = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

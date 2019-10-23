@@ -9,7 +9,7 @@ import ComparatorSelector from './ComparatorSelector'
 import createOptions from '../../src/createOptions'
 import DateField from './DateField'
 import Input from './Input'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 moment.locale('de')
 
@@ -56,7 +56,7 @@ const AreaRechtsmittel = ({
   change,
   changeComparator,
 }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
 
   return (
     <Container>

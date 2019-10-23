@@ -3,7 +3,7 @@ import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const tableNameObject = {
   interne: 'Stammdaten: Interne',
@@ -25,7 +25,7 @@ const StyledNavDropdown = styled(NavDropdown)`
 `
 
 const NavbarStammdatenNav = ({ showTableNavs }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { getTable } = store
   const { table, rows } = store.table
   const tableName = tableNameObject[table] || table

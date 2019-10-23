@@ -5,7 +5,7 @@ import Linkify from 'react-linkify'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const titleText = (idKontakt, interneOptions) => {
   const data = interneOptions.find(o => o.id === idKontakt)
@@ -75,7 +75,7 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 `
 
 const GeschaefteKontakteInternItems = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { geschaeftKontaktInternRemove } = store
   const { interneOptions, activeId } = store.geschaefte
   const path = store.history.location.pathname

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite'
 
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const verwantwortlichOptions = interneOptions => {
   // sort interneOptions by kurzzeichen
@@ -125,7 +125,7 @@ const StyledFormcontrolStaticPrint = styled(FormControl.Static)`
 `
 
 const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

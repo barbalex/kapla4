@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -41,7 +41,7 @@ const AreaParlVorstoss = ({
   change,
   changeComparator,
 }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
 
   return (
     <Container>

@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const interneOptionsList = interneOptions => {
   // sort interneOptions by kurzzeichen
@@ -73,7 +73,7 @@ const AreaZuletztMutiert = ({
   firstTabIndex,
   changeComparator,
 }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
 
   return (
     <Container>

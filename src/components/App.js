@@ -7,14 +7,14 @@ import FilterFieldsLayout from './FilterFieldsLayout'
 import TableLayout from './TableLayout'
 import Navbar from './Navbar'
 import Errors from './Errors'
-import storeContext from '../storeContext'
+import mobxStoreContext from '../mobxStoreContext'
 
 const Container = styled.div`
   height: 100vh;
 `
 
 const App = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { pathname } = store.history.location
   const showGeschaefteLayout = [
     '/geschaefte',

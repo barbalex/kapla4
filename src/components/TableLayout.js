@@ -5,14 +5,14 @@ import styled from 'styled-components'
 
 import TableRow from './Table/TableRow'
 import Table from './Table'
-import storeContext from '../storeContext'
+import mobxStoreContext from '../mobxStoreContext'
 
 const StyledSplitPane = styled(SplitPane)`
   top: 52px;
 `
 
 const TableLayout = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { config } = store.app
   const { id } = store.table
 

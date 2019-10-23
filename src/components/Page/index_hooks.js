@@ -17,7 +17,7 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import logoImg from '../../etc/logo.png'
 import PageTitle from './PageTitle'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -146,7 +146,7 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const Page = ({ pageIndex }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const {
     pageAddGeschaeft,
     pagesMoveGeschaeftToNewPage,

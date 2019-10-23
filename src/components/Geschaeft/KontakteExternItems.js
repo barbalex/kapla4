@@ -5,7 +5,7 @@ import Linkify from 'react-linkify'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const verantwortlichData = (gKE, externeOptions) => {
   function addValueToInfo(info, value) {
@@ -84,7 +84,7 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 `
 
 const GeschaefteKontakteExtern = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const { geschaeftKontaktExternRemove } = store
   const { externeOptions, activeId } = store.geschaefte
   const path = store.history.location.pathname

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import DateField from './DateField'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 moment.locale('de')
 
@@ -48,7 +48,7 @@ const AreaFristen = ({
   nrOfFieldsBeforeFristen,
   onChangeDatePicker,
 }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

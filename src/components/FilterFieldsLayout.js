@@ -5,14 +5,14 @@ import styled from 'styled-components'
 
 import FilterFields from './FilterFields'
 import Geschaefte from './Geschaefte'
-import storeContext from '../storeContext'
+import mobxStoreContext from '../mobxStoreContext'
 
 const StyledSplitPane = styled(SplitPane)`
   top: 52px;
 `
 
 const FilterFieldsLayout = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const onChange = useCallback(
     size => store.configSetKey('geschaefteColumnWidth', size),
     [store],

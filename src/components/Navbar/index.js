@@ -19,7 +19,7 @@ import StammdatenNav from './StammdatenNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
 import ErrorBoundary from '../ErrorBoundary'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 const Container = styled.div`
   @media print {
@@ -56,7 +56,7 @@ const SaveButton = styled(Button)`
 `
 
 const NavbarComponent = () => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
 
   useEffect(() => {
     store.configGet()

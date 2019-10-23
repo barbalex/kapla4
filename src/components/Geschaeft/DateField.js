@@ -12,7 +12,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import getDateValidationStateDate from '../../src/getDateValidationStateDate'
-import storeContext from '../../storeContext'
+import mobxStoreContext from '../../mobxStoreContext'
 
 moment.locale('de')
 
@@ -81,7 +81,7 @@ const DateField = ({
   onChangeDatePicker,
   tabIndex,
 }) => {
-  const store = useContext(storeContext)
+  const store = useContext(mobxStoreContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
