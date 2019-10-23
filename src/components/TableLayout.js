@@ -1,39 +1,37 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useCallback } from 'react'
 import SplitPane from 'react-split-pane'
-import { observer, inject } from 'mobx-react'
-import compose from 'recompose/compose'
-import withHandlers from 'recompose/withHandlers'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import TableRow from './Table/TableRow'
 import Table from './Table'
+import storeContext from '../storeContext'
 
-const StyledSplitPane = styled(SplitPane)`top: 52px;`
+const StyledSplitPane = styled(SplitPane)`
+  top: 52px;
+`
 
-const enhance = compose(
-  inject('store'),
-  withHandlers({
-    onChange: props => size => props.store.configSetKey('tableColumnWidth', size),
-  }),
-  observer,
-)
-
-const TableLayout = ({ store, onChange }) => {
+const TableLayout = () => {
+  const store = useContext(storeContext)
   const { config } = store.app
   const { id } = store.table
 
+  const onChange = useCallback(
+    size => store.configSetKey('tableColumnWidth', size),
+    [store],
+  )
+
   return (
-    <StyledSplitPane split="vertical" minSize={100} defaultSize={config.tableColumnWidth} onChange={onChange}>
+    <StyledSplitPane
+      split="vertical"
+      minSize={100}
+      defaultSize={config.tableColumnWidth}
+      onChange={onChange}
+    >
       <Table />
       <div>{id && <TableRow />}</div>
     </StyledSplitPane>
   )
 }
 
-TableLayout.propTypes = {
-  store: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-}
-
-export default enhance(TableLayout)
+export default observer(TableLayout)
