@@ -1,7 +1,6 @@
 import React from 'react'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
-import compose from 'recompose/compose'
 import styled from 'styled-components'
 
 import Input from './Input'
@@ -27,8 +26,6 @@ const FieldVorgeschaeft = styled.div`
   width: 175px;
 `
 
-const enhance = compose(observer)
-
 const AreaHistory = ({ values, change, changeComparator, firstTabIndex }) => (
   <Container>
     <Title>Historie</Title>
@@ -46,4 +43,4 @@ const AreaHistory = ({ values, change, changeComparator, firstTabIndex }) => (
   </Container>
 )
 
-export default enhance(AreaHistory)
+export default observer(AreaHistory)

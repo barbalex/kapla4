@@ -1,6 +1,5 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'mobx-react'
 import { registerLocale, setDefaultLocale } from 'react-datepicker'
 import { de } from 'date-fns/locale'
 
@@ -20,12 +19,10 @@ const GlobalStyle = createGlobalStyle()
 
 render(
   <MobxProvider value={store}>
-    <Provider store={store}>
-      <>
-        <GlobalStyle />
-        <App />
-      </>
-    </Provider>
+    <>
+      <GlobalStyle />
+      <App />
+    </>
   </MobxProvider>,
   document.getElementById('root'),
 )
