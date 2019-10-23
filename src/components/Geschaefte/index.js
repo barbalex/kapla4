@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import RowRenderer from './RowRenderer'

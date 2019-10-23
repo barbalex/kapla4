@@ -4,7 +4,7 @@ import React, { useContext, useCallback } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import moment from 'moment'
 import _ from 'lodash'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import exportGeschaefte from '../../src/exportGeschaefte'
 import getHistoryOfGeschaefte from '../../src/getHistoryOfGeschaefte'

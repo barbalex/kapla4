@@ -1,6 +1,6 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { FormControl } from 'react-bootstrap'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import storeContext from '../../storeContext'
 

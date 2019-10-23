@@ -1,6 +1,6 @@
 import React from 'react'
 import { ControlLabel } from 'react-bootstrap'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import compose from 'recompose/compose'
 import styled from 'styled-components'
 

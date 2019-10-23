@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import Linkify from 'react-linkify'
 import _ from 'lodash'
 import $ from 'jquery'

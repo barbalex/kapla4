@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled, { css } from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'

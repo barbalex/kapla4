@@ -3,7 +3,7 @@ import { FaRegTimesCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import storeContext from '../../storeContext'
 

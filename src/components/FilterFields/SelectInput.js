@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'

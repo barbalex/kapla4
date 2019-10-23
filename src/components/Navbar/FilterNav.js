@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
 import moment from 'moment'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'

@@ -4,7 +4,7 @@
  */
 import React, { useContext, useCallback, useEffect, useRef } from 'react'
 import moment from 'moment'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import FaelligeGeschaefteHeader from './faelligeGeschaefte/Header'

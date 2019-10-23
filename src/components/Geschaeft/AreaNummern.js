@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'

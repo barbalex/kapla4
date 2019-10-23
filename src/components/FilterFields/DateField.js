@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { FaCalendarAlt } from 'react-icons/fa'
 

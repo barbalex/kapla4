@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'

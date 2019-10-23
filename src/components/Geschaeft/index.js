@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useContext } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import isDateField from '../../src/isDateField'
 import validateDate from '../../src/validateDate'

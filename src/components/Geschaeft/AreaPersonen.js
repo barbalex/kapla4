@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'

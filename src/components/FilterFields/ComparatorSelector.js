@@ -5,7 +5,7 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { InputGroup, FormControl } from 'react-bootstrap'
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
