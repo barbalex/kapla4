@@ -3,6 +3,7 @@ import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import { getSnapshot } from 'mobx-state-tree'
 
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
@@ -81,6 +82,8 @@ const Geschaefte = () => {
     geschaefte,
     g => g.idGeschaeft === activeId,
   )
+
+  console.log('Geschaefte, geschaefte:', geschaefte)
 
   return (
     <Container>

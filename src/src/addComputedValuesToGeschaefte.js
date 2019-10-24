@@ -6,7 +6,7 @@ import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
 import getVornameNameForVerantwortlich from './getVornameNameForVerantwortlich'
 
 export default store =>
-  toJS(store.geschaefte.geschaefte).map(g => {
+  store.geschaefte.geschaefte.map(g => {
     const {
       interneOptions,
       externeOptions,
