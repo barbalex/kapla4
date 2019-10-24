@@ -8,28 +8,16 @@ import { action } from 'mobx'
 import getMyName from 'username'
 
 export default store => ({
-  getUsername: action(() => {
-    store.user.fetching = true
-    store.user.error = null
-  }),
-  gotUsername: action(username => {
-    store.user.fetching = false
-    store.user.error = null
-    store.user.username = username
-  }),
-  didntGetUsername: action(error => {
-    store.user.fetching = false
-    store.user.error = error
-    store.user.username = ''
-  }),
   fetchUsername: action(() => {
     const { user } = store
     if (!user.username) {
       const username = getMyName.sync()
       if (username) {
-        store.gotUsername(username)
+        store.user.error = null
+        store.user.username = username
       } else {
-        store.didntGetUsername('keinen Benutzernamen erhalten')
+        store.user.error = 'keinen Benutzernamen erhalten'
+        store.user.username = ''
       }
     }
   }),

@@ -1,6 +1,7 @@
 import { types } from 'mobx-state-tree'
 import _ from 'lodash'
 import moment from 'moment'
+import getMyName from 'username'
 
 import observablehistory from './observableHistory'
 import App from './App'
@@ -11,6 +12,8 @@ import createOptions from '../src/createOptions'
 import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
 import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import isDateField from '../src/isDateField'
+import pageStandardState from '../src/pageStandardState'
+import tableStandardState from '../src/tableStandardState'
 
 export default db =>
   types
@@ -717,5 +720,186 @@ export default db =>
         }
         self.geschaefteKontakteIntern.willDelete = false
         self.geschaeftKontaktInternDelete(idGeschaeft, idKontakt)
+      },
+      pagesCleanUp() {
+        self.pages.pages = [Object.assign(pageStandardState)]
+        self.pages.activePageIndex = 0
+        self.pages.remainingGeschaefte = []
+        self.pages.building = false
+        self.pages.title = ''
+        self.pages.queryTitle = true
+        self.pages.reportType = 'fristen'
+        self.pages.showPagesModal = false
+        self.pages.modalTextLine1 = ''
+        self.pages.modalTextLine2 = ''
+      },
+      pagesStop() {
+        self.pages.remainingGeschaefte = []
+        self.pages.building = false
+        self.pages.showPagesModal = false
+        self.pages.modalTextLine1 = ''
+        self.pages.modalTextLine2 = ''
+      },
+      pagesModalShow(showPagesModal, modalTextLine1, modalTextLine2) {
+        self.pages.showPagesModal = showPagesModal
+        self.pages.modalTextLine1 = modalTextLine1
+        self.pages.modalTextLine2 = modalTextLine2
+      },
+      pagesInitiate(reportType) {
+        self.pagesCleanUp()
+        const { geschaeftePlusFilteredAndSorted } = self.geschaefte
+        self.pages.reportType = reportType
+        self.pages.remainingGeschaefte = _.clone(
+          geschaeftePlusFilteredAndSorted,
+        )
+        self.pages.building = true
+        self.history.push('/pages')
+      },
+      pagesFinishedBuilding() {
+        self.pages.building = false
+      },
+      pagesQueryTitle(queryTitle) {
+        self.pages.queryTitle = queryTitle
+      },
+      pagesSetTitle(title) {
+        self.pages.title = title
+      },
+      pagesNewPage() {
+        self.pages.activePageIndex += 1
+        self.pages.pages.push(Object.assign(pageStandardState))
+      },
+      pageAddGeschaeft() {
+        if (self.pages.building) {
+          const activePage = self.pages.pages.find(
+            (p, i) => i === self.pages.activePageIndex,
+          )
+          if (activePage) {
+            activePage.geschaefte.push(self.pages.remainingGeschaefte.shift())
+          }
+        }
+      },
+      pagesMoveGeschaeftToNewPage() {
+        // remove geschaeft from active page
+        const { pages } = self
+        const { activePageIndex } = pages
+        const activePage = pages.pages.find((p, i) => i === activePageIndex)
+        if (activePage) {
+          activePage.full = true
+          self.pages.remainingGeschaefte.unshift(activePage.geschaefte.pop())
+          self.pagesNewPage()
+          self.pageAddGeschaeft()
+        }
+      },
+      tableReset() {
+        Object.keys(tableStandardState).forEach(k => {
+          self.table[k] = tableStandardState[k]
+        })
+      },
+      getTable(table) {
+        const { app } = self
+        self.table.table = table
+        let rows
+        try {
+          rows = app.db.prepare(`SELECT * FROM ${table}`).all()
+        } catch (error) {
+          return self.addError(error)
+        }
+        self.table.table = table
+        self.table.rows = rows
+        self.table.id = null
+        if (self.history.location.pathname !== '/table') {
+          self.history.push('/table')
+        }
+      },
+      /*
+       * ROW
+       */
+      tableRowToggleActivated(table, id) {
+        self.table.id = self.table.id && self.table.id === id ? null : id
+      },
+      tableRowNewCreate(table) {
+        const { db } = self.app
+        let result
+        try {
+          result = db.prepare(`INSERT INTO ${table} (id) VALUES (NULL)`).run()
+        } catch (error) {
+          return self.addError(error)
+        }
+        const id = result.lastInsertRowid
+        // return full dataset
+        let row
+        try {
+          row = db.prepare(`SELECT * FROM ${table} WHERE id = ${id}`).get()
+        } catch (error) {
+          return self.addError(error)
+        }
+        // react does not want to get null values
+        Object.keys(row).forEach(key => {
+          if (row[key] === null) {
+            row[key] = ''
+          }
+        })
+        self.table.rows.push(row)
+        self.tableRowToggleActivated(table, row.id)
+        if (self.history.location.pathname !== '/table') {
+          self.history.push('/table')
+        }
+      },
+      tableRowRemove(table, id) {
+        try {
+          self.app.db
+            .prepare(
+              `
+              DELETE FROM
+                ${table}
+              WHERE
+                id = ${id}`,
+            )
+            .run()
+        } catch (error) {
+          return self.addError(error)
+        }
+        self.tableRowToggleActivated(table, null)
+        self.table.rows = self.table.rows.filter(g => g.id !== id)
+      },
+      tableChangeState(id, field, value) {
+        const row = self.table.rows.find(r => r.id === id)
+        if (row) {
+          row[field] = value
+        }
+      },
+      changeTableInDb(table, id, field, value) {
+        // no need to do something on then
+        // ui was updated on TABLE_CHANGE_STATE
+        try {
+          self.app.db.prepare(
+            `
+            UPDATE
+              ${table}
+            SET
+              ${field} = '${value}'
+            WHERE
+              id = ${id}`,
+          )
+        } catch (error) {
+          // TODO: reset ui
+          return self.addError(error)
+        }
+        // need to reload this table in self
+        const actionName = `${table}OptionsGet`
+        self[actionName]()
+      },
+      fetchUsername() {
+        const { user } = self
+        if (!user.username) {
+          const username = getMyName.sync()
+          if (username) {
+            self.user.error = null
+            self.user.username = username
+          } else {
+            self.user.error = 'keinen Benutzernamen erhalten'
+            self.user.username = ''
+          }
+        }
       },
     }))
