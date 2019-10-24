@@ -9,24 +9,18 @@ export default store => ({
       store.table[k] = tableStandardState[k]
     })
   }),
-  tableGet: action(table => {
-    store.table.table = table
-  }),
-  tableGetSuccess: action((table, rows) => {
-    store.table.table = table
-    store.table.rows = rows
-    store.table.id = null
-  }),
   getTable: action(table => {
     const { app } = store
-    store.tableGet(table)
+    store.table.table = table
     let rows
     try {
       rows = app.db.prepare(`SELECT * FROM ${table}`).all()
     } catch (error) {
       return store.addError(error)
     }
-    store.tableGetSuccess(table, rows)
+    store.table.table = table
+    store.table.rows = rows
+    store.table.id = null
     if (store.history.location.pathname !== '/table') {
       store.history.push('/table')
     }
@@ -34,7 +28,6 @@ export default store => ({
   /*
    * ROW
    */
-  tableRowNew: action(row => store.table.rows.push(row)),
   tableRowToggleActivated: action((table, id) => {
     store.table.id = store.table.id && store.table.id === id ? null : id
   }),
@@ -60,20 +53,11 @@ export default store => ({
         row[key] = ''
       }
     })
-    store.tableRowNew(row)
+    store.table.rows.push(row)
     store.tableRowToggleActivated(table, row.id)
     if (store.history.location.pathname !== '/table') {
       store.history.push('/table')
     }
-  }),
-  tableRowSetDeleteIntended: action(() => {
-    store.table.willDelete = true
-  }),
-  tableRowRemoveDeleteIntended: action(() => {
-    store.table.willDelete = false
-  }),
-  tableRowDelete: action((table, id) => {
-    store.table.rows = store.table.rows.filter(g => g.id !== id)
   }),
   tableRowRemove: action((table, id) => {
     try {
@@ -87,11 +71,10 @@ export default store => ({
         )
         .run()
     } catch (error) {
-      return store.tableChangeDbError(error)
+      return store.addError(error)
     }
     store.tableRowToggleActivated(table, null)
-    store.tableRowRemoveDeleteIntended()
-    store.tableRowDelete(table, id)
+    store.table.rows = store.table.rows.filter(g => g.id !== id)
   }),
   tableChangeState: action((id, field, value) => {
     const row = store.table.rows.find(r => r.id === id)
@@ -99,7 +82,6 @@ export default store => ({
       row[field] = value
     }
   }),
-  tableChangeDbError: action(error => store.addError(error)),
   changeTableInDb: action((table, id, field, value) => {
     // no need to do something on then
     // ui was updated on TABLE_CHANGE_STATE
@@ -115,7 +97,7 @@ export default store => ({
       )
     } catch (error) {
       // TODO: reset ui
-      return store.tableChangeDbError(error)
+      return store.addError(error)
     }
     // need to reload this table in store
     const actionName = `${table}OptionsGet`
