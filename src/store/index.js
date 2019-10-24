@@ -6,6 +6,8 @@ import getMyName from 'username'
 import observablehistory from './observableHistory'
 import App from './App'
 import Geschaefte from './Geschaefte'
+import GeschaefteKontakteIntern from './GeschaefteKontakteIntern'
+import GeschaefteKontakteExtern from './GeschaefteKontakteExtern'
 import getDropdownOptions from '../src/getDropdownOptions'
 import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
 import createOptions from '../src/createOptions'
@@ -21,6 +23,8 @@ export default db =>
       app: App,
       dirty: types.optional(types.boolean, false),
       geschaefte: Geschaefte,
+      geschaefteKontakteIntern: GeschaefteKontakteIntern,
+      geschaefteKontakteExtern: GeschaefteKontakteExtern,
     })
     .volatile(() => ({
       history: observablehistory,
