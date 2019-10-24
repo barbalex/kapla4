@@ -2,29 +2,20 @@
 import { action } from 'mobx'
 
 export default store => ({
-  geschaefteKontakteExternGet: action(() => {
-    store.geschaefteKontakteExtern.fetching = true
-  }),
-  geschaefteKontakteExternGetSuccess: action(geschaefteKontakteExtern => {
-    store.geschaefteKontakteExtern.fetching = false
-    store.geschaefteKontakteExtern.geschaefteKontakteExtern = geschaefteKontakteExtern
-  }),
-  geschaefteKontakteExternGetError: action(error => {
-    store.geschaefteKontakteExtern.fetching = false
-    store.addError(error)
-  }),
   getGeschaefteKontakteExtern: action(() => {
     const { app } = store
-    store.geschaefteKontakteExternGet()
+    store.geschaefteKontakteExtern.fetching = true
     let geschaefteKontakteExtern
     try {
       geschaefteKontakteExtern = app.db
         .prepare('SELECT * FROM geschaefteKontakteExtern')
         .all()
     } catch (error) {
-      store.geschaefteKontakteExternGetError(error)
+      store.geschaefteKontakteExtern.fetching = false
+      store.addError(error)
     }
-    store.geschaefteKontakteExternGetSuccess(geschaefteKontakteExtern)
+    store.geschaefteKontakteExtern.fetching = false
+    store.geschaefteKontakteExtern.geschaefteKontakteExtern = geschaefteKontakteExtern
   }),
   geschaeftKontaktExternNew: action(geschaeftKontaktExtern =>
     store.geschaefteKontakteExtern.geschaefteKontakteExtern.push(
