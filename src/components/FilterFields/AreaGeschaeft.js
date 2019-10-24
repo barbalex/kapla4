@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import SelectInput from './SelectInput'
 import Input from './Input'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -61,7 +61,7 @@ const FieldVermerkIntern = styled.div`
 `
 
 const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     statusOptions,
     geschaeftsartOptions,

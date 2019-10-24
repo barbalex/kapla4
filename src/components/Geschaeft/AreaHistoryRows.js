@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const FieldsContainer = styled.div`
   grid-area: areaHistoryFieldsContainer;
@@ -43,7 +43,7 @@ const Gegenstand = styled.div`
 `
 
 const AreaHistoryRows = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaeftToggleActivated } = store
   const {
     activeId,

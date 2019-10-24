@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import KontakteExternItems from './KontakteExternItems'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const optionsList = (externeOptions, geschaefteKontakteExtern, activeId) => {
   // filter out options already choosen
@@ -56,7 +56,7 @@ const FvDropdown = styled.div`
 `
 
 const GeschaefteKontakteExtern = ({ tabIndex }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaeftKontaktExternNewCreate } = store
   const { externeOptions, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern

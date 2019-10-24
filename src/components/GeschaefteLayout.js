@@ -7,7 +7,7 @@ import Geschaeft from './Geschaeft'
 import Pages from './Pages'
 import GeschaeftPdf from './GeschaeftPdf'
 import Geschaefte from './Geschaefte'
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const StyledSplitPane = styled(SplitPane)`
   top: 52px;
@@ -17,7 +17,7 @@ const StyledSplitPane = styled(SplitPane)`
 `
 
 const GeschaefteLayout = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { configSetKey } = store
   const { config } = store.app
   const { activeId } = store.geschaefte

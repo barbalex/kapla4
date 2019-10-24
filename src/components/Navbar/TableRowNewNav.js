@@ -3,10 +3,10 @@ import { NavItem } from 'react-bootstrap'
 import { FaPlus } from 'react-icons/fa'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const NavbarTableRowNeuNav = () => {
-  const { tableRowNewCreate, table } = useContext(mobxStoreContext)
+  const { tableRowNewCreate, table } = useContext(storeContext)
   const onClick = useCallback(() => tableRowNewCreate(table.table), [
     table.table,
     tableRowNewCreate,

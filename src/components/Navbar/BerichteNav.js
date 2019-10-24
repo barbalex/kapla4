@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavDropdown = styled(NavDropdown)`
@@ -26,7 +26,7 @@ const StyledNavDropdown = styled(NavDropdown)`
 `
 
 const BerichteNav = ({ showBerichteNavs }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     pages,
     pagesInitiate,

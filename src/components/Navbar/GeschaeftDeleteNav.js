@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { FaTrashAlt } from 'react-icons/fa'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledNavItem = styled(NavItem)`
   border-right: ${props =>
@@ -12,7 +12,7 @@ const StyledNavItem = styled(NavItem)`
 `
 
 const NavbarGeschaeftLoeschenNav = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaeftSetDeleteIntended, showGeschaefteNavs } = store
   const { activeId } = store.geschaefte
   const onClick = useCallback(() => geschaeftSetDeleteIntended(activeId), [

@@ -7,7 +7,7 @@ import { InputGroup, FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledFormControl = styled(FormControl)`
   width: 45px !important;
@@ -23,7 +23,7 @@ const StyledFormControl = styled(FormControl)`
 `
 
 const SortSelector = ({ name }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const filterField = store.geschaefte.sortFields.find(ff => ff.field === name)
   const direction = filterField ? filterField.direction : ''
 

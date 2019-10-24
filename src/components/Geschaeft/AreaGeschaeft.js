@@ -4,7 +4,7 @@ import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -81,7 +81,7 @@ const VermerkIntern = styled.div`
 `
 
 const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

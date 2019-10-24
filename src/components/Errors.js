@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import ErrorBoundary from './ErrorBoundary'
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const Container = styled.div`
   position: absolute;
@@ -30,7 +30,7 @@ const ErrorDiv = styled.div`
 `
 
 const Errors = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const errorMessages = store.app.errors.map(e => e.message)
 
   if (errorMessages.length === 0) return null

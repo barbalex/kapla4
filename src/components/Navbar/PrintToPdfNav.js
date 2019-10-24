@@ -5,7 +5,7 @@ import { FaFile } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavItem = styled(NavItem)`
@@ -29,7 +29,7 @@ const dialogOptions = {
 }
 
 const NavbarPrintNav = ({ showBerichteNavs }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
 
   const onClick = useCallback(
     async e => {

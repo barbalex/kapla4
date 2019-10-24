@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const Body = styled(Modal.Body)`
   display: flex;
@@ -20,7 +20,7 @@ const P = styled.p`
 `
 
 const PagesModal = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { pagesStop } = store
   const { modalTextLine1, modalTextLine2 } = store.pages
 

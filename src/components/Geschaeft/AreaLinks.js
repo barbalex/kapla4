@@ -5,7 +5,7 @@ import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaLinks;
@@ -88,7 +88,7 @@ const DropzoneInnerDiv = styled.div`
 `
 
 const AreaLinks = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { linkRemove, linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter(l => l.idGeschaeft === activeId)

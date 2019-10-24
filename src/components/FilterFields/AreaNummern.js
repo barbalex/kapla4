@@ -6,7 +6,7 @@ import { toJS } from 'mobx'
 
 import Input from './Input'
 import SelectInput from './SelectInput'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaNummern;
@@ -112,7 +112,7 @@ const FieldAktennummer = styled.div`
 `
 
 const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { aktenstandortOptions } = store.geschaefte
 
   return (

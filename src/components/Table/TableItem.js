@@ -5,7 +5,7 @@ import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledRow = styled.div`
   border-bottom: 1px solid #bbbbbb;
@@ -27,7 +27,7 @@ const StyledBodyCell = styled.div`
 `
 
 const TableItem = ({ index }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { tableRowToggleActivated } = store
   const { table, rows, id } = store.table
   const row = rows[index]

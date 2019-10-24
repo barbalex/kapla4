@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import TableItem from './TableItem'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   background-image: linear-gradient(
@@ -58,7 +58,7 @@ const rowRenderer = ({ key, index, style }) => (
 const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
 const Table = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { tableReset } = store
   const { config } = store.app
   const { rows, id } = store.table

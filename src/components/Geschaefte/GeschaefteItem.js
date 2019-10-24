@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledId = styled.div`
   flex: 1;
@@ -88,7 +88,7 @@ const getStatusFristInStyle = fristMitarbeiterWarnung => {
 }
 
 const GeschaefteItem = ({ index }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaeftToggleActivated } = store
   const {
     activeId,

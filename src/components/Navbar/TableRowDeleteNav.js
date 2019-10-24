@@ -4,7 +4,7 @@ import { FaTrashAlt } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const StyledNavItem = styled(({ showTableNavs, children, ...rest }) => (
@@ -15,7 +15,7 @@ const StyledNavItem = styled(({ showTableNavs, children, ...rest }) => (
 `
 
 const NavbarTableRowDeleteNav = ({ showTableNavs }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { tableRowRemove } = store
   const { table, id } = store.table
   const onClick = useCallback(() => tableRowRemove(table, id), [

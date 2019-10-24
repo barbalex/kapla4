@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledNoRowsDiv = styled.div`
   padding: 10px;
@@ -10,7 +10,7 @@ const StyledNoRowsDiv = styled.div`
 `
 
 const NoRowsRenderer = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { filterFields, filterFulltext, geschaefte } = store.geschaefte
   const isFiltered =
     geschaefte.length > 0 && (filterFields.length > 0 || !!filterFulltext)

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import AreaHistoryRows from './AreaHistoryRows'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const Container = styled.div`
@@ -37,7 +37,7 @@ const LabelVorgeschaeft = styled(ControlLabel)`
 `
 
 const AreaHistory = ({ blur, change }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

@@ -8,7 +8,7 @@ import { InputGroup, FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledFormControl = styled(FormControl)`
   width: 55px !important;
@@ -21,7 +21,7 @@ const StyledFormControl = styled(FormControl)`
 `
 
 const ComparatorSelector = ({ name, changeComparator }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const filterField = store.geschaefte.filterFields.find(
     ff => ff.field === name,
   )

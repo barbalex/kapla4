@@ -2,10 +2,10 @@ import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { gekoRemove, gekoNewCreate } = store
 
   const [gekoNr, setGekoNr] = useState(gekoNrPassed)

@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const ModalGeschaeftDelete = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaeftRemove, geschaeftRemoveDeleteIntended } = store
   const { activeId } = store.geschaefte
 

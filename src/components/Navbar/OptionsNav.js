@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledNavDropdown = styled(NavDropdown)`
   margin-top: auto;
@@ -45,7 +45,7 @@ const onClickIssues = () => {
 }
 
 const OptionsNav = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { dbGet, configUiReset } = store
   const { config } = store.app
 

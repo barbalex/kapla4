@@ -17,7 +17,7 @@ import AreaPersonen from './AreaPersonen'
 import AreaHistory from './AreaHistory'
 import AreaLinks from './AreaLinks'
 import AreaZuletztMutiert from './AreaZuletztMutiert'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -95,7 +95,7 @@ const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperPdf)`
 `
 
 const Geschaeft = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { changeGeschaeftInDb, geschaefteChangeState, setDirty } = store
   const {
     activeId,

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import DateField from './DateField'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -69,7 +69,7 @@ const AreaRechtsmittel = ({
   blur,
   onChangeDatePicker,
 }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

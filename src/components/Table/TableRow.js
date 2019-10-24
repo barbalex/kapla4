@@ -3,7 +3,7 @@ import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledRow = styled.div`
   background-image: linear-gradient(
@@ -21,7 +21,7 @@ const StyledFormGroup = styled(FormGroup)`
 `
 
 const TableRow = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { tableChangeState, changeTableInDb } = store
   const { rows, id, table } = store.table
   const row = rows.find(r => r.id === id)

@@ -14,7 +14,7 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import logoImg from '../../etc/logo.png'
 import PageTitle from './PageTitle'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -300,6 +300,6 @@ class Page extends Component {
   }
 }
 
-Page.contextType = mobxStoreContext
+Page.contextType = storeContext
 
 export default observer(Page)

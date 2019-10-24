@@ -3,7 +3,7 @@ import { FormControl, ControlLabel, Radio } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -35,7 +35,7 @@ const FieldZustaendigkeit = styled.div`
 `
 
 const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

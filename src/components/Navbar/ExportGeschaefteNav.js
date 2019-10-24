@@ -8,10 +8,10 @@ import { observer } from 'mobx-react-lite'
 
 import exportGeschaefte from '../../src/exportGeschaefte'
 import getHistoryOfGeschaefte from '../../src/getHistoryOfGeschaefte'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const NavbarExportGeschaefteNav = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { messageShow } = store
   const { geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
 

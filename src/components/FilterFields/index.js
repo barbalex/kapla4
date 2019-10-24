@@ -18,7 +18,7 @@ import AreaHistory from './AreaHistory'
 import AreaZuletztMutiert from './AreaZuletztMutiert'
 import isDateField from '../../src/isDateField'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -79,7 +79,7 @@ const Wrapper = styled.div`
 `
 
 const FilterFields = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { geschaefteFilterByFields } = store
   let { filterFields } = store.geschaefte
   const { config } = store.app

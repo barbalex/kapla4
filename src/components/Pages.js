@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import Page from './Page'
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const Container = styled.div`
   background-color: #eee;
@@ -31,7 +31,7 @@ const Container = styled.div`
 `
 
 const Pages = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
 
   return (
     <Container>

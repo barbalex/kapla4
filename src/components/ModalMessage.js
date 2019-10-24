@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import mobxStoreContext from '../mobxStoreContext'
+import storeContext from '../storeContext'
 
 const StyledP = styled.p`
   text-align: center;
@@ -11,7 +11,7 @@ const StyledP = styled.p`
 `
 
 const ModalMessage = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const { messageTextLine1, messageTextLine2 } = store.app
 
   return (

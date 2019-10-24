@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled.div`
   background-image: linear-gradient(
@@ -71,7 +71,7 @@ const StyledList = styled(List)`
 `
 
 const Geschaefte = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,

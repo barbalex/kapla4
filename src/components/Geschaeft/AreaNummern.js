@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import GekoNrField from './GekoNrField'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -177,7 +177,7 @@ const FieldAktennummer = styled(Field)`
 `
 
 const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     aktenstandortOptions,
     activeId,

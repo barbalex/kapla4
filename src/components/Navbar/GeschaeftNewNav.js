@@ -3,10 +3,10 @@ import { NavItem } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import { FaPlus } from 'react-icons/fa'
 
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const NavbarGeschaeftNeuNav = () => {
-  const { geschaeftNewCreate } = useContext(mobxStoreContext)
+  const { geschaeftNewCreate } = useContext(storeContext)
   const onClick = useCallback(() => geschaeftNewCreate(), [geschaeftNewCreate])
 
   return (

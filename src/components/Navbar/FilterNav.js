@@ -16,7 +16,7 @@ import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
 import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStrings'
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
-import mobxStoreContext from '../../mobxStoreContext'
+import storeContext from '../../storeContext'
 
 const Container = styled(Navbar.Form)`
   padding-right: 10px;
@@ -53,7 +53,7 @@ const RemoveIcon = styled(FaTimes)`
 `
 
 const FilterNav = () => {
-  const store = useContext(mobxStoreContext)
+  const store = useContext(storeContext)
   const {
     geschaefteRemoveFilters,
     geschaefteFilterByFulltext,
