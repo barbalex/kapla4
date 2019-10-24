@@ -96,7 +96,7 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
 
   return (
     <Container data-ispdf={isPdf}>
-      <Title>Geschäft test</Title>
+      <Title>Geschäft</Title>
       <Gegenstand>
         <ControlLabel>Gegenstand</ControlLabel>
         <StyledTextarea

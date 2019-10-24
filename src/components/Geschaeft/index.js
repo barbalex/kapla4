@@ -110,8 +110,8 @@ const Geschaeft = () => {
     e => {
       const { type, name, dataset } = e.target
       let { value } = e.target
+      console.log('Geschaeft, change', { type, name, dataset, value })
       // need to convert numbers into numbers
-      // if (!isNaN(value)) value = +value
       if (type && type === 'number') {
         value = +value
       }
@@ -136,6 +136,7 @@ const Geschaeft = () => {
   const blur = useCallback(
     e => {
       const { type, name, value } = e.target
+      console.log('Geschaeft, blur', { e, type, name, value })
       if (type !== 'radio' && type !== 'select-one') {
         if (isDateField(name)) {
           if (validateDate(value)) {
