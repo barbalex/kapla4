@@ -2,36 +2,22 @@
 import { action } from 'mobx'
 
 export default store => ({
-  geschaefteKontakteInternGet: action(() => {
-    store.geschaefteKontakteIntern.fetching = true
-  }),
-  geschaefteKontakteInternGetSuccess: action(geschaefteKontakteIntern => {
-    store.geschaefteKontakteIntern.fetching = false
-    store.geschaefteKontakteIntern.geschaefteKontakteIntern = geschaefteKontakteIntern
-  }),
-  geschaefteKontakteInternGetError: action(error => {
-    store.geschaefteKontakteIntern.fetching = false
-    store.addError(error)
-  }),
   getGeschaefteKontakteIntern: action(() => {
     const { app } = store
-    store.geschaefteKontakteInternGet()
+    store.geschaefteKontakteIntern.fetching = true
     let geschaefteKontakteIntern = []
     try {
       geschaefteKontakteIntern = app.db
         .prepare('SELECT * FROM geschaefteKontakteIntern')
         .all()
     } catch (error) {
-      return store.geschaefteKontakteInternGetError(error)
+      store.geschaefteKontakteIntern.fetching = false
+      store.addError(error)
+      return
     }
-    store.geschaefteKontakteInternGetSuccess(geschaefteKontakteIntern)
+    store.geschaefteKontakteIntern.fetching = false
+    store.geschaefteKontakteIntern.geschaefteKontakteIntern = geschaefteKontakteIntern
   }),
-  geschaeftKontaktInternNew: action(geschaeftKontaktIntern =>
-    store.geschaefteKontakteIntern.geschaefteKontakteIntern.push(
-      geschaeftKontaktIntern,
-    ),
-  ),
-  geschaeftKontaktInternNewError: action(error => store.addError(error)),
   geschaeftKontaktInternNewCreate: action((idGeschaeft, idKontakt) => {
     const { app } = store
     try {
@@ -46,7 +32,7 @@ export default store => ({
         .run()
     } catch (error) {
       console.log({ error, idGeschaeft, idKontakt })
-      return store.geschaeftKontaktInternNewError(error)
+      return store.addError(error)
     }
     // return full object
     let geschaeftKontaktIntern
@@ -65,13 +51,12 @@ export default store => ({
         .get()
     } catch (error) {
       console.log({ error, idGeschaeft, idKontakt })
-      return store.geschaeftKontaktInternNewError(error)
+      return store.addError(error)
     }
     console.log({ geschaeftKontaktIntern })
-    store.geschaeftKontaktInternNew(geschaeftKontaktIntern)
-  }),
-  geschaeftKontaktInternRemoveDeleteIntended: action(() => {
-    store.geschaefteKontakteIntern.willDelete = false
+    store.geschaefteKontakteIntern.geschaefteKontakteIntern.push(
+      geschaeftKontaktIntern,
+    )
   }),
   geschaeftKontaktInternDelete: action((idGeschaeft, idKontakt) => {
     store.geschaefteKontakteIntern.geschaefteKontakteIntern = store.geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
@@ -93,18 +78,9 @@ export default store => ({
         )
         .run()
     } catch (error) {
-      return store.geschaeftKontaktInternDeleteError(error)
+      return store.addError(error)
     }
-    store.geschaeftKontaktInternRemoveDeleteIntended()
+    store.geschaefteKontakteIntern.willDelete = false
     store.geschaeftKontaktInternDelete(idGeschaeft, idKontakt)
   }),
-  geschaeftKontaktInternDeleteError: action(error =>
-    store.geschaeftKontaktInternDelete.push(error),
-  ),
-  geschaeftKontaktInternSetDeleteIntended: action((idGeschaeft, idKontakt) => {
-    store.geschaefteKontakteIntern.willDelete = true
-    store.geschaefteKontakteIntern.activeIdGeschaeft = idGeschaeft
-    store.geschaefteKontakteIntern.activeIdKontakt = idKontakt
-  }),
-  geschaefteKontakteInternChangeDbError: action(error => store.addError(error)),
 })
