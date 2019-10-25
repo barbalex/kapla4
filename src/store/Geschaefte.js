@@ -6,6 +6,8 @@ import sortGeschaeftePlusFiltered from '../src/sortGeschaeftePlusFiltered'
 import getHistoryOfGeschaeft from '../src/getHistoryOfGeschaeft'
 import Geschaeft from './Geschaeft'
 import Links from './Links'
+import Geko from './Geko'
+import AbteilungOptions from './Abteilung'
 
 export default types
   .model('Geschaefte', {
@@ -14,16 +16,16 @@ export default types
     filterType: types.maybeNull(types.string),
     activeId: types.maybeNull(types.number),
     willDelete: types.optional(types.boolean, false),
+    geko: types.array(Geko),
     geschaefte: types.array(Geschaeft),
     links: types.array(Links),
+    abteilungOptions: types.array(AbteilungOptions),
   })
   .volatile(() => ({
     error: [],
-    geko: [],
     filterFields: [],
     sortFields: [],
     // dropdown lists
-    abteilungOptions: [],
     rechtsmittelErledigungOptions: [],
     parlVorstossTypOptions: [],
     statusOptions: [],
