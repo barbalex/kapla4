@@ -17,6 +17,8 @@ import InterneOptions from './Interne'
 import ExterneOptions from './Externe'
 import FilterFields from './FilterFields'
 import SortFields from './SortFields'
+import isDateField from '../src/isDateField'
+import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
 
 export default types
   .model('Geschaefte', {
@@ -64,4 +66,40 @@ export default types
       return self.geko.filter(g => g.idGeschaeft === self.activeId)
     },
   }))
-  .actions(self => ({}))
+  .actions(self => ({
+    toggleActivatedById(idGeschaeft) {
+      self.activeId =
+        self.activeId && self.activeId === idGeschaeft ? null : idGeschaeft
+    },
+    fetch() {
+      const store = getParent(self, 1)
+      const { app, addError, history } = store
+      self.fetching = true
+      let geschaefte = []
+      try {
+        geschaefte = app.db
+          .prepare('SELECT * FROM geschaefte ORDER BY idGeschaeft DESC')
+          .all()
+      } catch (error) {
+        self.fetching = false
+        addError(error)
+      }
+      /**
+       * convert date fields
+       * from YYYY-MM-DD to DD.MM.YYYY
+       */
+      geschaefte.forEach(g => {
+        const geschaeft = g
+        Object.keys(geschaeft).forEach(field => {
+          if (isDateField(field)) {
+            geschaeft[field] = convertDateToDdMmYyyy(geschaeft[field])
+          }
+        })
+      })
+      self.fetching = false
+      self.geschaefte = geschaefte
+      if (history.location.pathname !== '/geschaefte') {
+        history.push('/geschaefte')
+      }
+    },
+  }))

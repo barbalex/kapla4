@@ -89,8 +89,8 @@ const getStatusFristInStyle = fristMitarbeiterWarnung => {
 
 const GeschaefteItem = ({ index }) => {
   const store = useContext(storeContext)
-  const { geschaeftToggleActivated } = store
   const {
+    toggleActivatedById,
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
   } = store.geschaefte
@@ -105,8 +105,8 @@ const GeschaefteItem = ({ index }) => {
     if (path === '/filterFields') {
       store.history.push('/geschaefte')
     }
-    geschaeftToggleActivated(geschaeft.idGeschaeft)
-  }, [geschaeftToggleActivated, geschaefte, index, store.history])
+    toggleActivatedById(geschaeft.idGeschaeft)
+  }, [toggleActivatedById, geschaefte, index, store.history])
   // make sure geschaeft exists
   if (!geschaeft) return null
   const fristMitarbeiter = geschaeft.fristMitarbeiter

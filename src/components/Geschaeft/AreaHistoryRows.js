@@ -45,8 +45,8 @@ const Gegenstand = styled.div`
 
 const AreaHistoryRows = () => {
   const store = useContext(storeContext)
-  const { geschaeftToggleActivated } = store
   const {
+    toggleActivatedById,
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
     historyOfActiveId,
@@ -73,7 +73,7 @@ const AreaHistoryRows = () => {
               }}
               onClick={() => {
                 if (id !== activeId) {
-                  return geschaeftToggleActivated(id)
+                  return toggleActivatedById(id)
                 }
               }}
               data-ispdf={isPdf}

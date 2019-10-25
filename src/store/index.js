@@ -48,42 +48,6 @@ export default () =>
       geschaeftPdfShow() {
         self.history.push('/geschaeftPdf')
       },
-      getGeschaefte() {
-        const { app } = self
-        self.geschaefte.fetching = true
-        let geschaefte = []
-        try {
-          geschaefte = app.db
-            .prepare('SELECT * FROM geschaefte ORDER BY idGeschaeft DESC')
-            .all()
-        } catch (error) {
-          self.geschaefte.fetching = false
-          self.addError(error)
-        }
-        /**
-         * convert date fields
-         * from YYYY-MM-DD to DD.MM.YYYY
-         */
-        geschaefte.forEach(g => {
-          const geschaeft = g
-          Object.keys(geschaeft).forEach(field => {
-            if (isDateField(field)) {
-              geschaeft[field] = convertDateToDdMmYyyy(geschaeft[field])
-            }
-          })
-        })
-        self.geschaefte.fetching = false
-        self.geschaefte.geschaefte = geschaefte
-        if (self.history.location.pathname !== '/geschaefte') {
-          self.history.push('/geschaefte')
-        }
-      },
-      geschaeftToggleActivated(idGeschaeft) {
-        self.geschaefte.activeId =
-          self.geschaefte.activeId && self.geschaefte.activeId === idGeschaeft
-            ? null
-            : idGeschaeft
-      },
       geschaefteFilterByFields(filterFields, filterType = 'nach Feldern') {
         const { pages } = self
         const { geschaeftePlusFilteredAndSorted } = self.geschaefte
@@ -100,7 +64,7 @@ export default () =>
           const { reportType } = pages
           self.pagesInitiate(reportType)
         } else if (geschaeftePlusFilteredAndSorted.length === 1) {
-          self.geschaeftToggleActivated(
+          self.toggleActivatedById(
             geschaeftePlusFilteredAndSorted[0].idGeschaeft,
           )
         }
@@ -146,7 +110,7 @@ export default () =>
             self.history.push('/geschaefte')
           }
           if (geschaeftePlusFilteredAndSorted.length === 1) {
-            self.geschaeftToggleActivated(
+            self.toggleActivatedById(
               geschaeftePlusFilteredAndSorted[0].idGeschaeft,
             )
           }
@@ -241,7 +205,7 @@ export default () =>
         self.geschaefte.filterType = null
         self.geschaefte.filterFulltext = ''
         self.geschaefte.sortFields = []
-        self.geschaeftToggleActivated(geschaeft.idGeschaeft)
+        self.toggleActivatedById(geschaeft.idGeschaeft)
         if (self.history.location.pathname !== '/geschaefte') {
           self.history.push('/geschaefte')
         }
@@ -960,7 +924,7 @@ export default () =>
         self.aktenstandortOptionsGet()
         self.rechtsmittelInstanzOptionsGet()
         self.abteilungOptionsGet()
-        self.getGeschaefte()
+        self.geschaefte.fetch()
         self.fetchUsername()
         // set filter to fällige
         self.geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
