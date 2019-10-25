@@ -43,23 +43,8 @@ export default () =>
     }))
     .views(self => ({}))
     .actions(self => ({
-      geschaeftPdfShow() {
+      navigateToGeschaeftPdf() {
         self.history.push('/geschaeftPdf')
-      },
-      getGeko() {
-        const { app } = self
-        self.geschaefte.fetching = true
-        let geko = []
-        try {
-          geko = app.db
-            .prepare('SELECT * FROM geko ORDER BY idGeschaeft, gekoNr')
-            .all()
-        } catch (error) {
-          self.geschaefte.fetching = false
-          self.addError(error)
-        }
-        self.geschaefte.fetching = false
-        self.geschaefte.geko = geko
       },
       getLinks() {
         const { app } = self
@@ -829,7 +814,7 @@ export default () =>
         self.app.config = Object.assign({}, self.app.config, { dbPath })
         // get data
         self.faelligeStatiOptionsGet()
-        self.getGeko()
+        self.geschaefte.fetchGeko()
         self.getLinks()
         self.interneOptionsGet()
         self.externeOptionsGet()

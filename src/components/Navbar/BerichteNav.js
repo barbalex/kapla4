@@ -27,7 +27,7 @@ const StyledNavDropdown = styled(NavDropdown)`
 
 const BerichteNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
-  const { pages, pagesInitiate, geschaeftPdfShow } = store
+  const { pages, pagesInitiate, navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
   const path = store.history.location.pathname
   const isActive = path === '/pages'
@@ -96,7 +96,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
           })
         }
         if (eventKey === 7.5) {
-          setTimeout(() => geschaeftPdfShow())
+          setTimeout(() => navigateToGeschaeftPdf())
         }
       }}
     >

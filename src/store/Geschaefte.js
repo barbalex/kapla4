@@ -186,4 +186,20 @@ export default types
         history.push('/geschaefte')
       }
     },
+    fetchGeko() {
+      const store = getParent(self, 1)
+      const { app, addError } = store
+      self.fetching = true
+      let geko = []
+      try {
+        geko = app.db
+          .prepare('SELECT * FROM geko ORDER BY idGeschaeft, gekoNr')
+          .all()
+      } catch (error) {
+        self.fetching = false
+        addError(error)
+      }
+      self.fetching = false
+      self.geko = geko
+    },
   }))
