@@ -48,27 +48,6 @@ export default () =>
       geschaeftPdfShow() {
         self.history.push('/geschaeftPdf')
       },
-      geschaefteFilterByFields(filterFields, filterType = 'nach Feldern') {
-        const { pages } = self
-        const { geschaeftePlusFilteredAndSorted } = self.geschaefte
-        self.geschaefte.filterFields = filterFields
-        self.geschaefte.filterFulltext = ''
-        self.geschaefte.filterType = filterType || null
-        self.geschaefte.activeId = null
-        /**
-         * if pages are active,
-         * initiate with new data
-         */
-        const path = self.history.location.pathname
-        if (path === '/pages') {
-          const { reportType } = pages
-          self.pagesInitiate(reportType)
-        } else if (geschaeftePlusFilteredAndSorted.length === 1) {
-          self.toggleActivatedById(
-            geschaeftePlusFilteredAndSorted[0].idGeschaeft,
-          )
-        }
-      },
       geschaefteResetSort() {
         self.geschaefte.sortFields = []
       },
@@ -927,7 +906,7 @@ export default () =>
         self.geschaefte.fetch()
         self.fetchUsername()
         // set filter to fällige
-        self.geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
+        self.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
         self.geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
       },
       dbGetAtStandardpathIfPossible() {

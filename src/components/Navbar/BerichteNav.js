@@ -31,11 +31,10 @@ const BerichteNav = ({ showBerichteNavs }) => {
     pages,
     pagesInitiate,
     geschaeftPdfShow,
-    geschaefteFilterByFields,
     geschaefteSortByFields,
     geschaefteResetSort,
   } = store
-  const { activeId } = store.geschaefte
+  const { filterByFields, activeId } = store.geschaefte
   const path = store.history.location.pathname
   const isActive = path === '/pages'
   const nameObject = {
@@ -67,7 +66,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
         }
         if (eventKey === 7.7) {
           setTimeout(() => {
-            geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
+            filterByFields(filterForFaelligeGeschaefte, 'fällige')
             // only do this after former is finished
             setTimeout(() => {
               geschaefteResetSort()
@@ -78,7 +77,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
         }
         if (eventKey === 7.3) {
           setTimeout(() => {
-            geschaefteFilterByFields(
+            filterByFields(
               filterForVernehmlAngek,
               'angekündigte Vernehmlassungen',
             )
@@ -92,10 +91,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
         }
         if (eventKey === 7.4) {
           setTimeout(() => {
-            geschaefteFilterByFields(
-              filterForVernehmlLaeuft,
-              'laufende Vernehmlassungen',
-            )
+            filterByFields(filterForVernehmlLaeuft, 'laufende Vernehmlassungen')
             // only do this after former is finished
             setTimeout(() => {
               pagesInitiate('laufendeVernehml')

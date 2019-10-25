@@ -80,8 +80,7 @@ const Wrapper = styled.div`
 
 const FilterFields = () => {
   const store = useContext(storeContext)
-  const { geschaefteFilterByFields } = store
-  let { filterFields } = store.geschaefte
+  let { filterFields, filterByFields } = store.geschaefte
   const { config } = store.app
 
   const changeComparator = useCallback(
@@ -104,9 +103,9 @@ const FilterFields = () => {
       }
       changedField.comparator = value
       newFilterFields.push(changedField)
-      geschaefteFilterByFields(newFilterFields)
+      filterByFields(newFilterFields)
     },
-    [geschaefteFilterByFields, store.geschaefte],
+    [filterByFields, store.geschaefte],
   )
   const change = useCallback(
     e => {
@@ -141,9 +140,9 @@ const FilterFields = () => {
       }
       changedField.value = value
       newFilterFields.push(changedField)
-      geschaefteFilterByFields(newFilterFields)
+      filterByFields(newFilterFields)
     },
-    [geschaefteFilterByFields, store.geschaefte],
+    [filterByFields, store.geschaefte],
   )
 
   // build a fields hash for the values

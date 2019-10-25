@@ -67,6 +67,26 @@ export default types
     },
   }))
   .actions(self => ({
+    filterByFields(filterFields, filterType = 'nach Feldern') {
+      const store = getParent(self, 1)
+      const { pages, pagesInitiate, toggleActivatedById } = store
+      const { geschaeftePlusFilteredAndSorted } = store.geschaefte
+      store.geschaefte.filterFields = filterFields
+      store.geschaefte.filterFulltext = ''
+      store.geschaefte.filterType = filterType || null
+      store.geschaefte.activeId = null
+      /**
+       * if pages are active,
+       * initiate with new data
+       */
+      const path = store.history.location.pathname
+      if (path === '/pages') {
+        const { reportType } = pages
+        pagesInitiate(reportType)
+      } else if (geschaeftePlusFilteredAndSorted.length === 1) {
+        toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
+      }
+    },
     toggleActivatedById(idGeschaeft) {
       self.activeId =
         self.activeId && self.activeId === idGeschaeft ? null : idGeschaeft

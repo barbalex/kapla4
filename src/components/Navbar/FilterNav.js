@@ -58,13 +58,13 @@ const FilterNav = () => {
   const {
     geschaefteRemoveFilters,
     geschaefteFilterByFulltext,
-    geschaefteFilterByFields,
     geschaefteResetSort,
     geschaefteSortByFields,
     history,
   } = store
   const {
     geschaefte: geschaefteUnfiltered,
+    filterByFields,
     filterFields,
     filterType,
     filterFulltext,
@@ -93,11 +93,11 @@ const FilterNav = () => {
     [geschaefteFilterByFulltext],
   )
   const onSelectFaelligeGeschaefte = useCallback(() => {
-    geschaefteFilterByFields(filterForFaelligeGeschaefte, 'fällige')
+    filterByFields(filterForFaelligeGeschaefte, 'fällige')
     // order by frist desc
     geschaefteResetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
   const onSelectEigeneFaelligeGeschaefte = useCallback(() => {
     const now = moment().format('YYYY-MM-DD')
     const filter = [
@@ -117,33 +117,22 @@ const FilterNav = () => {
         comparator: '===',
       },
     ]
-    geschaefteFilterByFields(filter, 'eigene fällige')
+    filterByFields(filter, 'eigene fällige')
     // order by frist desc
     geschaefteResetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [
-    geschaefteFilterByFields,
-    geschaefteResetSort,
-    geschaefteSortByFields,
-    username,
-  ])
+  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields, username])
   const onSelectAngekVernehmlassungen = useCallback(() => {
-    geschaefteFilterByFields(
-      filterForVernehmlAngek,
-      'angekündigte Vernehmlassungen',
-    )
+    filterByFields(filterForVernehmlAngek, 'angekündigte Vernehmlassungen')
     geschaefteResetSort()
     geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
   const onSelectLaufendeVernehmlassungen = useCallback(() => {
-    geschaefteFilterByFields(
-      filterForVernehmlLaeuft,
-      'laufende Vernehmlassungen',
-    )
+    filterByFields(filterForVernehmlLaeuft, 'laufende Vernehmlassungen')
     geschaefteResetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
     geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [geschaefteFilterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
   const onClickFilterDropdown = useCallback(() => {
     const path = history.location.pathname
     if (path !== '/filterFields') {
