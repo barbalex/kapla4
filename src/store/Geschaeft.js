@@ -3,52 +3,108 @@ import { types } from 'mobx-state-tree'
 export default types
   .model('Geschaeft', {})
   .volatile(() => ({
-    abteilung: types.maybe(types.union(types.string, types.integer)),
-    aktennummer: types.maybe(types.union(types.string, types.integer)),
-    aktenstandort: types.maybe(types.union(types.string, types.integer)),
-    ausloeser: types.maybe(types.union(types.string, types.integer)),
-    datumAusgangAwel: types.maybe(types.union(types.string, types.integer)),
-    datumEingangAwel: types.maybe(types.union(types.string, types.integer)),
-    details: types.maybe(types.union(types.string, types.integer)),
-    entscheidAwel: types.maybe(types.union(types.string, types.integer)),
-    entscheidBdv: types.maybe(types.union(types.string, types.integer)),
-    entscheidBvv: types.maybe(types.union(types.string, types.integer)),
-    entscheidKr: types.maybe(types.union(types.string, types.integer)),
-    entscheidRrb: types.maybe(types.union(types.string, types.integer)),
-    fristAbteilung: types.maybe(types.union(types.string, types.integer)),
-    fristAmtschef: types.maybe(types.union(types.string, types.integer)),
-    fristAwel: types.maybe(types.union(types.string, types.integer)),
-    fristDirektion: types.maybe(types.union(types.string, types.integer)),
-    fristMitarbeiter: types.maybe(types.union(types.string, types.integer)),
-    gegenstand: types.maybe(types.union(types.string, types.integer)),
-    geschaeftsart: types.maybe(types.union(types.string, types.integer)),
+    abteilung: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    aktennummer: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    aktenstandort: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    ausloeser: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    datumAusgangAwel: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    datumEingangAwel: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    details: types.maybe(types.union(types.string, types.integer, types.null)),
+    entscheidAwel: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    entscheidBdv: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    entscheidBvv: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    entscheidKr: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    entscheidRrb: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    fristAbteilung: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    fristAmtschef: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    fristAwel: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    fristDirektion: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    fristMitarbeiter: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    gegenstand: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    geschaeftsart: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
     idGeschaeft: types.integer,
     idVorgeschaeft: types.maybe(types.integer),
-    mutationsdatum: types.maybe(types.union(types.string, types.integer)),
-    mutationsperson: types.maybe(types.union(types.string, types.integer)),
-    naechsterSchritt: types.maybe(types.union(types.string, types.integer)),
-    ort: types.maybe(types.union(types.string, types.integer)),
-    parlVorstossStufe: types.maybe(types.union(types.string, types.integer)),
-    parlVorstossTyp: types.maybe(types.union(types.string, types.integer)),
-    parlVorstossZustaendigkeitAwel: types.maybe(
-      types.union(types.string, types.integer),
+    mutationsdatum: types.maybe(
+      types.union(types.string, types.integer, types.null),
     ),
-    rechtsmittelInstanz: types.maybe(types.union(types.string, types.integer)),
+    mutationsperson: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    naechsterSchritt: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    ort: types.maybe(types.union(types.string, types.integer, types.null)),
+    parlVorstossStufe: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    parlVorstossTyp: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    parlVorstossZustaendigkeitAwel: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    rechtsmittelInstanz: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
     rechtsmittelErledigung: types.maybe(
-      types.union(types.string, types.integer),
+      types.union(types.string, types.integer, types.null),
     ),
     rechtsmittelEntscheidNr: types.maybe(
-      types.union(types.string, types.integer),
+      types.union(types.string, types.integer, types.null),
     ),
     rechtsmittelEntscheidDatum: types.maybe(
-      types.union(types.string, types.integer),
+      types.union(types.string, types.integer, types.null),
     ),
-    rechtsmittelTxt: types.maybe(types.union(types.string, types.integer)),
-    status: types.maybe(types.union(types.string, types.integer)),
-    verantwortlich: types.maybe(types.union(types.string, types.integer)),
-    vermerk: types.maybe(types.union(types.string, types.integer)),
-    vermerkIntern: types.maybe(types.union(types.string, types.integer)),
-    zustaendigeDirektion: types.maybe(types.union(types.string, types.integer)),
+    rechtsmittelTxt: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    status: types.maybe(types.union(types.string, types.integer, types.null)),
+    verantwortlich: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    vermerk: types.maybe(types.union(types.string, types.integer, types.null)),
+    vermerkIntern: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
+    zustaendigeDirektion: types.maybe(
+      types.union(types.string, types.integer, types.null),
+    ),
   }))
   .views(self => ({}))
   .actions(self => ({}))

@@ -13,6 +13,7 @@ import ParlVorstossTypOptions from './ParlVorstossTyp'
 import StatusOptions from './Status'
 import GeschaeftsartOptions from './Geschaeftsart'
 import AktenstandortOptions from './Aktenstandort'
+import InterneOptions from './Interne'
 
 export default types
   .model('Geschaefte', {
@@ -30,13 +31,13 @@ export default types
     statusOptions: types.array(StatusOptions),
     geschaeftsartOptions: types.array(GeschaeftsartOptions),
     aktenstandortOptions: types.array(AktenstandortOptions),
+    interneOptions: types.array(InterneOptions),
   })
   .volatile(() => ({
     error: [],
     filterFields: [],
     sortFields: [],
     // dropdown lists
-    interneOptions: [],
     externeOptions: [],
   }))
   .views(self => ({
