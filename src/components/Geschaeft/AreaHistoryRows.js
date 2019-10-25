@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 
@@ -55,34 +56,36 @@ const AreaHistoryRows = () => {
   const history = historyOfActiveId
 
   return (
-    <FieldsContainer>
-      {history.map((id, index) => {
-        const geschaeft = geschaefte.find(g => g.idGeschaeft === id)
-        if (!geschaeft) {
-          return null
-        }
-        return (
-          <HistoryField
-            // add index for cases where two geschaefte
-            // reference each other...
-            key={`${id}${index}`}
-            style={{
-              cursor: id === activeId ? 'default' : 'pointer',
-            }}
-            onClick={() => {
-              if (id !== activeId) {
-                return geschaeftToggleActivated(id)
-              }
-            }}
-            data-ispdf={isPdf}
-          >
-            <IdGeschaeft>{id}</IdGeschaeft>
-            <Datum>{geschaeft.datumEingangAwel}</Datum>
-            <Gegenstand>{geschaeft.gegenstand}</Gegenstand>
-          </HistoryField>
-        )
-      })}
-    </FieldsContainer>
+    <ErrorBoundary>
+      <FieldsContainer>
+        {history.map((id, index) => {
+          const geschaeft = geschaefte.find(g => g.idGeschaeft === id)
+          if (!geschaeft) {
+            return null
+          }
+          return (
+            <HistoryField
+              // add index for cases where two geschaefte
+              // reference each other...
+              key={`${id}${index}`}
+              style={{
+                cursor: id === activeId ? 'default' : 'pointer',
+              }}
+              onClick={() => {
+                if (id !== activeId) {
+                  return geschaeftToggleActivated(id)
+                }
+              }}
+              data-ispdf={isPdf}
+            >
+              <IdGeschaeft>{id}</IdGeschaeft>
+              <Datum>{geschaeft.datumEingangAwel}</Datum>
+              <Gegenstand>{geschaeft.gegenstand}</Gegenstand>
+            </HistoryField>
+          )
+        })}
+      </FieldsContainer>
+    </ErrorBoundary>
   )
 }
 

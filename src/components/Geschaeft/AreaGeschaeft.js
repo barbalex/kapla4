@@ -3,6 +3,7 @@ import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 import createOptions from '../../src/createOptions'
@@ -98,138 +99,140 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
   const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
 
   return (
-    <Container data-ispdf={isPdf}>
-      <Title>Geschäft</Title>
-      <Gegenstand>
-        <ControlLabel>Gegenstand</ControlLabel>
-        <StyledTextarea
-          value={geschaeft.gegenstand || ''}
-          name="gegenstand"
-          onChange={change}
-          onBlur={blur}
-          tabIndex={1 + tabsToAdd}
-        />
-      </Gegenstand>
-      {!(!geschaeft.ausloeser && isPdf) && (
-        <Ausloeser>
-          <ControlLabel>Auslöser</ControlLabel>
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <Title>Geschäft</Title>
+        <Gegenstand>
+          <ControlLabel>Gegenstand</ControlLabel>
           <StyledTextarea
-            value={geschaeft.ausloeser || ''}
-            name="ausloeser"
+            value={geschaeft.gegenstand || ''}
+            name="gegenstand"
             onChange={change}
             onBlur={blur}
-            tabIndex={2 + tabsToAdd}
+            tabIndex={1 + tabsToAdd}
           />
-        </Ausloeser>
-      )}
-      {!(!geschaeft.ort && isPdf) && (
-        <Ort>
-          <ControlLabel>Ort</ControlLabel>
-          <FormControl
-            type="text"
-            value={geschaeft.ort || ''}
-            name="ort"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={3 + tabsToAdd}
-          />
-        </Ort>
-      )}
-      {!(!geschaeft.geschaeftsart && isPdf) && (
-        <Geschaeftsart>
-          <ControlLabel>Geschäftsart</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.geschaeftsart || ''}
-            name="geschaeftsart"
-            onChange={change}
-            bsSize="small"
-            tabIndex={4 + tabsToAdd}
-          >
-            {geschaeftsartOptionsComponent}
-          </FormControl>
-        </Geschaeftsart>
-      )}
-      {!(!geschaeft.status && isPdf) && (
-        <Status>
-          <ControlLabel>Status</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.status || ''}
-            name="status"
-            onChange={change}
-            bsSize="small"
-            tabIndex={5 + tabsToAdd}
-          >
-            {createOptions(statusOptions)}
-          </FormControl>
-        </Status>
-      )}
-      {!(!geschaeft.abteilung && isPdf) && (
-        <Abteilung>
-          <ControlLabel>Abteilung</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.abteilung || ''}
-            name="abteilung"
-            onChange={change}
-            bsSize="small"
-            tabIndex={6 + tabsToAdd}
-          >
-            {createOptions(abteilungOptions)}
-          </FormControl>
-        </Abteilung>
-      )}
-      {!(!geschaeft.details && isPdf) && (
-        <Details>
-          <ControlLabel>Details</ControlLabel>
+        </Gegenstand>
+        {!(!geschaeft.ausloeser && isPdf) && (
+          <Ausloeser>
+            <ControlLabel>Auslöser</ControlLabel>
+            <StyledTextarea
+              value={geschaeft.ausloeser || ''}
+              name="ausloeser"
+              onChange={change}
+              onBlur={blur}
+              tabIndex={2 + tabsToAdd}
+            />
+          </Ausloeser>
+        )}
+        {!(!geschaeft.ort && isPdf) && (
+          <Ort>
+            <ControlLabel>Ort</ControlLabel>
+            <FormControl
+              type="text"
+              value={geschaeft.ort || ''}
+              name="ort"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={3 + tabsToAdd}
+            />
+          </Ort>
+        )}
+        {!(!geschaeft.geschaeftsart && isPdf) && (
+          <Geschaeftsart>
+            <ControlLabel>Geschäftsart</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.geschaeftsart || ''}
+              name="geschaeftsart"
+              onChange={change}
+              bsSize="small"
+              tabIndex={4 + tabsToAdd}
+            >
+              {geschaeftsartOptionsComponent}
+            </FormControl>
+          </Geschaeftsart>
+        )}
+        {!(!geschaeft.status && isPdf) && (
+          <Status>
+            <ControlLabel>Status</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.status || ''}
+              name="status"
+              onChange={change}
+              bsSize="small"
+              tabIndex={5 + tabsToAdd}
+            >
+              {createOptions(statusOptions)}
+            </FormControl>
+          </Status>
+        )}
+        {!(!geschaeft.abteilung && isPdf) && (
+          <Abteilung>
+            <ControlLabel>Abteilung</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.abteilung || ''}
+              name="abteilung"
+              onChange={change}
+              bsSize="small"
+              tabIndex={6 + tabsToAdd}
+            >
+              {createOptions(abteilungOptions)}
+            </FormControl>
+          </Abteilung>
+        )}
+        {!(!geschaeft.details && isPdf) && (
+          <Details>
+            <ControlLabel>Details</ControlLabel>
+            <StyledTextarea
+              value={geschaeft.details || ''}
+              name="details"
+              onChange={change}
+              onBlur={blur}
+              tabIndex={7 + tabsToAdd}
+            />
+          </Details>
+        )}
+        {!(!geschaeft.naechsterSchritt && isPdf) && (
+          <NaechsterSchritt>
+            <ControlLabel>Nächster Schritt</ControlLabel>
+            <StyledTextarea
+              value={geschaeft.naechsterSchritt || ''}
+              name="naechsterSchritt"
+              onChange={change}
+              onBlur={blur}
+              tabIndex={8 + tabsToAdd}
+            />
+          </NaechsterSchritt>
+        )}
+        {!(!geschaeft.vermerk && isPdf) && (
+          <Vermerk>
+            <ControlLabel>Vermerk</ControlLabel>
+            <StyledTextarea
+              value={geschaeft.vermerk || ''}
+              name="vermerk"
+              onChange={change}
+              onBlur={blur}
+              tabIndex={9 + tabsToAdd}
+            />
+          </Vermerk>
+        )}
+        <VermerkIntern>
+          <ControlLabel>
+            Vermerk intern (in Berichten nicht angezeigt)
+          </ControlLabel>
           <StyledTextarea
-            value={geschaeft.details || ''}
-            name="details"
-            onChange={change}
-            onBlur={blur}
-            tabIndex={7 + tabsToAdd}
-          />
-        </Details>
-      )}
-      {!(!geschaeft.naechsterSchritt && isPdf) && (
-        <NaechsterSchritt>
-          <ControlLabel>Nächster Schritt</ControlLabel>
-          <StyledTextarea
-            value={geschaeft.naechsterSchritt || ''}
-            name="naechsterSchritt"
-            onChange={change}
-            onBlur={blur}
-            tabIndex={8 + tabsToAdd}
-          />
-        </NaechsterSchritt>
-      )}
-      {!(!geschaeft.vermerk && isPdf) && (
-        <Vermerk>
-          <ControlLabel>Vermerk</ControlLabel>
-          <StyledTextarea
-            value={geschaeft.vermerk || ''}
-            name="vermerk"
+            value={geschaeft.vermerkIntern || ''}
+            name="vermerkIntern"
             onChange={change}
             onBlur={blur}
             tabIndex={9 + tabsToAdd}
           />
-        </Vermerk>
-      )}
-      <VermerkIntern>
-        <ControlLabel>
-          Vermerk intern (in Berichten nicht angezeigt)
-        </ControlLabel>
-        <StyledTextarea
-          value={geschaeft.vermerkIntern || ''}
-          name="vermerkIntern"
-          onChange={change}
-          onBlur={blur}
-          tabIndex={9 + tabsToAdd}
-        />
-      </VermerkIntern>
-    </Container>
+        </VermerkIntern>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

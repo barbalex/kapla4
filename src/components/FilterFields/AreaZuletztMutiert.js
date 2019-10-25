@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
@@ -76,40 +76,33 @@ const AreaZuletztMutiert = ({
   const store = useContext(storeContext)
 
   return (
-    <Container>
-      <FieldVerantwortlichSelector>
-        <ControlLabel>Mutations-Person</ControlLabel>
-        <InputGroup>
-          <SortSelector name="mutationsperson" />
-          <ComparatorSelector
-            name="mutationsperson"
-            changeComparator={changeComparator}
-          />
-          <VerantwortlichDropdown
-            componentClass="select"
-            value={values.mutationsperson || ''}
-            name="mutationsperson"
-            onChange={change}
-            tabIndex={1 + firstTabIndex}
-          >
-            {interneOptionsList(store.geschaefte.interneOptions)}
-          </VerantwortlichDropdown>
-        </InputGroup>
-      </FieldVerantwortlichSelector>
-      <FieldVerantwortlichName>
-        {interneData(values, store.geschaefte.interneOptions)}
-      </FieldVerantwortlichName>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <FieldVerantwortlichSelector>
+          <ControlLabel>Mutations-Person</ControlLabel>
+          <InputGroup>
+            <SortSelector name="mutationsperson" />
+            <ComparatorSelector
+              name="mutationsperson"
+              changeComparator={changeComparator}
+            />
+            <VerantwortlichDropdown
+              componentClass="select"
+              value={values.mutationsperson || ''}
+              name="mutationsperson"
+              onChange={change}
+              tabIndex={1 + firstTabIndex}
+            >
+              {interneOptionsList(store.geschaefte.interneOptions)}
+            </VerantwortlichDropdown>
+          </InputGroup>
+        </FieldVerantwortlichSelector>
+        <FieldVerantwortlichName>
+          {interneData(values, store.geschaefte.interneOptions)}
+        </FieldVerantwortlichName>
+      </Container>
+    </ErrorBoundary>
   )
-}
-
-AreaZuletztMutiert.displayName = 'AreaZuletztMutiert'
-
-AreaZuletztMutiert.propTypes = {
-  values: PropTypes.object,
-  firstTabIndex: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-  changeComparator: PropTypes.func.isRequired,
 }
 
 export default observer(AreaZuletztMutiert)

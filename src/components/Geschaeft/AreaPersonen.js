@@ -3,6 +3,7 @@ import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'
@@ -146,47 +147,49 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
     : StyledFormcontrolStaticView
 
   return (
-    <Container>
-      <AreaPersonenDiv>
-        <Title>Personen</Title>
-        {!(isPdf && !geschaeft.verantwortlich) && (
-          <Subtitle>Verantwortlich</Subtitle>
-        )}
-        {!(isPdf && !geschaeft.verantwortlich) && (
-          <Verantwortlich>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.verantwortlich || ''}
-              name="verantwortlich"
-              onChange={change}
-              bsSize="small"
-              tabIndex={1 + nrOfFieldsBeforePersonen}
-            >
-              {verwantwortlichOptions(interneOptions)}
-            </FormControl>
-          </Verantwortlich>
-        )}
-        {!(isPdf && !geschaeft.verantwortlich) && (
-          <VerantwortlichName>
-            <StyledFormcontrolStatic>
-              {verantwortlichData(geschaeft, interneOptions, isPdf)}
-            </StyledFormcontrolStatic>
-          </VerantwortlichName>
-        )}
-        {!(isPdf && geschaeft.interne.length === 0) && (
-          <Subtitle>Interne Kontakte</Subtitle>
-        )}
-        {!(isPdf && geschaeft.interne.length === 0) && (
-          <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />
-        )}
-        {!(isPdf && geschaeft.externe.length === 0) && (
-          <Subtitle>Externe Kontakte</Subtitle>
-        )}
-        {!(isPdf && geschaeft.externe.length === 0) && (
-          <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />
-        )}
-      </AreaPersonenDiv>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <AreaPersonenDiv>
+          <Title>Personen</Title>
+          {!(isPdf && !geschaeft.verantwortlich) && (
+            <Subtitle>Verantwortlich</Subtitle>
+          )}
+          {!(isPdf && !geschaeft.verantwortlich) && (
+            <Verantwortlich>
+              <FormControl
+                componentClass="select"
+                value={geschaeft.verantwortlich || ''}
+                name="verantwortlich"
+                onChange={change}
+                bsSize="small"
+                tabIndex={1 + nrOfFieldsBeforePersonen}
+              >
+                {verwantwortlichOptions(interneOptions)}
+              </FormControl>
+            </Verantwortlich>
+          )}
+          {!(isPdf && !geschaeft.verantwortlich) && (
+            <VerantwortlichName>
+              <StyledFormcontrolStatic>
+                {verantwortlichData(geschaeft, interneOptions, isPdf)}
+              </StyledFormcontrolStatic>
+            </VerantwortlichName>
+          )}
+          {!(isPdf && geschaeft.interne.length === 0) && (
+            <Subtitle>Interne Kontakte</Subtitle>
+          )}
+          {!(isPdf && geschaeft.interne.length === 0) && (
+            <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />
+          )}
+          {!(isPdf && geschaeft.externe.length === 0) && (
+            <Subtitle>Externe Kontakte</Subtitle>
+          )}
+          {!(isPdf && geschaeft.externe.length === 0) && (
+            <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />
+          )}
+        </AreaPersonenDiv>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

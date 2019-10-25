@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import SelectInput from './SelectInput'
 import Input from './Input'
@@ -72,114 +73,116 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
   const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
 
   return (
-    <Container>
-      <Title>Geschäft</Title>
-      <FieldGegenstand>
-        <ControlLabel>Gegenstand</ControlLabel>
-        <Input
-          name="gegenstand"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={1 + firstTabIndex}
-        />
-      </FieldGegenstand>
-      <FieldAusloeser>
-        <ControlLabel>Auslöser</ControlLabel>
-        <Input
-          name="ausloeser"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={2 + firstTabIndex}
-        />
-      </FieldAusloeser>
-      <FieldOrt>
-        <ControlLabel>Ort</ControlLabel>
-        <Input
-          name="ort"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={3 + firstTabIndex}
-        />
-      </FieldOrt>
-      <FieldGeschaeftsart>
-        <ControlLabel>Geschäftsart</ControlLabel>
-        <SelectInput
-          name="geschaeftsart"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={4 + firstTabIndex}
-          options={geschaeftsartOptionsComponent}
-        />
-      </FieldGeschaeftsart>
-      <FieldStatus>
-        <ControlLabel>Status</ControlLabel>
-        <SelectInput
-          name="status"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={5 + firstTabIndex}
-          options={createOptions(statusOptions)}
-        />
-      </FieldStatus>
-      <FieldAbteilung>
-        <ControlLabel>Abteilung</ControlLabel>
-        <SelectInput
-          name="abteilung"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={6 + firstTabIndex}
-          options={createOptions(abteilungOptions)}
-        />
-      </FieldAbteilung>
-      <FieldDetails>
-        <ControlLabel>Details</ControlLabel>
-        <Input
-          name="details"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={7 + firstTabIndex}
-        />
-      </FieldDetails>
-      <FieldNaechsterSchritt>
-        <ControlLabel>Nächster Schritt</ControlLabel>
-        <Input
-          name="naechsterSchritt"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={8 + firstTabIndex}
-        />
-      </FieldNaechsterSchritt>
-      <FieldVermerk>
-        <ControlLabel>Vermerk</ControlLabel>
-        <Input
-          name="vermerk"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={9 + firstTabIndex}
-        />
-      </FieldVermerk>
-      <FieldVermerkIntern>
-        <ControlLabel>
-          Vermerk intern (in Berichten nicht angezeigt)
-        </ControlLabel>
-        <Input
-          name="vermerkIntern"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={10 + firstTabIndex}
-        />
-      </FieldVermerkIntern>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <Title>Geschäft</Title>
+        <FieldGegenstand>
+          <ControlLabel>Gegenstand</ControlLabel>
+          <Input
+            name="gegenstand"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={1 + firstTabIndex}
+          />
+        </FieldGegenstand>
+        <FieldAusloeser>
+          <ControlLabel>Auslöser</ControlLabel>
+          <Input
+            name="ausloeser"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={2 + firstTabIndex}
+          />
+        </FieldAusloeser>
+        <FieldOrt>
+          <ControlLabel>Ort</ControlLabel>
+          <Input
+            name="ort"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={3 + firstTabIndex}
+          />
+        </FieldOrt>
+        <FieldGeschaeftsart>
+          <ControlLabel>Geschäftsart</ControlLabel>
+          <SelectInput
+            name="geschaeftsart"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={4 + firstTabIndex}
+            options={geschaeftsartOptionsComponent}
+          />
+        </FieldGeschaeftsart>
+        <FieldStatus>
+          <ControlLabel>Status</ControlLabel>
+          <SelectInput
+            name="status"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={5 + firstTabIndex}
+            options={createOptions(statusOptions)}
+          />
+        </FieldStatus>
+        <FieldAbteilung>
+          <ControlLabel>Abteilung</ControlLabel>
+          <SelectInput
+            name="abteilung"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={6 + firstTabIndex}
+            options={createOptions(abteilungOptions)}
+          />
+        </FieldAbteilung>
+        <FieldDetails>
+          <ControlLabel>Details</ControlLabel>
+          <Input
+            name="details"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={7 + firstTabIndex}
+          />
+        </FieldDetails>
+        <FieldNaechsterSchritt>
+          <ControlLabel>Nächster Schritt</ControlLabel>
+          <Input
+            name="naechsterSchritt"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={8 + firstTabIndex}
+          />
+        </FieldNaechsterSchritt>
+        <FieldVermerk>
+          <ControlLabel>Vermerk</ControlLabel>
+          <Input
+            name="vermerk"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={9 + firstTabIndex}
+          />
+        </FieldVermerk>
+        <FieldVermerkIntern>
+          <ControlLabel>
+            Vermerk intern (in Berichten nicht angezeigt)
+          </ControlLabel>
+          <Input
+            name="vermerkIntern"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={10 + firstTabIndex}
+          />
+        </FieldVermerkIntern>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

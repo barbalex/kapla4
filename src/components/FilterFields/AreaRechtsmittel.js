@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import ComparatorSelector from './ComparatorSelector'
 import createOptions from '../../src/createOptions'
@@ -59,91 +59,84 @@ const AreaRechtsmittel = ({
   const store = useContext(storeContext)
 
   return (
-    <Container>
-      <Title>Rekurs / Beschwerde</Title>
-      <FieldInstanz>
-        <ControlLabel>Instanz</ControlLabel>
-        <InputGroup>
-          <ComparatorSelector
-            name="rechtsmittelInstanz"
+    <ErrorBoundary>
+      <Container>
+        <Title>Rekurs / Beschwerde</Title>
+        <FieldInstanz>
+          <ControlLabel>Instanz</ControlLabel>
+          <InputGroup>
+            <ComparatorSelector
+              name="rechtsmittelInstanz"
+              changeComparator={changeComparator}
+            />
+            <FormControl
+              componentClass="select"
+              value={values.rechtsmittelInstanz || ''}
+              name="rechtsmittelInstanz"
+              onChange={change}
+              tabIndex={1 + firstTabIndex}
+            >
+              {createOptions(store.geschaefte.rechtsmittelInstanzOptions)}
+            </FormControl>
+          </InputGroup>
+        </FieldInstanz>
+        <FieldEntscheidNr>
+          <ControlLabel>Entscheid Nr.</ControlLabel>
+          <InputGroup>
+            <ComparatorSelector
+              name="rechtsmittelEntscheidNr"
+              changeComparator={changeComparator}
+            />
+            <FormControl
+              type="text"
+              value={values.rechtsmittelEntscheidNr || ''}
+              name="rechtsmittelEntscheidNr"
+              onChange={change}
+              tabIndex={2 + firstTabIndex}
+            />
+          </InputGroup>
+        </FieldEntscheidNr>
+        <FieldEntscheidDatum>
+          <DateField
+            name="rechtsmittelEntscheidDatum"
+            label="Entscheid Datum"
+            tabIndex={3 + firstTabIndex}
+            values={values}
+            change={change}
             changeComparator={changeComparator}
           />
-          <FormControl
-            componentClass="select"
-            value={values.rechtsmittelInstanz || ''}
-            name="rechtsmittelInstanz"
-            onChange={change}
-            tabIndex={1 + firstTabIndex}
-          >
-            {createOptions(store.geschaefte.rechtsmittelInstanzOptions)}
-          </FormControl>
-        </InputGroup>
-      </FieldInstanz>
-      <FieldEntscheidNr>
-        <ControlLabel>Entscheid Nr.</ControlLabel>
-        <InputGroup>
-          <ComparatorSelector
-            name="rechtsmittelEntscheidNr"
+        </FieldEntscheidDatum>
+        <FieldErledigung>
+          <ControlLabel>Erledigung</ControlLabel>
+          <InputGroup>
+            <ComparatorSelector
+              name="rechtsmittelErledigung"
+              changeComparator={changeComparator}
+            />
+            <FormControl
+              componentClass="select"
+              value={values.rechtsmittelErledigung || ''}
+              name="rechtsmittelErledigung"
+              onChange={change}
+              tabIndex={4 + firstTabIndex}
+            >
+              {createOptions(store.geschaefte.rechtsmittelErledigungOptions)}
+            </FormControl>
+          </InputGroup>
+        </FieldErledigung>
+        <FieldRechtsmittelTxt>
+          <ControlLabel>Bemerkungen</ControlLabel>
+          <Input
+            name="rechtsmittelTxt"
+            change={change}
+            values={values}
             changeComparator={changeComparator}
+            tabIndex={5 + firstTabIndex}
           />
-          <FormControl
-            type="text"
-            value={values.rechtsmittelEntscheidNr || ''}
-            name="rechtsmittelEntscheidNr"
-            onChange={change}
-            tabIndex={2 + firstTabIndex}
-          />
-        </InputGroup>
-      </FieldEntscheidNr>
-      <FieldEntscheidDatum>
-        <DateField
-          name="rechtsmittelEntscheidDatum"
-          label="Entscheid Datum"
-          tabIndex={3 + firstTabIndex}
-          values={values}
-          change={change}
-          changeComparator={changeComparator}
-        />
-      </FieldEntscheidDatum>
-      <FieldErledigung>
-        <ControlLabel>Erledigung</ControlLabel>
-        <InputGroup>
-          <ComparatorSelector
-            name="rechtsmittelErledigung"
-            changeComparator={changeComparator}
-          />
-          <FormControl
-            componentClass="select"
-            value={values.rechtsmittelErledigung || ''}
-            name="rechtsmittelErledigung"
-            onChange={change}
-            tabIndex={4 + firstTabIndex}
-          >
-            {createOptions(store.geschaefte.rechtsmittelErledigungOptions)}
-          </FormControl>
-        </InputGroup>
-      </FieldErledigung>
-      <FieldRechtsmittelTxt>
-        <ControlLabel>Bemerkungen</ControlLabel>
-        <Input
-          name="rechtsmittelTxt"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={5 + firstTabIndex}
-        />
-      </FieldRechtsmittelTxt>
-    </Container>
+        </FieldRechtsmittelTxt>
+      </Container>
+    </ErrorBoundary>
   )
-}
-
-AreaRechtsmittel.displayName = 'AreaRechtsmittel'
-
-AreaRechtsmittel.propTypes = {
-  values: PropTypes.object,
-  firstTabIndex: PropTypes.number.isRequired,
-  change: PropTypes.func.isRequired,
-  changeComparator: PropTypes.func.isRequired,
 }
 
 export default observer(AreaRechtsmittel)

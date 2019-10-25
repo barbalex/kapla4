@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import Input from './Input'
 import SelectInput from './SelectInput'
@@ -118,106 +119,108 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
   const geschaeftsartOptionsComponent = createOptions(aktenstandortOptions)
 
   return (
-    <Container>
-      <Title>Nummern</Title>
-      <LabelIdGeschaeft>ID</LabelIdGeschaeft>
-      <FieldIdGeschaeft>
-        <Input
-          type="number"
-          name="idGeschaeft"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={1 + firstTabIndex}
-        />
-      </FieldIdGeschaeft>
-      <LabelGekoNr>Geko</LabelGekoNr>
-      <FieldGekoNr>
-        <Input
-          type="text"
-          name="gekoNr"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={2 + firstTabIndex}
-        />
-      </FieldGekoNr>
-      <LabelJahre>
-        <LabelNrDiv>Jahr</LabelNrDiv>
-      </LabelJahre>
-      <LabelEntscheidAwel>AWEL</LabelEntscheidAwel>
-      <FieldEntscheidAwel>
-        <Input
-          name="entscheidAwel"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={3 + firstTabIndex}
-        />
-      </FieldEntscheidAwel>
-      <LabelEntscheidBdv>BDV</LabelEntscheidBdv>
-      <FieldEntscheidBdv>
-        <Input
-          name="entscheidBdv"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={5 + firstTabIndex}
-        />
-      </FieldEntscheidBdv>
-      <LabelEntscheidRrb>RRB</LabelEntscheidRrb>
-      <FieldEntscheidRrb>
-        <Input
-          name="entscheidRrb"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={7 + firstTabIndex}
-        />
-      </FieldEntscheidRrb>
-      <LabelEntscheidBvv>BVV</LabelEntscheidBvv>
-      <FieldEntscheidBvv>
-        <Input
-          name="entscheidBvv"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={9 + firstTabIndex}
-        />
-      </FieldEntscheidBvv>
-      <LabelEntscheidKr>KR</LabelEntscheidKr>
-      <FieldEntscheidKr>
-        <Input
-          name="entscheidKr"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={11 + firstTabIndex}
-        />
-      </FieldEntscheidKr>
-      <FieldAktenstandort>
-        <ControlLabel>Aktenstandort</ControlLabel>
-        <SelectInput
-          name="aktenstandort"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={13 + firstTabIndex}
-          options={geschaeftsartOptionsComponent}
-        />
-      </FieldAktenstandort>
-      <FieldAktennummer>
-        <ControlLabel>Nr.</ControlLabel>
-        <Input
-          type="text"
-          name="aktennummer"
-          change={change}
-          values={values}
-          changeComparator={changeComparator}
-          tabIndex={14 + firstTabIndex}
-        />
-      </FieldAktennummer>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <Title>Nummern</Title>
+        <LabelIdGeschaeft>ID</LabelIdGeschaeft>
+        <FieldIdGeschaeft>
+          <Input
+            type="number"
+            name="idGeschaeft"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={1 + firstTabIndex}
+          />
+        </FieldIdGeschaeft>
+        <LabelGekoNr>Geko</LabelGekoNr>
+        <FieldGekoNr>
+          <Input
+            type="text"
+            name="gekoNr"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={2 + firstTabIndex}
+          />
+        </FieldGekoNr>
+        <LabelJahre>
+          <LabelNrDiv>Jahr</LabelNrDiv>
+        </LabelJahre>
+        <LabelEntscheidAwel>AWEL</LabelEntscheidAwel>
+        <FieldEntscheidAwel>
+          <Input
+            name="entscheidAwel"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={3 + firstTabIndex}
+          />
+        </FieldEntscheidAwel>
+        <LabelEntscheidBdv>BDV</LabelEntscheidBdv>
+        <FieldEntscheidBdv>
+          <Input
+            name="entscheidBdv"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={5 + firstTabIndex}
+          />
+        </FieldEntscheidBdv>
+        <LabelEntscheidRrb>RRB</LabelEntscheidRrb>
+        <FieldEntscheidRrb>
+          <Input
+            name="entscheidRrb"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={7 + firstTabIndex}
+          />
+        </FieldEntscheidRrb>
+        <LabelEntscheidBvv>BVV</LabelEntscheidBvv>
+        <FieldEntscheidBvv>
+          <Input
+            name="entscheidBvv"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={9 + firstTabIndex}
+          />
+        </FieldEntscheidBvv>
+        <LabelEntscheidKr>KR</LabelEntscheidKr>
+        <FieldEntscheidKr>
+          <Input
+            name="entscheidKr"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={11 + firstTabIndex}
+          />
+        </FieldEntscheidKr>
+        <FieldAktenstandort>
+          <ControlLabel>Aktenstandort</ControlLabel>
+          <SelectInput
+            name="aktenstandort"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={13 + firstTabIndex}
+            options={geschaeftsartOptionsComponent}
+          />
+        </FieldAktenstandort>
+        <FieldAktennummer>
+          <ControlLabel>Nr.</ControlLabel>
+          <Input
+            type="text"
+            name="aktennummer"
+            change={change}
+            values={values}
+            changeComparator={changeComparator}
+            tabIndex={14 + firstTabIndex}
+          />
+        </FieldAktennummer>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

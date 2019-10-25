@@ -2,6 +2,7 @@ import React from 'react'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import Input from './Input'
 
@@ -27,20 +28,22 @@ const FieldVorgeschaeft = styled.div`
 `
 
 const AreaHistory = ({ values, change, changeComparator, firstTabIndex }) => (
-  <Container>
-    <Title>Historie</Title>
-    <ControlLabel>Vorgeschäft</ControlLabel>
-    <FieldVorgeschaeft>
-      <Input
-        name="idVorgeschaeft"
-        type="number"
-        change={change}
-        values={values}
-        changeComparator={changeComparator}
-        tabIndex={1 + firstTabIndex}
-      />
-    </FieldVorgeschaeft>
-  </Container>
+  <ErrorBoundary>
+    <Container>
+      <Title>Historie</Title>
+      <ControlLabel>Vorgeschäft</ControlLabel>
+      <FieldVorgeschaeft>
+        <Input
+          name="idVorgeschaeft"
+          type="number"
+          change={change}
+          values={values}
+          changeComparator={changeComparator}
+          tabIndex={1 + firstTabIndex}
+        />
+      </FieldVorgeschaeft>
+    </Container>
+  </ErrorBoundary>
 )
 
 export default observer(AreaHistory)

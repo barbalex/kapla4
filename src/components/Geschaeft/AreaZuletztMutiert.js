@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 
@@ -52,9 +53,11 @@ const AreaZuletztMutiert = () => {
   }
 
   return (
-    <Container>
-      <Field data-ispdf={isPdf}>{zuletztMutiertText}</Field>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <Field data-ispdf={isPdf}>{zuletztMutiertText}</Field>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

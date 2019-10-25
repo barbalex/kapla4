@@ -3,6 +3,7 @@ import { FormControl, ControlLabel } from 'react-bootstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import DateField from './DateField'
 import storeContext from '../../storeContext'
@@ -66,92 +67,94 @@ const AreaFristen = ({
   }
 
   return (
-    <Container data-ispdf={isPdf}>
-      <Title>Fristen</Title>
-      {!(!geschaeft.datumEingangAwel && isPdf) && (
-        <DateField
-          name="datumEingangAwel"
-          label="Datum des Eingangs im AWEL"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={1 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {!(!geschaeft.fristAwel && isPdf) && (
-        <DateField
-          name="fristAwel"
-          label="Frist für Erledigung durch AWEL"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={2 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {!(!geschaeft.fristAmtschef && isPdf) && (
-        <DateField
-          name="fristAmtschef"
-          label="Frist Vorlage an Amtschef"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={3 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {!(!geschaeft.fristAbteilung && isPdf) && (
-        <DateField
-          name="fristAbteilung"
-          label="Frist für Erledigung durch Abteilung"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={4 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {!(!geschaeft.fristMitarbeiter && isPdf) && (
-        <DateField
-          name="fristMitarbeiter"
-          label="Frist Erledigung nächster Schritt Re"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={5 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {(!!geschaeft.dauerBisFristMitarbeiter ||
-        geschaeft.dauerBisFristMitarbeiter === 0) && (
-        <FieldFristDauerBisMitarbeiter>
-          <ControlLabel>Tage bis Frist Mitarbeiter</ControlLabel>
-          <StyledFristDauerBisMitarbeiter
-            color={colorDauerBisFristMitarbeiter}
-            data-ispdf={isPdf}
-            className="formControlStatic"
-          >
-            {geschaeft.dauerBisFristMitarbeiter}
-          </StyledFristDauerBisMitarbeiter>
-        </FieldFristDauerBisMitarbeiter>
-      )}
-      {!(!geschaeft.datumAusgangAwel && isPdf) && (
-        <DateField
-          name="datumAusgangAwel"
-          label="Datum Ausgang AWEL (erledigt)"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={6 + nrOfFieldsBeforeFristen}
-        />
-      )}
-      {!(!geschaeft.fristDirektion && isPdf) && (
-        <DateField
-          name="fristDirektion"
-          label="Frist für Erledigung durch Direktion"
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-          tabIndex={7 + nrOfFieldsBeforeFristen}
-        />
-      )}
-    </Container>
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <Title>Fristen</Title>
+        {!(!geschaeft.datumEingangAwel && isPdf) && (
+          <DateField
+            name="datumEingangAwel"
+            label="Datum des Eingangs im AWEL"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={1 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!(!geschaeft.fristAwel && isPdf) && (
+          <DateField
+            name="fristAwel"
+            label="Frist für Erledigung durch AWEL"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={2 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!(!geschaeft.fristAmtschef && isPdf) && (
+          <DateField
+            name="fristAmtschef"
+            label="Frist Vorlage an Amtschef"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={3 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!(!geschaeft.fristAbteilung && isPdf) && (
+          <DateField
+            name="fristAbteilung"
+            label="Frist für Erledigung durch Abteilung"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={4 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!(!geschaeft.fristMitarbeiter && isPdf) && (
+          <DateField
+            name="fristMitarbeiter"
+            label="Frist Erledigung nächster Schritt Re"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={5 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {(!!geschaeft.dauerBisFristMitarbeiter ||
+          geschaeft.dauerBisFristMitarbeiter === 0) && (
+          <FieldFristDauerBisMitarbeiter>
+            <ControlLabel>Tage bis Frist Mitarbeiter</ControlLabel>
+            <StyledFristDauerBisMitarbeiter
+              color={colorDauerBisFristMitarbeiter}
+              data-ispdf={isPdf}
+              className="formControlStatic"
+            >
+              {geschaeft.dauerBisFristMitarbeiter}
+            </StyledFristDauerBisMitarbeiter>
+          </FieldFristDauerBisMitarbeiter>
+        )}
+        {!(!geschaeft.datumAusgangAwel && isPdf) && (
+          <DateField
+            name="datumAusgangAwel"
+            label="Datum Ausgang AWEL (erledigt)"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={6 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!(!geschaeft.fristDirektion && isPdf) && (
+          <DateField
+            name="fristDirektion"
+            label="Frist für Erledigung durch Direktion"
+            change={change}
+            blur={blur}
+            onChangeDatePicker={onChangeDatePicker}
+            tabIndex={7 + nrOfFieldsBeforeFristen}
+          />
+        )}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

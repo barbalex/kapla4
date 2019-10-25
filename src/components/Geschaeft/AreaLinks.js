@@ -4,6 +4,7 @@ import { FaRegTimesCircle } from 'react-icons/fa'
 import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 
@@ -101,59 +102,61 @@ const AreaLinks = () => {
   ])
 
   return (
-    <Container data-ispdf={isPdf}>
-      <Title>Links</Title>
-      <Links data-ispdf={isPdf}>
-        {myLinks.map(link => (
-          <Field key={`${link.idGeschaeft}${link.url}`} data-ispdf={isPdf}>
-            <UrlDiv>
-              <a
-                href={link.url}
-                onClick={event => {
-                  event.preventDefault()
-                  shell.openItem(link.url)
-                }}
-              >
-                {link.url}
-              </a>
-            </UrlDiv>
-            <RemoveIconContainer data-ispdf={isPdf}>
-              <RemoveIcon
-                onClick={() => linkRemove(activeId, link.url)}
-                title="Link entfernen"
-              />
-            </RemoveIconContainer>
-          </Field>
-        ))}
-      </Links>
-      <DropzoneContainer data-ispdf={isPdf}>
-        <StyledDropzone onDrop={onDrop}>
-          {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
-            if (isDragActive) {
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <Title>Links</Title>
+        <Links data-ispdf={isPdf}>
+          {myLinks.map(link => (
+            <Field key={`${link.idGeschaeft}${link.url}`} data-ispdf={isPdf}>
+              <UrlDiv>
+                <a
+                  href={link.url}
+                  onClick={event => {
+                    event.preventDefault()
+                    shell.openItem(link.url)
+                  }}
+                >
+                  {link.url}
+                </a>
+              </UrlDiv>
+              <RemoveIconContainer data-ispdf={isPdf}>
+                <RemoveIcon
+                  onClick={() => linkRemove(activeId, link.url)}
+                  title="Link entfernen"
+                />
+              </RemoveIconContainer>
+            </Field>
+          ))}
+        </Links>
+        <DropzoneContainer data-ispdf={isPdf}>
+          <StyledDropzone onDrop={onDrop}>
+            {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
+              if (isDragActive) {
+                return (
+                  <DropzoneInnerDiv {...getRootProps()}>
+                    <div>jetzt fallen lassen...</div>
+                  </DropzoneInnerDiv>
+                )
+              }
+              if (isDragReject) {
+                return (
+                  <DropzoneInnerDiv {...getRootProps()}>
+                    <div>Hm. Da ging etwas schief :-(</div>
+                  </DropzoneInnerDiv>
+                )
+              }
               return (
                 <DropzoneInnerDiv {...getRootProps()}>
-                  <div>jetzt fallen lassen...</div>
+                  <input {...getInputProps()} />
+                  <div>Datei hierhin ziehen...</div>
+                  <div>...oder klicken, um sie zu wählen.</div>
                 </DropzoneInnerDiv>
               )
-            }
-            if (isDragReject) {
-              return (
-                <DropzoneInnerDiv {...getRootProps()}>
-                  <div>Hm. Da ging etwas schief :-(</div>
-                </DropzoneInnerDiv>
-              )
-            }
-            return (
-              <DropzoneInnerDiv {...getRootProps()}>
-                <input {...getInputProps()} />
-                <div>Datei hierhin ziehen...</div>
-                <div>...oder klicken, um sie zu wählen.</div>
-              </DropzoneInnerDiv>
-            )
-          }}
-        </StyledDropzone>
-      </DropzoneContainer>
-    </Container>
+            }}
+          </StyledDropzone>
+        </DropzoneContainer>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

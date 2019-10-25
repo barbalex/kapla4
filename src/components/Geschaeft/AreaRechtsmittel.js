@@ -3,6 +3,7 @@ import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import DateField from './DateField'
 import storeContext from '../../storeContext'
@@ -82,77 +83,79 @@ const AreaRechtsmittel = ({
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
 
   return (
-    <Container data-ispdf={isPdf}>
-      <Title>Rekurs / Beschwerde</Title>
-      {!(isPdf && !geschaeft.rechtsmittelInstanz) && (
-        <FieldInstanz>
-          <ControlLabel>Instanz</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.rechtsmittelInstanz || ''}
-            name="rechtsmittelInstanz"
-            onChange={change}
-            bsSize="small"
-            tabIndex={1 + nrOfFieldsBeforePv}
-          >
-            {createOptions(rechtsmittelInstanzOptions)}
-          </FormControl>
-        </FieldInstanz>
-      )}
-      {!(isPdf && !geschaeft.rechtsmittelEntscheidNr) && (
-        <FieldEntscheidNr>
-          <ControlLabel>Entscheid Nr.</ControlLabel>
-          <FormControl
-            type="text"
-            value={geschaeft.rechtsmittelEntscheidNr || ''}
-            name="rechtsmittelEntscheidNr"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={2 + nrOfFieldsBeforePv}
-          />
-        </FieldEntscheidNr>
-      )}
-      {!(isPdf && !geschaeft.rechtsmittelEntscheidDatum) && (
-        <FieldEntscheidDatum>
-          <DateField
-            name="rechtsmittelEntscheidDatum"
-            label="Entscheid Datum"
-            change={change}
-            blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
-            tabIndex={3 + nrOfFieldsBeforePv}
-          />
-        </FieldEntscheidDatum>
-      )}
-      {!(isPdf && !geschaeft.rechtsmittelErledigung) && (
-        <FieldErledigung>
-          <ControlLabel>Erledigung</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.rechtsmittelErledigung || ''}
-            name="rechtsmittelErledigung"
-            onChange={change}
-            bsSize="small"
-            tabIndex={4 + nrOfFieldsBeforePv}
-          >
-            {createOptions(rechtsmittelErledigungOptions)}
-          </FormControl>
-        </FieldErledigung>
-      )}
-      {!(isPdf && !geschaeft.rechtsmittelTxt) && (
-        <FieldRechtsmittelTxt>
-          <ControlLabel>Bemerkungen</ControlLabel>
-          <StyledTextarea
-            value={geschaeft.rechtsmittelTxt || ''}
-            name="rechtsmittelTxt"
-            onChange={change}
-            onBlur={blur}
-            tabIndex={5 + nrOfFieldsBeforePv}
-          />
-        </FieldRechtsmittelTxt>
-      )}
-    </Container>
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <Title>Rekurs / Beschwerde</Title>
+        {!(isPdf && !geschaeft.rechtsmittelInstanz) && (
+          <FieldInstanz>
+            <ControlLabel>Instanz</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.rechtsmittelInstanz || ''}
+              name="rechtsmittelInstanz"
+              onChange={change}
+              bsSize="small"
+              tabIndex={1 + nrOfFieldsBeforePv}
+            >
+              {createOptions(rechtsmittelInstanzOptions)}
+            </FormControl>
+          </FieldInstanz>
+        )}
+        {!(isPdf && !geschaeft.rechtsmittelEntscheidNr) && (
+          <FieldEntscheidNr>
+            <ControlLabel>Entscheid Nr.</ControlLabel>
+            <FormControl
+              type="text"
+              value={geschaeft.rechtsmittelEntscheidNr || ''}
+              name="rechtsmittelEntscheidNr"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={2 + nrOfFieldsBeforePv}
+            />
+          </FieldEntscheidNr>
+        )}
+        {!(isPdf && !geschaeft.rechtsmittelEntscheidDatum) && (
+          <FieldEntscheidDatum>
+            <DateField
+              name="rechtsmittelEntscheidDatum"
+              label="Entscheid Datum"
+              change={change}
+              blur={blur}
+              onChangeDatePicker={onChangeDatePicker}
+              tabIndex={3 + nrOfFieldsBeforePv}
+            />
+          </FieldEntscheidDatum>
+        )}
+        {!(isPdf && !geschaeft.rechtsmittelErledigung) && (
+          <FieldErledigung>
+            <ControlLabel>Erledigung</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.rechtsmittelErledigung || ''}
+              name="rechtsmittelErledigung"
+              onChange={change}
+              bsSize="small"
+              tabIndex={4 + nrOfFieldsBeforePv}
+            >
+              {createOptions(rechtsmittelErledigungOptions)}
+            </FormControl>
+          </FieldErledigung>
+        )}
+        {!(isPdf && !geschaeft.rechtsmittelTxt) && (
+          <FieldRechtsmittelTxt>
+            <ControlLabel>Bemerkungen</ControlLabel>
+            <StyledTextarea
+              value={geschaeft.rechtsmittelTxt || ''}
+              name="rechtsmittelTxt"
+              onChange={change}
+              onBlur={blur}
+              tabIndex={5 + nrOfFieldsBeforePv}
+            />
+          </FieldRechtsmittelTxt>
+        )}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

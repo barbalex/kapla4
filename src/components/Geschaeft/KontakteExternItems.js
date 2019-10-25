@@ -4,6 +4,7 @@ import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 
@@ -100,23 +101,25 @@ const GeschaefteKontakteExtern = () => {
   })
 
   return (
-    <Container>
-      {gKISorted.map(gKE => (
-        <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
-          <Field data-ispdf={isPdf}>
-            {verantwortlichData(gKE, externeOptions)}
-          </Field>
-          <RemoveIconContainer data-ispdf={isPdf}>
-            <RemoveIcon
-              onClick={() =>
-                geschaeftKontaktExternRemove(activeId, gKE.idKontakt)
-              }
-              title={titleText(gKE.idKontakt, externeOptions)}
-            />
-          </RemoveIconContainer>
-        </Row>
-      ))}
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        {gKISorted.map(gKE => (
+          <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
+            <Field data-ispdf={isPdf}>
+              {verantwortlichData(gKE, externeOptions)}
+            </Field>
+            <RemoveIconContainer data-ispdf={isPdf}>
+              <RemoveIcon
+                onClick={() =>
+                  geschaeftKontaktExternRemove(activeId, gKE.idKontakt)
+                }
+                title={titleText(gKE.idKontakt, externeOptions)}
+              />
+            </RemoveIconContainer>
+          </Row>
+        ))}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

@@ -3,6 +3,7 @@ import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import KontakteInternItems from './KontakteInternItems'
 import storeContext from '../../storeContext'
@@ -68,29 +69,31 @@ const GeschaefteKontakteIntern = ({ tabIndex }) => {
   const [value, setValue] = useState('')
 
   return (
-    <Container data-ispdf={isPdf}>
-      <KontakteInternItems />
-      <RowfVDropdown data-ispdf={isPdf}>
-        <FvDropdown data-ispdf={isPdf}>
-          <FormControl
-            componentClass="select"
-            bsSize="small"
-            onChange={e => {
-              const idKontakt = e.target.value
-              setValue(idKontakt)
-              geschaeftKontaktInternNewCreate(activeId, idKontakt)
-              // need to empty dropdown
-              setTimeout(() => setValue(''), 500)
-            }}
-            value={value}
-            title="Neuen Kontakt hinzufügen"
-            tabIndex={tabIndex}
-          >
-            {optionsList(interneOptions, geschaefteKontakteIntern, activeId)}
-          </FormControl>
-        </FvDropdown>
-      </RowfVDropdown>
-    </Container>
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <KontakteInternItems />
+        <RowfVDropdown data-ispdf={isPdf}>
+          <FvDropdown data-ispdf={isPdf}>
+            <FormControl
+              componentClass="select"
+              bsSize="small"
+              onChange={e => {
+                const idKontakt = e.target.value
+                setValue(idKontakt)
+                geschaeftKontaktInternNewCreate(activeId, idKontakt)
+                // need to empty dropdown
+                setTimeout(() => setValue(''), 500)
+              }}
+              value={value}
+              title="Neuen Kontakt hinzufügen"
+              tabIndex={tabIndex}
+            >
+              {optionsList(interneOptions, geschaefteKontakteIntern, activeId)}
+            </FormControl>
+          </FvDropdown>
+        </RowfVDropdown>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

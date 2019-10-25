@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import AreaHistoryRows from './AreaHistoryRows'
 import storeContext from '../../storeContext'
@@ -47,27 +48,29 @@ const AreaHistory = ({ blur, change }) => {
   const isPdf = path === '/geschaeftPdf'
 
   return (
-    <Container data-ispdf={isPdf}>
-      <Title>Historie</Title>
-      <LabelVorgeschaeft data-ispdf={isPdf}>Vorgeschäft</LabelVorgeschaeft>
-      <FieldVorgeschaeft>
-        <FormControl
-          type="number"
-          value={
-            geschaeft && geschaeft.idVorgeschaeft
-              ? geschaeft.idVorgeschaeft
-              : ''
-          }
-          name="idVorgeschaeft"
-          onChange={change}
-          onBlur={blur}
-          bsSize="small"
-          placeholder={isPdf ? null : 'ID'}
-          tabIndex={99} // eslint-disable-line
-        />
-      </FieldVorgeschaeft>
-      <AreaHistoryRows />
-    </Container>
+    <ErrorBoundary>
+      <Container data-ispdf={isPdf}>
+        <Title>Historie</Title>
+        <LabelVorgeschaeft data-ispdf={isPdf}>Vorgeschäft</LabelVorgeschaeft>
+        <FieldVorgeschaeft>
+          <FormControl
+            type="number"
+            value={
+              geschaeft && geschaeft.idVorgeschaeft
+                ? geschaeft.idVorgeschaeft
+                : ''
+            }
+            name="idVorgeschaeft"
+            onChange={change}
+            onBlur={blur}
+            bsSize="small"
+            placeholder={isPdf ? null : 'ID'}
+            tabIndex={99} // eslint-disable-line
+          />
+        </FieldVorgeschaeft>
+        <AreaHistoryRows />
+      </Container>
+    </ErrorBoundary>
   )
 }
 

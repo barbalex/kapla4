@@ -3,6 +3,7 @@ import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
@@ -212,141 +213,143 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
   const geschaeftsartOptionsComponent = createOptions(aktenstandortOptions)
 
   return (
-    <Container>
-      <AreaNummernTitle>Nummern</AreaNummernTitle>
-      <LabelNr>
-        <LabelNrDiv>Nr.</LabelNrDiv>
-      </LabelNr>
-      <LabelIdGeschaeft data-ispdf={isPdf}>ID</LabelIdGeschaeft>
-      <FieldIdGeschaeft data-ispdf={isPdf}>
-        <InputIdGeschaeft
-          type="number"
-          value={geschaeft.idGeschaeft}
-          bsSize="small"
-          disabled
-        />
-      </FieldIdGeschaeft>
-      {!(isPdf && !gekoValuesString) && (
-        <LabelGekoNr data-ispdf={isPdf}>Geko</LabelGekoNr>
-      )}
-      {!(isPdf && !gekoValuesString) && (
-        <FieldGekoNr data-ispdf={isPdf}>
-          {isPdf && (
-            <StyledTextarea
-              value={gekoValuesString}
-              name="gekoNr"
-              tabIndex={1 + tabsToAdd}
+    <ErrorBoundary>
+      <Container>
+        <AreaNummernTitle>Nummern</AreaNummernTitle>
+        <LabelNr>
+          <LabelNrDiv>Nr.</LabelNrDiv>
+        </LabelNr>
+        <LabelIdGeschaeft data-ispdf={isPdf}>ID</LabelIdGeschaeft>
+        <FieldIdGeschaeft data-ispdf={isPdf}>
+          <InputIdGeschaeft
+            type="number"
+            value={geschaeft.idGeschaeft}
+            bsSize="small"
+            disabled
+          />
+        </FieldIdGeschaeft>
+        {!(isPdf && !gekoValuesString) && (
+          <LabelGekoNr data-ispdf={isPdf}>Geko</LabelGekoNr>
+        )}
+        {!(isPdf && !gekoValuesString) && (
+          <FieldGekoNr data-ispdf={isPdf}>
+            {isPdf && (
+              <StyledTextarea
+                value={gekoValuesString}
+                name="gekoNr"
+                tabIndex={1 + tabsToAdd}
+              />
+            )}
+            {!isPdf && <div>{gekoFields}</div>}
+          </FieldGekoNr>
+        )}
+        {!(isPdf && !geschaeft.entscheidAwel) && (
+          <LabelEntscheidAwel data-ispdf={isPdf}>AWEL</LabelEntscheidAwel>
+        )}
+        {!(isPdf && !geschaeft.entscheidAwel) && (
+          <FieldEntscheidAwel data-ispdf={isPdf}>
+            <FormControl
+              type="text"
+              value={geschaeft.entscheidAwel || ''}
+              name="entscheidAwel"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={2 + tabsToAdd}
             />
-          )}
-          {!isPdf && <div>{gekoFields}</div>}
-        </FieldGekoNr>
-      )}
-      {!(isPdf && !geschaeft.entscheidAwel) && (
-        <LabelEntscheidAwel data-ispdf={isPdf}>AWEL</LabelEntscheidAwel>
-      )}
-      {!(isPdf && !geschaeft.entscheidAwel) && (
-        <FieldEntscheidAwel data-ispdf={isPdf}>
-          <FormControl
-            type="text"
-            value={geschaeft.entscheidAwel || ''}
-            name="entscheidAwel"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={2 + tabsToAdd}
-          />
-        </FieldEntscheidAwel>
-      )}
-      {!(isPdf && !geschaeft.entscheidBdv) && (
-        <LabelEntscheidBdv data-ispdf={isPdf}>BDV</LabelEntscheidBdv>
-      )}
-      {!(isPdf && !geschaeft.entscheidBdv) && (
-        <FieldEntscheidBdv data-ispdf={isPdf}>
-          <FormControl
-            value={geschaeft.entscheidBdv || ''}
-            name="entscheidBdv"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={4 + tabsToAdd}
-          />
-        </FieldEntscheidBdv>
-      )}
-      {!(isPdf && !geschaeft.entscheidRrb) && (
-        <LabelEntscheidRrb data-ispdf={isPdf}>RRB</LabelEntscheidRrb>
-      )}
-      {!(isPdf && !geschaeft.entscheidRrb) && (
-        <FieldEntscheidRrb data-ispdf={isPdf}>
-          <FormControl
-            value={geschaeft.entscheidRrb || ''}
-            name="entscheidRrb"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={6 + tabsToAdd}
-          />
-        </FieldEntscheidRrb>
-      )}
-      {!(isPdf && !geschaeft.entscheidBvv) && (
-        <LabelEntscheidBvv data-ispdf={isPdf}>BVV</LabelEntscheidBvv>
-      )}
-      {!(isPdf && !geschaeft.entscheidBvv) && (
-        <FieldEntscheidBvv data-ispdf={isPdf}>
-          <FormControl
-            value={geschaeft.entscheidBvv || ''}
-            name="entscheidBvv"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={8 + tabsToAdd}
-          />
-        </FieldEntscheidBvv>
-      )}
-      {!(isPdf && !geschaeft.entscheidKr) && (
-        <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
-      )}
-      {!(isPdf && !geschaeft.entscheidKr) && (
-        <FieldEntscheidKr data-ispdf={isPdf}>
-          <FormControl
-            value={geschaeft.entscheidKr || ''}
-            name="entscheidKr"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={10 + tabsToAdd}
-          />
-        </FieldEntscheidKr>
-      )}
-      {!(isPdf && !geschaeft.aktenstandort) && (
-        <FieldAktenstandort data-ispdf={isPdf}>
-          <ControlLabel>Aktenstandort</ControlLabel>
-          <FormControl
-            componentClass="select"
-            value={geschaeft.aktenstandort || ''}
-            name="aktenstandort"
-            onChange={change}
-            bsSize="small"
-            tabIndex={12 + tabsToAdd}
-          >
-            {geschaeftsartOptionsComponent}
-          </FormControl>
-        </FieldAktenstandort>
-      )}
-      {!(isPdf && !geschaeft.aktenstandort) && (
-        <FieldAktennummer data-ispdf={isPdf}>
-          <ControlLabel>Nr.</ControlLabel>
-          <FormControl
-            type="text"
-            value={geschaeft.aktennummer || ''}
-            name="aktennummer"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
-            tabIndex={13 + tabsToAdd}
-          />
-        </FieldAktennummer>
-      )}
-    </Container>
+          </FieldEntscheidAwel>
+        )}
+        {!(isPdf && !geschaeft.entscheidBdv) && (
+          <LabelEntscheidBdv data-ispdf={isPdf}>BDV</LabelEntscheidBdv>
+        )}
+        {!(isPdf && !geschaeft.entscheidBdv) && (
+          <FieldEntscheidBdv data-ispdf={isPdf}>
+            <FormControl
+              value={geschaeft.entscheidBdv || ''}
+              name="entscheidBdv"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={4 + tabsToAdd}
+            />
+          </FieldEntscheidBdv>
+        )}
+        {!(isPdf && !geschaeft.entscheidRrb) && (
+          <LabelEntscheidRrb data-ispdf={isPdf}>RRB</LabelEntscheidRrb>
+        )}
+        {!(isPdf && !geschaeft.entscheidRrb) && (
+          <FieldEntscheidRrb data-ispdf={isPdf}>
+            <FormControl
+              value={geschaeft.entscheidRrb || ''}
+              name="entscheidRrb"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={6 + tabsToAdd}
+            />
+          </FieldEntscheidRrb>
+        )}
+        {!(isPdf && !geschaeft.entscheidBvv) && (
+          <LabelEntscheidBvv data-ispdf={isPdf}>BVV</LabelEntscheidBvv>
+        )}
+        {!(isPdf && !geschaeft.entscheidBvv) && (
+          <FieldEntscheidBvv data-ispdf={isPdf}>
+            <FormControl
+              value={geschaeft.entscheidBvv || ''}
+              name="entscheidBvv"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={8 + tabsToAdd}
+            />
+          </FieldEntscheidBvv>
+        )}
+        {!(isPdf && !geschaeft.entscheidKr) && (
+          <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
+        )}
+        {!(isPdf && !geschaeft.entscheidKr) && (
+          <FieldEntscheidKr data-ispdf={isPdf}>
+            <FormControl
+              value={geschaeft.entscheidKr || ''}
+              name="entscheidKr"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={10 + tabsToAdd}
+            />
+          </FieldEntscheidKr>
+        )}
+        {!(isPdf && !geschaeft.aktenstandort) && (
+          <FieldAktenstandort data-ispdf={isPdf}>
+            <ControlLabel>Aktenstandort</ControlLabel>
+            <FormControl
+              componentClass="select"
+              value={geschaeft.aktenstandort || ''}
+              name="aktenstandort"
+              onChange={change}
+              bsSize="small"
+              tabIndex={12 + tabsToAdd}
+            >
+              {geschaeftsartOptionsComponent}
+            </FormControl>
+          </FieldAktenstandort>
+        )}
+        {!(isPdf && !geschaeft.aktenstandort) && (
+          <FieldAktennummer data-ispdf={isPdf}>
+            <ControlLabel>Nr.</ControlLabel>
+            <FormControl
+              type="text"
+              value={geschaeft.aktennummer || ''}
+              name="aktennummer"
+              onChange={change}
+              onBlur={blur}
+              bsSize="small"
+              tabIndex={13 + tabsToAdd}
+            />
+          </FieldAktennummer>
+        )}
+      </Container>
+    </ErrorBoundary>
   )
 }
 

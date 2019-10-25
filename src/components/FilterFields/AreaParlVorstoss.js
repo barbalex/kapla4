@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { FormControl, ControlLabel, Radio, InputGroup } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import ComparatorSelector from './ComparatorSelector'
 import storeContext from '../../storeContext'
@@ -45,71 +46,73 @@ const AreaParlVorstoss = ({
   const store = useContext(storeContext)
 
   return (
-    <Container>
-      <Title>Parlamentarischer Vorstoss</Title>
-      <FieldParlVorstossTyp>
-        <ControlLabel>Typ</ControlLabel>
-        <InputGroup>
-          <ComparatorSelector
-            name="parlVorstossTyp"
-            changeComparator={changeComparator}
-          />
-          <FormControl
-            componentClass="select"
-            value={values.parlVorstossTyp || ''}
-            name="parlVorstossTyp"
+    <ErrorBoundary>
+      <Container>
+        <Title>Parlamentarischer Vorstoss</Title>
+        <FieldParlVorstossTyp>
+          <ControlLabel>Typ</ControlLabel>
+          <InputGroup>
+            <ComparatorSelector
+              name="parlVorstossTyp"
+              changeComparator={changeComparator}
+            />
+            <FormControl
+              componentClass="select"
+              value={values.parlVorstossTyp || ''}
+              name="parlVorstossTyp"
+              onChange={change}
+              tabIndex={1 + firstTabIndex}
+            >
+              {createOptions(store.geschaefte.parlVorstossTypOptions)}
+            </FormControl>
+          </InputGroup>
+        </FieldParlVorstossTyp>
+        <FieldStufe>
+          <ControlLabel>Stufe</ControlLabel>
+          <Radio
+            data-value={1}
+            checked={values.parlVorstossStufe === '1'}
             onChange={change}
-            tabIndex={1 + firstTabIndex}
+            name="parlVorstossStufe"
+            tabIndex={2 + firstTabIndex}
           >
-            {createOptions(store.geschaefte.parlVorstossTypOptions)}
-          </FormControl>
-        </InputGroup>
-      </FieldParlVorstossTyp>
-      <FieldStufe>
-        <ControlLabel>Stufe</ControlLabel>
-        <Radio
-          data-value={1}
-          checked={values.parlVorstossStufe === '1'}
-          onChange={change}
-          name="parlVorstossStufe"
-          tabIndex={2 + firstTabIndex}
-        >
-          1: nicht überwiesen
-        </Radio>
-        <Radio
-          data-value={2}
-          checked={values.parlVorstossStufe === '2'}
-          name="parlVorstossStufe"
-          onChange={change}
-          tabIndex={3 + firstTabIndex}
-        >
-          2: überwiesen
-        </Radio>
-      </FieldStufe>
-      <FieldZustaendigkeit>
-        <ControlLabel>Zuständigkeit</ControlLabel>
-        <Radio
-          data-value="hauptzuständig"
-          checked={values.parlVorstossZustaendigkeitAwel === 'hauptzuständig'}
-          name="parlVorstossZustaendigkeitAwel"
-          onChange={change}
-          tabIndex={6 + firstTabIndex}
-        >
-          haupt
-        </Radio>
-        <Radio
-          data-value="mitberichtzuständig"
-          checked={
-            values.parlVorstossZustaendigkeitAwel === 'mitberichtzuständig'
-          }
-          name="parlVorstossZustaendigkeitAwel"
-          onChange={change}
-          tabIndex={7 + firstTabIndex}
-        >
-          mitbericht
-        </Radio>
-      </FieldZustaendigkeit>
-    </Container>
+            1: nicht überwiesen
+          </Radio>
+          <Radio
+            data-value={2}
+            checked={values.parlVorstossStufe === '2'}
+            name="parlVorstossStufe"
+            onChange={change}
+            tabIndex={3 + firstTabIndex}
+          >
+            2: überwiesen
+          </Radio>
+        </FieldStufe>
+        <FieldZustaendigkeit>
+          <ControlLabel>Zuständigkeit</ControlLabel>
+          <Radio
+            data-value="hauptzuständig"
+            checked={values.parlVorstossZustaendigkeitAwel === 'hauptzuständig'}
+            name="parlVorstossZustaendigkeitAwel"
+            onChange={change}
+            tabIndex={6 + firstTabIndex}
+          >
+            haupt
+          </Radio>
+          <Radio
+            data-value="mitberichtzuständig"
+            checked={
+              values.parlVorstossZustaendigkeitAwel === 'mitberichtzuständig'
+            }
+            name="parlVorstossZustaendigkeitAwel"
+            onChange={change}
+            tabIndex={7 + firstTabIndex}
+          >
+            mitbericht
+          </Radio>
+        </FieldZustaendigkeit>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

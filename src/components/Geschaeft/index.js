@@ -5,6 +5,7 @@ import moment from 'moment'
 import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import isDateField from '../../src/isDateField'
 import validateDate from '../../src/validateDate'
@@ -233,49 +234,51 @@ const Geschaeft = () => {
   const showLinks = !(isPdf && geschaeft.links.length === 0)
 
   return (
-    <ScrollContainer>
-      <Wrapper isPdf={isPdf}>
-        <AreaGeschaeft
-          viewIsNarrow={viewIsNarrow}
-          nrOfGFields={nrOfGFields}
-          change={change}
-          blur={blur}
-        />
-        <AreaNummern
-          viewIsNarrow={viewIsNarrow}
-          nrOfGFields={nrOfGFields}
-          change={change}
-          blur={blur}
-        />
-        {showAreaParlVorstoss && (
-          <AreaParlVorstoss
-            nrOfFieldsBeforePv={nrOfFieldsBeforePv}
+    <ErrorBoundary>
+      <ScrollContainer>
+        <Wrapper isPdf={isPdf}>
+          <AreaGeschaeft
+            viewIsNarrow={viewIsNarrow}
+            nrOfGFields={nrOfGFields}
             change={change}
+            blur={blur}
           />
-        )}
-        {showAreaRechtsmittel && (
-          <AreaRechtsmittel
-            nrOfFieldsBeforePv={nrOfFieldsBeforePv}
+          <AreaNummern
+            viewIsNarrow={viewIsNarrow}
+            nrOfGFields={nrOfGFields}
+            change={change}
+            blur={blur}
+          />
+          {showAreaParlVorstoss && (
+            <AreaParlVorstoss
+              nrOfFieldsBeforePv={nrOfFieldsBeforePv}
+              change={change}
+            />
+          )}
+          {showAreaRechtsmittel && (
+            <AreaRechtsmittel
+              nrOfFieldsBeforePv={nrOfFieldsBeforePv}
+              change={change}
+              blur={blur}
+              onChangeDatePicker={onChangeDatePicker}
+            />
+          )}
+          <AreaFristen
+            nrOfFieldsBeforeFristen={nrOfFieldsBeforeFristen}
             change={change}
             blur={blur}
             onChangeDatePicker={onChangeDatePicker}
           />
-        )}
-        <AreaFristen
-          nrOfFieldsBeforeFristen={nrOfFieldsBeforeFristen}
-          change={change}
-          blur={blur}
-          onChangeDatePicker={onChangeDatePicker}
-        />
-        <AreaPersonen
-          nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
-          change={change}
-        />
-        {showLinks && <AreaLinks mylinks={store.geschaefte.links} />}
-        <AreaHistory blur={blur} change={change} />
-        <AreaZuletztMutiert />
-      </Wrapper>
-    </ScrollContainer>
+          <AreaPersonen
+            nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
+            change={change}
+          />
+          {showLinks && <AreaLinks mylinks={store.geschaefte.links} />}
+          <AreaHistory blur={blur} change={change} />
+          <AreaZuletztMutiert />
+        </Wrapper>
+      </ScrollContainer>
+    </ErrorBoundary>
   )
 }
 
