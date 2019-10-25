@@ -4,6 +4,7 @@ import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import TableItem from './TableItem'
 import storeContext from '../../storeContext'
@@ -74,38 +75,40 @@ const Table = () => {
   }, [tableReset])
 
   return (
-    <Container>
-      <StyledTable>
-        <StyledTableHeader>
-          <StyledTableHeaderRow>
-            {headers.map((header, index) => (
-              <StyledTableHeaderCell
-                key={index}
-                maxWidth={header === 'id' ? 50 : normalFieldWidth}
-              >
-                {header}
-              </StyledTableHeaderCell>
-            ))}
-          </StyledTableHeaderRow>
-        </StyledTableHeader>
-        <StyledTableBody>
-          <AutoSizer>
-            {({ height, width }) => (
-              <StyledList
-                height={height}
-                rowCount={rows.length}
-                rowHeight={38}
-                rowRenderer={rowRenderer}
-                noRowsRenderer={noRowsRenderer}
-                width={width}
-                scrollToIndex={indexOfActiveId}
-                {...rows}
-              />
-            )}
-          </AutoSizer>
-        </StyledTableBody>
-      </StyledTable>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <StyledTable>
+          <StyledTableHeader>
+            <StyledTableHeaderRow>
+              {headers.map((header, index) => (
+                <StyledTableHeaderCell
+                  key={index}
+                  maxWidth={header === 'id' ? 50 : normalFieldWidth}
+                >
+                  {header}
+                </StyledTableHeaderCell>
+              ))}
+            </StyledTableHeaderRow>
+          </StyledTableHeader>
+          <StyledTableBody>
+            <AutoSizer>
+              {({ height, width }) => (
+                <StyledList
+                  height={height}
+                  rowCount={rows.length}
+                  rowHeight={38}
+                  rowRenderer={rowRenderer}
+                  noRowsRenderer={noRowsRenderer}
+                  width={width}
+                  scrollToIndex={indexOfActiveId}
+                  {...rows}
+                />
+              )}
+            </AutoSizer>
+          </StyledTableBody>
+        </StyledTable>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

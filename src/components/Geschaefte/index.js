@@ -3,7 +3,7 @@ import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { getSnapshot } from 'mobx-state-tree'
+import ErrorBoundary from 'react-error-boundary'
 
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
@@ -84,34 +84,36 @@ const Geschaefte = () => {
   )
 
   return (
-    <Container>
-      <StyledTable>
-        <StyledHeader>
-          <StyledRow>
-            <StyledId>ID</StyledId>
-            <StyledGegenstand>Gegenstand</StyledGegenstand>
-            <StyledStatus>Status</StyledStatus>
-            <StyledKontakt>Verantwortlich</StyledKontakt>
-          </StyledRow>
-        </StyledHeader>
-        <StyledBody>
-          <AutoSizer>
-            {({ height, width }) => (
-              <StyledList
-                height={height}
-                rowCount={geschaefte.length}
-                rowHeight={77}
-                rowRenderer={RowRenderer}
-                noRowsRenderer={() => <NoRowsRenderer />}
-                width={width}
-                scrollToIndex={indexOfActiveId}
-                {...geschaefte}
-              />
-            )}
-          </AutoSizer>
-        </StyledBody>
-      </StyledTable>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <StyledTable>
+          <StyledHeader>
+            <StyledRow>
+              <StyledId>ID</StyledId>
+              <StyledGegenstand>Gegenstand</StyledGegenstand>
+              <StyledStatus>Status</StyledStatus>
+              <StyledKontakt>Verantwortlich</StyledKontakt>
+            </StyledRow>
+          </StyledHeader>
+          <StyledBody>
+            <AutoSizer>
+              {({ height, width }) => (
+                <StyledList
+                  height={height}
+                  rowCount={geschaefte.length}
+                  rowHeight={77}
+                  rowRenderer={RowRenderer}
+                  noRowsRenderer={() => <NoRowsRenderer />}
+                  width={width}
+                  scrollToIndex={indexOfActiveId}
+                  {...geschaefte}
+                />
+              )}
+            </AutoSizer>
+          </StyledBody>
+        </StyledTable>
+      </Container>
+    </ErrorBoundary>
   )
 }
 

@@ -10,6 +10,7 @@ import { FaTimes } from 'react-icons/fa'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import ErrorBoundary from 'react-error-boundary'
 
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
@@ -152,77 +153,79 @@ const FilterNav = () => {
   }, [geschaefteRemoveFilters, history])
 
   return (
-    <Container pullLeft>
-      <SubContainer>
-        <StyledVolltextControl
-          type="text"
-          placeholder="Volltext filtern"
-          value={filterFulltext}
-          onChange={onChangeVolltextControl}
-          data-dataisfilteredbyfulltext={dataIsFilteredByFulltext}
-          title="Zum Filtern drücken Sie die Enter-Taste"
-        />
-        <StyledFilterDropdown
-          id="field-filter-dropdown"
-          title={title}
-          data-dataisfilteredbyfields={dataIsFilteredByFields}
-          onClick={onClickFilterDropdown}
-        >
-          <MenuItem header>aktive Filterkriterien:</MenuItem>
-          <MenuItem>
-            <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
-          </MenuItem>
-          <MenuItem header>aktive Sortierkriterien:</MenuItem>
-          <MenuItem>
-            <StyledCriteria>{activeSortcriteria}</StyledCriteria>
-          </MenuItem>
-          <MenuItem header>vorbereitete Filter:</MenuItem>
-          <MenuItem
-            onSelect={onSelectFaelligeGeschaefte}
-            style={{
-              backgroundColor: filterType === 'fällige' ? '#FFBF73' : null,
-            }}
+    <ErrorBoundary>
+      <Container pullLeft>
+        <SubContainer>
+          <StyledVolltextControl
+            type="text"
+            placeholder="Volltext filtern"
+            value={filterFulltext}
+            onChange={onChangeVolltextControl}
+            data-dataisfilteredbyfulltext={dataIsFilteredByFulltext}
+            title="Zum Filtern drücken Sie die Enter-Taste"
+          />
+          <StyledFilterDropdown
+            id="field-filter-dropdown"
+            title={title}
+            data-dataisfilteredbyfields={dataIsFilteredByFields}
+            onClick={onClickFilterDropdown}
           >
-            fällige Geschäfte
-          </MenuItem>
-          <MenuItem
-            onSelect={onSelectEigeneFaelligeGeschaefte}
-            style={{
-              backgroundColor:
-                filterType === 'eigene fällige' ? '#FFBF73' : null,
-            }}
+            <MenuItem header>aktive Filterkriterien:</MenuItem>
+            <MenuItem>
+              <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
+            </MenuItem>
+            <MenuItem header>aktive Sortierkriterien:</MenuItem>
+            <MenuItem>
+              <StyledCriteria>{activeSortcriteria}</StyledCriteria>
+            </MenuItem>
+            <MenuItem header>vorbereitete Filter:</MenuItem>
+            <MenuItem
+              onSelect={onSelectFaelligeGeschaefte}
+              style={{
+                backgroundColor: filterType === 'fällige' ? '#FFBF73' : null,
+              }}
+            >
+              fällige Geschäfte
+            </MenuItem>
+            <MenuItem
+              onSelect={onSelectEigeneFaelligeGeschaefte}
+              style={{
+                backgroundColor:
+                  filterType === 'eigene fällige' ? '#FFBF73' : null,
+              }}
+            >
+              eigene fällige Geschäfte
+            </MenuItem>
+            <MenuItem
+              onSelect={onSelectAngekVernehmlassungen}
+              style={{
+                backgroundColor:
+                  filterType === 'angekündigte Vernehmlassungen'
+                    ? '#FFBF73'
+                    : null,
+              }}
+            >
+              angekündigte Vernehmlassungen
+            </MenuItem>
+            <MenuItem
+              onSelect={onSelectLaufendeVernehmlassungen}
+              style={{
+                backgroundColor:
+                  filterType === 'laufende Vernehmlassungen' ? '#FFBF73' : null,
+              }}
+            >
+              laufende Vernehmlassungen
+            </MenuItem>
+          </StyledFilterDropdown>
+          <FilterRemoveButton
+            disabled={!dataIsFiltered}
+            onClick={geschaefteRemoveFilters}
           >
-            eigene fällige Geschäfte
-          </MenuItem>
-          <MenuItem
-            onSelect={onSelectAngekVernehmlassungen}
-            style={{
-              backgroundColor:
-                filterType === 'angekündigte Vernehmlassungen'
-                  ? '#FFBF73'
-                  : null,
-            }}
-          >
-            angekündigte Vernehmlassungen
-          </MenuItem>
-          <MenuItem
-            onSelect={onSelectLaufendeVernehmlassungen}
-            style={{
-              backgroundColor:
-                filterType === 'laufende Vernehmlassungen' ? '#FFBF73' : null,
-            }}
-          >
-            laufende Vernehmlassungen
-          </MenuItem>
-        </StyledFilterDropdown>
-        <FilterRemoveButton
-          disabled={!dataIsFiltered}
-          onClick={geschaefteRemoveFilters}
-        >
-          <RemoveIcon title="Filter und Sortierung entfernen" />
-        </FilterRemoveButton>
-      </SubContainer>
-    </Container>
+            <RemoveIcon title="Filter und Sortierung entfernen" />
+          </FilterRemoveButton>
+        </SubContainer>
+      </Container>
+    </ErrorBoundary>
   )
 }
 
