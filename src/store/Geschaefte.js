@@ -9,6 +9,7 @@ import Links from './Links'
 import Geko from './Geko'
 import AbteilungOptions from './Abteilung'
 import RechtsmittelErledigungOptions from './RechtsmittelErledigung'
+import ParlVorstossTypOptions from './ParlVorstossTyp'
 
 export default types
   .model('Geschaefte', {
@@ -22,13 +23,13 @@ export default types
     links: types.array(Links),
     abteilungOptions: types.array(AbteilungOptions),
     rechtsmittelErledigungOptions: types.array(RechtsmittelErledigungOptions),
+    parlVorstossTypOptions: types.array(ParlVorstossTypOptions),
   })
   .volatile(() => ({
     error: [],
     filterFields: [],
     sortFields: [],
     // dropdown lists
-    parlVorstossTypOptions: [],
     statusOptions: [],
     geschaeftsartOptions: [],
     aktenstandortOptions: [],
