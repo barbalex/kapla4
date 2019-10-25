@@ -12,6 +12,7 @@ import RechtsmittelErledigungOptions from './RechtsmittelErledigung'
 import ParlVorstossTypOptions from './ParlVorstossTyp'
 import StatusOptions from './Status'
 import GeschaeftsartOptions from './Geschaeftsart'
+import AktenstandortOptions from './Aktenstandort'
 
 export default types
   .model('Geschaefte', {
@@ -28,13 +29,13 @@ export default types
     parlVorstossTypOptions: types.array(ParlVorstossTypOptions),
     statusOptions: types.array(StatusOptions),
     geschaeftsartOptions: types.array(GeschaeftsartOptions),
+    aktenstandortOptions: types.array(AktenstandortOptions),
   })
   .volatile(() => ({
     error: [],
     filterFields: [],
     sortFields: [],
     // dropdown lists
-    aktenstandortOptions: [],
     interneOptions: [],
     externeOptions: [],
   }))
