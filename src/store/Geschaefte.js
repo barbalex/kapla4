@@ -1,5 +1,6 @@
 import { types, getParent } from 'mobx-state-tree'
 import _ from 'lodash'
+import moment from 'moment'
 
 import addComputedValuesToGeschaefte from '../src/addComputedValuesToGeschaefte'
 import filterGeschaeftePlus from '../src/filterGeschaeftePlus'
@@ -93,7 +94,7 @@ export default types
     },
     filterByFields(filterFields, filterType = 'nach Feldern') {
       const store = getParent(self, 1)
-      const { pages, pagesInitiate, toggleActivatedById } = store
+      const { pages, pagesInitiate } = store
       const { geschaeftePlusFilteredAndSorted } = store.geschaefte
       store.geschaefte.filterFields = filterFields
       store.geschaefte.filterFulltext = ''
@@ -108,18 +109,12 @@ export default types
         const { reportType } = pages
         pagesInitiate(reportType)
       } else if (geschaeftePlusFilteredAndSorted.length === 1) {
-        toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
+        self.toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
       }
     },
     filterByFulltext(filterFulltext) {
       const store = getParent(self, 1)
-      const {
-        pages,
-        geschaefte,
-        history,
-        pagesInitiate,
-        toggleActivatedById,
-      } = store
+      const { pages, geschaefte, history, pagesInitiate } = store
       const { geschaeftePlusFilteredAndSorted } = geschaefte
       self.filterType = 'nach Volltext'
       self.filterFulltext = filterFulltext
@@ -138,7 +133,9 @@ export default types
           history.push('/geschaefte')
         }
         if (geschaeftePlusFilteredAndSorted.length === 1) {
-          toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
+          self.toggleActivatedById(
+            geschaeftePlusFilteredAndSorted[0].idGeschaeft,
+          )
         }
       }
     },
@@ -201,5 +198,122 @@ export default types
       }
       self.fetching = false
       self.geko = geko
+    },
+    fetchLinks() {
+      const store = getParent(self, 1)
+      const { app, addError } = store
+      self.fetching = true
+      let links = []
+      try {
+        links = app.db
+          .prepare('SELECT * FROM links ORDER BY idGeschaeft, url')
+          .all()
+      } catch (error) {
+        self.fetching = false
+        return addError(error)
+      }
+      self.fetching = false
+      self.links = links
+    },
+    geschaeftInsert() {
+      const store = getParent(self, 1)
+      const { app, user, history } = store
+      const now = moment().format('YYYY-MM-DD HH:mm:ss')
+      let result
+      try {
+        result = app.db
+          .prepare(
+            `
+        INSERT INTO
+          geschaefte (mutationsdatum, mutationsperson)
+        VALUES
+          ('${now}', '${user.username}')`,
+          )
+          .run()
+      } catch (error) {
+        return self.addError(error)
+      }
+      const idGeschaeft = result.lastInsertRowid
+
+      // return full dataset
+      let geschaeft = {}
+      try {
+        geschaeft = app.db
+          .prepare(
+            `
+        SELECT
+          *
+        FROM
+          geschaefte
+        WHERE
+          idGeschaeft = ${idGeschaeft}`,
+          )
+          .get()
+      } catch (error) {
+        return self.addError(error)
+      }
+      self.geschaefte.unshift(geschaeft)
+      // need to remove filters
+      self.filterFields = []
+      self.filterType = null
+      self.filterFulltext = ''
+      self.sortFields = []
+      self.toggleActivatedById(geschaeft.idGeschaeft)
+      if (history.location.pathname !== '/geschaefte') {
+        history.push('/geschaefte')
+      }
+    },
+    geschaeftDelete(idGeschaeft) {
+      const store = getParent(self, 1)
+      const {
+        app,
+        geschaefteKontakteIntern,
+        geschaefteKontakteExtern,
+        addError,
+        geschaeftRemoveDeleteIntended,
+        geschaeftKontaktInternDelete,
+        geschaefteKontakteExternActions,
+      } = store
+      try {
+        app.db
+          .prepare(
+            `
+              DELETE FROM
+                geschaefte
+              WHERE
+                idGeschaeft = ${idGeschaeft}`,
+          )
+          .run()
+      } catch (error) {
+        console.log('geschaeftDelete error', error)
+        return addError(error)
+      }
+      geschaeftRemoveDeleteIntended(idGeschaeft)
+      self.geschaefte = self.geschaefte.filter(
+        g => g.idGeschaeft !== idGeschaeft,
+      )
+      // need to delete geschaefteKontakteIntern in self
+      const geschaefteKontakteInternToDelete = geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
+        g => g.idGeschaeft === idGeschaeft,
+      )
+      geschaefteKontakteInternToDelete.forEach(g =>
+        geschaeftKontaktInternDelete(idGeschaeft, g.idKontakt),
+      )
+      // need to delete geschaefteKontakteExtern in self
+      const geschaefteKontakteExternToDelete = geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
+        g => g.idGeschaeft === idGeschaeft,
+      )
+      geschaefteKontakteExternToDelete.forEach(g =>
+        geschaefteKontakteExternActions.geschaeftKontaktExternDelete(
+          idGeschaeft,
+          g.idKontakt,
+        ),
+      )
+      // need to delete geKo in self
+      const gekoToRemove = self.geko.filter(g => g.idGeschaeft === idGeschaeft)
+      gekoToRemove.forEach(g => store.gekoRemove(idGeschaeft, g.gekoNr))
+      // need to delete links in self
+      const linkselfmove = self.links.filter(l => l.idGeschaeft === idGeschaeft)
+      linkselfmove.forEach(l => store.linkDelete(idGeschaeft, l.url))
     },
   }))

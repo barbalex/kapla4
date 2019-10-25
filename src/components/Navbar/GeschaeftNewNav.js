@@ -6,8 +6,9 @@ import { FaPlus } from 'react-icons/fa'
 import storeContext from '../../storeContext'
 
 const NavbarGeschaeftNeuNav = () => {
-  const { geschaeftNewCreate } = useContext(storeContext)
-  const onClick = useCallback(() => geschaeftNewCreate(), [geschaeftNewCreate])
+  const store = useContext(storeContext)
+  const { geschaeftInsert } = store.geschaefte
+  const onClick = useCallback(() => geschaeftInsert(), [geschaeftInsert])
 
   return (
     <NavItem onClick={onClick} title="neues Geschäft">

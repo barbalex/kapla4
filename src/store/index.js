@@ -46,125 +46,9 @@ export default () =>
       navigateToGeschaeftPdf() {
         self.history.push('/geschaeftPdf')
       },
-      getLinks() {
-        const { app } = self
-        self.geschaefte.fetching = true
-        let links = []
-        try {
-          links = app.db
-            .prepare('SELECT * FROM links ORDER BY idGeschaeft, url')
-            .all()
-        } catch (error) {
-          self.geschaefte.fetching = false
-          return self.addError(error)
-        }
-        self.geschaefte.fetching = false
-        self.geschaefte.links = links
-      },
       /*
        * GESCHAEFT
        */
-      geschaeftNewCreate() {
-        const { app, user } = self
-        const now = moment().format('YYYY-MM-DD HH:mm:ss')
-        let result
-        try {
-          result = app.db
-            .prepare(
-              `
-          INSERT INTO
-            geschaefte (mutationsdatum, mutationsperson)
-          VALUES
-            ('${now}', '${user.username}')`,
-            )
-            .run()
-        } catch (error) {
-          return self.addError(error)
-        }
-        const idGeschaeft = result.lastInsertRowid
-
-        // return full dataset
-        let geschaeft = {}
-        try {
-          geschaeft = app.db
-            .prepare(
-              `
-          SELECT
-            *
-          FROM
-            geschaefte
-          WHERE
-            idGeschaeft = ${idGeschaeft}`,
-            )
-            .get()
-        } catch (error) {
-          return self.addError(error)
-        }
-        self.geschaefte.geschaefte.unshift(geschaeft)
-        /**
-         * need to remove filters
-         */
-        self.geschaefte.filterFields = []
-        self.geschaefte.filterType = null
-        self.geschaefte.filterFulltext = ''
-        self.geschaefte.sortFields = []
-        self.toggleActivatedById(geschaeft.idGeschaeft)
-        if (self.history.location.pathname !== '/geschaefte') {
-          self.history.push('/geschaefte')
-        }
-      },
-      geschaeftRemove(idGeschaeft) {
-        const {
-          geschaefteKontakteIntern,
-          geschaefteKontakteExtern,
-          geschaefte,
-        } = self
-        try {
-          self.app.db
-            .prepare(
-              `
-        DELETE FROM
-          geschaefte
-        WHERE
-          idGeschaeft = ${idGeschaeft}`,
-            )
-            .run()
-        } catch (error) {
-          console.log('geschaeftRemove error', error)
-          return self.addError(error)
-        }
-        self.geschaeftRemoveDeleteIntended(idGeschaeft)
-        self.geschaefte.geschaefte = self.geschaefte.geschaefte.filter(
-          g => g.idGeschaeft !== idGeschaeft,
-        )
-        // need to delete geschaefteKontakteIntern in self
-        const geschaefteKontakteInternToDelete = geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
-          g => g.idGeschaeft === idGeschaeft,
-        )
-        geschaefteKontakteInternToDelete.forEach(g =>
-          self.geschaeftKontaktInternDelete(idGeschaeft, g.idKontakt),
-        )
-        // need to delete geschaefteKontakteExtern in self
-        const geschaefteKontakteExternToDelete = geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
-          g => g.idGeschaeft === idGeschaeft,
-        )
-        geschaefteKontakteExternToDelete.forEach(g =>
-          self.geschaefteKontakteExternActions.geschaeftKontaktExternDelete(
-            idGeschaeft,
-            g.idKontakt,
-          ),
-        )
-        // need to delete geKo in self
-        const gekoToRemove = geschaefte.geko.filter(
-          g => g.idGeschaeft === idGeschaeft,
-        )
-        gekoToRemove.forEach(g => self.gekoRemove(idGeschaeft, g.gekoNr))
-        // need to delete links in self
-        const linkselfmove = geschaefte.links.filter(
-          l => l.idGeschaeft === idGeschaeft,
-        )
-        linkselfmove.forEach(l => self.linkDelete(idGeschaeft, l.url))
-      },
       geschaeftRemoveDeleteIntended() {
         self.geschaefte.willDelete = false
       },
@@ -815,7 +699,7 @@ export default () =>
         // get data
         self.faelligeStatiOptionsGet()
         self.geschaefte.fetchGeko()
-        self.getLinks()
+        self.geschaefte.fetchLinks()
         self.interneOptionsGet()
         self.externeOptionsGet()
         self.getGeschaefteKontakteIntern()

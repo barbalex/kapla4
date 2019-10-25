@@ -6,8 +6,8 @@ import storeContext from '../storeContext'
 
 const ModalGeschaeftDelete = () => {
   const store = useContext(storeContext)
-  const { geschaeftRemove, geschaeftRemoveDeleteIntended } = store
-  const { activeId } = store.geschaefte
+  const { geschaeftRemoveDeleteIntended } = store
+  const { geschaeftDelete, activeId } = store.geschaefte
 
   return (
     <Modal.Dialog>
@@ -19,7 +19,7 @@ const ModalGeschaeftDelete = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={geschaeftRemoveDeleteIntended}>Nein</Button>
-        <Button bsStyle="primary" onClick={() => geschaeftRemove(activeId)}>
+        <Button bsStyle="primary" onClick={() => geschaeftDelete(activeId)}>
           Ja
         </Button>
       </Modal.Footer>
