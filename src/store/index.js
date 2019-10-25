@@ -16,7 +16,6 @@ import Table from './Table'
 import User from './User'
 import getDropdownOptions from '../src/getDropdownOptions'
 import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
-import createOptions from '../src/createOptions'
 import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
 import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import isDateField from '../src/isDateField'
@@ -363,9 +362,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.rechtsmittelErledigungOptions = createOptions(
-          rechtsmittelErledigungOptions,
-        )
+        self.geschaefte.rechtsmittelErledigungOptions = rechtsmittelErledigungOptions
       },
       parlVorstossTypOptionsGet() {
         let parlVorstossTypOptions = []
@@ -374,9 +371,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.parlVorstossTypOptions = createOptions(
-          parlVorstossTypOptions,
-        )
+        self.geschaefte.parlVorstossTypOptions = parlVorstossTypOptions
       },
       statusOptionsGet() {
         let statusOptions = []
@@ -385,7 +380,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.statusOptions = createOptions(statusOptions)
+        self.geschaefte.statusOptions = statusOptions
       },
       faelligeStatiOptionsGet() {
         let options = []
@@ -413,9 +408,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.geschaeftsartOptions = createOptions(
-          geschaeftsartOptions,
-        )
+        self.geschaefte.geschaeftsartOptions = geschaeftsartOptions
       },
       aktenstandortOptionsGet() {
         let aktenstandortOptions = []
@@ -424,9 +417,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.aktenstandortOptions = createOptions(
-          aktenstandortOptions,
-        )
+        self.geschaefte.aktenstandortOptions = aktenstandortOptions
       },
       interneOptionsGet() {
         let interneOptions = []
@@ -469,9 +460,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.rechtsmittelInstanzOptions = createOptions(
-          rechtsmittelInstanzOptions,
-        )
+        self.geschaefte.rechtsmittelInstanzOptions = rechtsmittelInstanzOptions
       },
       abteilungOptionsGet() {
         let abteilungOptions = []
@@ -480,7 +469,7 @@ export default () =>
         } catch (error) {
           return
         }
-        self.geschaefte.abteilungOptions = createOptions(abteilungOptions)
+        self.geschaefte.abteilungOptions = abteilungOptions
       },
       gekoNewCreate(idGeschaeft, gekoNr) {
         let geko

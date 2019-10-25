@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import SelectInput from './SelectInput'
 import Input from './Input'
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -68,6 +69,8 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
     abteilungOptions,
   } = store.geschaefte
 
+  const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
+
   return (
     <Container>
       <Title>Geschäft</Title>
@@ -109,7 +112,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={4 + firstTabIndex}
-          options={geschaeftsartOptions}
+          options={geschaeftsartOptionsComponent}
         />
       </FieldGeschaeftsart>
       <FieldStatus>
@@ -120,7 +123,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={5 + firstTabIndex}
-          options={statusOptions}
+          options={createOptions(statusOptions)}
         />
       </FieldStatus>
       <FieldAbteilung>
@@ -131,7 +134,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={6 + firstTabIndex}
-          options={abteilungOptions}
+          options={createOptions(abteilungOptions)}
         />
       </FieldAbteilung>
       <FieldDetails>

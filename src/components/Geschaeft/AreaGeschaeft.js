@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -94,6 +95,8 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? nrOfGFields : 0
 
+  const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
+
   return (
     <Container data-ispdf={isPdf}>
       <Title>Geschäft</Title>
@@ -144,7 +147,7 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={4 + tabsToAdd}
           >
-            {geschaeftsartOptions}
+            {geschaeftsartOptionsComponent}
           </FormControl>
         </Geschaeftsart>
       )}
@@ -159,7 +162,7 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={5 + tabsToAdd}
           >
-            {statusOptions}
+            {createOptions(statusOptions)}
           </FormControl>
         </Status>
       )}
@@ -174,7 +177,7 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
             bsSize="small"
             tabIndex={6 + tabsToAdd}
           >
-            {abteilungOptions}
+            {createOptions(abteilungOptions)}
           </FormControl>
         </Abteilung>
       )}

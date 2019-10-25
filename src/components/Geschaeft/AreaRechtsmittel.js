@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import DateField from './DateField'
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -94,7 +95,7 @@ const AreaRechtsmittel = ({
             bsSize="small"
             tabIndex={1 + nrOfFieldsBeforePv}
           >
-            {rechtsmittelInstanzOptions}
+            {createOptions(rechtsmittelInstanzOptions)}
           </FormControl>
         </FieldInstanz>
       )}
@@ -135,7 +136,7 @@ const AreaRechtsmittel = ({
             bsSize="small"
             tabIndex={4 + nrOfFieldsBeforePv}
           >
-            {rechtsmittelErledigungOptions}
+            {createOptions(rechtsmittelErledigungOptions)}
           </FormControl>
         </FieldErledigung>
       )}

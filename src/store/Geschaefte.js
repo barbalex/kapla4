@@ -11,7 +11,6 @@ import AbteilungOptions from './Abteilung'
 import RechtsmittelErledigungOptions from './RechtsmittelErledigung'
 import ParlVorstossTypOptions from './ParlVorstossTyp'
 import StatusOptions from './Status'
-import GeschaeftsartOptions from './Geschaeftsart'
 import AktenstandortOptions from './Aktenstandort'
 import InterneOptions from './Interne'
 import ExterneOptions from './Externe'
@@ -28,12 +27,14 @@ export default types
     geko: types.array(Geko),
     geschaefte: types.array(Geschaeft),
     links: types.array(Links),
-    abteilungOptions: types.array(AbteilungOptions),
-    rechtsmittelErledigungOptions: types.array(RechtsmittelErledigungOptions),
-    parlVorstossTypOptions: types.array(ParlVorstossTypOptions),
-    statusOptions: types.array(StatusOptions),
-    geschaeftsartOptions: types.array(GeschaeftsartOptions),
-    aktenstandortOptions: types.array(AktenstandortOptions),
+    abteilungOptions: types.array(types.union(types.string, types.null)),
+    rechtsmittelErledigungOptions: types.array(
+      types.union(types.string, types.null),
+    ),
+    parlVorstossTypOptions: types.array(types.union(types.string, types.null)),
+    statusOptions: types.array(types.union(types.string, types.null)),
+    geschaeftsartOptions: types.array(types.union(types.string, types.null)),
+    aktenstandortOptions: types.array(types.union(types.string, types.null)),
     interneOptions: types.array(InterneOptions),
     externeOptions: types.array(ExterneOptions),
     filterFields: types.array(FilterFields),

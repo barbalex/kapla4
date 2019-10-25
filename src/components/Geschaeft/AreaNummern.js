@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -208,6 +209,8 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
     />,
   )
 
+  const geschaeftsartOptionsComponent = createOptions(aktenstandortOptions)
+
   return (
     <Container>
       <AreaNummernTitle>Nummern</AreaNummernTitle>
@@ -325,7 +328,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
             bsSize="small"
             tabIndex={12 + tabsToAdd}
           >
-            {aktenstandortOptions}
+            {geschaeftsartOptionsComponent}
           </FormControl>
         </FieldAktenstandort>
       )}

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -65,7 +66,7 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
             bsSize="small"
             tabIndex={1 + nrOfFieldsBeforePv}
           >
-            {parlVorstossTypOptions}
+            {createOptions(parlVorstossTypOptions)}
           </FormControl>
         </FieldParlVorstossTyp>
       )}

@@ -8,4 +8,7 @@ export default types.model('Externe', {
   telefon: types.maybe(types.union(types.string, types.integer, types.null)),
   titel: types.maybe(types.union(types.string, types.integer, types.null)),
   vorname: types.maybe(types.union(types.string, types.integer, types.null)),
+  nameVorname: types.maybe(
+    types.union(types.string, types.integer, types.null),
+  ),
 })

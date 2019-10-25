@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import { ControlLabel } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { toJS } from 'mobx'
 
 import Input from './Input'
 import SelectInput from './SelectInput'
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaNummern;
@@ -115,6 +115,8 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
   const store = useContext(storeContext)
   const { aktenstandortOptions } = store.geschaefte
 
+  const geschaeftsartOptionsComponent = createOptions(aktenstandortOptions)
+
   return (
     <Container>
       <Title>Nummern</Title>
@@ -201,7 +203,7 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
           values={values}
           changeComparator={changeComparator}
           tabIndex={13 + firstTabIndex}
-          options={toJS(aktenstandortOptions)}
+          options={geschaeftsartOptionsComponent}
         />
       </FieldAktenstandort>
       <FieldAktennummer>

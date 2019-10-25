@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import ComparatorSelector from './ComparatorSelector'
 import storeContext from '../../storeContext'
+import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -60,7 +61,7 @@ const AreaParlVorstoss = ({
             onChange={change}
             tabIndex={1 + firstTabIndex}
           >
-            {store.geschaefte.parlVorstossTypOptions}
+            {createOptions(store.geschaefte.parlVorstossTypOptions)}
           </FormControl>
         </InputGroup>
       </FieldParlVorstossTyp>
