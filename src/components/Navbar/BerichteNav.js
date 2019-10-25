@@ -27,13 +27,8 @@ const StyledNavDropdown = styled(NavDropdown)`
 
 const BerichteNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
-  const {
-    pages,
-    pagesInitiate,
-    geschaeftPdfShow,
-    geschaefteSortByFields,
-  } = store
-  const { resetSort, filterByFields, activeId } = store.geschaefte
+  const { pages, pagesInitiate, geschaeftPdfShow } = store
+  const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
   const path = store.history.location.pathname
   const isActive = path === '/pages'
   const nameObject = {
@@ -69,7 +64,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             // only do this after former is finished
             setTimeout(() => {
               resetSort()
-              geschaefteSortByFields('idGeschaeft', 'DESCENDING')
+              sortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('typFaelligeGeschaefte')
             })
           })
@@ -83,7 +78,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             // only do this after former is finished
             setTimeout(() => {
               resetSort()
-              geschaefteSortByFields('idGeschaeft', 'DESCENDING')
+              sortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('angekVernehml')
             })
           })
@@ -95,8 +90,8 @@ const BerichteNav = ({ showBerichteNavs }) => {
             setTimeout(() => {
               pagesInitiate('laufendeVernehml')
               resetSort()
-              geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-              geschaefteSortByFields('idGeschaeft', 'DESCENDING')
+              sortByFields('fristMitarbeiter', 'DESCENDING')
+              sortByFields('idGeschaeft', 'DESCENDING')
             })
           })
         }

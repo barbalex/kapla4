@@ -55,13 +55,9 @@ const RemoveIcon = styled(FaTimes)`
 
 const FilterNav = () => {
   const store = useContext(storeContext)
+  const { geschaefteRemoveFilters, geschaefteFilterByFulltext, history } = store
   const {
-    geschaefteRemoveFilters,
-    geschaefteFilterByFulltext,
-    geschaefteSortByFields,
-    history,
-  } = store
-  const {
+    sortByFields,
     resetSort,
     geschaefte: geschaefteUnfiltered,
     filterByFields,
@@ -96,8 +92,8 @@ const FilterNav = () => {
     filterByFields(filterForFaelligeGeschaefte, 'fällige')
     // order by frist desc
     resetSort()
-    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [filterByFields, resetSort, geschaefteSortByFields])
+    sortByFields('fristMitarbeiter', 'DESCENDING')
+  }, [filterByFields, resetSort, sortByFields])
   const onSelectEigeneFaelligeGeschaefte = useCallback(() => {
     const now = moment().format('YYYY-MM-DD')
     const filter = [
@@ -120,19 +116,19 @@ const FilterNav = () => {
     filterByFields(filter, 'eigene fällige')
     // order by frist desc
     resetSort()
-    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [filterByFields, resetSort, geschaefteSortByFields, username])
+    sortByFields('fristMitarbeiter', 'DESCENDING')
+  }, [filterByFields, resetSort, sortByFields, username])
   const onSelectAngekVernehmlassungen = useCallback(() => {
     filterByFields(filterForVernehmlAngek, 'angekündigte Vernehmlassungen')
     resetSort()
-    geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [filterByFields, resetSort, geschaefteSortByFields])
+    sortByFields('idGeschaeft', 'DESCENDING')
+  }, [filterByFields, resetSort, sortByFields])
   const onSelectLaufendeVernehmlassungen = useCallback(() => {
     filterByFields(filterForVernehmlLaeuft, 'laufende Vernehmlassungen')
     resetSort()
-    geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-    geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [filterByFields, resetSort, geschaefteSortByFields])
+    sortByFields('fristMitarbeiter', 'DESCENDING')
+    sortByFields('idGeschaeft', 'DESCENDING')
+  }, [filterByFields, resetSort, sortByFields])
   const onClickFilterDropdown = useCallback(() => {
     const path = history.location.pathname
     if (path !== '/filterFields') {

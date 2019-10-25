@@ -24,14 +24,15 @@ const StyledFormControl = styled(FormControl)`
 
 const SortSelector = ({ name }) => {
   const store = useContext(storeContext)
-  const filterField = store.geschaefte.sortFields.find(ff => ff.field === name)
+  const { sortFields, sortByFields } = store.geschaefte
+  const filterField = sortFields.find(ff => ff.field === name)
   const direction = filterField ? filterField.direction : ''
 
   return (
     <InputGroup.Button>
       <StyledFormControl
         componentClass="select"
-        onChange={e => store.geschaefteSortByFields(name, e.target.value)}
+        onChange={e => sortByFields(name, e.target.value)}
         value={direction}
       >
         <option value="" />

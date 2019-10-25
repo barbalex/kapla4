@@ -15,7 +15,6 @@ import Pages from './Pages'
 import Table from './Table'
 import User from './User'
 import getDropdownOptions from '../src/getDropdownOptions'
-import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
 import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import isDateField from '../src/isDateField'
 import pageStandardState from '../src/pageStandardState'
@@ -46,24 +45,6 @@ export default () =>
     .actions(self => ({
       geschaeftPdfShow() {
         self.history.push('/geschaeftPdf')
-      },
-      geschaefteSortByFields(field, direction) {
-        const { pages } = self
-        const sortFields = geschaefteSortByFieldsGetSortFields(
-          self,
-          field,
-          direction,
-        )
-        self.geschaefte.sortFields = sortFields
-        /**
-         * if pages are active,
-         * initiate with new data
-         */
-        const path = self.history.location.pathname
-        if (path === '/pages') {
-          const { reportType } = pages
-          self.pagesInitiate(reportType)
-        }
       },
       geschaefteFilterByFulltext(filterFulltext) {
         const { pages, geschaefte } = self
@@ -903,7 +884,7 @@ export default () =>
         self.fetchUsername()
         // set filter to fällige
         self.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
-        self.geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
+        self.geschaefte.sortByFields('fristMitarbeiter', 'DESCENDING')
       },
       dbGetAtStandardpathIfPossible() {
         // try to open db at standard path

@@ -19,6 +19,7 @@ import FilterFields from './FilterFields'
 import SortFields from './SortFields'
 import isDateField from '../src/isDateField'
 import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
+import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
 
 export default types
   .model('Geschaefte', {
@@ -67,6 +68,25 @@ export default types
     },
   }))
   .actions(self => ({
+    sortByFields(field, direction) {
+      const store = getParent(self, 1)
+      const { pages } = store
+      const sortFields = geschaefteSortByFieldsGetSortFields(
+        store,
+        field,
+        direction,
+      )
+      self.sortFields = sortFields
+      /**
+       * if pages are active,
+       * initiate with new data
+       */
+      const path = store.history.location.pathname
+      if (path === '/pages') {
+        const { reportType } = pages
+        store.pagesInitiate(reportType)
+      }
+    },
     resetSort() {
       self.sortFields = []
     },
