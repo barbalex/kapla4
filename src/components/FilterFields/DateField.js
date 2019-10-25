@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   FormGroup,
@@ -70,48 +70,50 @@ const CalendarIconContainer = styled.div`
   padding-right: 12px;
 `
 
-class DateField extends Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    tabIndex: PropTypes.number.isRequired,
-    values: PropTypes.object.isRequired,
-    change: PropTypes.func.isRequired,
-    changeComparator: PropTypes.func.isRequired,
-  }
+/**
+ * need to give addon no padding
+ * and the originally addon's padding to the glyphicon
+ * to make entire addon clickable
+ * for opening calendar
+ */
+const datePickerAddonStyle = {
+  padding: 0,
+}
 
-  constructor(props) {
-    super(props)
-    const { values, name } = this.props
-    let value = values[name]
-    if (value) value = moment(value, 'YYYY-MM-DD').format('DD.MM.YYYY')
-    this.state = { value }
-  }
+const DateField = ({
+  name,
+  label,
+  tabIndex,
+  values,
+  change,
+  changeComparator,
+}) => {
+  const [value, setValue] = useState(
+    values[name] ? moment(values[name], 'YYYY-MM-DD').format('DD.MM.YYYY') : '',
+  )
+  useEffect(() => {
+    name === 'datumEingangAwel' &&
+      console.log('DateField, useEffect setting value')
+    setValue(
+      values[name]
+        ? moment(values[name], 'YYYY-MM-DD').format('DD.MM.YYYY')
+        : '',
+    )
+  }, [name, value, values])
 
-  componentDidUpdate(prevProps) {
-    const { values, name } = this.props
-    let value = values[name]
-    const prevValue = prevProps.values[name]
-    if (value !== prevValue) {
-      if (value) value = moment(value, 'YYYY-MM-DD').format('DD.MM.YYYY')
-      this.setState({ value })
-    }
-  }
+  name === 'datumEingangAwel' &&
+    console.log('DateField', { name, values, value })
 
-  onChange = e => {
-    this.setState({ value: e.target.value })
-  }
-
-  onBlur = () => {
-    const { values, name, change } = this.props
-    let { value } = this.state
+  const onChange = useCallback(e => setValue(e.target.value), [])
+  const onBlur = useCallback(() => {
+    name === 'datumEingangAwel' &&
+      console.log('DateField, onBlur', { value, valuesName: values[name] })
     // only filter if value has changed
     if (value !== values[name]) {
       if (!value || moment(value, 'DD.MM.YYYY').isValid()) {
         if (value) {
           // convert value for local state
-          value = moment(value, 'DD.MM.YYYY').format('DD.MM.YYYY')
-          this.setState({ value })
+          setValue(moment(value, 'DD.MM.YYYY').format('DD.MM.YYYY'))
         }
         const e = {
           target: {
@@ -123,79 +125,66 @@ class DateField extends Component {
         change(e)
       } else {
         // TODO: tell user this is invalid
-        console.log('DateField.js: invalid date') // eslint-disable-line no-console
+        console.log('DateField.js: invalid date')
       }
     }
-  }
+  }, [change, name, value, values])
+  const onChangeDatePicker = useCallback(
+    date => {
+      const rValForBlur = {
+        target: {
+          type: 'text',
+          name,
+          value: date,
+        },
+      }
+      const rValForChange = {
+        target: {
+          type: 'text',
+          name,
+          value: moment(date, 'DD.MM.YYYY').format('DD.MM.YYYY'),
+        },
+      }
+      onChange(rValForChange)
+      onBlur(rValForBlur)
+    },
+    [name, onBlur, onChange],
+  )
 
-  onChangeDatePicker = date => {
-    const { name } = this.props
-    const rValForBlur = {
-      target: {
-        type: 'text',
-        name,
-        value: date,
-      },
-    }
-    const rValForChange = {
-      target: {
-        type: 'text',
-        name,
-        value: moment(date, 'DD.MM.YYYY').format('DD.MM.YYYY'),
-      },
-    }
-    this.onChange(rValForChange)
-    this.onBlur(rValForBlur)
-  }
-
-  render() {
-    const { name, label, tabIndex, changeComparator } = this.props
-    const { value } = this.state
-    /**
-     * need to give addon no padding
-     * and the originally addon's padding to the glyphicon
-     * to make entire addon clickable
-     * for opening calendar
-     */
-    const datePickerAddonStyle = {
-      padding: 0,
-    }
-
-    return (
-      <StyledFormGroup
-        data-name={name}
-        // className={name === 'rechtsmittelEntscheidDatum' ? styles.fieldEntscheidDatum : styles.field}
-        validationState={getDateValidationStateDate(value)}
-      >
-        <ControlLabel>{label}</ControlLabel>
-        <InputGroup>
-          <SortSelector name={name} />
-          <ComparatorSelector name={name} changeComparator={changeComparator} />
-          <FormControl
-            type="text"
-            value={value || ''}
-            name={name}
-            onChange={this.onChange}
-            onBlur={this.onBlur}
-            tabIndex={tabIndex}
+  return (
+    <StyledFormGroup
+      data-name={name}
+      // className={name === 'rechtsmittelEntscheidDatum' ? styles.fieldEntscheidDatum : styles.field}
+      validationState={getDateValidationStateDate(value)}
+    >
+      <ControlLabel>{label}</ControlLabel>
+      <InputGroup>
+        <SortSelector name={name} />
+        <ComparatorSelector name={name} changeComparator={changeComparator} />
+        <FormControl
+          type="text"
+          value={value || ''}
+          name={name}
+          onChange={onChange}
+          onBlur={onBlur}
+          tabIndex={tabIndex}
+        />
+        <InputGroup.Addon style={datePickerAddonStyle}>
+          <StyledDatePicker
+            onChange={onChangeDatePicker}
+            dateFormat="DD.MM.YYYY"
+            //locale="de"
+            customInput={
+              <CalendarIconContainer>
+                <FaCalendarAlt />
+              </CalendarIconContainer>
+            }
+            popperPlacement="top-end"
           />
-          <InputGroup.Addon style={datePickerAddonStyle}>
-            <StyledDatePicker
-              onChange={this.onChangeDatePicker}
-              dateFormat="DD.MM.YYYY"
-              //locale="de"
-              customInput={
-                <CalendarIconContainer>
-                  <FaCalendarAlt />
-                </CalendarIconContainer>
-              }
-              popperPlacement="top-end"
-            />
-          </InputGroup.Addon>
-        </InputGroup>
-      </StyledFormGroup>
-    )
-  }
+        </InputGroup.Addon>
+      </InputGroup>
+    </StyledFormGroup>
+  )
 }
 
 export default observer(DateField)

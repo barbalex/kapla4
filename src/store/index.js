@@ -310,9 +310,15 @@ export default () =>
         const { username } = user
         const geschaeft = geschaefte.find(g => g.idGeschaeft === idGeschaeft)
         if (geschaeft) {
-          geschaeft[field] = value
-          geschaeft.mutationsperson = username
-          geschaeft.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
+          geschaeft.setValue({ field, value })
+          geschaeft.setValue({ field: 'mutationsperson', value: username })
+          geschaeft.setValue({
+            field: 'mutationsdatum',
+            value: moment().format('YYYY-MM-DD HH:mm:ss'),
+          })
+          //geschaeft[field] = value
+          //geschaeft.mutationsperson = username
+          //geschaeft.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
         } else {
           self.addError(new Error('Das Geschäft wurde nicht aktualisiert'))
         }
