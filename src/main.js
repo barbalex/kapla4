@@ -59,7 +59,9 @@ const createWindow = () => {
   })
 
   // save window state on close
-  mainWindow.on('close', () => {
+  mainWindow.on('close', e => {
+    e.preventDefault()
+
     const bounds = mainWindow.getBounds()
     saveConfigValue('lastWindowState', {
       x: bounds.x,
@@ -68,6 +70,11 @@ const createWindow = () => {
       height: bounds.height,
       maximized: mainWindow.isMaximized(),
     })
+
+    // in case user has changed data inside an input and not blured yet,
+    // force bluring so data is saved
+    mainWindow.webContents.executeJavaScript('document.activeElement.blur()')
+    setTimeout(() => mainWindow.destroy(), 500)
   })
 }
 
