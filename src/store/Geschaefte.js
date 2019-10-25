@@ -10,6 +10,8 @@ import Geko from './Geko'
 import AbteilungOptions from './Abteilung'
 import RechtsmittelErledigungOptions from './RechtsmittelErledigung'
 import ParlVorstossTypOptions from './ParlVorstossTyp'
+import StatusOptions from './Status'
+import GeschaeftsartOptions from './Geschaeftsart'
 
 export default types
   .model('Geschaefte', {
@@ -24,14 +26,14 @@ export default types
     abteilungOptions: types.array(AbteilungOptions),
     rechtsmittelErledigungOptions: types.array(RechtsmittelErledigungOptions),
     parlVorstossTypOptions: types.array(ParlVorstossTypOptions),
+    statusOptions: types.array(StatusOptions),
+    geschaeftsartOptions: types.array(GeschaeftsartOptions),
   })
   .volatile(() => ({
     error: [],
     filterFields: [],
     sortFields: [],
     // dropdown lists
-    statusOptions: [],
-    geschaeftsartOptions: [],
     aktenstandortOptions: [],
     interneOptions: [],
     externeOptions: [],
