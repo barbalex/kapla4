@@ -8,7 +8,6 @@ const options = {
 
 export default () =>
   new Promise((resolve, reject) => {
-    console.log('chooseDb running')
     dialog.showOpenDialog(options, result => {
       if (result && result[0]) resolve(result[0])
       // eslint-disable-next-line prefer-promise-reject-errors

@@ -309,13 +309,6 @@ export default () =>
         const { geschaefte } = self.geschaefte
         const { username } = user
         const geschaeft = geschaefte.find(g => g.idGeschaeft === idGeschaeft)
-        console.log('store, geschaefteChangeState', {
-          idGeschaeft,
-          field,
-          value,
-          username,
-          geschaeft,
-        })
         if (geschaeft) {
           geschaeft[field] = value
           geschaeft.mutationsperson = username
@@ -706,7 +699,6 @@ export default () =>
           console.log({ error, idGeschaeft, idKontakt })
           return self.addError(error)
         }
-        console.log({ geschaeftKontaktIntern })
         self.geschaefteKontakteIntern.geschaefteKontakteIntern.push(
           geschaeftKontaktIntern,
         )
