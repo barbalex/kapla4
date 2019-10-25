@@ -3,6 +3,7 @@ import { Button, Navbar, Nav, NavItem } from 'react-bootstrap'
 import { FaSave } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
+import ErrorBoundary from 'react-error-boundary'
 
 import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
@@ -18,7 +19,6 @@ import PrintNav from './PrintNav'
 import StammdatenNav from './StammdatenNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
-import ErrorBoundary from '../ErrorBoundary'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
