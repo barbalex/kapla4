@@ -1,4 +1,5 @@
 import { types, getParent } from 'mobx-state-tree'
+import _ from 'lodash'
 
 import addComputedValuesToGeschaefte from '../src/addComputedValuesToGeschaefte'
 import filterGeschaeftePlus from '../src/filterGeschaeftePlus'
@@ -109,6 +110,46 @@ export default types
       } else if (geschaeftePlusFilteredAndSorted.length === 1) {
         toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
       }
+    },
+    filterByFulltext(filterFulltext) {
+      const store = getParent(self, 1)
+      const {
+        pages,
+        geschaefte,
+        history,
+        pagesInitiate,
+        toggleActivatedById,
+      } = store
+      const { geschaeftePlusFilteredAndSorted } = geschaefte
+      self.filterType = 'nach Volltext'
+      self.filterFulltext = filterFulltext
+      self.filterFields = []
+      self.activeId = null
+      /**
+       * if pages are active,
+       * initiate with new data
+       */
+      const path = history.location.pathname
+      if (path === '/pages') {
+        const { reportType } = pages
+        pagesInitiate(reportType)
+      } else {
+        if (path !== '/geschaefte') {
+          history.push('/geschaefte')
+        }
+        if (geschaeftePlusFilteredAndSorted.length === 1) {
+          toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
+        }
+      }
+    },
+    removeFilters() {
+      self.GefilterteIds = _.sortBy(self.geschaefte, g => g.idGeschaeft)
+        .reverse()
+        .map(g => g.idGeschaeft)
+      self.filterFields = []
+      self.filterType = null
+      self.filterFulltext = ''
+      self.sortFields = []
     },
     toggleActivatedById(idGeschaeft) {
       self.activeId =

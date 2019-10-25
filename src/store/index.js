@@ -46,44 +46,6 @@ export default () =>
       geschaeftPdfShow() {
         self.history.push('/geschaeftPdf')
       },
-      geschaefteFilterByFulltext(filterFulltext) {
-        const { pages, geschaefte } = self
-        const { geschaeftePlusFilteredAndSorted } = geschaefte
-        self.geschaefte.filterType = 'nach Volltext'
-        self.geschaefte.filterFulltext = filterFulltext
-        self.geschaefte.filterFields = []
-        self.geschaefte.activeId = null
-        /**
-         * if pages are active,
-         * initiate with new data
-         */
-        const path = self.history.location.pathname
-        if (path === '/pages') {
-          const { reportType } = pages
-          self.pagesInitiate(reportType)
-        } else {
-          if (path !== '/geschaefte') {
-            self.history.push('/geschaefte')
-          }
-          if (geschaeftePlusFilteredAndSorted.length === 1) {
-            self.toggleActivatedById(
-              geschaeftePlusFilteredAndSorted[0].idGeschaeft,
-            )
-          }
-        }
-      },
-      geschaefteRemoveFilters() {
-        self.geschaefte.GefilterteIds = _.sortBy(
-          self.geschaefte.geschaefte,
-          g => g.idGeschaeft,
-        )
-          .reverse()
-          .map(g => g.idGeschaeft)
-        self.geschaefte.filterFields = []
-        self.geschaefte.filterType = null
-        self.geschaefte.filterFulltext = ''
-        self.geschaefte.sortFields = []
-      },
       getGeko() {
         const { app } = self
         self.geschaefte.fetching = true

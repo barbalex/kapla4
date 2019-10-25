@@ -55,11 +55,13 @@ const RemoveIcon = styled(FaTimes)`
 
 const FilterNav = () => {
   const store = useContext(storeContext)
-  const { geschaefteRemoveFilters, geschaefteFilterByFulltext, history } = store
+  const { history } = store
   const {
+    filterByFulltext,
     sortByFields,
     resetSort,
     geschaefte: geschaefteUnfiltered,
+    removeFilters,
     filterByFields,
     filterFields,
     filterType,
@@ -85,8 +87,8 @@ const FilterNav = () => {
     : 'Felder filtern / sortieren'
 
   const onChangeVolltextControl = useCallback(
-    e => geschaefteFilterByFulltext(e.target.value),
-    [geschaefteFilterByFulltext],
+    e => filterByFulltext(e.target.value),
+    [filterByFulltext],
   )
   const onSelectFaelligeGeschaefte = useCallback(() => {
     filterByFields(filterForFaelligeGeschaefte, 'fällige')
@@ -133,9 +135,9 @@ const FilterNav = () => {
     const path = history.location.pathname
     if (path !== '/filterFields') {
       history.push('/filterFields')
-      geschaefteRemoveFilters()
+      removeFilters()
     }
-  }, [geschaefteRemoveFilters, history])
+  }, [removeFilters, history])
 
   return (
     <ErrorBoundary>
@@ -204,7 +206,7 @@ const FilterNav = () => {
           </StyledFilterDropdown>
           <FilterRemoveButton
             disabled={!dataIsFiltered}
-            onClick={geschaefteRemoveFilters}
+            onClick={removeFilters}
           >
             <RemoveIcon title="Filter und Sortierung entfernen" />
           </FilterRemoveButton>
