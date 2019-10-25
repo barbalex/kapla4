@@ -1,4 +1,5 @@
-import { types } from 'mobx-state-tree'
+import { types, getParent } from 'mobx-state-tree'
+import moment from 'moment'
 
 export default types
   .model('Geschaeft', {
@@ -110,6 +111,11 @@ export default types
   })
   .actions(self => ({
     setValue({ field, value }) {
+      const store = getParent(self, 3)
+      const { user } = store
+      const { username } = user
       self[field] = value
+      self.mutationsperson = username
+      self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
     },
   }))

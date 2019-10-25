@@ -49,31 +49,6 @@ export default () =>
       /*
        * GESCHAEFT
        */
-      geschaeftRemoveDeleteIntended() {
-        self.geschaefte.willDelete = false
-      },
-      geschaeftSetDeleteIntended() {
-        self.geschaefte.willDelete = true
-      },
-      geschaefteChangeState(idGeschaeft, field, value) {
-        const { user } = self
-        const { geschaefte } = self.geschaefte
-        const { username } = user
-        const geschaeft = geschaefte.find(g => g.idGeschaeft === idGeschaeft)
-        if (geschaeft) {
-          geschaeft.setValue({ field, value })
-          geschaeft.setValue({ field: 'mutationsperson', value: username })
-          geschaeft.setValue({
-            field: 'mutationsdatum',
-            value: moment().format('YYYY-MM-DD HH:mm:ss'),
-          })
-          //geschaeft[field] = value
-          //geschaeft.mutationsperson = username
-          //geschaeft.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
-        } else {
-          self.addError(new Error('Das Geschäft wurde nicht aktualisiert'))
-        }
-      },
       changeGeschaeftInDb(idGeschaeft, field, value) {
         /**
          * if field is date field

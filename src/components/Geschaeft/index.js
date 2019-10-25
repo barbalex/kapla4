@@ -97,7 +97,7 @@ const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperPdf)`
 
 const Geschaeft = () => {
   const store = useContext(storeContext)
-  const { changeGeschaeftInDb, geschaefteChangeState, setDirty } = store
+  const { changeGeschaeftInDb, setDirty } = store
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -109,7 +109,7 @@ const Geschaeft = () => {
 
   const change = useCallback(
     e => {
-      const { type, name, dataset } = e.target
+      const { type, name: field, dataset } = e.target
       let { value } = e.target
       // need to convert numbers into numbers
       if (type && type === 'number') {
@@ -117,30 +117,30 @@ const Geschaeft = () => {
       }
       if (type === 'radio') {
         // need to set null if existing value was clicked
-        if (geschaeft[name] === dataset.value) {
+        if (geschaeft[field] === dataset.value) {
           value = ''
         } else {
           // eslint-disable-next-line prefer-destructuring
           value = dataset.value
         }
         // blur does not occur in radio
-        changeGeschaeftInDb(activeId, name, value)
+        changeGeschaeftInDb(activeId, field, value)
       }
       if (type === 'select-one') {
-        changeGeschaeftInDb(activeId, name, value)
+        changeGeschaeftInDb(activeId, field, value)
       }
-      geschaefteChangeState(activeId, name, value)
+      geschaeft.setValue({ field, value })
     },
-    [activeId, changeGeschaeftInDb, geschaeft, geschaefteChangeState],
+    [activeId, changeGeschaeftInDb, geschaeft],
   )
   const blur = useCallback(
     e => {
-      const { type, name, value } = e.target
+      const { type, name: field, value } = e.target
       if (type !== 'radio' && type !== 'select-one') {
-        if (isDateField(name)) {
+        if (isDateField(field)) {
           if (validateDate(value)) {
             // if correct date, save to db
-            changeGeschaeftInDb(activeId, name, value)
+            changeGeschaeftInDb(activeId, field, value)
           }
           // else: give user hint
           let value2 = ''
@@ -148,13 +148,13 @@ const Geschaeft = () => {
           if (value2.includes('Invalid date')) {
             value2 = value2.replace('Invalid date', 'Format: DD.MM.YYYY')
           }
-          geschaefteChangeState(activeId, name, value2)
+          geschaeft.setValue({ field, value: value2 })
         } else {
-          changeGeschaeftInDb(activeId, name, value)
+          changeGeschaeftInDb(activeId, field, value)
         }
       }
     },
-    [activeId, changeGeschaeftInDb, geschaefteChangeState],
+    [activeId, changeGeschaeftInDb, geschaeft],
   )
   const onChangeDatePicker = useCallback(
     (name, date) => {

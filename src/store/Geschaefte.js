@@ -270,9 +270,7 @@ export default types
         geschaefteKontakteIntern,
         geschaefteKontakteExtern,
         addError,
-        geschaeftRemoveDeleteIntended,
         geschaeftKontaktInternDelete,
-        geschaefteKontakteExternActions,
       } = store
       try {
         app.db
@@ -288,7 +286,7 @@ export default types
         console.log('geschaeftDelete error', error)
         return addError(error)
       }
-      geschaeftRemoveDeleteIntended(idGeschaeft)
+      self.geschaeftRemoveDeleteIntended(idGeschaeft)
       self.geschaefte = self.geschaefte.filter(
         g => g.idGeschaeft !== idGeschaeft,
       )
@@ -304,10 +302,7 @@ export default types
         g => g.idGeschaeft === idGeschaeft,
       )
       geschaefteKontakteExternToDelete.forEach(g =>
-        geschaefteKontakteExternActions.geschaeftKontaktExternDelete(
-          idGeschaeft,
-          g.idKontakt,
-        ),
+        store.geschaeftKontaktExternDelete(idGeschaeft, g.idKontakt),
       )
       // need to delete geKo in self
       const gekoToRemove = self.geko.filter(g => g.idGeschaeft === idGeschaeft)
@@ -315,5 +310,11 @@ export default types
       // need to delete links in self
       const linkselfmove = self.links.filter(l => l.idGeschaeft === idGeschaeft)
       linkselfmove.forEach(l => store.linkDelete(idGeschaeft, l.url))
+    },
+    geschaeftSetDeleteIntended() {
+      self.willDelete = true
+    },
+    geschaeftRemoveDeleteIntended() {
+      self.willDelete = false
     },
   }))

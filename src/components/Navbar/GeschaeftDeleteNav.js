@@ -13,8 +13,8 @@ const StyledNavItem = styled(NavItem)`
 
 const NavbarGeschaeftLoeschenNav = () => {
   const store = useContext(storeContext)
-  const { geschaeftSetDeleteIntended, showGeschaefteNavs } = store
-  const { activeId } = store.geschaefte
+  const { showGeschaefteNavs } = store
+  const { geschaeftSetDeleteIntended, activeId } = store.geschaefte
   const onClick = useCallback(() => geschaeftSetDeleteIntended(activeId), [
     activeId,
     geschaeftSetDeleteIntended,
