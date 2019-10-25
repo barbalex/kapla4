@@ -83,8 +83,6 @@ const Geschaefte = () => {
     g => g.idGeschaeft === activeId,
   )
 
-  console.log('Geschaefte, geschaefte:', geschaefte)
-
   return (
     <Container>
       <StyledTable>

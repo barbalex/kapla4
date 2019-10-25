@@ -12,15 +12,6 @@ export default store => {
   const existsFilterFulltext = !!filterFulltext
   const existsFilterFields = filterFields.length > 0
 
-  console.log('filterGeschaeftePlus', {
-    filterFulltext,
-    filterFields,
-    geschaeftePlus,
-    geschaefte,
-    existsFilterFulltext,
-    existsFilterFields,
-  })
-
   if (existsFilterFulltext) {
     return filterGeschaefteByFulltext(geschaeftePlus, filterFulltext)
   } else if (existsFilterFields) {
