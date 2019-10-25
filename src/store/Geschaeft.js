@@ -1,6 +1,9 @@
 import { types, getParent } from 'mobx-state-tree'
 import moment from 'moment'
 
+import isDateField from '../src/isDateField'
+import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
+
 export default types
   .model('Geschaeft', {
     abteilung: types.maybe(
@@ -117,5 +120,35 @@ export default types
       self[field] = value
       self.mutationsperson = username
       self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
+    },
+    setValueInDb({ field, value }) {
+      const store = getParent(self, 3)
+      const { app, user, addError } = store
+      /**
+       * if field is date field
+       * convert DD.MM.YYYY to YYYY-MM-DD
+       */
+      let value2 = value
+      if (isDateField(field)) {
+        value2 = convertDateToYyyyMmDd(value)
+      }
+      const now = moment().format('YYYY-MM-DD HH:mm:ss')
+      try {
+        app.db
+          .prepare(
+            `
+        UPDATE
+          geschaefte
+        SET
+          ${field} = '${value2}',
+          mutationsdatum = '${now}',
+          mutationsperson = '${user.username}'
+        WHERE
+          idGeschaeft = ${self.idGeschaeft}`,
+          )
+          .run()
+      } catch (error) {
+        addError(error)
+      }
     },
   }))

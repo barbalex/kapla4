@@ -97,7 +97,7 @@ const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperPdf)`
 
 const Geschaeft = () => {
   const store = useContext(storeContext)
-  const { changeGeschaeftInDb, setDirty } = store
+  const { setDirty } = store
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -124,14 +124,15 @@ const Geschaeft = () => {
           value = dataset.value
         }
         // blur does not occur in radio
-        changeGeschaeftInDb(activeId, field, value)
+        geschaeft.setValueInDb({ field, value })
       }
       if (type === 'select-one') {
-        changeGeschaeftInDb(activeId, field, value)
+        geschaeft.setValueInDb({ field, value })
       }
       geschaeft.setValue({ field, value })
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [activeId, changeGeschaeftInDb, geschaeft],
+    [geschaeft],
   )
   const blur = useCallback(
     e => {
@@ -140,7 +141,7 @@ const Geschaeft = () => {
         if (isDateField(field)) {
           if (validateDate(value)) {
             // if correct date, save to db
-            changeGeschaeftInDb(activeId, field, value)
+            geschaeft.setValueInDb({ field, value })
           }
           // else: give user hint
           let value2 = ''
@@ -150,11 +151,11 @@ const Geschaeft = () => {
           }
           geschaeft.setValue({ field, value: value2 })
         } else {
-          changeGeschaeftInDb(activeId, field, value)
+          geschaeft.setValueInDb({ field, value })
         }
       }
     },
-    [activeId, changeGeschaeftInDb, geschaeft],
+    [geschaeft],
   )
   const onChangeDatePicker = useCallback(
     (name, date) => {

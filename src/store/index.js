@@ -49,34 +49,6 @@ export default () =>
       /*
        * GESCHAEFT
        */
-      changeGeschaeftInDb(idGeschaeft, field, value) {
-        /**
-         * if field is date field
-         * convert DD.MM.YYYY to YYYY-MM-DD
-         */
-        let value2 = value
-        if (isDateField(field)) {
-          value2 = convertDateToYyyyMmDd(value)
-        }
-        const now = moment().format('YYYY-MM-DD HH:mm:ss')
-        try {
-          self.app.db
-            .prepare(
-              `
-          UPDATE
-            geschaefte
-          SET
-            ${field} = '${value2}',
-            mutationsdatum = '${now}',
-            mutationsperson = '${self.user.username}'
-          WHERE
-            idGeschaeft = ${idGeschaeft}`,
-            )
-            .run()
-        } catch (error) {
-          self.addError(error)
-        }
-      },
       rechtsmittelErledigungOptionsGet() {
         let rechtsmittelErledigungOptions = []
         try {
