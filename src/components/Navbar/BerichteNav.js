@@ -32,9 +32,8 @@ const BerichteNav = ({ showBerichteNavs }) => {
     pagesInitiate,
     geschaeftPdfShow,
     geschaefteSortByFields,
-    geschaefteResetSort,
   } = store
-  const { filterByFields, activeId } = store.geschaefte
+  const { resetSort, filterByFields, activeId } = store.geschaefte
   const path = store.history.location.pathname
   const isActive = path === '/pages'
   const nameObject = {
@@ -69,7 +68,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             filterByFields(filterForFaelligeGeschaefte, 'fällige')
             // only do this after former is finished
             setTimeout(() => {
-              geschaefteResetSort()
+              resetSort()
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('typFaelligeGeschaefte')
             })
@@ -83,7 +82,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             )
             // only do this after former is finished
             setTimeout(() => {
-              geschaefteResetSort()
+              resetSort()
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
               pagesInitiate('angekVernehml')
             })
@@ -95,7 +94,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             // only do this after former is finished
             setTimeout(() => {
               pagesInitiate('laufendeVernehml')
-              geschaefteResetSort()
+              resetSort()
               geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
               geschaefteSortByFields('idGeschaeft', 'DESCENDING')
             })

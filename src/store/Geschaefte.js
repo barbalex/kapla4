@@ -67,6 +67,9 @@ export default types
     },
   }))
   .actions(self => ({
+    resetSort() {
+      self.sortFields = []
+    },
     filterByFields(filterFields, filterType = 'nach Feldern') {
       const store = getParent(self, 1)
       const { pages, pagesInitiate, toggleActivatedById } = store

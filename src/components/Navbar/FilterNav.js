@@ -58,11 +58,11 @@ const FilterNav = () => {
   const {
     geschaefteRemoveFilters,
     geschaefteFilterByFulltext,
-    geschaefteResetSort,
     geschaefteSortByFields,
     history,
   } = store
   const {
+    resetSort,
     geschaefte: geschaefteUnfiltered,
     filterByFields,
     filterFields,
@@ -95,9 +95,9 @@ const FilterNav = () => {
   const onSelectFaelligeGeschaefte = useCallback(() => {
     filterByFields(filterForFaelligeGeschaefte, 'fällige')
     // order by frist desc
-    geschaefteResetSort()
+    resetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, resetSort, geschaefteSortByFields])
   const onSelectEigeneFaelligeGeschaefte = useCallback(() => {
     const now = moment().format('YYYY-MM-DD')
     const filter = [
@@ -119,20 +119,20 @@ const FilterNav = () => {
     ]
     filterByFields(filter, 'eigene fällige')
     // order by frist desc
-    geschaefteResetSort()
+    resetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
-  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields, username])
+  }, [filterByFields, resetSort, geschaefteSortByFields, username])
   const onSelectAngekVernehmlassungen = useCallback(() => {
     filterByFields(filterForVernehmlAngek, 'angekündigte Vernehmlassungen')
-    geschaefteResetSort()
+    resetSort()
     geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, resetSort, geschaefteSortByFields])
   const onSelectLaufendeVernehmlassungen = useCallback(() => {
     filterByFields(filterForVernehmlLaeuft, 'laufende Vernehmlassungen')
-    geschaefteResetSort()
+    resetSort()
     geschaefteSortByFields('fristMitarbeiter', 'DESCENDING')
     geschaefteSortByFields('idGeschaeft', 'DESCENDING')
-  }, [filterByFields, geschaefteResetSort, geschaefteSortByFields])
+  }, [filterByFields, resetSort, geschaefteSortByFields])
   const onClickFilterDropdown = useCallback(() => {
     const path = history.location.pathname
     if (path !== '/filterFields') {

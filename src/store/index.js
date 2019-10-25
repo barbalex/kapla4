@@ -16,7 +16,6 @@ import Table from './Table'
 import User from './User'
 import getDropdownOptions from '../src/getDropdownOptions'
 import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
-import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
 import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import isDateField from '../src/isDateField'
 import pageStandardState from '../src/pageStandardState'
@@ -47,9 +46,6 @@ export default () =>
     .actions(self => ({
       geschaeftPdfShow() {
         self.history.push('/geschaeftPdf')
-      },
-      geschaefteResetSort() {
-        self.geschaefte.sortFields = []
       },
       geschaefteSortByFields(field, direction) {
         const { pages } = self
