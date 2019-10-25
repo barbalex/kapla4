@@ -5,6 +5,7 @@ import filterGeschaeftePlus from '../src/filterGeschaeftePlus'
 import sortGeschaeftePlusFiltered from '../src/sortGeschaeftePlusFiltered'
 import getHistoryOfGeschaeft from '../src/getHistoryOfGeschaeft'
 import Geschaeft from './Geschaeft'
+import Links from './Links'
 
 export default types
   .model('Geschaefte', {
@@ -14,10 +15,10 @@ export default types
     activeId: types.maybeNull(types.number),
     willDelete: types.optional(types.boolean, false),
     geschaefte: types.array(Geschaeft),
+    links: types.array(Links),
   })
   .volatile(() => ({
     error: [],
-    links: [],
     geko: [],
     filterFields: [],
     sortFields: [],
