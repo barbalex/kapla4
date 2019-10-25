@@ -14,6 +14,7 @@ import StatusOptions from './Status'
 import GeschaeftsartOptions from './Geschaeftsart'
 import AktenstandortOptions from './Aktenstandort'
 import InterneOptions from './Interne'
+import ExterneOptions from './Externe'
 
 export default types
   .model('Geschaefte', {
@@ -32,13 +33,12 @@ export default types
     geschaeftsartOptions: types.array(GeschaeftsartOptions),
     aktenstandortOptions: types.array(AktenstandortOptions),
     interneOptions: types.array(InterneOptions),
+    externeOptions: types.array(ExterneOptions),
   })
   .volatile(() => ({
     error: [],
     filterFields: [],
     sortFields: [],
-    // dropdown lists
-    externeOptions: [],
   }))
   .views(self => ({
     get geschaeftePlus() {
