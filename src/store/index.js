@@ -13,8 +13,6 @@ import Pages from './Pages'
 import Table from './Table'
 import User from './User'
 import getDropdownOptions from '../src/getDropdownOptions'
-import pageStandardState from '../src/pageStandardState'
-import tableStandardState from '../src/tableStandardState'
 import standardConfig from '../src/standardConfig'
 import standardDbPath from '../src/standardDbPath'
 import getConfig from '../src/getConfig'
@@ -428,105 +426,9 @@ export default () =>
         self.geschaefteKontakteIntern.willDelete = false
         self.geschaeftKontaktInternDelete(idGeschaeft, idKontakt)
       },
-      tableReset() {
-        Object.keys(tableStandardState).forEach(k => {
-          self.table[k] = tableStandardState[k]
-        })
-      },
-      getTable(table) {
-        const { app } = self
-        self.table.table = table
-        let rows
-        try {
-          rows = app.db.prepare(`SELECT * FROM ${table}`).all()
-        } catch (error) {
-          return self.addError(error)
-        }
-        self.table.table = table
-        self.table.rows = rows
-        self.table.id = null
-        if (self.history.location.pathname !== '/table') {
-          self.history.push('/table')
-        }
-      },
       /*
        * ROW
        */
-      tableRowToggleActivated(table, id) {
-        self.table.id = self.table.id && self.table.id === id ? null : id
-      },
-      tableRowNewCreate(table) {
-        const { db } = self.app
-        let result
-        try {
-          result = db.prepare(`INSERT INTO ${table} (id) VALUES (NULL)`).run()
-        } catch (error) {
-          return self.addError(error)
-        }
-        const id = result.lastInsertRowid
-        // return full dataset
-        let row
-        try {
-          row = db.prepare(`SELECT * FROM ${table} WHERE id = ${id}`).get()
-        } catch (error) {
-          return self.addError(error)
-        }
-        // react does not want to get null values
-        Object.keys(row).forEach(key => {
-          if (row[key] === null) {
-            row[key] = ''
-          }
-        })
-        self.table.rows.push(row)
-        self.tableRowToggleActivated(table, row.id)
-        if (self.history.location.pathname !== '/table') {
-          self.history.push('/table')
-        }
-      },
-      tableRowRemove(table, id) {
-        try {
-          self.app.db
-            .prepare(
-              `
-              DELETE FROM
-                ${table}
-              WHERE
-                id = ${id}`,
-            )
-            .run()
-        } catch (error) {
-          return self.addError(error)
-        }
-        self.tableRowToggleActivated(table, null)
-        self.table.rows = self.table.rows.filter(g => g.id !== id)
-      },
-      tableChangeState(id, field, value) {
-        const row = self.table.rows.find(r => r.id === id)
-        if (row) {
-          row[field] = value
-        }
-      },
-      changeTableInDb(table, id, field, value) {
-        // no need to do something on then
-        // ui was updated on TABLE_CHANGE_STATE
-        try {
-          self.app.db.prepare(
-            `
-            UPDATE
-              ${table}
-            SET
-              ${field} = '${value}'
-            WHERE
-              id = ${id}`,
-          )
-        } catch (error) {
-          // TODO: reset ui
-          return self.addError(error)
-        }
-        // need to reload this table in self
-        const actionName = `${table}OptionsGet`
-        self[actionName]()
-      },
       fetchUsername() {
         const { user } = self
         if (!user.username) {

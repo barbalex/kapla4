@@ -22,8 +22,7 @@ const StyledFormGroup = styled(FormGroup)`
 
 const TableRow = () => {
   const store = useContext(storeContext)
-  const { tableChangeState, changeTableInDb } = store
-  const { rows, id, table } = store.table
+  const { rows, id, table, changeState, updateInDb } = store.table
   const row = rows.find(r => r.id === id)
 
   const onBlur = useCallback(
@@ -31,9 +30,10 @@ const TableRow = () => {
       const { type, name, dataset } = event.target
       let { value } = event.target
       if (type === 'radio') value = dataset.value
-      changeTableInDb(table, id, name, value)
+      console.log('TableRow, onBlur', { name, value, id, table })
+      updateInDb(table, id, name, value)
     },
-    [changeTableInDb, id, table],
+    [updateInDb, id, table],
   )
   const onChange = useCallback(
     event => {
@@ -44,9 +44,10 @@ const TableRow = () => {
         // onBlur does not occur in radio
         onBlur(event)
       }
-      tableChangeState(id, name, value)
+      console.log('TableRow, onChange', { name, value, id })
+      changeState(id, name, value)
     },
-    [id, onBlur, tableChangeState],
+    [id, onBlur, changeState],
   )
 
   if (row === undefined) return null

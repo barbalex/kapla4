@@ -60,7 +60,7 @@ const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
 const Table = () => {
   const store = useContext(storeContext)
-  const { tableReset } = store
+  const { reset } = store
   const { config } = store.app
   const { rows, id } = store.table
 
@@ -71,8 +71,8 @@ const Table = () => {
   const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
 
   useEffect(() => {
-    return () => tableReset()
-  }, [tableReset])
+    return () => reset()
+  }, [reset])
 
   return (
     <ErrorBoundary>

@@ -16,12 +16,11 @@ const StyledNavItem = styled(({ showTableNavs, children, ...rest }) => (
 
 const NavbarTableRowDeleteNav = ({ showTableNavs }) => {
   const store = useContext(storeContext)
-  const { tableRowRemove } = store
-  const { table, id } = store.table
-  const onClick = useCallback(() => tableRowRemove(table, id), [
+  const { table, id, rowDelete } = store.table
+  const onClick = useCallback(() => rowDelete(table, id), [
     id,
     table,
-    tableRowRemove,
+    rowDelete,
   ])
 
   return (

@@ -6,11 +6,9 @@ import { observer } from 'mobx-react-lite'
 import storeContext from '../../storeContext'
 
 const NavbarTableRowNeuNav = () => {
-  const { tableRowNewCreate, table } = useContext(storeContext)
-  const onClick = useCallback(() => tableRowNewCreate(table.table), [
-    table.table,
-    tableRowNewCreate,
-  ])
+  const store = useContext(storeContext)
+  const { rowInsert, table } = store.table
+  const onClick = useCallback(() => rowInsert(table), [table, rowInsert])
 
   return (
     <NavItem onClick={onClick} title="neuer Datensatz">

@@ -26,8 +26,7 @@ const StyledNavDropdown = styled(NavDropdown)`
 
 const NavbarStammdatenNav = ({ showTableNavs }) => {
   const store = useContext(storeContext)
-  const { getTable } = store
-  const { table, rows } = store.table
+  const { table, fetch, rows } = store.table
   const tableName = tableNameObject[table] || table
 
   return (
@@ -44,51 +43,45 @@ const NavbarStammdatenNav = ({ showTableNavs }) => {
       id="stammdaten-nav-dropdown"
       data-showtablenavs={showTableNavs}
     >
-      <MenuItem
-        onClick={() => getTable('interne')}
-        active={table === 'interne'}
-      >
+      <MenuItem onClick={() => fetch('interne')} active={table === 'interne'}>
         Interne
       </MenuItem>
-      <MenuItem
-        onClick={() => getTable('externe')}
-        active={table === 'externe'}
-      >
+      <MenuItem onClick={() => fetch('externe')} active={table === 'externe'}>
         Externe
       </MenuItem>
       <MenuItem divider />
       <MenuItem header>Auswahllisten:</MenuItem>
       <MenuItem
-        onClick={() => getTable('aktenstandort')}
+        onClick={() => fetch('aktenstandort')}
         active={table === 'aktenstandort'}
       >
         Aktenstandort
       </MenuItem>
       <MenuItem
-        onClick={() => getTable('geschaeftsart')}
+        onClick={() => fetch('geschaeftsart')}
         active={table === 'geschaeftsart'}
       >
         Geschäftsart
       </MenuItem>
       <MenuItem
-        onClick={() => getTable('parlVorstossTyp')}
+        onClick={() => fetch('parlVorstossTyp')}
         active={table === 'parlVorstossTyp'}
       >
         Parlament. Vorstoss Typ
       </MenuItem>
       <MenuItem
-        onClick={() => getTable('rechtsmittelInstanz')}
+        onClick={() => fetch('rechtsmittelInstanz')}
         active={table === 'rechtsmittelInstanz'}
       >
         Rechtsmittel-Instanz
       </MenuItem>
       <MenuItem
-        onClick={() => getTable('rechtsmittelErledigung')}
+        onClick={() => fetch('rechtsmittelErledigung')}
         active={table === 'rechtsmittelErledigung'}
       >
         Rechtsmittel-Erledigung
       </MenuItem>
-      <MenuItem onClick={() => getTable('status')} active={table === 'status'}>
+      <MenuItem onClick={() => fetch('status')} active={table === 'status'}>
         Status
       </MenuItem>
     </StyledNavDropdown>
