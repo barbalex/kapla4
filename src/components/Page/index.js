@@ -149,11 +149,11 @@ class Page extends Component {
 
   componentDidMount = () => {
     const store = this.context
-    const { pageAddGeschaeft } = store
+    const { addGeschaeft } = store
     this.showPagesModal()
     // wait with next stepp until message is shown
     setTimeout(() => {
-      pageAddGeschaeft()
+      addGeschaeft()
     }, 100)
   }
 
@@ -174,12 +174,14 @@ class Page extends Component {
       const store = this.context
       const { pageIndex } = this.props
       const {
-        pageAddGeschaeft,
-        pagesMoveGeschaeftToNewPage,
-        pagesFinishedBuilding,
-        pagesModalShow,
-      } = store
-      const { pages, activePageIndex, remainingGeschaefte } = store.pages
+        pages,
+        activePageIndex,
+        remainingGeschaefte,
+        showModal,
+        addGeschaeft,
+        moveGeschaeftToNewPage,
+        finishedBuilding,
+      } = store.pages
 
       // don't do anything on not active pages
       if (pageIndex === activePageIndex) {
@@ -194,21 +196,21 @@ class Page extends Component {
 
         if (!activePageIsFull && remainingGeschaefte.length > 0) {
           if (offsetHeight < scrollHeight) {
-            pagesMoveGeschaeftToNewPage(activePageIndex)
+            moveGeschaeftToNewPage(activePageIndex)
             this.showPagesModal()
           } else {
-            pageAddGeschaeft()
+            addGeschaeft()
           }
         }
         if (remainingGeschaefte.length === 0) {
           if (offsetHeight < scrollHeight) {
-            pagesMoveGeschaeftToNewPage(activePageIndex)
+            moveGeschaeftToNewPage(activePageIndex)
             this.showPagesModal()
           } else {
             // for unknown reason setTimeout is needed
             setTimeout(() => {
-              pagesModalShow(false, '', '')
-              pagesFinishedBuilding()
+              showModal(false, '', '')
+              finishedBuilding()
             })
           }
         }
@@ -218,13 +220,13 @@ class Page extends Component {
 
   showPagesModal = () => {
     const store = this.context
-    const { pagesModalShow } = store
+    const { showModal } = store
     const { pages, remainingGeschaefte } = store.pages
     const { geschaeftePlusFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
     const msgLine2 =
       geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
-    pagesModalShow(true, 'Der Bericht wird aufgebaut...', msgLine2)
+    showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
   render() {

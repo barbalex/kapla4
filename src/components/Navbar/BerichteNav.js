@@ -27,8 +27,9 @@ const StyledNavDropdown = styled(NavDropdown)`
 
 const BerichteNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
-  const { pages, pagesInitiate, navigateToGeschaeftPdf } = store
+  const { navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
+  const { initiate, reportType } = store.pages
   const path = store.history.location.pathname
   const isActive = path === '/pages'
   const nameObject = {
@@ -37,7 +38,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
     angekVernehml: 'Bericht: angekündigte Vernehmlassungen',
     laufendeVernehml: 'Bericht: laufende Vernehmlassungen',
   }
-  const name = nameObject[pages.reportType] || 'Berichte'
+  const name = nameObject[reportType] || 'Berichte'
   const title = isActive ? name : 'Berichte'
 
   return (
@@ -56,7 +57,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
          * to get the menu item to close immediately
          */
         if (eventKey === 7.2) {
-          setTimeout(() => pagesInitiate('list1'))
+          setTimeout(() => initiate('list1'))
         }
         if (eventKey === 7.7) {
           setTimeout(() => {
@@ -65,7 +66,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             setTimeout(() => {
               resetSort()
               sortByFields('idGeschaeft', 'DESCENDING')
-              pagesInitiate('typFaelligeGeschaefte')
+              initiate('typFaelligeGeschaefte')
             })
           })
         }
@@ -79,7 +80,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             setTimeout(() => {
               resetSort()
               sortByFields('idGeschaeft', 'DESCENDING')
-              pagesInitiate('angekVernehml')
+              initiate('angekVernehml')
             })
           })
         }
@@ -88,7 +89,7 @@ const BerichteNav = ({ showBerichteNavs }) => {
             filterByFields(filterForVernehmlLaeuft, 'laufende Vernehmlassungen')
             // only do this after former is finished
             setTimeout(() => {
-              pagesInitiate('laufendeVernehml')
+              initiate('laufendeVernehml')
               resetSort()
               sortByFields('fristMitarbeiter', 'DESCENDING')
               sortByFields('idGeschaeft', 'DESCENDING')

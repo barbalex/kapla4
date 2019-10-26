@@ -32,8 +32,7 @@ const StyledTitle = styled.div`
 
 const Page = ({ firstPage }) => {
   const store = useContext(storeContext)
-  const { pagesQueryTitle, pagesSetTitle } = store
-  const { queryTitle, title } = store.pages
+  const { queryTitle, title, pagesQueryTitle, setTitle } = store.pages
 
   const onClickH1 = useCallback(() => pagesQueryTitle(true), [pagesQueryTitle])
   const onKeyPressTitle = useCallback(
@@ -47,8 +46,8 @@ const Page = ({ firstPage }) => {
   const onBlurTitle = useCallback(() => {
     if (title) pagesQueryTitle(false)
   }, [pagesQueryTitle, title])
-  const changeQueryTitle = useCallback(e => pagesSetTitle(e.target.value), [
-    pagesSetTitle,
+  const changeQueryTitle = useCallback(e => setTitle(e.target.value), [
+    setTitle,
   ])
 
   return (

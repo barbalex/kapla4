@@ -72,7 +72,7 @@ export default types
   .actions(self => ({
     sortByFields(field, direction) {
       const store = getParent(self, 1)
-      const { pages } = store
+      const { reportType, initiate } = store.pages
       const sortFields = geschaefteSortByFieldsGetSortFields(
         store,
         field,
@@ -85,8 +85,7 @@ export default types
        */
       const path = store.history.location.pathname
       if (path === '/pages') {
-        const { reportType } = pages
-        store.pagesInitiate(reportType)
+        initiate(reportType)
       }
     },
     resetSort() {
@@ -94,7 +93,7 @@ export default types
     },
     filterByFields(filterFields, filterType = 'nach Feldern') {
       const store = getParent(self, 1)
-      const { pages, pagesInitiate } = store
+      const { reportType, initiate } = store.pages
       const { geschaeftePlusFilteredAndSorted } = store.geschaefte
       store.geschaefte.filterFields = filterFields
       store.geschaefte.filterFulltext = ''
@@ -106,15 +105,15 @@ export default types
        */
       const path = store.history.location.pathname
       if (path === '/pages') {
-        const { reportType } = pages
-        pagesInitiate(reportType)
+        initiate(reportType)
       } else if (geschaeftePlusFilteredAndSorted.length === 1) {
         self.toggleActivatedById(geschaeftePlusFilteredAndSorted[0].idGeschaeft)
       }
     },
     filterByFulltext(filterFulltext) {
       const store = getParent(self, 1)
-      const { pages, geschaefte, history, pagesInitiate } = store
+      const { geschaefte, history } = store
+      const { initiate, reportType } = store.pages
       const { geschaeftePlusFilteredAndSorted } = geschaefte
       self.filterType = 'nach Volltext'
       self.filterFulltext = filterFulltext
@@ -126,8 +125,7 @@ export default types
        */
       const path = history.location.pathname
       if (path === '/pages') {
-        const { reportType } = pages
-        pagesInitiate(reportType)
+        initiate(reportType)
       } else {
         if (path !== '/geschaefte') {
           history.push('/geschaefte')

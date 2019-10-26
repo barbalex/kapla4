@@ -21,8 +21,7 @@ const P = styled.p`
 
 const PagesModal = () => {
   const store = useContext(storeContext)
-  const { pagesStop } = store
-  const { modalTextLine1, modalTextLine2 } = store.pages
+  const { modalTextLine1, modalTextLine2, stop } = store.pages
 
   return (
     <Modal.Dialog bsSize={modalTextLine2 ? 'large' : 'small'}>
@@ -32,7 +31,7 @@ const PagesModal = () => {
           {modalTextLine2 && <P>{modalTextLine2}</P>}
         </div>
         <RightDiv>
-          <Button onClick={pagesStop}>Abbrechen</Button>
+          <Button onClick={stop}>Abbrechen</Button>
         </RightDiv>
       </Body>
     </Modal.Dialog>
