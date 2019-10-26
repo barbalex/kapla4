@@ -122,7 +122,7 @@ const FilterFields = () => {
           if (f.field !== name) {
             newFilterFields.push(f)
           } else if (f.comparator) {
-            changedField = f
+            changedField = { ...f }
           }
         })
       }
