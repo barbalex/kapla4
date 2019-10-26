@@ -3,7 +3,6 @@
  * Hooks can only be called inside the body of a function component.
  */
 import React, { useContext } from 'react'
-import PropTypes from 'prop-types'
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'

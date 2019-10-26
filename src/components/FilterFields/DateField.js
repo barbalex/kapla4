@@ -1,5 +1,4 @@
-import React, { Component, useEffect, useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   FormGroup,
   InputGroup,

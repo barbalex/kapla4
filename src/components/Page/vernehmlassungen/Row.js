@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import shorten from '../../../src/shortenGegenstandField'
@@ -130,13 +129,6 @@ const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
       </StyledKontakt>
     </Row>
   )
-}
-
-PageVernehmlassungenRows.displayName = 'PageVernehmlassungenRows'
-
-PageVernehmlassungenRows.propTypes = {
-  geschaeft: PropTypes.object.isRequired,
-  rowIndex: PropTypes.number.isRequired,
 }
 
 export default PageVernehmlassungenRows
