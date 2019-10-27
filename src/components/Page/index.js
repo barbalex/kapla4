@@ -177,9 +177,9 @@ class Page extends Component {
       const { pageIndex } = this.props
       const {
         pages,
+        showModal,
         activePageIndex,
         remainingGeschaefte,
-        showModal,
         addGeschaeft,
         moveGeschaeftToNewPage,
         finishedBuilding,
@@ -222,8 +222,7 @@ class Page extends Component {
 
   showPagesModal = () => {
     const store = this.context
-    const { showModal } = store
-    const { pages, remainingGeschaefte } = store.pages
+    const { pages, remainingGeschaefte, showModal } = store.pages
     const { geschaeftePlusFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
     const msgLine2 =

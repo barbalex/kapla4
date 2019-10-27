@@ -1,7 +1,7 @@
 import { types, getParent } from 'mobx-state-tree'
 
 import Page from './Page'
-import Geschaeft from './Geschaeft'
+import GeschaeftRemaining from './GeschaeftRemaining'
 import pageStandardState from '../src/pageStandardState'
 
 export default types
@@ -15,7 +15,7 @@ export default types
     showPagesModal: types.optional(types.boolean, false),
     modalTextLine1: types.optional(types.string, ''),
     modalTextLine2: types.optional(types.string, ''),
-    remainingGeschaefte: types.array(Geschaeft),
+    remainingGeschaefte: types.array(GeschaeftRemaining),
   })
   .actions(self => ({
     initiate(reportType) {
