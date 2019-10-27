@@ -225,8 +225,7 @@ class Page extends Component {
     const { pages, remainingGeschaefte, showModal } = store.pages
     const { geschaeftePlusFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 =
-      geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
+    const msgLine2 = geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
     showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
@@ -235,8 +234,14 @@ class Page extends Component {
     const store = this.context
     const { pageIndex } = this.props
     const { pages, building, reportType } = store.pages
-    const { filterFields, sortFields } = store.geschaefte
-    const geschaefte = pages[pageIndex].geschaefte
+    const {
+      filterFields,
+      sortFields,
+      geschaeftePlusFilteredAndSorted,
+    } = store.geschaefte
+    const geschaefteIds = pages[pageIndex].geschaefte
+    const geschaefte = geschaeftePlusFilteredAndSorted
+      .filter(g => geschaefteIds.includes(g.idGeschaeft))
       /**
        * for unknown reason in bericht "laufende Vernehmlassungen"
        * an undefined geschaeft exists

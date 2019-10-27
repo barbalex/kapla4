@@ -1,7 +1,6 @@
-import { types, getParent, getSnapshot } from 'mobx-state-tree'
+import { types, getParent } from 'mobx-state-tree'
 
 import Page from './Page'
-import GeschaeftRemaining from './GeschaeftRemaining'
 import pageStandardState from '../src/pageStandardState'
 
 export default types
@@ -15,28 +14,19 @@ export default types
     showPagesModal: types.optional(types.boolean, false),
     modalTextLine1: types.optional(types.string, ''),
     modalTextLine2: types.optional(types.string, ''),
-    remainingGeschaefte: types.array(GeschaeftRemaining),
+    // this is array of idGeschaeft
+    remainingGeschaefte: types.array(types.integer),
   })
-  .volatile(() => ({
-    //remainingGeschaefte: [],
-  }))
   .actions(self => ({
     initiate(reportType) {
       const store = getParent(self, 1)
       self.cleanUp()
       const { geschaeftePlusFilteredAndSorted } = store.geschaefte
       self.reportType = reportType
-      console.log(
-        'Store, initiate, geschaeftePlusFilteredAndSorted:',
-        geschaeftePlusFilteredAndSorted,
+      self.remainingGeschaefte = geschaeftePlusFilteredAndSorted.map(
+        g => g.idGeschaeft,
       )
-      self.remainingGeschaefte = [...geschaeftePlusFilteredAndSorted]
-
       self.building = true
-      console.log(
-        'Store, initiate, remainingGeschaefte:',
-        self.remainingGeschaefte,
-      )
       store.history.push('/pages')
     },
     cleanUp() {
