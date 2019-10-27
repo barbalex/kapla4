@@ -7,8 +7,8 @@ import storeContext from '../../storeContext'
 
 const NavbarTableRowNeuNav = () => {
   const store = useContext(storeContext)
-  const { rowInsert, table } = store.table
-  const onClick = useCallback(() => rowInsert(table), [table, rowInsert])
+  const { table, rows } = store.table
+  const onClick = useCallback(() => rows.insert(table), [rows, table])
 
   return (
     <NavItem onClick={onClick} title="neuer Datensatz">

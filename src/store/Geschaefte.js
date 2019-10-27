@@ -215,7 +215,8 @@ export default types
     },
     geschaeftInsert() {
       const store = getParent(self, 1)
-      const { app, user, history } = store
+      const { app, history } = store
+      const { user } = app
       const now = moment().format('YYYY-MM-DD HH:mm:ss')
       let result
       try {

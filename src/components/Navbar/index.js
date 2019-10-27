@@ -58,12 +58,8 @@ const SaveButton = styled(Button)`
 const NavbarComponent = () => {
   const store = useContext(storeContext)
 
-  useEffect(() => {
-    store.configGet()
-  }, [store])
-
   const { dirty } = store
-  const { showMessageModal } = store.app
+  const { showMessageModal, configGet } = store.app
   const { showPagesModal } = store.pages
   const {
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -76,6 +72,10 @@ const NavbarComponent = () => {
   const showGeschaefteNavs = path === '/geschaefte' || path === '/filterFields'
   const showGeschaefteAndPrint = showBerichteNavs || showGeschaefteNavs
   const showTableNavs = path === '/table'
+
+  useEffect(() => {
+    configGet()
+  }, [configGet])
 
   console.log('Navbar, dirty:', dirty)
 

@@ -46,8 +46,7 @@ const onClickIssues = () => {
 
 const OptionsNav = () => {
   const store = useContext(storeContext)
-  const { dbGet, configUiReset } = store
-  const { config } = store.app
+  const { config, dbGet, configUiReset } = store.app
 
   return (
     <StyledNavDropdown title="&#8942;" id="last-nav-dropdown" noCaret>

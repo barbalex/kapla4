@@ -13,13 +13,12 @@ const StyledSplitPane = styled(SplitPane)`
 
 const TableLayout = () => {
   const store = useContext(storeContext)
-  const { config } = store.app
+  const { config, configSetKey } = store.app
   const { id } = store.table
 
-  const onChange = useCallback(
-    size => store.configSetKey('tableColumnWidth', size),
-    [store],
-  )
+  const onChange = useCallback(size => configSetKey('tableColumnWidth', size), [
+    configSetKey,
+  ])
 
   return (
     <StyledSplitPane

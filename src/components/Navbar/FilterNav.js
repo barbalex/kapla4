@@ -69,7 +69,7 @@ const FilterNav = () => {
     sortFields,
     geschaeftePlusFilteredAndSorted: geschaefte,
   } = store.geschaefte
-  const { username } = store.user
+  const { username } = store.app.user
   const dataIsFilteredByFulltext =
     geschaefte.length !== geschaefteUnfiltered.length && filterFulltext
   const dataIsFilteredByFields =

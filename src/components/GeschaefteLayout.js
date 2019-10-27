@@ -18,8 +18,7 @@ const StyledSplitPane = styled(SplitPane)`
 
 const GeschaefteLayout = () => {
   const store = useContext(storeContext)
-  const { configSetKey } = store
-  const { config } = store.app
+  const { config, configSetKey } = store.app
   const { activeId } = store.geschaefte
   const path = store.history.location.pathname
   const showGeschaeft = path === '/geschaefte' && activeId

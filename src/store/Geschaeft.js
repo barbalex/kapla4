@@ -115,7 +115,7 @@ export default types
   .actions(self => ({
     setValue({ field, value }) {
       const store = getParent(self, 3)
-      const { user } = store
+      const { user } = store.app
       const { username } = user
       self[field] = value
       self.mutationsperson = username
@@ -123,7 +123,8 @@ export default types
     },
     setValueInDb({ field, value }) {
       const store = getParent(self, 3)
-      const { app, user, addError } = store
+      const { app, addError } = store
+      const { user } = app
       /**
        * if field is date field
        * convert DD.MM.YYYY to YYYY-MM-DD

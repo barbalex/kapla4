@@ -1,7 +1,4 @@
 import { types } from 'mobx-state-tree'
-import getMyName from 'username'
-import fs from 'fs'
-import betterSqlite from 'better-sqlite3'
 import uniqBy from 'lodash/uniqBy'
 
 import observablehistory from './observableHistory'
@@ -11,14 +8,7 @@ import GeschaefteKontakteIntern from './GeschaefteKontakteIntern'
 import GeschaefteKontakteExtern from './GeschaefteKontakteExtern'
 import Pages from './Pages'
 import Table from './Table'
-import User from './User'
 import getDropdownOptions from '../src/getDropdownOptions'
-import standardConfig from '../src/standardConfig'
-import standardDbPath from '../src/standardDbPath'
-import getConfig from '../src/getConfig'
-import filterForFaelligeGeschaefte from '../src/filterForFaelligeGeschaefte'
-import saveConfig from '../src/saveConfig'
-import chooseDb from '../src/chooseDb'
 
 export default () =>
   types
@@ -30,7 +20,6 @@ export default () =>
       geschaefteKontakteExtern: types.optional(GeschaefteKontakteExtern, {}),
       pages: types.optional(Pages, {}),
       table: types.optional(Table, {}),
-      user: types.optional(User, {}),
     })
     .volatile(() => ({
       history: observablehistory,
@@ -425,122 +414,6 @@ export default () =>
         }
         self.geschaefteKontakteIntern.willDelete = false
         self.geschaeftKontaktInternDelete(idGeschaeft, idKontakt)
-      },
-      /*
-       * ROW
-       */
-      fetchUsername() {
-        const { user } = self
-        if (!user.username) {
-          const username = getMyName.sync()
-          if (username) {
-            self.user.error = null
-            self.user.username = username
-          } else {
-            self.user.error = 'keinen Benutzernamen erhalten'
-            self.user.username = ''
-          }
-        }
-      },
-      configSetKey(key, value) {
-        const { config } = self.app
-        if (value) {
-          config[key] = value
-        } else if (config[key]) {
-          delete config[key]
-        }
-        saveConfig(config)
-        self.app.config = config
-      },
-      dbGet() {
-        self.app.fetchingDb = true
-        self.app.errorFetchingDb = null
-        chooseDb()
-          .then(dbPath => {
-            const db = betterSqlite(dbPath, { fileMustExist: true })
-            self.dbChooseSuccess(dbPath, db)
-            self.configSetKey('dbPath', dbPath)
-          })
-          .catch(err => self.dbChooseError(err))
-      },
-      dbChooseError(err) {
-        self.fetchingDb = false
-        self.errorFetchingDb = err
-        self.db = null
-      },
-      dbChooseSuccess(dbPath, db) {
-        self.app.fetchingDb = false
-        self.app.db = db
-        self.app.config = Object.assign({}, self.app.config, { dbPath })
-        // get data
-        self.faelligeStatiOptionsGet()
-        self.geschaefte.fetchGeko()
-        self.geschaefte.fetchLinks()
-        self.interneOptionsGet()
-        self.externeOptionsGet()
-        self.getGeschaefteKontakteIntern()
-        self.getGeschaefteKontakteExtern()
-        self.rechtsmittelErledigungOptionsGet()
-        self.parlVorstossTypOptionsGet()
-        self.statusOptionsGet()
-        self.geschaeftsartOptionsGet()
-        self.aktenstandortOptionsGet()
-        self.rechtsmittelInstanzOptionsGet()
-        self.abteilungOptionsGet()
-        self.geschaefte.fetch()
-        self.fetchUsername()
-        // set filter to fällige
-        self.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
-        self.geschaefte.sortByFields('fristMitarbeiter', 'DESCENDING')
-      },
-      dbGetAtStandardpathIfPossible() {
-        // try to open db at standard path
-        // need function that tests if db exists at standard path
-        const standardDbExists = fs.existsSync(standardDbPath)
-        if (standardDbExists) {
-          const db = betterSqlite(standardDbPath, { fileMustExist: true })
-          self.dbChooseSuccess(standardDbPath, db)
-          self.configSetKey('dbPath', standardDbPath)
-        } else {
-          // let user choose db file
-          self.app.fetchingDb = true
-          self.app.errorFetchingDb = null
-          chooseDb()
-            .then(dbPath => {
-              const db = betterSqlite(dbPath, { fileMustExist: true })
-              self.dbChooseSuccess(dbPath, db)
-              self.configSetKey('dbPath', dbPath)
-            })
-            .catch(err => self.dbChooseError(err))
-        }
-      },
-      configGet() {
-        getConfig()
-          .then(config => {
-            const newConfig = config || standardConfig
-            self.config = newConfig
-            const { dbPath } = newConfig
-            if (!dbPath) {
-              return self.dbGetAtStandardpathIfPossible()
-            }
-            const dbExists = fs.existsSync(dbPath)
-            if (!dbExists) {
-              return self.dbGetAtStandardpathIfPossible()
-            }
-            const db = betterSqlite(dbPath, { fileMustExist: true })
-            self.dbChooseSuccess(dbPath, db)
-          })
-          .catch(error => console.error(error))
-      },
-      configUiReset() {
-        const { config } = self.app
-        const newConfig = {}
-        const dbPath = config.dbPath
-        if (dbPath) {
-          newConfig.dbPath = dbPath
-        }
-        saveConfig(newConfig)
-        self.app.config = newConfig
       },
       messageShow(showMessageModal, messageTextLine1, messageTextLine2) {
         self.app.showMessageModal = showMessageModal
