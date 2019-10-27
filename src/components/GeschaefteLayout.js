@@ -30,8 +30,6 @@ const GeschaefteLayout = () => {
     [config],
   )
 
-  console.log('GeschaefteLayout, showPages:', showPages)
-
   return (
     <StyledSplitPane
       split="vertical"

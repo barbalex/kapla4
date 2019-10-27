@@ -2,6 +2,7 @@ import React from 'react'
 import { NavItem } from 'react-bootstrap'
 import { MdPrint } from 'react-icons/md'
 import styled from 'styled-components'
+//import { remote } from 'electron'
 
 const PrintIcon = styled(MdPrint)`
   font-size: 1.3em;
@@ -17,8 +18,19 @@ const onClickPrint = () => {
    * Preset seems to be 0 for default margin
    * MUCH BETTER would be 1 for no margin
    * but: @page css to the rescue
+   * plus: printBackground and landscape seem to also be ignored
    */
-  // win.webContents.print()
+  /*const win = remote.getCurrentWindow()
+  win.webContents.print(
+    {
+      marginsType: 0,
+      printBackground: true,
+      landscape: true,
+    },
+    (success, failureReason) => {
+      console.log('print result', { success, failureReason })
+    },
+  )*/
   window.print()
 }
 
