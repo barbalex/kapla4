@@ -33,7 +33,6 @@ const Container = styled.div`
 
 const Pages = () => {
   const store = useContext(storeContext)
-  console.log('Pages, pages:', getSnapshot(store.pages.pages))
 
   return (
     <Container>

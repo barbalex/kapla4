@@ -153,7 +153,6 @@ class Page extends Component {
     this.showPagesModal()
     // wait with next stepp until message is shown
     setTimeout(() => {
-      console.log('Page, didMount, adding geschaeft')
       addGeschaeft()
     }, 100)
   }
@@ -172,7 +171,6 @@ class Page extends Component {
        *  - insert next row
        *  - render
        */
-      console.log('Page, didUpdate')
       const store = this.context
       const { pageIndex } = this.props
       const {
@@ -225,12 +223,12 @@ class Page extends Component {
     const { pages, remainingGeschaefte, showModal } = store.pages
     const { geschaeftePlusFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 = geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
+    const msgLine2 =
+      geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
     showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
   render() {
-    console.log('Page, rendering')
     const store = this.context
     const { pageIndex } = this.props
     const { pages, building, reportType } = store.pages
