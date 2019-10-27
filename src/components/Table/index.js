@@ -62,10 +62,10 @@ const Table = () => {
   const store = useContext(storeContext)
   const { reset } = store
   const { config } = store.app
-  const { rows, id } = store.table
+  const { rows, id, table } = store.table
 
-  const indexOfActiveId = _.findIndex(rows, r => r.id === id)
-  const headers = Object.keys(rows[0] || {})
+  const indexOfActiveId = _.findIndex(rows[table], r => r.id === id)
+  const headers = Object.keys(rows[table][0] || {})
   const windowWidth = $(window).width()
   const tableWidth = (windowWidth * config.tableColumnWidth) / 100
   const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
@@ -95,13 +95,13 @@ const Table = () => {
               {({ height, width }) => (
                 <StyledList
                   height={height}
-                  rowCount={rows.length}
+                  rowCount={rows[table].length}
                   rowHeight={38}
                   rowRenderer={rowRenderer}
                   noRowsRenderer={noRowsRenderer}
                   width={width}
                   scrollToIndex={indexOfActiveId}
-                  {...rows}
+                  {...rows[table]}
                 />
               )}
             </AutoSizer>

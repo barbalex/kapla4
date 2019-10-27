@@ -23,7 +23,7 @@ const StyledFormGroup = styled(FormGroup)`
 const TableRow = () => {
   const store = useContext(storeContext)
   const { rows, id, table, changeState, updateInDb } = store.table
-  const row = rows.find(r => r.id === id)
+  const row = rows[table].find(r => r.id === id)
 
   const onBlur = useCallback(
     event => {
@@ -31,7 +31,7 @@ const TableRow = () => {
       let { value } = event.target
       if (type === 'radio') value = dataset.value
       console.log('TableRow, onBlur', { name, value, id, table })
-      updateInDb(table, id, name, value)
+      updateInDb(id, name, value)
     },
     [updateInDb, id, table],
   )

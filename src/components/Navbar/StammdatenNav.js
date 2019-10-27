@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { NavDropdown, MenuItem } from 'react-bootstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -28,13 +28,29 @@ const NavbarStammdatenNav = ({ showTableNavs }) => {
   const store = useContext(storeContext)
   const { table, fetch, rows } = store.table
   const tableName = tableNameObject[table] || table
+  const fetchInterne = useCallback(() => fetch('interne'), [fetch])
+  const fetchExterne = useCallback(() => fetch('externe'), [fetch])
+  const fetchAktenstandort = useCallback(() => fetch('aktenstandort'), [fetch])
+  const fetchGeschaeftsart = useCallback(() => fetch('geschaeftsart'), [fetch])
+  const fetchParlVorstossTyp = useCallback(() => fetch('parlVorstossTyp'), [
+    fetch,
+  ])
+  const fetchRechtsmittelInstanz = useCallback(
+    () => fetch('rechtsmittelInstanz'),
+    [fetch],
+  )
+  const fetchRechtsmittelErledigung = useCallback(
+    () => fetch('rechtsmittelErledigung'),
+    [fetch],
+  )
+  const fetchStatus = useCallback(() => fetch('status'), [fetch])
 
   return (
     <StyledNavDropdown
       title={
         tableName ? (
           <span>
-            {tableName} <sup>{rows.length}</sup>
+            {tableName} <sup>{rows[table].length}</sup>
           </span>
         ) : (
           <span>Stammdaten</span>
@@ -43,45 +59,39 @@ const NavbarStammdatenNav = ({ showTableNavs }) => {
       id="stammdaten-nav-dropdown"
       data-showtablenavs={showTableNavs}
     >
-      <MenuItem onClick={() => fetch('interne')} active={table === 'interne'}>
+      <MenuItem onClick={fetchInterne} active={table === 'interne'}>
         Interne
       </MenuItem>
-      <MenuItem onClick={() => fetch('externe')} active={table === 'externe'}>
+      <MenuItem onClick={fetchExterne} active={table === 'externe'}>
         Externe
       </MenuItem>
       <MenuItem divider />
       <MenuItem header>Auswahllisten:</MenuItem>
-      <MenuItem
-        onClick={() => fetch('aktenstandort')}
-        active={table === 'aktenstandort'}
-      >
+      <MenuItem onClick={fetchAktenstandort} active={table === 'aktenstandort'}>
         Aktenstandort
       </MenuItem>
-      <MenuItem
-        onClick={() => fetch('geschaeftsart')}
-        active={table === 'geschaeftsart'}
-      >
+      <MenuItem onClick={fetchGeschaeftsart} active={table === 'geschaeftsart'}>
         Geschäftsart
       </MenuItem>
       <MenuItem
-        onClick={() => fetch('parlVorstossTyp')}
+        onClick={fetchParlVorstossTyp}
         active={table === 'parlVorstossTyp'}
       >
         Parlament. Vorstoss Typ
       </MenuItem>
       <MenuItem
-        onClick={() => fetch('rechtsmittelInstanz')}
+        onClick={fetchRechtsmittelInstanz}
         active={table === 'rechtsmittelInstanz'}
       >
         Rechtsmittel-Instanz
       </MenuItem>
       <MenuItem
-        onClick={() => fetch('rechtsmittelErledigung')}
+        onClick={fetchRechtsmittelErledigung}
         active={table === 'rechtsmittelErledigung'}
       >
         Rechtsmittel-Erledigung
       </MenuItem>
-      <MenuItem onClick={() => fetch('status')} active={table === 'status'}>
+      <MenuItem onClick={fetchStatus} active={table === 'status'}>
         Status
       </MenuItem>
     </StyledNavDropdown>

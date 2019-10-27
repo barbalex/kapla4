@@ -28,8 +28,8 @@ const StyledBodyCell = styled.div`
 
 const TableItem = ({ index }) => {
   const store = useContext(storeContext)
-  const { table, rows, id, rowToggleActivated } = store.table
-  const row = rows[index]
+  const { rows, table, id, rowToggleActivated } = store.table
+  const row = rows[table][index]
   const { config } = store.app
   const keys = Object.keys(row)
   const values = _.values(row)
@@ -38,9 +38,8 @@ const TableItem = ({ index }) => {
   const normalFieldWidth = (tableWidth - 50) / (keys.length - 1)
   const isActive = !!id && id === row.id
 
-  const onClickTableRow = useCallback(() => rowToggleActivated(table, row.id), [
+  const onClickTableRow = useCallback(() => rowToggleActivated(row.id), [
     row.id,
-    table,
     rowToggleActivated,
   ])
 

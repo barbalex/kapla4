@@ -1,6 +1,7 @@
 import { types, getParent } from 'mobx-state-tree'
 
 import tableStandardState from '../src/tableStandardState'
+import TableRows from './TableRows'
 
 export default types
   .model('Table', {
@@ -8,9 +9,9 @@ export default types
     // following: state for active row
     id: types.maybeNull(types.number),
     table: types.maybeNull(types.string),
+    rows: types.optional(TableRows, {}),
   })
   .volatile(() => ({
-    rows: [],
     error: [],
   }))
   .actions(self => {
@@ -27,7 +28,7 @@ export default types
           return addError(error)
         }
         self.table = table
-        self.rows = rows
+        self.rows.setRows(table, rows)
         self.id = null
         if (history.location.pathname !== '/table') {
           history.push('/table')
@@ -38,7 +39,7 @@ export default types
           self[k] = tableStandardState[k]
         })
       },
-      rowToggleActivated(table, id) {
+      rowToggleActivated(id) {
         self.id = self.id && self.id === id ? null : id
       },
       rowInsert(table) {
@@ -64,7 +65,7 @@ export default types
             row[key] = ''
           }
         })
-        self.rows.push(row)
+        self.rows[table].push(row)
         self.rowToggleActivated(table, row.id)
         if (history.location.pathname !== '/table') {
           history.push('/table')
@@ -86,22 +87,22 @@ export default types
           return addError(error)
         }
         self.rowToggleActivated(table, null)
-        self.rows = self.rows.filter(g => g.id !== id)
+        self.rows.setRows(table, self.rows[table].filter(g => g.id !== id))
       },
       changeState(id, field, value) {
-        const row = self.rows.find(r => r.id === id)
+        const row = self.rows[self.table].find(r => r.id === id)
         console.log('Store, Table, changeState', {
           id,
           field,
           value,
           row,
-          rows: self.rows,
+          rows: self.rows[self.table],
         })
         if (row) {
           row[field] = value
         }
       },
-      updateInDb(table, id, field, value) {
+      updateInDb(id, field, value) {
         const { app, addError } = store
         // no need to do something on then
         // ui was updated on TABLE_CHANGE_STATE
@@ -109,7 +110,7 @@ export default types
           app.db.prepare(
             `
             UPDATE
-              ${table}
+              ${self.table}
             SET
               ${field} = '${value}'
             WHERE
@@ -120,7 +121,7 @@ export default types
           return addError(error)
         }
         // need to reload this table in self
-        const actionName = `${table}OptionsGet`
+        const actionName = `${self.table}OptionsGet`
         store[actionName]()
       },
     }
