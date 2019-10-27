@@ -18,7 +18,7 @@ const StyledSplitPane = styled(SplitPane)`
 
 const GeschaefteLayout = () => {
   const store = useContext(storeContext)
-  const { config, configSetKey } = store.app
+  const { config } = store.app
   const { activeId } = store.geschaefte
   const path = store.history.location.pathname
   const showGeschaeft = path === '/geschaefte' && activeId
@@ -26,8 +26,8 @@ const GeschaefteLayout = () => {
   const showGeschaeftPdf = path === '/geschaeftPdf' && activeId
 
   const onChange = useCallback(
-    size => configSetKey('geschaefteColumnWidth', size),
-    [configSetKey],
+    size => config.setKey('geschaefteColumnWidth', size),
+    [config],
   )
 
   return (

@@ -8,7 +8,6 @@ import standardDbPath from '../src/standardDbPath'
 import Config from './Config'
 import chooseDb from '../src/chooseDb'
 import filterForFaelligeGeschaefte from '../src/filterForFaelligeGeschaefte'
-import getConfig from '../src/getConfig'
 import saveConfig from '../src/saveConfig'
 import User from './User'
 
@@ -37,7 +36,7 @@ export default types
           .then(dbPath => {
             const db = betterSqlite(dbPath, { fileMustExist: true })
             self.dbChooseSuccess(dbPath, db)
-            self.configSetKey('dbPath', dbPath)
+            self.config.configSetKey('dbPath', dbPath)
           })
           .catch(err => self.dbChooseError(err))
       },
@@ -78,7 +77,7 @@ export default types
         if (standardDbExists) {
           const db = betterSqlite(standardDbPath, { fileMustExist: true })
           self.dbChooseSuccess(standardDbPath, db)
-          store.configSetKey('dbPath', standardDbPath)
+          self.config.configSetKey('dbPath', standardDbPath)
         } else {
           // let user choose db file
           self.fetchingDb = true
@@ -87,7 +86,7 @@ export default types
             .then(dbPath => {
               const db = betterSqlite(dbPath, { fileMustExist: true })
               self.dbChooseSuccess(dbPath, db)
-              store.configSetKey('dbPath', dbPath)
+              self.config.configSetKey('dbPath', dbPath)
             })
             .catch(err => self.dbChooseError(err))
         }
@@ -104,47 +103,6 @@ export default types
             user.username = ''
           }
         }
-      },
-      configSetKey(key, value) {
-        const { config } = self
-        if (value) {
-          config[key] = value
-        } else if (config[key]) {
-          delete config[key]
-        }
-        saveConfig(config)
-        self.config = config
-      },
-      configGet() {
-        getConfig()
-          .then(config => {
-            const newConfig = config || standardConfig
-            self.config = newConfig
-            const { dbPath } = newConfig
-            console.log('Store, App, configGet, 1')
-            if (!dbPath) {
-              return self.dbGetAtStandardpathIfPossible()
-            }
-            console.log('Store, App, configGet, 2')
-            const dbExists = fs.existsSync(dbPath)
-            if (!dbExists) {
-              return self.dbGetAtStandardpathIfPossible()
-            }
-            console.log('Store, App, configGet, 3')
-            const db = betterSqlite(dbPath, { fileMustExist: true })
-            self.dbChooseSuccess(dbPath, db)
-          })
-          .catch(error => console.error(error))
-      },
-      configUiReset() {
-        const { config } = self
-        const newConfig = {}
-        const dbPath = config.dbPath
-        if (dbPath) {
-          newConfig.dbPath = dbPath
-        }
-        saveConfig(newConfig)
-        self.config = newConfig
       },
     }
   })

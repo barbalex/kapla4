@@ -25,12 +25,9 @@ const StyledNavDropdown = styled(NavDropdown)`
 `
 
 const NavbarStammdatenNav = ({ showTableNavs }) => {
-  console.log('NavbarStammdatenNav', { showTableNavs })
   const store = useContext(storeContext)
   const { table, fetch, rows } = store.table
-  console.log('NavbarStammdatenNav', { table, fetch, rows })
   const tableName = table ? tableNameObject[table] || table : ''
-  console.log('NavbarStammdatenNav', { tableName })
   const fetchInterne = useCallback(() => fetch('interne'), [fetch])
   const fetchExterne = useCallback(() => fetch('externe'), [fetch])
   const fetchAktenstandort = useCallback(() => fetch('aktenstandort'), [fetch])

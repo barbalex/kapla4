@@ -14,7 +14,7 @@ const StyledSplitPane = styled(SplitPane)`
 const FilterFieldsLayout = () => {
   const store = useContext(storeContext)
   const onChange = useCallback(
-    size => store.app.configSetKey('geschaefteColumnWidth', size),
+    size => store.app.config.setKey('geschaefteColumnWidth', size),
     [store],
   )
 

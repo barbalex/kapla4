@@ -13,18 +13,18 @@ const StyledSplitPane = styled(SplitPane)`
 
 const TableLayout = () => {
   const store = useContext(storeContext)
-  const { config, configSetKey } = store.app
+  const { setKey, tableColumnWidth } = store.app.config
   const { id } = store.table
 
-  const onChange = useCallback(size => configSetKey('tableColumnWidth', size), [
-    configSetKey,
+  const onChange = useCallback(size => setKey('tableColumnWidth', size), [
+    setKey,
   ])
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
-      defaultSize={config.tableColumnWidth}
+      defaultSize={tableColumnWidth}
       onChange={onChange}
     >
       <Table />

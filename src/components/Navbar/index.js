@@ -59,7 +59,7 @@ const NavbarComponent = () => {
   const store = useContext(storeContext)
 
   const { dirty } = store
-  const { showMessageModal, configGet } = store.app
+  const { showMessageModal, config } = store.app
   const { showPagesModal } = store.pages
   const {
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -74,8 +74,8 @@ const NavbarComponent = () => {
   const showTableNavs = path === '/table'
 
   useEffect(() => {
-    configGet()
-  }, [configGet])
+    config.get()
+  }, [config])
 
   console.log('Navbar, dirty:', dirty)
 

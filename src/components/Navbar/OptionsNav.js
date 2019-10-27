@@ -46,7 +46,7 @@ const onClickIssues = () => {
 
 const OptionsNav = () => {
   const store = useContext(storeContext)
-  const { config, dbGet, configUiReset } = store.app
+  const { config, dbGet } = store.app
 
   return (
     <StyledNavDropdown title="&#8942;" id="last-nav-dropdown" noCaret>
@@ -55,7 +55,9 @@ const OptionsNav = () => {
         {config.dbPath && <DbPathDiv>Aktuell: {config.dbPath}</DbPathDiv>}
       </MenuItem>
       <MenuItem divider />
-      <MenuItem onClick={configUiReset}>Einstellungen zurücksetzen</MenuItem>
+      <MenuItem onClick={config.configUiReset}>
+        Einstellungen zurücksetzen
+      </MenuItem>
       <MenuItem divider />
       <MenuItem onClick={onGetProjektbeschreibung}>
         Projektbeschreibung herunterladen
