@@ -1,8 +1,8 @@
 import { types } from 'mobx-state-tree'
 
-import Geschaeft from './Geschaeft'
+import GeschaeftRemaining from './GeschaeftRemaining'
 
 export default types.model('Page', {
   full: types.optional(types.boolean, false),
-  geschaefte: types.array(Geschaeft),
+  geschaefte: types.array(GeschaeftRemaining),
 })

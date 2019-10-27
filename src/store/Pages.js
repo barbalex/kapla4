@@ -1,4 +1,4 @@
-import { types, getParent } from 'mobx-state-tree'
+import { types, getParent, getSnapshot } from 'mobx-state-tree'
 
 import Page from './Page'
 import GeschaeftRemaining from './GeschaeftRemaining'
@@ -17,6 +17,9 @@ export default types
     modalTextLine2: types.optional(types.string, ''),
     remainingGeschaefte: types.array(GeschaeftRemaining),
   })
+  .volatile(() => ({
+    //remainingGeschaefte: [],
+  }))
   .actions(self => ({
     initiate(reportType) {
       const store = getParent(self, 1)
@@ -28,6 +31,7 @@ export default types
         geschaeftePlusFilteredAndSorted,
       )
       self.remainingGeschaefte = [...geschaeftePlusFilteredAndSorted]
+
       self.building = true
       console.log(
         'Store, initiate, remainingGeschaefte:',

@@ -112,44 +112,13 @@ export default types
       types.union(types.string, types.integer, types.null),
     ),
   })
-  .actions(self => ({
-    setValue({ field, value }) {
-      const store = getParent(self, 3)
-      const { user } = store.app
-      const { username } = user
-      self[field] = value
-      self.mutationsperson = username
-      self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
-    },
-    setValueInDb({ field, value }) {
-      const store = getParent(self, 3)
-      const { app, addError } = store
-      const { user } = app
-      /**
-       * if field is date field
-       * convert DD.MM.YYYY to YYYY-MM-DD
-       */
-      let value2 = value
-      if (isDateField(field)) {
-        value2 = convertDateToYyyyMmDd(value)
-      }
-      const now = moment().format('YYYY-MM-DD HH:mm:ss')
-      try {
-        app.db
-          .prepare(
-            `
-        UPDATE
-          geschaefte
-        SET
-          ${field} = '${value2}',
-          mutationsdatum = '${now}',
-          mutationsperson = '${user.username}'
-        WHERE
-          idGeschaeft = ${self.idGeschaeft}`,
-          )
-          .run()
-      } catch (error) {
-        addError(error)
-      }
-    },
+  // add computed fields
+  .volatile(self => ({
+    interne: [],
+    externe: [],
+    verantwortlichName: '',
+    verantwortlichItKonto: '',
+    geko: [],
+    links: [],
+    kannFaelligSein: false,
   }))

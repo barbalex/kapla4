@@ -1,4 +1,3 @@
-import { getSnapshot } from 'mobx-state-tree'
 import filterGeschaefteByFulltext from './filterGeschaefteByFulltext'
 import filterGeschaefteByFilterFields from './filterGeschaefteByFilterFields'
 
@@ -17,5 +16,5 @@ export default store => {
   } else if (existsFilterFields) {
     return filterGeschaefteByFilterFields(geschaeftePlus, filterFields)
   }
-  return getSnapshot(geschaefte)
+  return geschaefte
 }

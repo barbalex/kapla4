@@ -36,9 +36,5 @@ export default store =>
       faelligeStatiOptions && faelligeStatiOptions.includes
         ? faelligeStatiOptions.includes(g.status)
         : false
-    g.dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(g)
-    g.fristMitarbeiterWarnung = getFristMitarbeiterWarnung(
-      g.dauerBisFristMitarbeiter,
-    )
     return g
   })

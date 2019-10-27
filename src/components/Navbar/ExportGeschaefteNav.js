@@ -56,7 +56,6 @@ const NavbarExportGeschaefteNav = () => {
           g.links && g.links.map ? g.links.map(l => l.url).join(', ') : null
         g.historie = history.get(g.idGeschaeft).join(', ')
         delete g.verantwortlichName
-        delete g.kannFaelligSein
         return g
       })
       exportGeschaefte(geschaefteReadable, messageShow)

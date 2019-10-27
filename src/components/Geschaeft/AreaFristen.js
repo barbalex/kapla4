@@ -7,6 +7,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import DateField from './DateField'
 import storeContext from '../../storeContext'
+import getDauerBisFristMitarbeiter from '../../src/getDauerBisFristMitarbeiter'
 
 moment.locale('de')
 
@@ -57,7 +58,7 @@ const AreaFristen = ({
   const path = store.history.location.pathname
   const isPdf = path === '/geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
-  const { dauerBisFristMitarbeiter } = geschaeft
+  const dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(geschaeft)
   let colorDauerBisFristMitarbeiter = 'black'
   if (!isPdf) {
     if (dauerBisFristMitarbeiter < 0) colorDauerBisFristMitarbeiter = 'red'

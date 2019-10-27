@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+import getFristMitarbeiterWarnung from '../../src/getFristMitarbeiterWarnung'
 
 const StyledId = styled.div`
   flex: 1;
@@ -112,6 +113,7 @@ const GeschaefteItem = ({ index }) => {
   const fristMitarbeiter = geschaeft.fristMitarbeiter
     ? `Frist: ${geschaeft.fristMitarbeiter}`
     : ''
+  const fristMitarbeiterWarnung = getFristMitarbeiterWarnung(geschaeft)
 
   return (
     <StyledRow active={active} onClick={onClick}>
@@ -125,11 +127,9 @@ const GeschaefteItem = ({ index }) => {
         <div>{geschaeft.status}</div>
         <div>{fristMitarbeiter}</div>
         <FristMitarbeiterWarnungDiv
-          fristInStyle={getStatusFristInStyle(
-            geschaeft.fristMitarbeiterWarnung,
-          )}
+          fristInStyle={getStatusFristInStyle(fristMitarbeiterWarnung)}
         >
-          {geschaeft.fristMitarbeiterWarnung}
+          {fristMitarbeiterWarnung}
         </FristMitarbeiterWarnungDiv>
       </StyledStatus>
       <StyledKontakt>

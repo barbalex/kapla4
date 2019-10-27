@@ -149,7 +149,7 @@ class Page extends Component {
 
   componentDidMount = () => {
     const store = this.context
-    const { addGeschaeft } = store
+    const { addGeschaeft } = store.pages
     this.showPagesModal()
     // wait with next stepp until message is shown
     setTimeout(() => {
