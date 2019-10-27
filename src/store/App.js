@@ -8,12 +8,12 @@ import standardDbPath from '../src/standardDbPath'
 import Config from './Config'
 import chooseDb from '../src/chooseDb'
 import filterForFaelligeGeschaefte from '../src/filterForFaelligeGeschaefte'
-import saveConfig from '../src/saveConfig'
 import User from './User'
 
 export default types
   .model('App', {
     fetchingDb: types.optional(types.boolean, false),
+    errorFetchingDb: types.maybeNull(types.string),
     showMessageModal: types.optional(types.boolean, false),
     messageTextLine1: types.optional(types.string, ''),
     messageTextLine2: types.optional(types.string, ''),
@@ -21,7 +21,6 @@ export default types
     user: types.optional(User, {}),
   })
   .volatile(() => ({
-    errorFetchingDb: null,
     db: null,
     errors: [],
   }))
@@ -42,7 +41,7 @@ export default types
       },
       dbChooseError(err) {
         self.fetchingDb = false
-        self.errorFetchingDb = err
+        self.errorFetchingDb = err.message
         self.db = null
       },
       dbChooseSuccess(dbPath, db) {

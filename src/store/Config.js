@@ -25,25 +25,18 @@ export default types
     get() {
       const appStore = getParent(self, 1)
 
-      console.log('Store, App, configGet, 0')
       getConfig()
         .then(config => {
-          console.log('Store, App, configGet, 1, config:', config)
           const newConfig = config || standardConfig
-          console.log('Store, App, configGet, 2, newConfig:', newConfig)
           self = newConfig
-          console.log('Store, App, configGet, 3')
           const { dbPath } = newConfig
-          console.log('Store, App, configGet, 4')
           if (!dbPath) {
             return appStore.dbGetAtStandardpathIfPossible()
           }
-          console.log('Store, App, configGet, 5')
           const dbExists = fs.existsSync(dbPath)
           if (!dbExists) {
             return appStore.dbGetAtStandardpathIfPossible()
           }
-          console.log('Store, App, configGet, 6')
           const db = betterSqlite(dbPath, { fileMustExist: true })
           appStore.dbChooseSuccess(dbPath, db)
         })
