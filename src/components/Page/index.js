@@ -153,6 +153,7 @@ class Page extends Component {
     this.showPagesModal()
     // wait with next stepp until message is shown
     setTimeout(() => {
+      console.log('Page, didMount, adding geschaeft')
       addGeschaeft()
     }, 100)
   }
@@ -171,6 +172,7 @@ class Page extends Component {
        *  - insert next row
        *  - render
        */
+      console.log('Page, didUpdate')
       const store = this.context
       const { pageIndex } = this.props
       const {
@@ -230,6 +232,7 @@ class Page extends Component {
   }
 
   render() {
+    console.log('Page, rendering')
     const store = this.context
     const { pageIndex } = this.props
     const { pages, building, reportType } = store.pages

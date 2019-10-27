@@ -1,7 +1,7 @@
 import pageStandardState from './pageStandardState'
 
 export default {
-  pages: [Object.assign(pageStandardState)],
+  pages: [{ ...pageStandardState }],
   activePageIndex: 0,
   remainingGeschaefte: [],
   building: false,

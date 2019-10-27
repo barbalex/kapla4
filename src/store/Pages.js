@@ -29,10 +29,14 @@ export default types
       )
       self.remainingGeschaefte = [...geschaeftePlusFilteredAndSorted]
       self.building = true
+      console.log(
+        'Store, initiate, remainingGeschaefte:',
+        self.remainingGeschaefte,
+      )
       store.history.push('/pages')
     },
     cleanUp() {
-      self = [Object.assign(pageStandardState)]
+      self.pages = [{ ...pageStandardState }]
       self.activePageIndex = 0
       self.remainingGeschaefte = []
       self.building = false
@@ -66,7 +70,7 @@ export default types
     },
     newPage() {
       self.activePageIndex += 1
-      self.pages.push(Object.assign(pageStandardState))
+      self.pages.push({ ...pageStandardState })
     },
     addGeschaeft() {
       if (self.building) {

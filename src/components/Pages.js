@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import { getSnapshot } from 'mobx-state-tree'
 
 import Page from './Page'
 import storeContext from '../storeContext'
@@ -32,6 +33,7 @@ const Container = styled.div`
 
 const Pages = () => {
   const store = useContext(storeContext)
+  console.log('Pages, pages:', getSnapshot(store.pages.pages))
 
   return (
     <Container>
