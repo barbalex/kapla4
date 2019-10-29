@@ -7,6 +7,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 import createOptions from '../../src/createOptions'
+import Select from '../shared/Select'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -171,16 +172,18 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
         {!(!geschaeft.abteilung && isPdf) && (
           <Abteilung>
             <ControlLabel>Abteilung</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.abteilung || ''}
-              name="abteilung"
-              onChange={change}
+            <Select
+              key={`${geschaeft.idGeschaeft}abteilung`}
+              value={geschaeft.abteilung}
+              field="abteilung"
+              label="Abteilung"
+              options={abteilungOptions}
+              saveToDb={saveToDb}
+              error={errors.abteilung}
+              row={false}
               bsSize="small"
               tabIndex={6 + tabsToAdd}
-            >
-              {createOptions(abteilungOptions)}
-            </FormControl>
+            />
           </Abteilung>
         )}
         {!(!geschaeft.details && isPdf) && (
