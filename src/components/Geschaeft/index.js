@@ -157,6 +157,10 @@ const Geschaeft = () => {
     },
     [geschaeft],
   )
+  const saveToDb = useCallback(
+    ({ value, field }) => geschaeft.setValueInDb({ field, value }),
+    [geschaeft],
+  )
   const onChangeDatePicker = useCallback(
     (name, date) => {
       const rVal = {
@@ -243,6 +247,7 @@ const Geschaeft = () => {
             nrOfGFields={nrOfGFields}
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
           />
           <AreaNummern
             viewIsNarrow={viewIsNarrow}

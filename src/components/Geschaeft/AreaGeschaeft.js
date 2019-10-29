@@ -83,7 +83,13 @@ const VermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
 `
 
-const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
+const AreaGeschaeft = ({
+  blur,
+  saveToDb,
+  change,
+  nrOfGFields,
+  viewIsNarrow,
+}) => {
   const store = useContext(storeContext)
   const {
     activeId,
@@ -177,9 +183,9 @@ const AreaGeschaeft = ({ blur, change, nrOfGFields, viewIsNarrow }) => {
               value={geschaeft.abteilung}
               field="abteilung"
               label="Abteilung"
-              options={abteilungOptions}
+              options={abteilungOptions.map(o => ({ label: o, value: o }))}
               saveToDb={saveToDb}
-              error={errors.abteilung}
+              //error={errors.abteilung}
               row={false}
               bsSize="small"
               tabIndex={6 + tabsToAdd}
