@@ -177,7 +177,7 @@ const Geschaeft = () => {
 
   useEffect(() => {
     setDirty(false)
-  }, [geschaeft.id, setDirty])
+  }, [geschaeft.idGeschaeft, setDirty])
 
   // return immediately if no geschaeft
   const showGeschaeft = geschaeft.idGeschaeft
