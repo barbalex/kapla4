@@ -101,6 +101,8 @@ const Geschaeft = () => {
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
+    setValueInDb,
+    setValue,
   } = store.geschaefte
   const { config } = store.app
   const path = store.history.location.pathname
@@ -124,12 +126,12 @@ const Geschaeft = () => {
           value = dataset.value
         }
         // blur does not occur in radio
-        geschaeft.setValueInDb({ field, value })
+        setValueInDb({ idGeschaeft: activeId, field, value })
       }
       if (type === 'select-one') {
-        geschaeft.setValueInDb({ field, value })
+        setValueInDb({ idGeschaeft: activeId, field, value })
       }
-      geschaeft.setValue({ field, value })
+      setValue({ idGeschaeft: activeId, field, value })
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [geschaeft],
@@ -141,7 +143,7 @@ const Geschaeft = () => {
         if (isDateField(field)) {
           if (validateDate(value)) {
             // if correct date, save to db
-            geschaeft.setValueInDb({ field, value })
+            setValueInDb({ idGeschaeft: activeId, field, value })
           }
           // else: give user hint
           let value2 = ''
@@ -149,16 +151,16 @@ const Geschaeft = () => {
           if (value2.includes('Invalid date')) {
             value2 = value2.replace('Invalid date', 'Format: DD.MM.YYYY')
           }
-          geschaeft.setValue({ field, value: value2 })
+          setValue({ idGeschaeft: activeId, field, value: value2 })
         } else {
-          geschaeft.setValueInDb({ field, value })
+          setValueInDb({ idGeschaeft: activeId, field, value })
         }
       }
     },
     [geschaeft],
   )
   const saveToDb = useCallback(
-    ({ value, field }) => geschaeft.setValueInDb({ field, value }),
+    ({ value, field }) => setValueInDb({ idGeschaeft: activeId, field, value }),
     [geschaeft],
   )
   const onChangeDatePicker = useCallback(

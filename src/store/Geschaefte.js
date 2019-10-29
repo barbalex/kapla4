@@ -74,6 +74,46 @@ export default types
     const store = getParent(self, 1)
 
     return {
+      setValue({ idGeschaeft, field, value }) {
+        const { user } = store.app
+        const { username } = user
+        const geschaeft = self.geschaefte.find(
+          g => g.idGeschaeft === idGeschaeft,
+        )
+        geschaeft[field] = value
+        geschaeft.mutationsperson = username
+        geschaeft.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
+      },
+      setValueInDb({ idGeschaeft, field, value }) {
+        const { app, addError } = store
+        const { user } = app
+        /**
+         * if field is date field
+         * convert DD.MM.YYYY to YYYY-MM-DD
+         */
+        let value2 = value
+        if (isDateField(field)) {
+          value2 = convertDateToYyyyMmDd(value)
+        }
+        const now = moment().format('YYYY-MM-DD HH:mm:ss')
+        try {
+          app.db
+            .prepare(
+              `
+          UPDATE
+            geschaefte
+          SET
+            ${field} = '${value2}',
+            mutationsdatum = '${now}',
+            mutationsperson = '${user.username}'
+          WHERE
+            idGeschaeft = ${idGeschaeft}`,
+            )
+            .run()
+        } catch (error) {
+          addError(error)
+        }
+      },
       sortByFields(field, direction) {
         const { reportType, initiate } = store.pages
         const sortFields = geschaefteSortByFieldsGetSortFields(
