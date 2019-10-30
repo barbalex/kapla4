@@ -32,14 +32,11 @@ import storeContext from '../../storeContext'
 
 const VolltextInput = styled(Input)`
   background-color: ${props =>
-    props['data-dataisfilteredbyfulltext'] ? '#FFBF73 !important' : 'white'};
+    props['data-isfiltered'] ? '#FFBF73 !important' : 'white'};
 `
-const StyledVolltextControl = styled(FormControl)`
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  width: 186px !important;
+const StyledInputGroupText = styled(InputGroupText)`
   background-color: ${props =>
-    props['data-dataisfilteredbyfulltext'] ? '#FFBF73 !important' : 'white'};
+    props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
 const StyledFilterDropdown = styled(SplitButton)`
   min-width: 160px !important;
@@ -156,68 +153,82 @@ const FilterNav = () => {
             placeholder="Volltext filtern"
             onChange={onChangeVolltextControl}
             value={filterFulltext || ''}
-            data-dataisfilteredbyfulltext={dataIsFilteredByFulltext}
+            data-isfiltered={dataIsFilteredByFulltext}
             title="Zum Filtern drücken Sie die Enter-Taste"
           />
-          <StyledFilterDropdown
-            id="field-filter-dropdown"
-            title={title}
-            data-dataisfilteredbyfields={dataIsFilteredByFields}
-            onClick={onClickFilterDropdown}
-          >
-            <MenuItem header>aktive Filterkriterien:</MenuItem>
-            <MenuItem>
-              <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
-            </MenuItem>
-            <MenuItem header>aktive Sortierkriterien:</MenuItem>
-            <MenuItem>
-              <StyledCriteria>{activeSortcriteria}</StyledCriteria>
-            </MenuItem>
-            <MenuItem header>vorbereitete Filter:</MenuItem>
-            <MenuItem
-              onSelect={onSelectFaelligeGeschaefte}
-              style={{
-                backgroundColor: filterType === 'fällige' ? '#FFBF73' : null,
-              }}
+          <InputGroupAddon addonType="append">
+            <StyledFilterDropdown
+              id="field-filter-dropdown"
+              title={title}
+              data-dataisfilteredbyfields={dataIsFilteredByFields}
+              onClick={onClickFilterDropdown}
             >
-              fällige Geschäfte
-            </MenuItem>
-            <MenuItem
-              onSelect={onSelectEigeneFaelligeGeschaefte}
-              style={{
-                backgroundColor:
-                  filterType === 'eigene fällige' ? '#FFBF73' : null,
-              }}
+              <MenuItem header>aktive Filterkriterien:</MenuItem>
+              <MenuItem>
+                <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
+              </MenuItem>
+              <MenuItem header>aktive Sortierkriterien:</MenuItem>
+              <MenuItem>
+                <StyledCriteria>{activeSortcriteria}</StyledCriteria>
+              </MenuItem>
+              <MenuItem header>vorbereitete Filter:</MenuItem>
+              <MenuItem
+                onSelect={onSelectFaelligeGeschaefte}
+                style={{
+                  backgroundColor: filterType === 'fällige' ? '#FFBF73' : null,
+                }}
+              >
+                fällige Geschäfte
+              </MenuItem>
+              <MenuItem
+                onSelect={onSelectEigeneFaelligeGeschaefte}
+                style={{
+                  backgroundColor:
+                    filterType === 'eigene fällige' ? '#FFBF73' : null,
+                }}
+              >
+                eigene fällige Geschäfte
+              </MenuItem>
+              <MenuItem
+                onSelect={onSelectAngekVernehmlassungen}
+                style={{
+                  backgroundColor:
+                    filterType === 'angekündigte Vernehmlassungen'
+                      ? '#FFBF73'
+                      : null,
+                }}
+              >
+                angekündigte Vernehmlassungen
+              </MenuItem>
+              <MenuItem
+                onSelect={onSelectLaufendeVernehmlassungen}
+                style={{
+                  backgroundColor:
+                    filterType === 'laufende Vernehmlassungen'
+                      ? '#FFBF73'
+                      : null,
+                }}
+              >
+                laufende Vernehmlassungen
+              </MenuItem>
+            </StyledFilterDropdown>
+            <FilterRemoveButton
+              disabled={!dataIsFiltered}
+              onClick={removeFilters}
             >
-              eigene fällige Geschäfte
-            </MenuItem>
-            <MenuItem
-              onSelect={onSelectAngekVernehmlassungen}
-              style={{
-                backgroundColor:
-                  filterType === 'angekündigte Vernehmlassungen'
-                    ? '#FFBF73'
-                    : null,
-              }}
-            >
-              angekündigte Vernehmlassungen
-            </MenuItem>
-            <MenuItem
-              onSelect={onSelectLaufendeVernehmlassungen}
-              style={{
-                backgroundColor:
-                  filterType === 'laufende Vernehmlassungen' ? '#FFBF73' : null,
-              }}
-            >
-              laufende Vernehmlassungen
-            </MenuItem>
-          </StyledFilterDropdown>
-          <FilterRemoveButton
-            disabled={!dataIsFiltered}
-            onClick={removeFilters}
-          >
-            <RemoveIcon title="Filter und Sortierung entfernen" />
-          </FilterRemoveButton>
+              <RemoveIcon title="Filter und Sortierung entfernen" />
+            </FilterRemoveButton>
+            {dataIsFiltered && (
+              <StyledInputGroupText
+                id="emptyFilterAddon"
+                onClick={removeFilters}
+                data-isfiltered={dataIsFiltered}
+                title="Filter und Sortierung entfernen"
+              >
+                <FaTimes />
+              </StyledInputGroupText>
+            )}
+          </InputGroupAddon>
         </InputGroup>
       </div>
     </ErrorBoundary>
