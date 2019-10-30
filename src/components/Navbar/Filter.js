@@ -4,7 +4,6 @@ import {
   InputGroupAddon,
   InputGroupText,
   Input,
-  UncontrolledTooltip,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -23,6 +22,10 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import storeContext from '../../storeContext'
 
+const Container = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
+`
 const VolltextInput = styled(Input)`
   background-color: ${props =>
     props['data-isfiltered'] ? '#FFBF73 !important' : 'white'};
@@ -54,7 +57,7 @@ const StyledCriteria = styled.span`
   font-style: italic !important;
 `
 
-const FilterNav = () => {
+const Filter = () => {
   const store = useContext(storeContext)
   const { history } = store
   const {
@@ -151,7 +154,7 @@ const FilterNav = () => {
 
   return (
     <ErrorBoundary>
-      <div>
+      <Container>
         <InputGroup>
           <VolltextInput
             placeholder="Volltext filtern"
@@ -235,9 +238,9 @@ const FilterNav = () => {
             )}
           </InputGroupAddon>
         </InputGroup>
-      </div>
+      </Container>
     </ErrorBoundary>
   )
 }
 
-export default observer(FilterNav)
+export default observer(Filter)

@@ -12,8 +12,8 @@ import PagesModal from '../PagesModal'
 import Berichte from './Berichte'
 import Stammdaten from './Stammdaten'
 import Export from './Export'
-import FilterNav from './FilterNav'
-import OptionsNav from './OptionsNav'
+import Filter from './Filter'
+import More from './More'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
@@ -85,15 +85,15 @@ const NavbarComponent = () => {
               )}
               <Stammdaten />
             </Nav>
-            <Nav className="mr-auto" navbar>
+            <Nav className="ml-auto" navbar>
               <SaveButton
                 disabled={!dirty}
                 title={dirty ? 'speichern' : 'alles ist gespeichert'}
               >
                 <FaSave />
               </SaveButton>
-              {!showTableNavs && <FilterNav />}
-              <OptionsNav />
+              {!showTableNavs && <Filter />}
+              <More />
             </Nav>
           </Collapse>
         </StyledNavbar>
