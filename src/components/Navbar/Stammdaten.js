@@ -11,7 +11,6 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { FaPlus, FaTrashAlt } from 'react-icons/fa'
 
-import ifIsNumericAsNumber from '../../src/ifIsNumericAsNumber'
 import storeContext from '../../storeContext'
 
 const Sup = styled.sup`
@@ -65,78 +64,61 @@ const Stammdaten = () => {
     rows,
     table,
   ])
+  const path = store.history.location.pathname
+  const isActive = path === '/table'
 
   return (
-    <StamdatenContainer active={activeTable.includes('Werte')}>
-      <UncontrolledDropdown nav inNavbar active={activeTable.includes('Werte')}>
+    <StamdatenContainer active={isActive}>
+      <UncontrolledDropdown nav inNavbar active={isActive}>
         <DropdownToggle nav caret>
-          {activeTable.includes('Werte') ? (
+          {table ? (
             <span>
-              {activeTable}
-              <Sup>{stammdatenCount}</Sup>
+              {tableName}
+              <Sup>{table ? rows[table].length : 0}</Sup>
             </span>
           ) : (
             'Stammdaten'
           )}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem name="anredeWerte" onClick={onClickStatusTable}>
-            Anrede
+          <DropdownItem name="interneWerte" onClick={fetchInterne}>
+            Interne
+          </DropdownItem>
+          <DropdownItem name="externeWerte" onClick={fetchExterne}>
+            Externe
+          </DropdownItem>
+          <DropdownItem divider />
+          <DropdownItem header>Auswahllisten:</DropdownItem>
+          <DropdownItem name="aktenstandortWerte" onClick={fetchAktenstandort}>
+            Aktenstandort
+          </DropdownItem>
+          <DropdownItem name="geschaeftsartWerte" onClick={fetchGeschaeftsart}>
+            Geschäftsart
           </DropdownItem>
           <DropdownItem
-            name="anwesenheitstagWerte"
-            onClick={onClickStatusTable}
+            name="parlVorstossTypWerte"
+            onClick={fetchParlVorstossTyp}
           >
-            Anwesenheits-Tage
-          </DropdownItem>
-          <DropdownItem name="etikettWerte" onClick={onClickStatusTable}>
-            Etikett
-          </DropdownItem>
-          <DropdownItem name="funktionWerte" onClick={onClickStatusTable}>
-            Funktion
-          </DropdownItem>
-          <DropdownItem name="kaderFunktionWerte" onClick={onClickStatusTable}>
-            Kader-Funktion
-          </DropdownItem>
-          <DropdownItem name="kostenstelleWerte" onClick={onClickStatusTable}>
-            Kostenstelle
-          </DropdownItem>
-          <DropdownItem name="landWerte" onClick={onClickStatusTable}>
-            Land
+            Parlament. Vorstoss Typ
           </DropdownItem>
           <DropdownItem
-            name="mobileAboKostenstelleWerte"
-            onClick={onClickStatusTable}
+            name="rechtsmittelInstanzWerte"
+            onClick={fetchRechtsmittelInstanz}
           >
-            Mobile Abo Kostenstelle
-          </DropdownItem>
-          <DropdownItem name="mobileAboTypWerte" onClick={onClickStatusTable}>
-            Mobile Abo Typ
-          </DropdownItem>
-          <DropdownItem name="mutationArtWerte" onClick={onClickStatusTable}>
-            Mutations-Art
+            Rechtsmittel-Instanz
           </DropdownItem>
           <DropdownItem
-            name="schluesselAnlageWerte"
-            onClick={onClickStatusTable}
+            name="rechtsmittelErledigungWerte"
+            onClick={fetchRechtsmittelErledigung}
           >
-            Schlüssel Anlage
+            Rechtsmittel-Erledigung
           </DropdownItem>
-          <DropdownItem name="schluesselTypWerte" onClick={onClickStatusTable}>
-            Schlüssel Typ
-          </DropdownItem>
-          <DropdownItem name="standortWerte" onClick={onClickStatusTable}>
-            Standort
-          </DropdownItem>
-          <DropdownItem name="statusWerte" onClick={onClickStatusTable}>
+          <DropdownItem name="statusWerte" onClick={fetchStatus}>
             Status
-          </DropdownItem>
-          <DropdownItem name="telefonTypWerte" onClick={onClickStatusTable}>
-            Telefon Typ
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
-      {activeTable.includes('Werte') && (
+      {table && (
         <>
           <StyledButton id="newStammdatenButton" onClick={onClickInsert}>
             <FaPlus />
@@ -147,11 +129,11 @@ const Stammdaten = () => {
           <StyledButton
             id="deleteStammdatenButton"
             onClick={onClickDelete}
-            disabled={!existsActiveWert}
+            disabled={!table}
           >
             <FaTrashAlt />
           </StyledButton>
-          {existsActiveWert && (
+          {!!table && (
             <UncontrolledTooltip
               placement="bottom"
               target="deleteStammdatenButton"

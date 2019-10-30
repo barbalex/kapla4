@@ -10,10 +10,8 @@ import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
 import PagesModal from '../PagesModal'
 import Berichte from './Berichte'
-import TableRowNeuNav from './TableRowNewNav'
-import TableRowDeleteNav from './TableRowDeleteNav'
+import Stammdaten from './Stammdaten'
 import ExportGeschaefteNav from './ExportGeschaefteNav'
-import StammdatenNav from './StammdatenNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
 import storeContext from '../../storeContext'
@@ -79,11 +77,7 @@ const NavbarComponent = () => {
               <Geschaefte />
               {showGeschaefteAndPrint && <ExportGeschaefteNav />}
               {showGeschaefteAndPrint && <Berichte />}
-              <StammdatenNav showTableNavs={showTableNavs} />
-              {showTableNavs && <TableRowNeuNav />}
-              {showTableNavs && (
-                <TableRowDeleteNav showTableNavs={showTableNavs} />
-              )}
+              <Stammdaten />
             </Nav>
             <Nav className="mr-auto" navbar>
               <SaveButton
