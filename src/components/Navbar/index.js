@@ -9,12 +9,10 @@ import Geschaefte from './Geschaefte'
 import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
 import PagesModal from '../PagesModal'
-import BerichteNav from './BerichteNav'
+import Berichte from './Berichte'
 import TableRowNeuNav from './TableRowNewNav'
 import TableRowDeleteNav from './TableRowDeleteNav'
 import ExportGeschaefteNav from './ExportGeschaefteNav'
-import PrintToPdfNav from './PrintToPdfNav'
-import PrintNav from './PrintNav'
 import StammdatenNav from './StammdatenNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
@@ -80,13 +78,7 @@ const NavbarComponent = () => {
             <Nav className="mr-auto" navbar>
               <Geschaefte />
               {showGeschaefteAndPrint && <ExportGeschaefteNav />}
-              {showGeschaefteAndPrint && (
-                <BerichteNav showBerichteNavs={showBerichteNavs} />
-              )}
-              {showBerichteNavs && <PrintNav />}
-              {showBerichteNavs && (
-                <PrintToPdfNav showBerichteNavs={showBerichteNavs} />
-              )}
+              {showGeschaefteAndPrint && <Berichte />}
               <StammdatenNav showTableNavs={showTableNavs} />
               {showTableNavs && <TableRowNeuNav />}
               {showTableNavs && (
