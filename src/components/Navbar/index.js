@@ -1,5 +1,6 @@
-import React, { useEffect, useContext } from 'react'
-import { Button, Navbar, Nav, NavItem } from 'react-bootstrap'
+import React, { useEffect, useContext, useState, useCallback } from 'react'
+import { NavItem } from 'react-bootstrap'
+import { Collapse, Navbar, NavbarToggler, Nav, Button } from 'reactstrap'
 import { FaSave } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -36,15 +37,9 @@ const StyledBadge = styled.sup`
   color: ${props => (props.dataIsFiltered ? '#FF9416' : 'inherit')};
 `
 const StyledNavbar = styled(Navbar)`
-  margin-bottom: 0;
-  -webkit-user-select: none;
-  a:not(.dropdown-header):not([role='menuitem']) {
-    font-size: 15px;
-    font-weight: 700;
+  @media print {
+    display: none;
   }
-`
-const NavRight = styled.div`
-  display: flex;
 `
 const SaveButton = styled(Button)`
   background-color: transparent !important;
@@ -57,6 +52,11 @@ const SaveButton = styled(Button)`
 
 const NavbarComponent = () => {
   const store = useContext(storeContext)
+
+  const [open, setOpen] = useState(false)
+  const toggleNavbar = useCallback(() => {
+    setOpen(!open)
+  }, [open])
 
   const { dirty } = store
   const { showMessageModal, config } = store.app
@@ -85,40 +85,41 @@ const NavbarComponent = () => {
         {willDelete && <ModalGeschaeftDelete />}
         {showMessageModal && <ModalMessage />}
         {showPagesModal && <PagesModal />}
-        <StyledNavbar inverse fluid>
-          <Nav>
-            <GeschaefteNavItem
-              href="#"
-              onClick={() => store.history.push('/geschaefte')}
-              data-showgeschaeftenavs={showGeschaefteNavs}
-            >
-              Geschäfte{' '}
-              <StyledBadge dataIsFiltered={dataIsFiltered}>
-                {geschaefte.length}
-              </StyledBadge>
-            </GeschaefteNavItem>
-            {showGeschaefteNavs && <GeschaeftNeuNav />}
-            {showGeschaefteNavs && (
-              <GeschaeftLoeschenNav
+        <StyledNavbar color="dark" dark expand="xl">
+          <NavbarToggler onClick={toggleNavbar} />
+          <Collapse isOpen={open} navbar>
+            <Nav className="mr-auto" navbar>
+              <GeschaefteNavItem
+                href="#"
+                onClick={() => store.history.push('/geschaefte')}
                 data-showgeschaeftenavs={showGeschaefteNavs}
-              />
-            )}
-            {showGeschaefteAndPrint && <ExportGeschaefteNav />}
-            {showGeschaefteAndPrint && (
-              <BerichteNav showBerichteNavs={showBerichteNavs} />
-            )}
-            {showBerichteNavs && <PrintNav />}
-            {showBerichteNavs && (
-              <PrintToPdfNav showBerichteNavs={showBerichteNavs} />
-            )}
-            <StammdatenNav showTableNavs={showTableNavs} />
-            {showTableNavs && <TableRowNeuNav />}
-            {showTableNavs && (
-              <TableRowDeleteNav showTableNavs={showTableNavs} />
-            )}
-          </Nav>
-          <Nav pullRight>
-            <NavRight>
+              >
+                Geschäfte{' '}
+                <StyledBadge dataIsFiltered={dataIsFiltered}>
+                  {geschaefte.length}
+                </StyledBadge>
+              </GeschaefteNavItem>
+              {showGeschaefteNavs && <GeschaeftNeuNav />}
+              {showGeschaefteNavs && (
+                <GeschaeftLoeschenNav
+                  data-showgeschaeftenavs={showGeschaefteNavs}
+                />
+              )}
+              {showGeschaefteAndPrint && <ExportGeschaefteNav />}
+              {showGeschaefteAndPrint && (
+                <BerichteNav showBerichteNavs={showBerichteNavs} />
+              )}
+              {showBerichteNavs && <PrintNav />}
+              {showBerichteNavs && (
+                <PrintToPdfNav showBerichteNavs={showBerichteNavs} />
+              )}
+              <StammdatenNav showTableNavs={showTableNavs} />
+              {showTableNavs && <TableRowNeuNav />}
+              {showTableNavs && (
+                <TableRowDeleteNav showTableNavs={showTableNavs} />
+              )}
+            </Nav>
+            <Nav className="mr-auto" navbar>
               <SaveButton
                 disabled={!dirty}
                 title={dirty ? 'speichern' : 'alles ist gespeichert'}
@@ -127,8 +128,8 @@ const NavbarComponent = () => {
               </SaveButton>
               {!showTableNavs && <FilterNav />}
               <OptionsNav />
-            </NavRight>
-          </Nav>
+            </Nav>
+          </Collapse>
         </StyledNavbar>
       </Container>
     </ErrorBoundary>
