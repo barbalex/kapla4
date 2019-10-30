@@ -13,7 +13,11 @@ import storeContext from '../../storeContext'
 const NavbarExportGeschaefteNav = () => {
   const store = useContext(storeContext)
   const { messageShow } = store
-  const { geschaeftePlusFilteredAndSorted: geschaefte } = store.geschaefte
+  const {
+    geschaeftePlusFilteredAndSorted: geschaefte,
+    interneOptions,
+    externeOptions,
+  } = store.geschaefte
 
   const onClickExportAllGeschaefte = useCallback(
     e => {
@@ -23,14 +27,20 @@ const NavbarExportGeschaefteNav = () => {
       // need to make geko, interne and externe readable
       // and add history
       const geschaefteReadable = _.clone(geschaefte).map(g => {
+        const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern
+          .filter(k => k.idGeschaeft === g.idGeschaeft)
+          .map(gk => interneOptions.find(i => i.id === gk.idKontakt) || null)
+        const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern
+          .filter(k => k.idGeschaeft === g.idGeschaeft)
+          .map(gk => externeOptions.find(i => i.id === gk.idKontakt) || null)
         // make readable
         g.geko =
           g.geko && g.geko.map
             ? g.geko.map(geko => geko.gekoNr).join(', ')
             : null
         g.interne =
-          g.interne && g.interne.map
-            ? g.interne
+          interne && interne.map
+            ? interne
                 .map(i => {
                   const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
                   const abt = i.abteilung ? `, ${i.abteilung}` : ''
@@ -41,8 +51,8 @@ const NavbarExportGeschaefteNav = () => {
                 .join('; ')
             : null
         g.externe =
-          g.externe && g.externe.map
-            ? g.externe
+          externe && externe.map
+            ? externe
                 .map(i => {
                   const name = `${i.name} ${i.vorname}`
                   const firma = i.firma ? `, ${i.firma}` : ''

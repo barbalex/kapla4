@@ -145,6 +145,12 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
   const StyledFormcontrolStatic = isPdf
     ? StyledFormcontrolStaticPrint
     : StyledFormcontrolStaticView
+  const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
+    k => k.idGeschaeft === activeId,
+  )
+  const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
+    k => k.idGeschaeft === activeId,
+  )
 
   return (
     <ErrorBoundary>
@@ -175,16 +181,16 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
               </StyledFormcontrolStatic>
             </VerantwortlichName>
           )}
-          {!(isPdf && geschaeft.interne.length === 0) && (
+          {!(isPdf && interne.length === 0) && (
             <Subtitle>Interne Kontakte</Subtitle>
           )}
-          {!(isPdf && geschaeft.interne.length === 0) && (
+          {!(isPdf && interne.length === 0) && (
             <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />
           )}
-          {!(isPdf && geschaeft.externe.length === 0) && (
+          {!(isPdf && externe.length === 0) && (
             <Subtitle>Externe Kontakte</Subtitle>
           )}
-          {!(isPdf && geschaeft.externe.length === 0) && (
+          {!(isPdf && externe.length === 0) && (
             <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />
           )}
         </AreaPersonenDiv>
