@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
+import Geschaefte from './Geschaefte'
 import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
 import PagesModal from '../PagesModal'
@@ -89,22 +90,7 @@ const NavbarComponent = () => {
           <NavbarToggler onClick={toggleNavbar} />
           <Collapse isOpen={open} navbar>
             <Nav className="mr-auto" navbar>
-              <GeschaefteNavItem
-                href="#"
-                onClick={() => store.history.push('/geschaefte')}
-                data-showgeschaeftenavs={showGeschaefteNavs}
-              >
-                Geschäfte{' '}
-                <StyledBadge dataIsFiltered={dataIsFiltered}>
-                  {geschaefte.length}
-                </StyledBadge>
-              </GeschaefteNavItem>
-              {showGeschaefteNavs && <GeschaeftNeuNav />}
-              {showGeschaefteNavs && (
-                <GeschaeftLoeschenNav
-                  data-showgeschaeftenavs={showGeschaefteNavs}
-                />
-              )}
+              <Geschaefte />
               {showGeschaefteAndPrint && <ExportGeschaefteNav />}
               {showGeschaefteAndPrint && (
                 <BerichteNav showBerichteNavs={showBerichteNavs} />
