@@ -12,12 +12,13 @@ import PagesModal from '../PagesModal'
 import Berichte from './Berichte'
 import Stammdaten from './Stammdaten'
 import Export from './Export'
-import ExportGeschaefteNav from './ExportGeschaefteNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
+  font-size: 1.4em;
+  font-weight: 500;
   @media print {
     display: none;
   }
