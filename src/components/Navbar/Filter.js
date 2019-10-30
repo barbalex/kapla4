@@ -59,7 +59,9 @@ const StyledCriteria = styled.span`
 
 const Filter = () => {
   const store = useContext(storeContext)
-  const { history } = store
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const { setLocation } = store
   const {
     filterByFulltext,
     sortByFields,
@@ -145,12 +147,11 @@ const Filter = () => {
     sortByFields('idGeschaeft', 'DESCENDING')
   }, [filterByFields, resetSort, sortByFields])
   const onClickFilterFields = useCallback(() => {
-    const path = history.location.pathname
-    if (path !== '/filterFields') {
-      history.push('/filterFields')
+    if (activeLocation !== 'filterFields') {
+      setLocation(['filterFields'])
       removeFilters()
     }
-  }, [removeFilters, history])
+  }, [activeLocation, removeFilters, setLocation])
 
   return (
     <ErrorBoundary>

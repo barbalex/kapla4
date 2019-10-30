@@ -39,6 +39,8 @@ const SaveButton = styled(Button)`
 
 const NavbarComponent = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
 
   const [open, setOpen] = useState(false)
   const toggleNavbar = useCallback(() => {
@@ -52,13 +54,14 @@ const NavbarComponent = () => {
     //geschaeftePlusFilteredAndSorted: geschaefte,
     willDelete,
   } = store.geschaefte
-  const path = store.history.location.pathname
   /*const dataIsFiltered =
     geschaefte.length !== store.geschaefte.geschaefte.length*/
-  const showBerichteNavs = path === '/pages' || path === '/geschaeftPdf'
-  const showGeschaefteNavs = path === '/geschaefte' || path === '/filterFields'
+  const showBerichteNavs =
+    activeLocation === 'pages' || activeLocation === 'geschaeftPdf'
+  const showGeschaefteNavs =
+    activeLocation === 'geschaefte' || activeLocation === 'filterFields'
   const showGeschaefteAndPrint = showBerichteNavs || showGeschaefteNavs
-  const showTableNavs = path === '/table'
+  const showTableNavs = activeLocation === 'table'
 
   useEffect(() => {
     config.get()

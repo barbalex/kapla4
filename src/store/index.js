@@ -1,7 +1,6 @@
 import { types } from 'mobx-state-tree'
 import uniqBy from 'lodash/uniqBy'
 
-import observablehistory from './observableHistory'
 import App from './App'
 import Geschaefte from './Geschaefte'
 import GeschaefteKontakteIntern from './GeschaefteKontakteIntern'
@@ -20,14 +19,18 @@ export default () =>
       geschaefteKontakteExtern: types.optional(GeschaefteKontakteExtern, {}),
       pages: types.optional(Pages, {}),
       table: types.optional(Table, {}),
+      location: types.optional(
+        types.array(types.union(types.string, types.integer)),
+        ['geschaefte'],
+      ),
     })
-    .volatile(() => ({
-      history: observablehistory,
-    }))
     .views(self => ({}))
     .actions(self => ({
+      setLocation(location) {
+        self.location = location
+      },
       navigateToGeschaeftPdf() {
-        self.history.push('/geschaeftPdf')
+        self.location = ['geschaeftPdf']
       },
       /*
        * GESCHAEFT

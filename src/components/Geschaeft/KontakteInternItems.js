@@ -77,11 +77,12 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 
 const GeschaefteKontakteInternItems = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { geschaeftKontaktInternRemove } = store
   const { interneOptions, activeId } = store.geschaefte
-  const path = store.history.location.pathname
   const { geschaefteKontakteIntern } = store.geschaefteKontakteIntern
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteIntern.filter(
     g => g.idGeschaeft === activeId,

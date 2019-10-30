@@ -21,6 +21,7 @@ import FilterFields from './FilterFields'
 import SortFields from './SortFields'
 import isDateField from '../src/isDateField'
 import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
+import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
 
 export default types
@@ -126,8 +127,9 @@ export default types
          * if pages are active,
          * initiate with new data
          */
-        const path = store.history.location.pathname
-        if (path === '/pages') {
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        if (activeLocation === 'pages') {
           initiate(reportType)
         }
       },
@@ -145,8 +147,9 @@ export default types
          * if pages are active,
          * initiate with new data
          */
-        const path = store.history.location.pathname
-        if (path === '/pages') {
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        if (activeLocation === 'pages') {
           initiate(reportType)
         } else if (geschaeftePlusFilteredAndSorted.length === 1) {
           self.toggleActivatedById(
@@ -155,7 +158,9 @@ export default types
         }
       },
       filterByFulltext(filterFulltext) {
-        const { geschaefte, history } = store
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        const { geschaefte, setLocation } = store
         const { initiate, reportType } = store.pages
         const { geschaeftePlusFilteredAndSorted } = geschaefte
         self.filterType = 'nach Volltext'
@@ -166,12 +171,11 @@ export default types
          * if pages are active,
          * initiate with new data
          */
-        const path = history.location.pathname
-        if (path === '/pages') {
+        if (activeLocation === 'pages') {
           initiate(reportType)
         } else {
-          if (path !== '/geschaefte') {
-            history.push('/geschaefte')
+          if (activeLocation !== 'geschaefte') {
+            setLocation(['geschaefte'])
           }
           if (geschaeftePlusFilteredAndSorted.length === 1) {
             self.toggleActivatedById(
@@ -194,7 +198,9 @@ export default types
           self.activeId && self.activeId === idGeschaeft ? null : idGeschaeft
       },
       fetch() {
-        const { app, addError, history } = store
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        const { app, addError, setLocation } = store
         self.fetching = true
         let geschaefte = []
         try {
@@ -219,8 +225,8 @@ export default types
         })
         self.fetching = false
         self.geschaefte = geschaefte
-        if (history.location.pathname !== '/geschaefte') {
-          history.push('/geschaefte')
+        if (activeLocation !== 'geschaefte') {
+          setLocation(['geschaefte'])
         }
       },
       fetchGeko() {
@@ -254,7 +260,9 @@ export default types
         self.links = links
       },
       geschaeftInsert() {
-        const { app, history } = store
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        const { app, setLocation } = store
         const { user } = app
         const now = moment().format('YYYY-MM-DD HH:mm:ss')
         let result
@@ -297,8 +305,8 @@ export default types
         self.filterFulltext = ''
         self.sortFields = []
         self.toggleActivatedById(geschaeft.idGeschaeft)
-        if (history.location.pathname !== '/geschaefte') {
-          history.push('/geschaefte')
+        if (activeLocation !== 'geschaefte') {
+          setLocation(['geschaefte'])
         }
       },
       geschaeftDelete(idGeschaeft) {

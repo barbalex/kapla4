@@ -51,12 +51,13 @@ const AreaFristen = ({
   onChangeDatePicker,
 }) => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
   } = store.geschaefte
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(geschaeft)
   let colorDauerBisFristMitarbeiter = 'black'

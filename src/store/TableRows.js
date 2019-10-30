@@ -46,7 +46,9 @@ export default types
         self[table] = self[table].filter(g => g.id !== id)
       },
       insert(table) {
-        const { addError, history } = store
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        const { addError, setLocation } = store
         const { db } = store.app
         let result
         try {
@@ -64,8 +66,8 @@ export default types
         }
         self[table].unshift(row)
         store.table.toggleActivatedRow(row.id)
-        if (history.location.pathname !== '/table') {
-          history.push('/table')
+        if (activeLocation !== 'table') {
+          setLocation(['table'])
         }
       },
     }

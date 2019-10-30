@@ -23,7 +23,9 @@ const StyledButton = styled(Button)`
 
 const Geschaefte = () => {
   const store = useContext(storeContext)
-  const { history } = store
+  const { setLocation } = store
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     geschaeftePlusFilteredAndSorted,
     geschaefte,
@@ -33,13 +35,11 @@ const Geschaefte = () => {
     filterFulltext,
     filterFields,
   } = store.geschaefte
-  const path = history.location.pathname
-  const showGeschaefteNavs = path === '/geschaefte' || path === '/filterFields'
-  const active = showGeschaefteNavs
+  const active = ['geschaefte', 'filterFields'].includes(activeLocation)
 
   const onClickGeschaefte = useCallback(() => {
-    if (path !== '/geschaefte') history.push('/geschaefte')
-  }, [path, history])
+    if (activeLocation !== 'geschaefte') setLocation(['geschaefte'])
+  }, [activeLocation, setLocation])
   const onClickDelete = useCallback(
     () => geschaeftSetDeleteIntended(activeId),
     [activeId, geschaeftSetDeleteIntended],

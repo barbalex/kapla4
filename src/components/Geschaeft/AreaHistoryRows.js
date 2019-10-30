@@ -45,14 +45,15 @@ const Gegenstand = styled.div`
 
 const AreaHistoryRows = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     toggleActivatedById,
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
     historyOfActiveId,
   } = store.geschaefte
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   const history = historyOfActiveId
 
   return (

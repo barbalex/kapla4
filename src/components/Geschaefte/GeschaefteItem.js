@@ -91,6 +91,8 @@ const getStatusFristInStyle = fristMitarbeiterWarnung => {
 
 const GeschaefteItem = ({ index }) => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     toggleActivatedById,
     activeId,
@@ -101,15 +103,14 @@ const GeschaefteItem = ({ index }) => {
   const active = activeId && activeId === geschaeft.idGeschaeft
 
   const onClick = useCallback(() => {
-    const path = store.history.location.pathname
     const geschaeft = geschaefte[index]
     // if path is not '/geschaefte', make it that
     // because this is also called from '/fieldFilter'
-    if (path === '/filterFields') {
-      store.history.push('/geschaefte')
+    if (activeLocation === 'filterFields') {
+      store.setLocation(['geschaefte'])
     }
     toggleActivatedById(geschaeft.idGeschaeft)
-  }, [toggleActivatedById, geschaefte, index, store.history])
+  }, [activeLocation, geschaefte, index, store, toggleActivatedById])
   // make sure geschaeft exists
   if (!geschaeft) return null
   const fristMitarbeiter = geschaeft.fristMitarbeiter

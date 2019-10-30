@@ -27,7 +27,7 @@ export default types
         g => g.idGeschaeft,
       )
       self.building = true
-      store.history.push('/pages')
+      store.setLocation(['pages'])
     },
     cleanUp() {
       self.pages = [{ ...pageStandardState }]

@@ -86,11 +86,12 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 
 const GeschaefteKontakteExtern = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { geschaeftKontaktExternRemove } = store
   const { externeOptions, activeId } = store.geschaefte
-  const path = store.history.location.pathname
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteExtern.filter(
     g => g.idGeschaeft === activeId,

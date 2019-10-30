@@ -15,14 +15,13 @@ const Container = styled.div`
 
 const App = () => {
   const store = useContext(storeContext)
-  const { pathname } = store.history.location
-  const showGeschaefteLayout = [
-    '/geschaefte',
-    '/pages',
-    '/geschaeftPdf',
-  ].includes(pathname)
-  const showFilterFieldsLayout = pathname === '/filterFields'
-  const showTableLayout = pathname === '/table'
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const showGeschaefteLayout = ['geschaefte', 'pages', 'geschaeftPdf'].includes(
+    activeLocation,
+  )
+  const showFilterFieldsLayout = activeLocation === 'filterFields'
+  const showTableLayout = activeLocation === 'table'
 
   return (
     <Container>

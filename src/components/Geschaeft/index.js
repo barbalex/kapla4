@@ -97,6 +97,8 @@ const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperPdf)`
 
 const Geschaeft = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { setDirty } = store
   const {
     activeId,
@@ -105,37 +107,33 @@ const Geschaeft = () => {
     setValue,
   } = store.geschaefte
   const { config } = store.app
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
 
-  const change = useCallback(
-    e => {
-      const { type, name: field, dataset } = e.target
-      let { value } = e.target
-      // need to convert numbers into numbers
-      if (type && type === 'number') {
-        value = +value
+  const change = useCallback(e => {
+    const { type, name: field, dataset } = e.target
+    let { value } = e.target
+    // need to convert numbers into numbers
+    if (type && type === 'number') {
+      value = +value
+    }
+    if (type === 'radio') {
+      // need to set null if existing value was clicked
+      if (geschaeft[field] === dataset.value) {
+        value = ''
+      } else {
+        // eslint-disable-next-line prefer-destructuring
+        value = dataset.value
       }
-      if (type === 'radio') {
-        // need to set null if existing value was clicked
-        if (geschaeft[field] === dataset.value) {
-          value = ''
-        } else {
-          // eslint-disable-next-line prefer-destructuring
-          value = dataset.value
-        }
-        // blur does not occur in radio
-        setValueInDb({ idGeschaeft: activeId, field, value })
-      }
-      if (type === 'select-one') {
-        setValueInDb({ idGeschaeft: activeId, field, value })
-      }
-      setValue({ idGeschaeft: activeId, field, value })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [geschaeft],
-  )
+      // blur does not occur in radio
+      setValueInDb({ idGeschaeft: activeId, field, value })
+    }
+    if (type === 'select-one') {
+      setValueInDb({ idGeschaeft: activeId, field, value })
+    }
+    setValue({ idGeschaeft: activeId, field, value })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const blur = useCallback(
     e => {
       const { type, name: field, value } = e.target
@@ -157,11 +155,11 @@ const Geschaeft = () => {
         }
       }
     },
-    [geschaeft],
+    [activeId, setValue, setValueInDb],
   )
   const saveToDb = useCallback(
     ({ value, field }) => setValueInDb({ idGeschaeft: activeId, field, value }),
-    [geschaeft],
+    [activeId, setValueInDb],
   )
   const onChangeDatePicker = useCallback(
     (name, date) => {

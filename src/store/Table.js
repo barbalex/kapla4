@@ -19,7 +19,9 @@ export default types
 
     return {
       fetch(table) {
-        const { app, addError, history } = store
+        const location = store.location.toJSON()
+        const activeLocation = location[0]
+        const { app, addError, setLocation } = store
         self.table = table
         let rows
         try {
@@ -30,8 +32,8 @@ export default types
         self.table = table
         self.rows.setRows(table, rows)
         self.id = null
-        if (history.location.pathname !== '/table') {
-          history.push('/table')
+        if (activeLocation !== 'table') {
+          setLocation(['table'])
         }
       },
       reset() {

@@ -40,6 +40,8 @@ const tableNameObject = {
 
 const Stammdaten = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { table, id, rows, fetch } = store.table
   const tableName = table ? tableNameObject[table] || table : ''
   const fetchInterne = useCallback(() => fetch('interne'), [fetch])
@@ -64,8 +66,7 @@ const Stammdaten = () => {
     rows,
     table,
   ])
-  const path = store.history.location.pathname
-  const isActive = path === '/table'
+  const isActive = activeLocation === 'table'
 
   return (
     <StamdatenContainer active={isActive}>

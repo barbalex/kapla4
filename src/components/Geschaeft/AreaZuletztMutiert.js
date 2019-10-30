@@ -21,14 +21,15 @@ const Field = styled.div`
 
 const AreaZuletztMutiert = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
-  const path = store.history.location.pathname
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   let zuletztMutiertText
 
   if (!geschaeft || !geschaeft.mutationsperson) {

@@ -180,14 +180,15 @@ const FieldAktennummer = styled(Field)`
 
 const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     aktenstandortOptions,
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
     gekoOfActiveId,
   } = store.geschaefte
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? 0 : nrOfGFields
   const Container = isPdf ? ContainerPrint : ContainerView

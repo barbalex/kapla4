@@ -60,11 +60,12 @@ const FvDropdown = styled.div`
 
 const GeschaefteKontakteIntern = ({ tabIndex }) => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { geschaeftKontaktInternNewCreate } = store
   const { interneOptions, activeId } = store.geschaefte
   const { geschaefteKontakteIntern } = store.geschaefteKontakteIntern
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
 
   const [value, setValue] = useState('')
 

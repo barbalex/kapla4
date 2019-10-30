@@ -90,11 +90,12 @@ const DropzoneInnerDiv = styled.div`
 
 const AreaLinks = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { linkRemove, linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter(l => l.idGeschaeft === activeId)
-  const path = store.history.location.pathname
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
 
   const onDrop = useCallback(files => linkNewCreate(activeId, files[0].path), [
     activeId,

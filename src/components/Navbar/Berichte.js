@@ -42,11 +42,12 @@ const StyledButton = styled(Button)`
 
 const Berichte = () => {
   const store = useContext(storeContext)
-  const { navigateToGeschaeftPdf, history } = store
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const { navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
   const { initiate, reportType } = store.pages
-  const path = history.location.pathname
-  const isActive = path === '/pages'
+  const isActive = activeLocation === 'pages'
   const nameObject = {
     typFaelligeGeschaefte: 'Bericht: Typ "fällige Geschäfte"',
     list1: 'Bericht: Einfache Liste',
@@ -124,7 +125,7 @@ const Berichte = () => {
   const onClickCreatePdf = useCallback(
     async e => {
       e.preventDefault()
-      const landscape = store.history.location.pathname === '/pages'
+      const landscape = activeLocation === 'pages'
       const win = remote.getCurrentWindow()
       const printToPDFOptions = {
         marginsType: 0,
@@ -146,7 +147,7 @@ const Berichte = () => {
         })
       }
     },
-    [store.history.location.pathname],
+    [activeLocation],
   )
 
   return (

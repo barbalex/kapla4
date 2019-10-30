@@ -39,13 +39,14 @@ const LabelVorgeschaeft = styled(ControlLabel)`
 
 const AreaHistory = ({ blur, change }) => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
   } = store.geschaefte
-  const path = store.history.location.pathname
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
-  const isPdf = path === '/geschaeftPdf'
+  const isPdf = activeLocation === 'geschaeftPdf'
 
   return (
     <ErrorBoundary>

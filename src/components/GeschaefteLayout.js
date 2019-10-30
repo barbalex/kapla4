@@ -18,12 +18,13 @@ const StyledSplitPane = styled(SplitPane)`
 
 const GeschaefteLayout = () => {
   const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
   const { config } = store.app
   const { activeId } = store.geschaefte
-  const path = store.history.location.pathname
-  const showGeschaeft = path === '/geschaefte' && activeId
-  const showPages = path === '/pages'
-  const showGeschaeftPdf = path === '/geschaeftPdf' && activeId
+  const showGeschaeft = activeLocation === 'geschaefte' && activeId
+  const showPages = activeLocation === 'pages'
+  const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && activeId
 
   const onChange = useCallback(
     size => config.setKey('geschaefteColumnWidth', size),
