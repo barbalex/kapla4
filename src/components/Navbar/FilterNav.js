@@ -30,11 +30,9 @@ import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStr
 import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
 import storeContext from '../../storeContext'
 
-const Container = styled(Navbar.Form)`
-  padding-right: 10px;
-`
-const SubContainer = styled.div`
-  display: flex;
+const VolltextInput = styled(Input)`
+  background-color: ${props =>
+    props['data-dataisfilteredbyfulltext'] ? '#FFBF73 !important' : 'white'};
 `
 const StyledVolltextControl = styled(FormControl)`
   border-top-right-radius: 0 !important;
@@ -152,13 +150,12 @@ const FilterNav = () => {
 
   return (
     <ErrorBoundary>
-      <Container pullLeft>
-        <SubContainer>
-          <StyledVolltextControl
-            type="text"
+      <div>
+        <InputGroup>
+          <VolltextInput
             placeholder="Volltext filtern"
-            value={filterFulltext}
             onChange={onChangeVolltextControl}
+            value={filterFulltext || ''}
             data-dataisfilteredbyfulltext={dataIsFilteredByFulltext}
             title="Zum Filtern drücken Sie die Enter-Taste"
           />
@@ -221,8 +218,8 @@ const FilterNav = () => {
           >
             <RemoveIcon title="Filter und Sortierung entfernen" />
           </FilterRemoveButton>
-        </SubContainer>
-      </Container>
+        </InputGroup>
+      </div>
     </ErrorBoundary>
   )
 }
