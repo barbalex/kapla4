@@ -65,12 +65,18 @@ const NavbarExportGeschaefteNav = () => {
         g.links =
           g.links && g.links.map ? g.links.map(l => l.url).join(', ') : null
         g.historie = history.get(g.idGeschaeft).join(', ')
-        delete g.verantwortlichName
         return g
       })
       exportGeschaefte(geschaefteReadable, messageShow)
     },
-    [geschaefte, messageShow],
+    [
+      externeOptions,
+      geschaefte,
+      interneOptions,
+      messageShow,
+      store.geschaefteKontakteExtern.geschaefteKontakteExtern,
+      store.geschaefteKontakteIntern.geschaefteKontakteIntern,
+    ],
   )
   const onClickExportGeschaefteRechtsmittelVorjahre = useCallback(
     e => {

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import shorten from '../../../src/shortenGegenstandField'
+import getVornameNameForVerantwortlich from '../../../src/getVornameNameForVerantwortlich'
+import storeContext from '../../../storeContext'
 
 const StyledRow = styled.div`
   display: flex;
@@ -44,6 +46,9 @@ function isOdd(num) {
 }
 
 const PageFristenRows = ({ geschaeft, rowIndex }) => {
+  const store = useContext(storeContext)
+  const { interneOptions } = store.geschaefte
+
   const fristMitarbeiter = geschaeft.fristMitarbeiter
     ? `Frist: ${geschaeft.fristMitarbeiter}`
     : ''
@@ -70,7 +75,11 @@ const PageFristenRows = ({ geschaeft, rowIndex }) => {
   const faelligkeitText = shorten(geschaeft.faelligkeitText, '', 200)
 
   const shaded = !isOdd(rowIndex)
-  const verantwortlichName = `${geschaeft.verantwortlichName}${
+  const verantwortlichNameName = getVornameNameForVerantwortlich(
+    interneOptions,
+    geschaeft.verantwortlich,
+  )
+  const verantwortlichName = `${verantwortlichNameName}${
     geschaeft.verantwortlich ? ` (${geschaeft.verantwortlich})` : ''
   }`
 

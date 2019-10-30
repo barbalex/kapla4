@@ -1,20 +1,10 @@
 import { toJS } from 'mobx'
 
 import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
-import getVornameNameForVerantwortlich from './getVornameNameForVerantwortlich'
 
 export default store =>
   toJS(store.geschaefte.geschaefte).map(g => {
-    const {
-      interneOptions,
-      geko,
-      links,
-      faelligeStatiOptions,
-    } = store.geschaefte
-    g.verantwortlichName = getVornameNameForVerantwortlich(
-      interneOptions,
-      g.verantwortlich,
-    )
+    const { geko, links, faelligeStatiOptions } = store.geschaefte
     g.verantwortlichItKonto = getItKontoForVerantwortlich(
       store.geschaefte.interneOptions,
       g.verantwortlich,

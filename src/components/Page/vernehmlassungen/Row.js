@@ -1,7 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import styled from 'styled-components'
 
 import shorten from '../../../src/shortenGegenstandField'
+import getVornameNameForVerantwortlich from '../../../src/getVornameNameForVerantwortlich'
+import storeContext from '../../../storeContext'
 
 const Row = styled.div`
   display: flex;
@@ -43,6 +45,9 @@ const VerticallyStackedFields = styled.div`
 const isOdd = num => num % 2
 
 const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
+  const store = useContext(storeContext)
+  const { interneOptions } = store.geschaefte
+
   const fristMitarbeiter = geschaeft.fristMitarbeiter
     ? `Frist: ${geschaeft.fristMitarbeiter}`
     : ''
@@ -83,7 +88,11 @@ const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
   const gekoValue = geko
     .map(g => g.gekoNr)
     .map(val => <div key={val}>{val}</div>)
-  const verantwortlichName = `${geschaeft.verantwortlichName}${
+  const verantwortlichNameName = getVornameNameForVerantwortlich(
+    interneOptions,
+    geschaeft.verantwortlich,
+  )
+  const verantwortlichName = `${verantwortlichNameName}${
     geschaeft.verantwortlich ? ` (${geschaeft.verantwortlich})` : ''
   }`
 

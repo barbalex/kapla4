@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
 import getFristMitarbeiterWarnung from '../../src/getFristMitarbeiterWarnung'
+import getVornameNameForVerantwortlich from '../../src/getVornameNameForVerantwortlich'
 
 const StyledId = styled.div`
   flex: 1;
@@ -94,6 +95,7 @@ const GeschaefteItem = ({ index }) => {
     toggleActivatedById,
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
+    interneOptions,
   } = store.geschaefte
   const geschaeft = geschaefte[index]
   const active = activeId && activeId === geschaeft.idGeschaeft
@@ -114,6 +116,10 @@ const GeschaefteItem = ({ index }) => {
     ? `Frist: ${geschaeft.fristMitarbeiter}`
     : ''
   const fristMitarbeiterWarnung = getFristMitarbeiterWarnung(geschaeft)
+  const verantwortlichName = getVornameNameForVerantwortlich(
+    interneOptions,
+    geschaeft.verantwortlich,
+  )
 
   return (
     <StyledRow active={active} onClick={onClick}>
@@ -133,7 +139,7 @@ const GeschaefteItem = ({ index }) => {
         </FristMitarbeiterWarnungDiv>
       </StyledStatus>
       <StyledKontakt>
-        <div>{geschaeft.verantwortlichName}</div>
+        <div>{verantwortlichName}</div>
         <div>{geschaeft.verantwortlich}</div>
       </StyledKontakt>
     </StyledRow>
