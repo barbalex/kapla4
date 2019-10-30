@@ -14,7 +14,7 @@ export default store => {
   if (existsFilterFulltext) {
     return filterGeschaefteByFulltext(geschaeftePlus, filterFulltext)
   } else if (existsFilterFields) {
-    return filterGeschaefteByFilterFields(geschaeftePlus, filterFields)
+    return filterGeschaefteByFilterFields(store)
   }
   return geschaefte
 }

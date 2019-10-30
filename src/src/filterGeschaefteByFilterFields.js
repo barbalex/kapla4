@@ -2,7 +2,8 @@ import { includes, isString } from 'lodash'
 import moment from 'moment'
 import isDateField from './isDateField'
 
-export default (geschaefte, filterFieldsPassed) => {
+export default store => {
+  const { filterFields: filterFieldsPassed, geschaefte } = store.geschaefte
   // some filterFields may only have a comparator >
   // reduce to filterFields with values
   const filterFields = filterFieldsPassed.filter(
