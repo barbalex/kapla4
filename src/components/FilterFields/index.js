@@ -62,7 +62,7 @@ const getTemplateAreas = (width, showAreaForGeschaeftsart) => {
 
 const ScrollContainer = styled.div`
   overflow: auto;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 58px);
 `
 const Wrapper = styled.div`
   display: grid;

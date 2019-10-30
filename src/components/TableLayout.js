@@ -8,7 +8,7 @@ import Table from './Table'
 import storeContext from '../storeContext'
 
 const StyledSplitPane = styled(SplitPane)`
-  top: 52px;
+  top: 58px;
 `
 
 const TableLayout = () => {

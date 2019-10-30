@@ -8,7 +8,7 @@ import Geschaefte from './Geschaefte'
 import storeContext from '../storeContext'
 
 const StyledSplitPane = styled(SplitPane)`
-  top: 52px;
+  top: 58px;
 `
 
 const FilterFieldsLayout = () => {

@@ -23,7 +23,7 @@ import storeContext from '../../storeContext'
 moment.locale('de')
 
 const ScrollContainerRegular = styled.div`
-  height: calc(100vh - 52px);
+  height: calc(100vh - 58px);
   overflow-y: auto;
   overflow-x: hidden;
 `

@@ -18,7 +18,7 @@ const Container = styled.div`
   height: 100vh;
 `
 const StyledTable = styled.div`
-  top: 52px;
+  top: 58px;
   width: 100%;
 `
 const StyledTableHeader = styled.div`

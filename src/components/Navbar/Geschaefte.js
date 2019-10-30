@@ -25,10 +25,13 @@ const Geschaefte = () => {
   const store = useContext(storeContext)
   const { history } = store
   const {
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaeftePlusFilteredAndSorted,
+    geschaefte,
     geschaeftInsert,
     geschaeftSetDeleteIntended,
     activeId,
+    filterFulltext,
+    filterFields,
   } = store.geschaefte
   const path = history.location.pathname
   const showGeschaefteNavs = path === '/geschaefte' || path === '/filterFields'
@@ -41,12 +44,19 @@ const Geschaefte = () => {
     () => geschaeftSetDeleteIntended(activeId),
     [activeId, geschaeftSetDeleteIntended],
   )
+  const existsFilterFulltext = !!filterFulltext
+  const existsFilterFields = filterFields.length > 0
+  const isFiltered = existsFilterFields || existsFilterFulltext
+
+  const geschaefteSumSup = isFiltered
+    ? `${geschaeftePlusFilteredAndSorted.length}/${geschaefte.length}`
+    : geschaefte.length
 
   return (
     <StyledNavItem active={active}>
       <NavLink href="/" id="geschaefte" onClick={onClickGeschaefte}>
         Geschäfte
-        {active && <Sup>{geschaefte.length}</Sup>}
+        {active && <Sup>{geschaefteSumSup}</Sup>}
       </NavLink>
       {!active && (
         <UncontrolledTooltip placement="bottom" target="geschaefte">

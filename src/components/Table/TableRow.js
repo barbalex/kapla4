@@ -11,7 +11,7 @@ const StyledRow = styled.div`
     rgba(255, 236, 195, 0.5) 10%,
     rgba(255, 232, 147, 0.7)
   );
-  height: calc(100vh - 52px);
+  height: calc(100vh - 58px);
   padding: 10px;
   overflow-y: auto;
 `

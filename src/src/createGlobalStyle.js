@@ -115,7 +115,7 @@ export default () => createGlobalStyle`
   /* SplitPane */
 
   .SplitPane.vertical {
-    height: calc(100vh - 52px) !important;
+    height: calc(100vh - 58px) !important;
   }
 
   @media print {
