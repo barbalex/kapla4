@@ -27,10 +27,10 @@ const StyledNavDropdown = styled(NavDropdown)`
 
 const BerichteNav = ({ showBerichteNavs }) => {
   const store = useContext(storeContext)
-  const { navigateToGeschaeftPdf } = store
+  const { navigateToGeschaeftPdf, history } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
   const { initiate, reportType } = store.pages
-  const path = store.history.location.pathname
+  const path = history.location.pathname
   const isActive = path === '/pages'
   const nameObject = {
     typFaelligeGeschaefte: 'Bericht: Typ "fällige Geschäfte"',
