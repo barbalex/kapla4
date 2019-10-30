@@ -60,9 +60,8 @@ const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
 const Table = () => {
   const store = useContext(storeContext)
-  const { reset } = store
   const { config } = store.app
-  const { rows, id, table } = store.table
+  const { rows, id, table, reset } = store.table
 
   const indexOfActiveId = _.findIndex(rows[table], r => r.id === id)
   const headers = Object.keys(rows[table][0] || {})
