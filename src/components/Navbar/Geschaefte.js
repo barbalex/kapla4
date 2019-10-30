@@ -54,7 +54,7 @@ const Geschaefte = () => {
 
   return (
     <StyledNavItem active={active}>
-      <NavLink href="/" id="geschaefte" onClick={onClickGeschaefte}>
+      <NavLink id="geschaefte" onClick={onClickGeschaefte}>
         Geschäfte
         {active && <Sup>{geschaefteSumSup}</Sup>}
       </NavLink>

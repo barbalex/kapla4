@@ -22,9 +22,9 @@ const GeschaefteLayout = () => {
   const activeLocation = location[0]
   const { config } = store.app
   const { activeId } = store.geschaefte
-  const showGeschaeft = activeLocation === 'geschaefte' && activeId
+  const showGeschaeft = activeLocation === 'geschaefte' && !!activeId
   const showPages = activeLocation === 'pages'
-  const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && activeId
+  const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && !!activeId
 
   const onChange = useCallback(
     size => config.setKey('geschaefteColumnWidth', size),

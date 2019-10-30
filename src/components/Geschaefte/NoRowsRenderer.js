@@ -17,6 +17,7 @@ const NoRowsRenderer = () => {
   const text = isFiltered
     ? 'Keine Daten entsprechen dem Filter'
     : 'lade Daten...'
+
   return <StyledNoRowsDiv>{text}</StyledNoRowsDiv>
 }
 
