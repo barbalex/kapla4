@@ -20,13 +20,13 @@ export default store => {
       }
       if (filterField.field === 'kontaktInternVornameName') {
         geschaeftValue = store.geschaefteKontakteIntern.geschaefteKontakteIntern
-          .filter(k => k.idGeschaeft === g.idGeschaeft)
+          .filter(k => k.idGeschaeft === geschaeft.idGeschaeft)
           .map(g => `${g.vorname} ${g.name}`)
           .join(', ')
       }
       if (filterField.field === 'kontaktExternNameVorname') {
         geschaeftValue = store.geschaefteKontakteExtern.geschaefteKontakteExtern
-          .filter(k => k.idGeschaeft === g.idGeschaeft)
+          .filter(k => k.idGeschaeft === geschaeft.idGeschaeft)
           .map(g => `${g.name} ${g.vorname}`)
           .join(', ')
       }
