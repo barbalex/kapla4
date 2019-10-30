@@ -11,6 +11,7 @@ import ModalMessage from '../ModalMessage'
 import PagesModal from '../PagesModal'
 import Berichte from './Berichte'
 import Stammdaten from './Stammdaten'
+import Export from './Export'
 import ExportGeschaefteNav from './ExportGeschaefteNav'
 import FilterNav from './FilterNav'
 import OptionsNav from './OptionsNav'
@@ -75,8 +76,12 @@ const NavbarComponent = () => {
           <Collapse isOpen={open} navbar>
             <Nav className="mr-auto" navbar>
               <Geschaefte />
-              {showGeschaefteAndPrint && <ExportGeschaefteNav />}
-              {showGeschaefteAndPrint && <Berichte />}
+              {showGeschaefteAndPrint && (
+                <>
+                  <Export />
+                  <Berichte />
+                </>
+              )}
               <Stammdaten />
             </Nav>
             <Nav className="mr-auto" navbar>
