@@ -4,7 +4,7 @@
     "sourceType": "module",
     "allowImportExportEverywhere": true
   },
-  "extends": ["eslint:recommended", "plugin:react-app/recommended"],
+  "extends": ["eslint:recommended", "react-app"],
   "env": {
     "browser": true,
     "node": true
