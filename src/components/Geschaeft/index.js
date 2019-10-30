@@ -99,7 +99,7 @@ const Geschaeft = () => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { setDirty } = store
+  const { setDirty, dirty } = store
   const {
     activeId,
     geschaeftePlusFilteredAndSorted: geschaefte,
@@ -109,6 +109,8 @@ const Geschaeft = () => {
   const { config } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+
+  console.log('Geschaeft')
 
   const change = useCallback(e => {
     const { type, name: field, dataset } = e.target
@@ -176,8 +178,8 @@ const Geschaeft = () => {
   )
 
   useEffect(() => {
-    setDirty(false)
-  }, [geschaeft.idGeschaeft, setDirty])
+    if (dirty) setDirty(false)
+  }, [geschaeft.idGeschaeft, setDirty, dirty])
 
   // return immediately if no geschaeft
   const showGeschaeft = geschaeft.idGeschaeft
