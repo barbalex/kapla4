@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState, useCallback } from 'react'
-import { NavItem } from 'react-bootstrap'
 import { Collapse, Navbar, NavbarToggler, Nav, Button } from 'reactstrap'
 import { FaSave } from 'react-icons/fa'
 import styled from 'styled-components'
@@ -11,8 +10,6 @@ import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
 import PagesModal from '../PagesModal'
 import BerichteNav from './BerichteNav'
-import GeschaeftNeuNav from './GeschaeftNewNav'
-import GeschaeftLoeschenNav from './GeschaeftDeleteNav'
 import TableRowNeuNav from './TableRowNewNav'
 import TableRowDeleteNav from './TableRowDeleteNav'
 import ExportGeschaefteNav from './ExportGeschaefteNav'
@@ -27,15 +24,6 @@ const Container = styled.div`
   @media print {
     display: none;
   }
-`
-const GeschaefteNavItem = styled(NavItem)`
-  border-left: ${props =>
-    props['data-showgeschaeftenavs'] ? 'solid grey 1px' : 'dotted #505050 1px'};
-  border-right: ${props =>
-    props['data-showgeschaeftenavs'] ? 'none' : 'dotted #505050 1px'};
-`
-const StyledBadge = styled.sup`
-  color: ${props => (props.dataIsFiltered ? '#FF9416' : 'inherit')};
 `
 const StyledNavbar = styled(Navbar)`
   @media print {
@@ -63,12 +51,12 @@ const NavbarComponent = () => {
   const { showMessageModal, config } = store.app
   const { showPagesModal } = store.pages
   const {
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    //geschaeftePlusFilteredAndSorted: geschaefte,
     willDelete,
   } = store.geschaefte
   const path = store.history.location.pathname
-  const dataIsFiltered =
-    geschaefte.length !== store.geschaefte.geschaefte.length
+  /*const dataIsFiltered =
+    geschaefte.length !== store.geschaefte.geschaefte.length*/
   const showBerichteNavs = path === '/pages' || path === '/geschaeftPdf'
   const showGeschaefteNavs = path === '/geschaefte' || path === '/filterFields'
   const showGeschaefteAndPrint = showBerichteNavs || showGeschaefteNavs
