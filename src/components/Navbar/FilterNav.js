@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 import {
   InputGroup,
   InputGroupAddon,
@@ -10,13 +10,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import {
-  MenuItem,
-  Button,
-  SplitButton,
-  Navbar,
-  FormControl,
-} from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
@@ -38,25 +31,27 @@ const StyledInputGroupText = styled(InputGroupText)`
   background-color: ${props =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
-const StyledFilterDropdown = styled(SplitButton)`
-  min-width: 160px !important;
-  font-weight: 700 !important;
-  border-radius: 0 !important;
-  background-color: ${props =>
-    props['data-dataisfilteredbyfields'] ? '#FFBF73 !important' : 'white'};
+const StyledDropdown = styled(Dropdown)`
+  margin-right: -12px;
+  margin-top: -8px;
+  margin-bottom: -8px;
+  min-width: 23px;
+  min-height: 38px;
+  .dropdown-toggle {
+    min-height: 38px;
+    padding-top: 5px;
+    padding-right: 4px;
+    min-width: 23px;
+    border-left: 1px solid #ced4da;
+  }
+`
+const StyledDropdownItem = styled(DropdownItem)`
+  background-color: ${props => (props.active ? '#f7f791 !important' : 'unset')};
+  color: ${props => (props.active ? '#212529 !important' : 'unset')};
 `
 const StyledCriteria = styled.span`
   cursor: default !important;
   font-style: italic !important;
-`
-const FilterRemoveButton = styled(Button)`
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-`
-const RemoveIcon = styled(FaTimes)`
-  font-weight: 900;
-  font-size: 1.1em;
-  vertical-align: sub;
 `
 
 const FilterNav = () => {
@@ -91,6 +86,15 @@ const FilterNav = () => {
   const title = filterType
     ? `Filter: ${filterType}`
     : 'Felder filtern / sortieren'
+
+  const [filterDropdownIsOpen, setFilterDropdownIsOpen] = useState(false)
+  const toggleFilterDropdown = useCallback(
+    e => {
+      setFilterDropdownIsOpen(!filterDropdownIsOpen)
+      e.stopPropagation()
+    },
+    [filterDropdownIsOpen],
+  )
 
   const onChangeVolltextControl = useCallback(
     e => filterByFulltext(e.target.value),
@@ -137,7 +141,7 @@ const FilterNav = () => {
     sortByFields('fristMitarbeiter', 'DESCENDING')
     sortByFields('idGeschaeft', 'DESCENDING')
   }, [filterByFields, resetSort, sortByFields])
-  const onClickFilterDropdown = useCallback(() => {
+  const onClickFilterFields = useCallback(() => {
     const path = history.location.pathname
     if (path !== '/filterFields') {
       history.push('/filterFields')
@@ -157,67 +161,68 @@ const FilterNav = () => {
             title="Zum Filtern drücken Sie die Enter-Taste"
           />
           <InputGroupAddon addonType="append">
-            <StyledFilterDropdown
-              id="field-filter-dropdown"
-              title={title}
-              data-dataisfilteredbyfields={dataIsFilteredByFields}
-              onClick={onClickFilterDropdown}
-            >
-              <MenuItem header>aktive Filterkriterien:</MenuItem>
-              <MenuItem>
-                <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
-              </MenuItem>
-              <MenuItem header>aktive Sortierkriterien:</MenuItem>
-              <MenuItem>
-                <StyledCriteria>{activeSortcriteria}</StyledCriteria>
-              </MenuItem>
-              <MenuItem header>vorbereitete Filter:</MenuItem>
-              <MenuItem
-                onSelect={onSelectFaelligeGeschaefte}
-                style={{
-                  backgroundColor: filterType === 'fällige' ? '#FFBF73' : null,
-                }}
+            <StyledInputGroupText onClick={onClickFilterFields}>
+              {title}
+              <StyledDropdown
+                isOpen={filterDropdownIsOpen}
+                toggle={toggleFilterDropdown}
               >
-                fällige Geschäfte
-              </MenuItem>
-              <MenuItem
-                onSelect={onSelectEigeneFaelligeGeschaefte}
-                style={{
-                  backgroundColor:
-                    filterType === 'eigene fällige' ? '#FFBF73' : null,
-                }}
-              >
-                eigene fällige Geschäfte
-              </MenuItem>
-              <MenuItem
-                onSelect={onSelectAngekVernehmlassungen}
-                style={{
-                  backgroundColor:
-                    filterType === 'angekündigte Vernehmlassungen'
-                      ? '#FFBF73'
-                      : null,
-                }}
-              >
-                angekündigte Vernehmlassungen
-              </MenuItem>
-              <MenuItem
-                onSelect={onSelectLaufendeVernehmlassungen}
-                style={{
-                  backgroundColor:
-                    filterType === 'laufende Vernehmlassungen'
-                      ? '#FFBF73'
-                      : null,
-                }}
-              >
-                laufende Vernehmlassungen
-              </MenuItem>
-            </StyledFilterDropdown>
-            <FilterRemoveButton
-              disabled={!dataIsFiltered}
-              onClick={removeFilters}
-            >
-              <RemoveIcon title="Filter und Sortierung entfernen" />
-            </FilterRemoveButton>
+                <DropdownToggle caret tag="div">
+                  {' '}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>aktive Filterkriterien:</DropdownItem>
+                  <StyledDropdownItem>
+                    <StyledCriteria>{activeFiltercriteria}</StyledCriteria>
+                  </StyledDropdownItem>
+                  <DropdownItem header>aktive Sortierkriterien:</DropdownItem>
+                  <StyledDropdownItem>
+                    <StyledCriteria>{activeSortcriteria}</StyledCriteria>
+                  </StyledDropdownItem>
+                  <DropdownItem header>vorbereitete Filter:</DropdownItem>
+                  <StyledDropdownItem
+                    onClick={onSelectFaelligeGeschaefte}
+                    style={{
+                      backgroundColor:
+                        filterType === 'fällige' ? '#FFBF73' : null,
+                    }}
+                  >
+                    fällige Geschäfte
+                  </StyledDropdownItem>
+                  <StyledDropdownItem
+                    onClick={onSelectEigeneFaelligeGeschaefte}
+                    style={{
+                      backgroundColor:
+                        filterType === 'eigene fällige' ? '#FFBF73' : null,
+                    }}
+                  >
+                    eigene fällige Geschäfte
+                  </StyledDropdownItem>
+                  <StyledDropdownItem
+                    onClick={onSelectAngekVernehmlassungen}
+                    style={{
+                      backgroundColor:
+                        filterType === 'angekündigte Vernehmlassungen'
+                          ? '#FFBF73'
+                          : null,
+                    }}
+                  >
+                    angekündigte Vernehmlassungen
+                  </StyledDropdownItem>
+                  <StyledDropdownItem
+                    onClick={onSelectLaufendeVernehmlassungen}
+                    style={{
+                      backgroundColor:
+                        filterType === 'laufende Vernehmlassungen'
+                          ? '#FFBF73'
+                          : null,
+                    }}
+                  >
+                    laufende Vernehmlassungen
+                  </StyledDropdownItem>
+                </DropdownMenu>
+              </StyledDropdown>
+            </StyledInputGroupText>
             {dataIsFiltered && (
               <StyledInputGroupText
                 id="emptyFilterAddon"
