@@ -46,7 +46,7 @@ const isOdd = num => num % 2
 
 const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
   const store = useContext(storeContext)
-  const { interneOptions } = store.geschaefte
+  const { interneOptions, geko } = store.geschaefte
 
   const fristMitarbeiter = geschaeft.fristMitarbeiter
     ? `Frist: ${geschaeft.fristMitarbeiter}`
@@ -84,8 +84,8 @@ const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
   }, [geschaeft.faelligkeitText, maxStringLength])
 
   const shaded = !isOdd(rowIndex)
-  const geko = geschaeft.geko || []
   const gekoValue = geko
+    .filter(gko => gko.idGeschaeft === geschaeft.idGeschaeft)
     .map(g => g.gekoNr)
     .map(val => <div key={val}>{val}</div>)
   const verantwortlichNameName = getVornameNameForVerantwortlich(

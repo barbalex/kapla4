@@ -20,6 +20,8 @@ const Export = () => {
     geschaeftePlusFilteredAndSorted: geschaefte,
     interneOptions,
     externeOptions,
+    geko,
+    links,
   } = store.geschaefte
 
   const onClickExportAllGeschaefte = useCallback(
@@ -29,44 +31,43 @@ const Export = () => {
       const history = getHistoryOfGeschaefte(geschaefte)
       // need to make geko, interne and externe readable
       // and add history
-      const geschaefteReadable = _.clone(geschaefte).map(g => {
+      const geschaefteReadable = [...geschaefte].map(g => {
         const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern
           .filter(k => k.idGeschaeft === g.idGeschaeft)
           .map(gk => interneOptions.find(i => i.id === gk.idKontakt) || null)
         const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern
           .filter(k => k.idGeschaeft === g.idGeschaeft)
           .map(gk => externeOptions.find(i => i.id === gk.idKontakt) || null)
-        // make readable
         g.geko =
-          g.geko && g.geko.map
-            ? g.geko.map(geko => geko.gekoNr).join(', ')
-            : null
+          geko
+            .filter(gko => gko.idGeschaeft === g.idGeschaeft)
+            .map(g => g.gekoNr)
+            .join(', ') || null
         g.interne =
-          interne && interne.map
-            ? interne
-                .map(i => {
-                  const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
-                  const abt = i.abteilung ? `, ${i.abteilung}` : ''
-                  const eMail = i.eMail ? `, ${i.eMail}` : ''
-                  const telefon = i.telefon ? `, ${i.telefon}` : ''
-                  return `${name}${abt}${eMail}${telefon}`
-                })
-                .join('; ')
-            : null
+          interne
+            .map(i => {
+              const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
+              const abt = i.abteilung ? `, ${i.abteilung}` : ''
+              const eMail = i.eMail ? `, ${i.eMail}` : ''
+              const telefon = i.telefon ? `, ${i.telefon}` : ''
+              return `${name}${abt}${eMail}${telefon}`
+            })
+            .join('; ') || null
         g.externe =
-          externe && externe.map
-            ? externe
-                .map(i => {
-                  const name = `${i.name} ${i.vorname}`
-                  const firma = i.firma ? `, ${i.firma}` : ''
-                  const eMail = i.eMail ? `, ${i.eMail}` : ''
-                  const telefon = i.telefon ? `, ${i.telefon}` : ''
-                  return `${name}${firma}${eMail}${telefon}`
-                })
-                .join('; ')
-            : null
+          externe
+            .map(i => {
+              const name = `${i.name} ${i.vorname}`
+              const firma = i.firma ? `, ${i.firma}` : ''
+              const eMail = i.eMail ? `, ${i.eMail}` : ''
+              const telefon = i.telefon ? `, ${i.telefon}` : ''
+              return `${name}${firma}${eMail}${telefon}`
+            })
+            .join('; ') || null
         g.links =
-          g.links && g.links.map ? g.links.map(l => l.url).join(', ') : null
+          links
+            .filter(l => l.idGeschaeft === g.idGeschaeft)
+            .map(l => l.url)
+            .join(', ') || null
         g.historie = history.get(g.idGeschaeft).join(', ')
         return g
       })
@@ -74,8 +75,10 @@ const Export = () => {
     },
     [
       externeOptions,
+      geko,
       geschaefte,
       interneOptions,
+      links,
       messageShow,
       store.geschaefteKontakteExtern.geschaefteKontakteExtern,
       store.geschaefteKontakteIntern.geschaefteKontakteIntern,

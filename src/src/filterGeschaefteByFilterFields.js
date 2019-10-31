@@ -10,6 +10,7 @@ export default store => {
     geschaefte,
     faelligeStatiOptions,
     interneOptions,
+    geko,
   } = store.geschaefte
   // some filterFields may only have a comparator >
   // reduce to filterFields with values
@@ -35,7 +36,10 @@ export default store => {
         )
       }
       if (filterField.field === 'gekoNr') {
-        geschaeftValue = geschaeft.geko.map(g => g.gekoNr).join(', ')
+        geschaeftValue = geko
+          .filter(gko => gko.idGeschaeft === geschaeft.idGeschaeft)
+          .map(g => g.gekoNr)
+          .join(', ')
       }
       if (filterField.field === 'kontaktInternVornameName') {
         geschaeftValue = store.geschaefteKontakteIntern.geschaefteKontakteIntern
