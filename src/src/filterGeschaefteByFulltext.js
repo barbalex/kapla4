@@ -1,20 +1,7 @@
 import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
 
-const primitiveSatisfies = ({ data, filter }) => {
-  // convert to string if is number to also find 7681 when filtering for 681
-  let d = '' + data
-  // a number or string
-  // lowercase
-  if (d.toLowerCase) {
-    d = d.toLowerCase()
-  }
-  // check if satisfies filter
-  // by now data should be a string
-  if (d.includes(filter)) {
-    return true
-  }
-  return false
-}
+const primitiveSatisfies = ({ data, filter }) =>
+  ('' + data).toLowerCase().includes(filter)
 
 export default store => {
   const {
@@ -75,8 +62,7 @@ export default store => {
 
     // if any value satisfies the filter, include the geschaeft
     let satisfiesFilter = false
-    Object.keys(geschaeft).forEach(key => {
-      let data = geschaeft[key]
+    Object.values(geschaeft).forEach(data => {
       // ignore empty fields
       if (!(data || data === 0)) return
       // data is a primitive value
