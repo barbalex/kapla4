@@ -64,7 +64,7 @@ const StyledKontakt = styled.div`
   max-width: 100px;
 `
 const StyledBody = styled.div`
-  height: calc(100vh - 82px);
+  height: calc(100vh - 96px);
   overflow: hidden;
 `
 const StyledList = styled(List)`
