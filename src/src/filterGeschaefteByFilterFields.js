@@ -1,19 +1,18 @@
 import { includes, isString } from 'lodash'
 import moment from 'moment'
+
 import isDateField from './isDateField'
+import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
 
 export default store => {
   const {
     filterFields: filterFieldsPassed,
     geschaefte,
     faelligeStatiOptions,
+    interneOptions,
   } = store.geschaefte
   // some filterFields may only have a comparator >
   // reduce to filterFields with values
-  console.log(
-    'filterGeschaefteByFilterFields, filterFieldsPassed:',
-    filterFieldsPassed.toJSON(),
-  )
   const filterFields = filterFieldsPassed.filter(
     ff => ff.value || ff.value === 0,
   )
@@ -28,6 +27,12 @@ export default store => {
           faelligeStatiOptions && faelligeStatiOptions.includes
             ? faelligeStatiOptions.includes(geschaeft.status)
             : false
+      }
+      if (filterField.field === 'verantwortlichItKonto') {
+        geschaeftValue = getItKontoForVerantwortlich(
+          interneOptions,
+          geschaeft.verantwortlich,
+        )
       }
       if (filterField.field === 'gekoNr') {
         geschaeftValue = geschaeft.geko.map(g => g.gekoNr).join(', ')
@@ -45,11 +50,6 @@ export default store => {
           .join(', ')
       }
       const existsGeschaeftValue = geschaeftValue || geschaeftValue === 0
-      console.log('filterGeschaefteByFilterFields:', {
-        filterField,
-        filterValue,
-        geschaeftValue,
-      })
       if (!existsGeschaeftValue) {
         satisfiesFilter = false
       } else {
