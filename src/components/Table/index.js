@@ -41,7 +41,7 @@ const StyledTableHeaderCell = styled.div`
 `
 const StyledTableBody = styled.div`
   overflow: auto;
-  height: calc(100vh - 82px);
+  height: calc(100vh - 96px);
 `
 const StyledNoRowsDiv = styled.div`
   padding: 10px;
