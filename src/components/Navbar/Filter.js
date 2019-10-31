@@ -112,18 +112,8 @@ const Filter = () => {
     sortByFields('fristMitarbeiter', 'DESCENDING')
   }, [filterByFields, resetSort, sortByFields])
   const onSelectEigeneFaelligeGeschaefte = useCallback(() => {
-    const now = moment().format('YYYY-MM-DD')
     const filter = [
-      {
-        field: 'fristMitarbeiter',
-        value: now,
-        comparator: '<=',
-      },
-      {
-        field: 'kannFaelligSein',
-        value: true,
-        comparator: '===',
-      },
+      ...filterForFaelligeGeschaefte,
       {
         field: 'verantwortlichItKonto',
         value: username,
