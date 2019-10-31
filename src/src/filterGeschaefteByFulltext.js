@@ -1,20 +1,16 @@
-import { isArray, isObject } from 'lodash'
-
 import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
 
 const primitiveSatisfies = ({ data, filter }) => {
-  // a number or string
   // convert to string if is number to also find 7681 when filtering for 681
-  if (data.toString) {
-    data = data.toString()
-  }
+  let d = '' + data
+  // a number or string
   // lowercase
-  if (data.toLowerCase) {
-    data = data.toLowerCase()
+  if (d.toLowerCase) {
+    d = d.toLowerCase()
   }
   // check if satisfies filter
   // by now data should be a string
-  if (data.includes(filter)) {
+  if (d.includes(filter)) {
     return true
   }
   return false
@@ -48,38 +44,33 @@ export default store => {
     // add related data to geschaeft
     const geschaeft = {
       ...geschaeftPassed,
-      verantwortlichItKonto: getItKontoForVerantwortlich(
-        interneOptions,
-        geschaeftPassed.verantwortlich,
-      ),
+      verantwortlichItKonto:
+        getItKontoForVerantwortlich(
+          interneOptions,
+          geschaeftPassed.verantwortlich,
+        ) || '',
       geko: geko
         .filter(gko => gko.idGeschaeft === geschaeftPassed.idGeschaeft)
         .map(g => g.gekoNr)
-        .join(', '),
+        .join(),
       interne: interne
-        .map(i => {
-          const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
-          const abt = i.abteilung ? `, ${i.abteilung}` : ''
-          const eMail = i.eMail ? `, ${i.eMail}` : ''
-          const telefon = i.telefon ? `, ${i.telefon}` : ''
-          return `${name}${abt}${eMail}${telefon}`
-        })
-        .join('; '),
-      externe:
-        externe
-          .map(i => {
-            const name = `${i.name} ${i.vorname}`
-            const firma = i.firma ? `, ${i.firma}` : ''
-            const eMail = i.eMail ? `, ${i.eMail}` : ''
-            const telefon = i.telefon ? `, ${i.telefon}` : ''
-            return `${name}${firma}${eMail}${telefon}`
-          })
-          .join('; ') || null,
-      links:
-        links
-          .filter(l => l.idGeschaeft === geschaeftPassed.idGeschaeft)
-          .map(l => l.url)
-          .join(', ') || null,
+        .map(
+          i =>
+            `${i.name || ''} ${i.vorname || ''}  ${i.kurzzeichen ||
+              ''} ${i.abteilung || ''} ${i.eMail || ''} ${i.telefon || ''}`,
+        )
+        .join(),
+      externe: externe
+        .map(
+          i =>
+            `${i.name || ''} ${i.vorname || ''} ${i.firma || ''} ${i.eMail ||
+              ''} ${i.telefon || ''}`,
+        )
+        .join(),
+      links: links
+        .filter(l => l.idGeschaeft === geschaeftPassed.idGeschaeft)
+        .map(l => l.url)
+        .join(),
     }
 
     // if any value satisfies the filter, include the geschaeft
@@ -88,43 +79,9 @@ export default store => {
       let data = geschaeft[key]
       // ignore empty fields
       if (!(data || data === 0)) return
-      if (isArray(data)) {
-        // set satisfiesFilter = true if any element includes filterValue
-        data.forEach(val => {
-          // ignore empty fields
-          if (!(val || val === 0)) return
-          // elements can be objects (geko, person...)
-          if (isObject(val)) {
-            Object.values(val).forEach(val2 => {
-              if (!(val2 || val2 === 0)) return
-              /**
-               * TODO: as in filterGeschaefteByFilterFields: create computed fields!
-               */
-              if (primitiveSatisfies({ data: val2, filter })) {
-                satisfiesFilter = true
-              }
-            })
-          } else {
-            if (primitiveSatisfies({ data: val, filter })) {
-              satisfiesFilter = true
-            }
-          }
-        })
-      } else if (isObject(data)) {
-        // set satisfiesFilter = true if any value includes filterValue
-        // does this occur?
-        Object.values(data).forEach(val => {
-          // ignore empty fields
-          if (!(val || val === 0)) return
-          if (primitiveSatisfies({ data: val, filter })) {
-            satisfiesFilter = true
-          }
-        })
-      } else {
-        // data is a primitive value
-        if (primitiveSatisfies({ data, filter })) {
-          satisfiesFilter = true
-        }
+      // data is a primitive value
+      if (primitiveSatisfies({ data, filter })) {
+        satisfiesFilter = true
       }
     })
     return satisfiesFilter
