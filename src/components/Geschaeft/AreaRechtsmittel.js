@@ -76,7 +76,7 @@ const AreaRechtsmittel = ({
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     rechtsmittelErledigungOptions,
     rechtsmittelInstanzOptions,
   } = store.geschaefte

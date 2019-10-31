@@ -55,7 +55,7 @@ const AreaFristen = ({
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}

@@ -84,7 +84,7 @@ const DateField = ({
   const store = useContext(storeContext)
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
 

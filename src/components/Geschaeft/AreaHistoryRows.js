@@ -50,7 +50,7 @@ const AreaHistoryRows = () => {
   const {
     toggleActivatedById,
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     historyOfActiveId,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'

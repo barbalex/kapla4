@@ -102,9 +102,10 @@ const Geschaeft = () => {
   const { setDirty, dirty } = store
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     setValueInDb,
     setValue,
+    links,
   } = store.geschaefte
   const { config } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
@@ -238,7 +239,10 @@ const Geschaeft = () => {
     Wrapper = WrapperWideNoAreaForGeschaeftsart
   }
 
-  const showLinks = !(isPdf && geschaeft.links.length === 0)
+  const myLinks = links.filter(
+    link => link.idGeschaeft === geschaeft.idGeschaeft,
+  )
+  const showLinks = !(isPdf && myLinks.length === 0)
 
   return (
     <ErrorBoundary>
@@ -281,7 +285,7 @@ const Geschaeft = () => {
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
             change={change}
           />
-          {showLinks && <AreaLinks mylinks={store.geschaefte.links} />}
+          {showLinks && <AreaLinks />}
           <AreaHistory blur={blur} change={change} />
           <AreaZuletztMutiert />
         </Wrapper>

@@ -25,7 +25,7 @@ const AreaZuletztMutiert = () => {
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}

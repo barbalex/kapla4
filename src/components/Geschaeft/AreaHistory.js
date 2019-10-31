@@ -43,7 +43,7 @@ const AreaHistory = ({ blur, change }) => {
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const isPdf = activeLocation === 'geschaeftPdf'

@@ -131,7 +131,7 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'

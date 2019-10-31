@@ -185,7 +185,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
   const {
     aktenstandortOptions,
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     gekoOfActiveId,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'

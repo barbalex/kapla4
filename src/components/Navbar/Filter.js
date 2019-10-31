@@ -73,7 +73,7 @@ const Filter = () => {
     filterType,
     filterFulltext,
     sortFields,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   const { username } = store.app.user
   const dataIsFilteredByFulltext =

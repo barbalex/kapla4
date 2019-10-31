@@ -95,7 +95,7 @@ const AreaGeschaeft = ({
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     statusOptions,
     abteilungOptions,
     geschaeftsartOptions,

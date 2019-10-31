@@ -43,6 +43,9 @@ export default (geschaefte, filter) => {
           if (isObject(val)) {
             Object.values(val).forEach(val2 => {
               if (!(val2 || val2 === 0)) return
+              /**
+               * TODO: as in filterGeschaefteByFilterFields: create computed fields!
+               */
               if (primitiveSatisfies({ data: val2, filter })) {
                 satisfiesFilter = true
               }

@@ -17,7 +17,7 @@ const Export = () => {
   const store = useContext(storeContext)
   const { messageShow } = store
   const {
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
     externeOptions,
     geko,

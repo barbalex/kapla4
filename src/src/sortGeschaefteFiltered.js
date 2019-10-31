@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment'
 
-import isDateField from '../src/isDateField'
+import isDateField from './isDateField'
 
 export default store => {
   const geschaeftePassed = store.geschaefte.geschaeftePlusFiltered

@@ -2,9 +2,8 @@ import { types, getParent } from 'mobx-state-tree'
 import _ from 'lodash'
 import moment from 'moment'
 
-import addComputedValuesToGeschaefte from '../src/addComputedValuesToGeschaefte'
-import filterGeschaeftePlus from '../src/filterGeschaeftePlus'
-import sortGeschaeftePlusFiltered from '../src/sortGeschaeftePlusFiltered'
+import filterGeschaefte from '../src/filterGeschaefte'
+import sortGeschaefteFiltered from '../src/sortGeschaefteFiltered'
 import getHistoryOfGeschaeft from '../src/getHistoryOfGeschaeft'
 import Geschaeft from './Geschaeft'
 import Links from './Links'
@@ -54,14 +53,11 @@ export default types
     const store = getParent(self, 1)
 
     return {
-      get geschaeftePlus() {
-        return addComputedValuesToGeschaefte(store)
-      },
       get geschaeftePlusFiltered() {
-        return filterGeschaeftePlus(store)
+        return filterGeschaefte(store)
       },
-      get geschaeftePlusFilteredAndSorted() {
-        return sortGeschaeftePlusFiltered(store)
+      get geschaefteFilteredAndSorted() {
+        return sortGeschaefteFiltered(store)
       },
       get historyOfActiveId() {
         return getHistoryOfGeschaeft(self.geschaefte, self.activeId)
@@ -138,7 +134,7 @@ export default types
       },
       filterByFields(filterFields, filterType = 'nach Feldern') {
         const { reportType, initiate } = store.pages
-        const { geschaeftePlusFilteredAndSorted } = store.geschaefte
+        const { geschaefteFilteredAndSorted } = store.geschaefte
         store.geschaefte.filterFields = filterFields
         store.geschaefte.filterFulltext = ''
         store.geschaefte.filterType = filterType || null
@@ -151,10 +147,8 @@ export default types
         const activeLocation = location[0]
         if (activeLocation === 'pages') {
           initiate(reportType)
-        } else if (geschaeftePlusFilteredAndSorted.length === 1) {
-          self.toggleActivatedById(
-            geschaeftePlusFilteredAndSorted[0].idGeschaeft,
-          )
+        } else if (geschaefteFilteredAndSorted.length === 1) {
+          self.toggleActivatedById(geschaefteFilteredAndSorted[0].idGeschaeft)
         }
       },
       filterByFulltext(filterFulltext) {
@@ -162,7 +156,7 @@ export default types
         const activeLocation = location[0]
         const { geschaefte, setLocation } = store
         const { initiate, reportType } = store.pages
-        const { geschaeftePlusFilteredAndSorted } = geschaefte
+        const { geschaefteFilteredAndSorted } = geschaefte
         self.filterType = 'nach Volltext'
         self.filterFulltext = filterFulltext
         self.filterFields = []
@@ -177,10 +171,8 @@ export default types
           if (activeLocation !== 'geschaefte') {
             setLocation(['geschaefte'])
           }
-          if (geschaeftePlusFilteredAndSorted.length === 1) {
-            self.toggleActivatedById(
-              geschaeftePlusFilteredAndSorted[0].idGeschaeft,
-            )
+          if (geschaefteFilteredAndSorted.length === 1) {
+            self.toggleActivatedById(geschaefteFilteredAndSorted[0].idGeschaeft)
           }
         }
       },

@@ -42,7 +42,7 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
   const activeLocation = location[0]
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     parlVorstossTypOptions,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'

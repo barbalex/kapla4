@@ -2,17 +2,12 @@ import filterGeschaefteByFulltext from './filterGeschaefteByFulltext'
 import filterGeschaefteByFilterFields from './filterGeschaefteByFilterFields'
 
 export default store => {
-  const {
-    filterFulltext,
-    filterFields,
-    geschaeftePlus,
-    geschaefte,
-  } = store.geschaefte
+  const { filterFulltext, filterFields, geschaefte } = store.geschaefte
   const existsFilterFulltext = !!filterFulltext
   const existsFilterFields = filterFields.length > 0
 
   if (existsFilterFulltext) {
-    return filterGeschaefteByFulltext(geschaeftePlus, filterFulltext)
+    return filterGeschaefteByFulltext(geschaefte, filterFulltext)
   } else if (existsFilterFields) {
     return filterGeschaefteByFilterFields(store)
   }

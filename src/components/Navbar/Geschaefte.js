@@ -27,7 +27,7 @@ const Geschaefte = () => {
   const location = store.location.toJSON()
   const activeLocation = location[0]
   const {
-    geschaeftePlusFilteredAndSorted,
+    geschaefteFilteredAndSorted,
     geschaefte,
     geschaeftInsert,
     geschaeftSetDeleteIntended,
@@ -49,7 +49,7 @@ const Geschaefte = () => {
   const isFiltered = existsFilterFields || existsFilterFulltext
 
   const geschaefteSumSup = isFiltered
-    ? `${geschaeftePlusFilteredAndSorted.length}/${geschaefte.length}`
+    ? `${geschaefteFilteredAndSorted.length}/${geschaefte.length}`
     : geschaefte.length
 
   return (

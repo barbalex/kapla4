@@ -75,7 +75,7 @@ const Geschaefte = () => {
   const store = useContext(storeContext)
   const {
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   // get index of active id
   const indexOfActiveId = _.findIndex(

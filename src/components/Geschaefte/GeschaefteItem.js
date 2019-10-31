@@ -96,7 +96,7 @@ const GeschaefteItem = ({ index }) => {
   const {
     toggleActivatedById,
     activeId,
-    geschaeftePlusFilteredAndSorted: geschaefte,
+    geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
   const geschaeft = geschaefte[index]

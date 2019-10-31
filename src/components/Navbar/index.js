@@ -51,7 +51,7 @@ const NavbarComponent = () => {
   const { showMessageModal, config } = store.app
   const { showPagesModal } = store.pages
   const {
-    //geschaeftePlusFilteredAndSorted: geschaefte,
+    //geschaefteFilteredAndSorted: geschaefte,
     willDelete,
   } = store.geschaefte
   /*const dataIsFiltered =

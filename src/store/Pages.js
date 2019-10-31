@@ -21,9 +21,9 @@ export default types
     initiate(reportType) {
       const store = getParent(self, 1)
       self.cleanUp()
-      const { geschaeftePlusFilteredAndSorted } = store.geschaefte
+      const { geschaefteFilteredAndSorted } = store.geschaefte
       self.reportType = reportType
-      self.remainingGeschaefte = geschaeftePlusFilteredAndSorted.map(
+      self.remainingGeschaefte = geschaefteFilteredAndSorted.map(
         g => g.idGeschaeft,
       )
       self.building = true

@@ -221,10 +221,10 @@ class Page extends Component {
   showPagesModal = () => {
     const store = this.context
     const { pages, remainingGeschaefte, showModal } = store.pages
-    const { geschaeftePlusFilteredAndSorted } = store.geschaefte
+    const { geschaefteFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
     const msgLine2 =
-      geschaeftePlusFilteredAndSorted.length > 50 ? msgLine2Txt : ''
+      geschaefteFilteredAndSorted.length > 50 ? msgLine2Txt : ''
     showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
@@ -235,10 +235,10 @@ class Page extends Component {
     const {
       filterFields,
       sortFields,
-      geschaeftePlusFilteredAndSorted,
+      geschaefteFilteredAndSorted,
     } = store.geschaefte
     const geschaefteIds = pages[pageIndex].geschaefte
-    const geschaefte = geschaeftePlusFilteredAndSorted
+    const geschaefte = geschaefteFilteredAndSorted
       .filter(g => geschaefteIds.includes(g.idGeschaeft))
       /**
        * for unknown reason in bericht "laufende Vernehmlassungen"
