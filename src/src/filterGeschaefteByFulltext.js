@@ -1,5 +1,7 @@
 import { isArray, isObject } from 'lodash'
 
+import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
+
 const primitiveSatisfies = ({ data, filter }) => {
   // a number or string
   // convert to string if is number to also find 7681 when filtering for 681
@@ -18,7 +20,15 @@ const primitiveSatisfies = ({ data, filter }) => {
   return false
 }
 
-export default (geschaefte, filter) => {
+export default store => {
+  const {
+    filterFulltext: filter,
+    geschaefte,
+    interneOptions,
+    externeOptions,
+    geko,
+    links,
+  } = store.geschaefte
   // convert to lower case if possibe
   let filterValue = filter.toLowerCase ? filter.toLowerCase() : filter
   if (filterValue.toString) {
@@ -27,7 +37,51 @@ export default (geschaefte, filter) => {
     filterValue = filterValue.toString()
   }
 
-  return geschaefte.filter(geschaeft => {
+  return geschaefte.filter(geschaeftPassed => {
+    const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern
+      .filter(k => k.idGeschaeft === geschaeftPassed.idGeschaeft)
+      .map(gk => interneOptions.find(i => i.id === gk.idKontakt) || null)
+    const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern
+      .filter(k => k.idGeschaeft === geschaeftPassed.idGeschaeft)
+      .map(gk => externeOptions.find(i => i.id === gk.idKontakt) || null)
+
+    // add related data to geschaeft
+    const geschaeft = {
+      ...geschaeftPassed,
+      verantwortlichItKonto: getItKontoForVerantwortlich(
+        interneOptions,
+        geschaeftPassed.verantwortlich,
+      ),
+      geko: geko
+        .filter(gko => gko.idGeschaeft === geschaeftPassed.idGeschaeft)
+        .map(g => g.gekoNr)
+        .join(', '),
+      interne: interne
+        .map(i => {
+          const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
+          const abt = i.abteilung ? `, ${i.abteilung}` : ''
+          const eMail = i.eMail ? `, ${i.eMail}` : ''
+          const telefon = i.telefon ? `, ${i.telefon}` : ''
+          return `${name}${abt}${eMail}${telefon}`
+        })
+        .join('; '),
+      externe:
+        externe
+          .map(i => {
+            const name = `${i.name} ${i.vorname}`
+            const firma = i.firma ? `, ${i.firma}` : ''
+            const eMail = i.eMail ? `, ${i.eMail}` : ''
+            const telefon = i.telefon ? `, ${i.telefon}` : ''
+            return `${name}${firma}${eMail}${telefon}`
+          })
+          .join('; ') || null,
+      links:
+        links
+          .filter(l => l.idGeschaeft === geschaeftPassed.idGeschaeft)
+          .map(l => l.url)
+          .join(', ') || null,
+    }
+
     // if any value satisfies the filter, include the geschaeft
     let satisfiesFilter = false
     Object.keys(geschaeft).forEach(key => {

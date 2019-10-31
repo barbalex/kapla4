@@ -7,7 +7,7 @@ export default store => {
   const existsFilterFields = filterFields.length > 0
 
   if (existsFilterFulltext) {
-    return filterGeschaefteByFulltext(geschaefte, filterFulltext)
+    return filterGeschaefteByFulltext(store)
   } else if (existsFilterFields) {
     return filterGeschaefteByFilterFields(store)
   }
