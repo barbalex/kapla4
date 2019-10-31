@@ -52,6 +52,12 @@ export default types
       },
       updateInDb(id, field, value) {
         const { app, addError } = store
+        console.log('Store, updateInDb', {
+          id,
+          field,
+          value,
+          table: self.table,
+        })
         // no need to do something on then
         // ui was updated on TABLE_CHANGE_STATE
         try {
@@ -66,6 +72,7 @@ export default types
           )
         } catch (error) {
           // TODO: reset ui
+          console.log('Store, updateInDb, error:', error.message)
           return addError(error)
         }
         // need to reload this table in self

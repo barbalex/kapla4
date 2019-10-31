@@ -25,6 +25,11 @@ const TableRow = () => {
   const { rows, id, table, changeState, updateInDb } = store.table
   const row = rows[table].find(r => r.id === id)
 
+  /**
+   * TODO:
+   * somehow this is called with _last_ name
+   * but next value when bluring next field
+   */
   const onBlur = useCallback(
     event => {
       const { type, name, dataset } = event.target
