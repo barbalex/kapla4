@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+import getDauerBisFristMitarbeiter from '../../src/getDauerBisFristMitarbeiter'
 import getFristMitarbeiterWarnung from '../../src/getFristMitarbeiterWarnung'
 import getVornameNameForVerantwortlich from '../../src/getVornameNameForVerantwortlich'
 
@@ -116,7 +117,10 @@ const GeschaefteItem = ({ index }) => {
   const fristMitarbeiter = geschaeft.fristMitarbeiter
     ? `Frist: ${geschaeft.fristMitarbeiter}`
     : ''
-  const fristMitarbeiterWarnung = getFristMitarbeiterWarnung(geschaeft)
+  const dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(geschaeft)
+  const fristMitarbeiterWarnung = getFristMitarbeiterWarnung(
+    dauerBisFristMitarbeiter,
+  )
   const verantwortlichName = getVornameNameForVerantwortlich(
     interneOptions,
     geschaeft.verantwortlich,
