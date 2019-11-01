@@ -85,6 +85,13 @@ SELECT
       on links.idGeschaeft = geschaefte.idGeschaeft
     where links.idGeschaeft = g.idGeschaeft
     group by links.idGeschaeft
+  ), '') || ' ' ||
+  coalesce((
+    select
+      itKonto as val
+    from 
+      interne
+      where interne.kurzzeichen = g.verantwortlich
   ), '') as value
 FROM
   geschaefte g;
@@ -94,7 +101,7 @@ FROM
 CREATE VIRTUAL TABLE fts USING fts5(idGeschaeft, value);
 --CREATE VIRTUAL TABLE fts USING fts5(value, content=v_fts, content_rowid=idGeschaeft);
 insert into fts(idGeschaeft, value) select idGeschaeft, value from v_fts;
--- select idGeschaeft from fts where value match 'ganzverruecktertest*'  -- 49ms
+-- select idGeschaeft from fts where value match 'itkontot*'
 
 
 CREATE TRIGGER fts_ai_from_geschaefte AFTER INSERT ON geschaefte BEGIN
@@ -134,7 +141,6 @@ END;
 CREATE TRIGGER fts_au_from_geko AFTER UPDATE ON geko BEGIN
   update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
 END;
-
 CREATE TRIGGER fts_ai_from_links AFTER INSERT ON links BEGIN
   update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
 END;
@@ -143,4 +149,16 @@ CREATE TRIGGER fts_ad_from_links AFTER DELETE ON links BEGIN
 END;
 CREATE TRIGGER fts_au_from_links AFTER UPDATE ON links BEGIN
   update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+-- insert on interne is not necessary - itKonto is always null on insert
+-- delet on interne is not necessary either: deleting is restricted if verantwortlich with this kurzzeichen exists
+CREATE TRIGGER fts_au_from_interne AFTER UPDATE ON interne when new.itKonto <> old.itKonto BEGIN
+  update fts 
+  set value = (select value from v_fts where idGeschaeft = fts.idGeschaeft) 
+  where idGeschaeft in (select idGeschaeft from geschaefte where verantwortlich = new.kurzzeichen);
+END;
+CREATE TRIGGER fts_au_from_interne2 AFTER UPDATE ON interne when new.kurzzeichen <> old.kurzzeichen BEGIN
+  update fts 
+  set value = (select value from v_fts where idGeschaeft = fts.idGeschaeft) 
+  where idGeschaeft in (select idGeschaeft from geschaefte where verantwortlich in (new.kurzzeichen, old.kurzzeichen));
 END;
