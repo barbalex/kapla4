@@ -120,7 +120,7 @@ export default () =>
             .prepare(
               `
           SELECT
-            *, name || ' ' || vorname AS nameVorname
+            *
           FROM
             externe
           ORDER BY

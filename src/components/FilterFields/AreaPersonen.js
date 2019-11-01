@@ -50,11 +50,11 @@ const verantwortlichOptionsList = interneOptions => {
 const externeOptionsList = externeOptions => {
   // sort externeOptions by nameVorname
   const externeOptionsSorted = _.sortBy(externeOptions, o =>
-    o.nameVorname.toLowerCase(),
+    `${o.name} ${o.vorname}`.toLowerCase(),
   )
   const options = externeOptionsSorted.map((o, index) => (
-    <option key={index + 1} value={o.nameVorname}>
-      {o.nameVorname}
+    <option key={index + 1} value={`${o.name} ${o.vorname}`}>
+      {`${o.name} ${o.vorname}`}
     </option>
   ))
   options.unshift(<option key={0} value="" />)
@@ -89,7 +89,7 @@ const externeData = (values, externeOptions) => {
     return value
   }
   const data = externeOptions.find(
-    o => o.nameVorname === values.kontaktExternNameVorname,
+    o => `${o.name} ${o.vorname}` === values.kontaktExternNameVorname,
   )
   if (!data) return ''
   let info = ''

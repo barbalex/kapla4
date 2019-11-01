@@ -21,11 +21,11 @@ const optionsList = (externeOptions, geschaefteKontakteExtern, activeId) => {
   )
   // sort externeOptions by nameVorname
   const externeOptionsSorted = _.sortBy(externeOptionsFiltered, o =>
-    o.nameVorname.toLowerCase(),
+    `${o.name} ${o.vorname}`.toLowerCase(),
   )
   const options = externeOptionsSorted.map(o => (
     <option key={o.id} value={o.id}>
-      {o.nameVorname}
+      {`${o.name} ${o.vorname}`}
     </option>
   ))
 
