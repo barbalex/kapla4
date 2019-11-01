@@ -1,17 +1,9 @@
-import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
-
-const primitiveSatisfies = ({ data, filter }) =>
-  ('' + data).toLowerCase().includes(filter)
+/*const primitiveSatisfies = ({ data, filter }) =>
+  ('' + data).toLowerCase().includes(filter)*/
 
 export default store => {
-  const {
-    filterFulltext: filter,
-    geschaefte,
-    interneOptions,
-    externeOptions,
-    geko,
-    links,
-  } = store.geschaefte
+  const { app, addError } = store
+  const { filterFulltext: filter, geschaefte } = store.geschaefte
   // convert to lower case if possibe
   let filterValue = filter.toLowerCase ? filter.toLowerCase() : filter
   if (filterValue.toString) {
@@ -20,7 +12,22 @@ export default store => {
     filterValue = filterValue.toString()
   }
 
-  return geschaefte.filter(geschaeftPassed => {
+  let result = []
+  try {
+    result = app.db
+      .prepare(`select idGeschaeft from fts where value match '${filter}*'`)
+      .all()
+  } catch (error) {
+    addError(error)
+  }
+  const filteredIds = result.map(o => o.idGeschaeft)
+
+  return geschaefte.filter(g => {
+    /**
+     * this was far too slow
+     * replaced it with fts on db
+     */
+    /*
     const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern
       .filter(k => k.idGeschaeft === geschaeftPassed.idGeschaeft)
       .map(gk => interneOptions.find(i => i.id === gk.idKontakt) || null)
@@ -69,7 +76,7 @@ export default store => {
       if (primitiveSatisfies({ data, filter })) {
         satisfiesFilter = true
       }
-    })
-    return satisfiesFilter
+    })*/
+    return filteredIds.includes(g.idGeschaeft)
   })
 }
