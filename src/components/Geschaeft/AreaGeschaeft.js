@@ -106,8 +106,6 @@ const AreaGeschaeft = ({
 
   const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
 
-  console.log('AreaGeschaeft, geschaeft:', geschaeft)
-
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>

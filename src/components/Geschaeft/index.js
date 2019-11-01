@@ -103,15 +103,12 @@ const Geschaeft = () => {
   const {
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
-    setValueInDb,
-    setValue,
     links,
   } = store.geschaefte
   const { config } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
-
-  console.log('Geschaeft')
+  const { setValue, setValueInDb } = geschaeft
 
   const change = useCallback(e => {
     const { type, name: field, dataset } = e.target
@@ -129,12 +126,12 @@ const Geschaeft = () => {
         value = dataset.value
       }
       // blur does not occur in radio
-      setValueInDb({ idGeschaeft: activeId, field, value })
+      setValueInDb({ field, value })
     }
     if (type === 'select-one') {
       setValueInDb({ idGeschaeft: activeId, field, value })
     }
-    setValue({ idGeschaeft: activeId, field, value })
+    setValue({ field, value })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const blur = useCallback(
@@ -144,7 +141,7 @@ const Geschaeft = () => {
         if (isDateField(field)) {
           if (validateDate(value)) {
             // if correct date, save to db
-            setValueInDb({ idGeschaeft: activeId, field, value })
+            setValueInDb({ field, value })
           }
           // else: give user hint
           let value2 = ''
@@ -152,7 +149,7 @@ const Geschaeft = () => {
           if (value2.includes('Invalid date')) {
             value2 = value2.replace('Invalid date', 'Format: DD.MM.YYYY')
           }
-          setValue({ idGeschaeft: activeId, field, value: value2 })
+          setValue({ field, value: value2 })
         } else {
           setValueInDb({ idGeschaeft: activeId, field, value })
         }
@@ -161,8 +158,8 @@ const Geschaeft = () => {
     [activeId, setValue, setValueInDb],
   )
   const saveToDb = useCallback(
-    ({ value, field }) => setValueInDb({ idGeschaeft: activeId, field, value }),
-    [activeId, setValueInDb],
+    ({ value, field }) => setValueInDb({ field, value }),
+    [setValueInDb],
   )
   const onChangeDatePicker = useCallback(
     (name, date) => {
