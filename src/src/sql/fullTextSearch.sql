@@ -89,22 +89,21 @@ SELECT
 FROM
   geschaefte g;
 
-SELECT * from v_fts where value like '%natur%' -- 820ms
+-- SELECT idGeschaeft from v_fts where value like '%abl%' -- 700ms
 
 CREATE VIRTUAL TABLE fts USING fts5(idGeschaeft, value);
-insert into fts(idGeschaeft, value) select * from v_fts;
-select * from fts where value match 'abl*'
+--CREATE VIRTUAL TABLE fts USING fts5(value, content=v_fts, content_rowid=idGeschaeft);
+insert into fts(idGeschaeft, value) select idGeschaeft, value from v_fts;
+-- select idGeschaeft from fts where value match 'abl*'  -- 49ms
 
 
-SELECT * from fts where value match '%natur%'
-
-CREATE TRIGGER tbl_ai AFTER INSERT ON tbl BEGIN
-  INSERT INTO fts_idx(rowid, b, c) VALUES (new.a, new.b, new.c);
+CREATE TRIGGER fts_ai_from_geschaefte AFTER INSERT ON geschaefte BEGIN
+  INSERT INTO fts(idGeschaeft, value) select idGeschaeft, value from v_fts where idGeschaeft = new.idGeschaeft;
 END;
-CREATE TRIGGER tbl_ad AFTER DELETE ON tbl BEGIN
-  INSERT INTO fts_idx(fts_idx, rowid, b, c) VALUES('delete', old.a, old.b, old.c);
+CREATE TRIGGER fts_ad_from_geschaefte AFTER DELETE ON geschaefte BEGIN
+  delete from fts where idGeschaeft = old.idGeschaeft;
 END;
-CREATE TRIGGER tbl_au AFTER UPDATE ON tbl BEGIN
-  INSERT INTO fts_idx(fts_idx, rowid, b, c) VALUES('delete', old.a, old.b, old.c);
-  INSERT INTO fts_idx(rowid, b, c) VALUES (new.a, new.b, new.c);
+CREATE TRIGGER fts_au_from_geschaefte AFTER UPDATE ON geschaefte BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
 END;
+-- TODO: add triggers for gki, gke, geko, links
