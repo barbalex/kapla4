@@ -94,7 +94,7 @@ FROM
 CREATE VIRTUAL TABLE fts USING fts5(idGeschaeft, value);
 --CREATE VIRTUAL TABLE fts USING fts5(value, content=v_fts, content_rowid=idGeschaeft);
 insert into fts(idGeschaeft, value) select idGeschaeft, value from v_fts;
--- select idGeschaeft from fts where value match 'abl*'  -- 49ms
+-- select idGeschaeft from fts where value match 'ganzverruecktertest*'  -- 49ms
 
 
 CREATE TRIGGER fts_ai_from_geschaefte AFTER INSERT ON geschaefte BEGIN
@@ -106,4 +106,41 @@ END;
 CREATE TRIGGER fts_au_from_geschaefte AFTER UPDATE ON geschaefte BEGIN
   update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
 END;
--- TODO: add triggers for gki, gke, geko, links
+-- add triggers for gki, gke, geko and links:
+CREATE TRIGGER fts_ai_from_gki AFTER INSERT ON geschaefteKontakteIntern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ad_from_gki AFTER DELETE ON geschaefteKontakteIntern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = old.idGeschaeft) where idGeschaeft = old.idGeschaeft;
+END;
+CREATE TRIGGER fts_au_from_gki AFTER UPDATE ON geschaefteKontakteIntern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ai_from_gke AFTER INSERT ON geschaefteKontakteExtern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ad_from_gke AFTER DELETE ON geschaefteKontakteExtern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = old.idGeschaeft) where idGeschaeft = old.idGeschaeft;
+END;
+CREATE TRIGGER fts_au_from_gke AFTER UPDATE ON geschaefteKontakteExtern BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ai_from_geko AFTER INSERT ON geko BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ad_from_geko AFTER DELETE ON geko BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = old.idGeschaeft) where idGeschaeft = old.idGeschaeft;
+END;
+CREATE TRIGGER fts_au_from_geko AFTER UPDATE ON geko BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+
+CREATE TRIGGER fts_ai_from_links AFTER INSERT ON links BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
+CREATE TRIGGER fts_ad_from_links AFTER DELETE ON links BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = old.idGeschaeft) where idGeschaeft = old.idGeschaeft;
+END;
+CREATE TRIGGER fts_au_from_links AFTER UPDATE ON links BEGIN
+  update fts set value = (select value from v_fts where idGeschaeft = new.idGeschaeft) where idGeschaeft = new.idGeschaeft;
+END;
