@@ -10,7 +10,6 @@ import {
   DropdownItem,
 } from 'reactstrap'
 import { FaTimes } from 'react-icons/fa'
-import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -28,11 +27,19 @@ const Container = styled.div`
 `
 const VolltextInput = styled(Input)`
   background-color: ${props =>
-    props['data-isfiltered'] ? '#FFBF73 !important' : 'white'};
+    props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
 const StyledInputGroupText = styled(InputGroupText)`
   background-color: ${props =>
-    props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
+    props['data-isfiltered'] === 'true'
+      ? '#FFBF73 !important'
+      : 'white !important'};
+`
+const RemoveFilterButton = styled(InputGroupText)`
+  background-color: ${props =>
+    props['data-isfiltered'] === 'true'
+      ? 'white !important'
+      : '#d3d3d3 !important'};
 `
 const StyledDropdown = styled(Dropdown)`
   margin-right: -12px;
@@ -40,6 +47,8 @@ const StyledDropdown = styled(Dropdown)`
   margin-bottom: -8px;
   min-width: 23px;
   min-height: 38px;
+  background-color: ${props =>
+    props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
   .dropdown-toggle {
     min-height: 38px;
     padding-top: 5px;
@@ -49,7 +58,7 @@ const StyledDropdown = styled(Dropdown)`
   }
 `
 const StyledDropdownItem = styled(DropdownItem)`
-  background-color: ${props => (props.active ? '#f7f791 !important' : 'unset')};
+  background-color: ${props => (props.active ? '#FFBF73 !important' : 'unset')};
   color: ${props => (props.active ? '#212529 !important' : 'unset')};
 `
 const StyledCriteria = styled.span`
@@ -72,12 +81,13 @@ const Filter = () => {
     filterFields,
     filterType,
     filterFulltext,
+    isFiltered,
     sortFields,
     geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
   const { username } = store.app.user
   const dataIsFilteredByFulltext =
-    geschaefte.length !== geschaefteUnfiltered.length && filterFulltext
+    geschaefte.length !== geschaefteUnfiltered.length && !!filterFulltext
   const dataIsFilteredByFields =
     geschaefte.length !== geschaefteUnfiltered.length && !filterFulltext
   const dataIsFiltered = geschaefte.length !== geschaefteUnfiltered.length
@@ -143,6 +153,10 @@ const Filter = () => {
     }
   }, [activeLocation, removeFilters, setLocation])
 
+  console.log('Filter, isFiltered:', isFiltered)
+  console.log('Filter, filterFulltext:', filterFulltext)
+  console.log('Filter, dataIsFilteredByFulltext:', dataIsFilteredByFulltext)
+
   return (
     <ErrorBoundary>
       <Container>
@@ -151,15 +165,19 @@ const Filter = () => {
             placeholder="Volltext filtern"
             onChange={onChangeVolltextControl}
             value={filterFulltext || ''}
-            data-isfiltered={dataIsFilteredByFulltext}
+            data-isfiltered={dataIsFilteredByFulltext.toString()}
             title="Zum Filtern drücken Sie die Enter-Taste"
           />
           <InputGroupAddon addonType="append">
-            <StyledInputGroupText onClick={onClickFilterFields}>
+            <StyledInputGroupText
+              onClick={onClickFilterFields}
+              data-isfiltered={isFiltered.toString()}
+            >
               {title}
               <StyledDropdown
                 isOpen={filterDropdownIsOpen}
                 toggle={toggleFilterDropdown}
+                data-isfiltered={isFiltered.toString()}
               >
                 <DropdownToggle caret tag="div">
                   {' '}
@@ -217,16 +235,18 @@ const Filter = () => {
                 </DropdownMenu>
               </StyledDropdown>
             </StyledInputGroupText>
-            {dataIsFiltered && (
-              <StyledInputGroupText
-                id="emptyFilterAddon"
-                onClick={removeFilters}
-                data-isfiltered={dataIsFiltered}
-                title="Filter und Sortierung entfernen"
-              >
-                <FaTimes />
-              </StyledInputGroupText>
-            )}
+            <RemoveFilterButton
+              id="emptyFilterAddon"
+              onClick={removeFilters}
+              data-isfiltered={dataIsFiltered.toString()}
+              title={
+                isFiltered
+                  ? 'Filter und Sortierung entfernen'
+                  : 'Daten sind nicht gefiltert'
+              }
+            >
+              <FaTimes />
+            </RemoveFilterButton>
           </InputGroupAddon>
         </InputGroup>
       </Container>

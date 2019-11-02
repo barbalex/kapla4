@@ -32,8 +32,7 @@ const Geschaefte = () => {
     geschaeftInsert,
     geschaeftSetDeleteIntended,
     activeId,
-    filterFulltext,
-    filterFields,
+    isFiltered,
   } = store.geschaefte
   const active = ['geschaefte', 'filterFields'].includes(activeLocation)
 
@@ -44,9 +43,6 @@ const Geschaefte = () => {
     () => geschaeftSetDeleteIntended(activeId),
     [activeId, geschaeftSetDeleteIntended],
   )
-  const existsFilterFulltext = !!filterFulltext
-  const existsFilterFields = filterFields.length > 0
-  const isFiltered = existsFilterFields || existsFilterFulltext
 
   const geschaefteSumSup = isFiltered
     ? `${geschaefteFilteredAndSorted.length}/${geschaefte.length}`

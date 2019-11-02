@@ -20,7 +20,6 @@ import FilterFields from './FilterFields'
 import SortFields from './SortFields'
 import isDateField from '../src/isDateField'
 import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
-import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
 import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGetSortFields'
 
 export default types
@@ -64,6 +63,11 @@ export default types
       },
       get gekoOfActiveId() {
         return self.geko.filter(g => g.idGeschaeft === self.activeId)
+      },
+      get isFiltered() {
+        const existsFilterFulltext = !!self.filterFulltext
+        const existsFilterFields = self.filterFields.length > 0
+        return existsFilterFields || existsFilterFulltext
       },
     }
   })
