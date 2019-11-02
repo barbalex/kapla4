@@ -10,7 +10,6 @@ import Geschaefte from './Geschaefte'
 import storeContext from '../storeContext'
 
 const StyledSplitPane = styled(SplitPane)`
-  top: 58px;
   @media print {
     top: 0;
   }

@@ -1,5 +1,6 @@
 import React, { useContext, useCallback, useState } from 'react'
 import {
+  Button,
   InputGroup,
   InputGroupAddon,
   InputGroupText,
@@ -9,7 +10,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import { FaTimes } from 'react-icons/fa'
+import { FaTimes, FaCaretDown } from 'react-icons/fa'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -32,6 +33,9 @@ const VolltextInput = styled(Input)`
 const StyledInputGroupText = styled(InputGroupText)`
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  padding-right: 0 !important;
+  cursor: pointer;
+  user-select: none;
   background-color: ${props =>
     props['data-isfiltered'] === 'true'
       ? '#FFBF73 !important'
@@ -42,14 +46,24 @@ const RemoveFilterButton = styled(InputGroupText)`
     props['data-isfiltered'] === 'true'
       ? 'white !important'
       : '#d3d3d3 !important'};
+  cursor: pointer;
 `
 const StyledDropdown = styled(Dropdown)`
   background-color: ${props =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
-  border-left: 1px solid #ced4da;
   height: 36px;
+  margin-left: 10px;
+  cursor: pointer;
   .dropdown-toggle:after {
     vertical-align: unset !important;
+  }
+`
+const StyledDropdownToggle = styled(DropdownToggle)`
+  height: 100%;
+  width: 20px;
+  border-left: 1px solid #ced4da;
+  svg {
+    margin-top: 7px;
   }
 `
 const StyledDropdownItem = styled(DropdownItem)`
@@ -148,10 +162,6 @@ const Filter = () => {
     }
   }, [activeLocation, removeFilters, setLocation])
 
-  console.log('Filter, isFiltered:', isFiltered)
-  console.log('Filter, filterFulltext:', filterFulltext)
-  console.log('Filter, dataIsFilteredByFulltext:', dataIsFilteredByFulltext)
-
   return (
     <ErrorBoundary>
       <Container>
@@ -174,11 +184,17 @@ const Filter = () => {
                 toggle={toggleFilterDropdown}
                 data-isfiltered={isFiltered.toString()}
                 size="sm"
+                title="Vorbereitete Filter öffnen"
               >
-                <DropdownToggle caret tag="div">
-                  {' '}
-                </DropdownToggle>
-                <DropdownMenu>
+                <StyledDropdownToggle
+                  tag="div"
+                  onClick={toggleFilterDropdown}
+                  data-toggle="dropdown"
+                  aria-expanded={filterDropdownIsOpen}
+                >
+                  <FaCaretDown />
+                </StyledDropdownToggle>
+                <DropdownMenu right>
                   <DropdownItem header>aktive Filterkriterien:</DropdownItem>
                   <StyledDropdownItem>
                     <StyledCriteria>{activeFiltercriteria}</StyledCriteria>

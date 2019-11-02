@@ -15,7 +15,9 @@ const DbPath = styled.span`
   color: #adadad;
   font-weight: 400;
 `
-const MoreMenu = styled(UncontrolledDropdown)``
+const MoreMenu = styled(UncontrolledDropdown)`
+  user-select: none;
+`
 const StyledDropdownToggle = styled(DropdownToggle)`
   padding-left: 18px !important;
   font-size: 1.7em;
