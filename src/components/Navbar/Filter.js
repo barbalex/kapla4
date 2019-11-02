@@ -30,6 +30,8 @@ const VolltextInput = styled(Input)`
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
 const StyledInputGroupText = styled(InputGroupText)`
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   background-color: ${props =>
     props['data-isfiltered'] === 'true'
       ? '#FFBF73 !important'
@@ -42,19 +44,12 @@ const RemoveFilterButton = styled(InputGroupText)`
       : '#d3d3d3 !important'};
 `
 const StyledDropdown = styled(Dropdown)`
-  margin-right: -12px;
-  margin-top: -8px;
-  margin-bottom: -8px;
-  min-width: 23px;
-  min-height: 38px;
   background-color: ${props =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
-  .dropdown-toggle {
-    min-height: 38px;
-    padding-top: 5px;
-    padding-right: 4px;
-    min-width: 23px;
-    border-left: 1px solid #ced4da;
+  border-left: 1px solid #ced4da;
+  height: 36px;
+  .dropdown-toggle:after {
+    vertical-align: unset !important;
   }
 `
 const StyledDropdownItem = styled(DropdownItem)`
@@ -178,6 +173,7 @@ const Filter = () => {
                 isOpen={filterDropdownIsOpen}
                 toggle={toggleFilterDropdown}
                 data-isfiltered={isFiltered.toString()}
+                size="sm"
               >
                 <DropdownToggle caret tag="div">
                   {' '}
