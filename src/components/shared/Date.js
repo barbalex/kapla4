@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import {
   Col,
   FormGroup,
@@ -13,8 +13,6 @@ import DatePicker from 'react-datepicker'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { FaCalendarAlt } from 'react-icons/fa'
-
-import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -72,38 +70,17 @@ const DateField = ({
   field,
   label,
   saveToDb,
+  change,
+  blur,
   error,
   row = false,
   tabIndex,
 }) => {
-  const store = useContext(storeContext)
-  const { setDirty } = store
-
   const [open, setOpen] = useState(false)
   const [stateValue, setStateValue] = useState(
     value || value === 0 ? value : '',
   )
 
-  const onChange = useCallback(
-    event => {
-      setStateValue(event.target.value)
-      if (event.target.value !== value) setDirty(true)
-    },
-    [setDirty, value],
-  )
-  const onBlur = useCallback(
-    event => {
-      let newValue = event.target.value
-      // save nulls if empty
-      if (newValue === '') newValue = null
-      // only save if value has changed
-      if (!newValue && !value && value !== 0 && newValue !== 0) return
-      if (newValue === value) return
-      saveToDb({ value: newValue, field })
-      setDirty(false)
-    },
-    [value, saveToDb, field, setDirty],
-  )
   const openPicker = useCallback(() => setOpen(true), [])
   const closePicker = useCallback(() => setOpen(false), [])
   const onChangeDatePicker = useCallback(
@@ -111,13 +88,14 @@ const DateField = ({
       const myEvent = {
         target: {
           value: moment(date, 'DD.MM.YYYY').format('DD.MM.YYYY'),
+          name: field,
         },
       }
-      onChange(myEvent)
-      onBlur(myEvent)
+      change(myEvent)
+      blur(myEvent)
       setTimeout(() => setOpen(false))
     },
-    [onBlur, onChange],
+    [blur, change, field],
   )
 
   // without lifecycle state value does not immediately update
@@ -140,8 +118,8 @@ const DateField = ({
                 type="text"
                 name={field}
                 value={stateValue}
-                onChange={onChange}
-                onBlur={onBlur}
+                onChange={change}
+                onBlur={blur}
                 invalid={!!error}
                 tabIndex={tabIndex}
               />
@@ -182,8 +160,8 @@ const DateField = ({
               type="text"
               name={field}
               value={stateValue}
-              onChange={onChange}
-              onBlur={onBlur}
+              onChange={change}
+              onBlur={blur}
               invalid={!!error}
               tabIndex={tabIndex}
             />

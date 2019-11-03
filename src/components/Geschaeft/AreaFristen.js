@@ -83,6 +83,8 @@ const AreaFristen = ({
             field="datumEingangAwel"
             label="Datum des Eingangs im AWEL"
             saveToDb={saveToDb}
+            change={change}
+            blur={blur}
             error={errors.datumEingangAwel}
             tabIndex={1 + nrOfFieldsBeforeFristen}
           />
