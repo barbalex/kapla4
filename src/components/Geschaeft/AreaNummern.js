@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
+import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -18,6 +19,9 @@ const StyledTextarea = styled(Textarea)`
   border: 1px solid #ccc;
   border-radius: 4px;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+`
+const StyledInput = styled(Input)`
+  min-height: 32px;
 `
 const ContainerBase = styled.div`
   grid-area: areaNummern;
@@ -114,8 +118,9 @@ const FieldIdGeschaeft = styled(Field)`
 const LabelIdGeschaeft = styled(LabelHorizontal)`
   grid-area: labelIdGeschaeft;
 `
-const InputIdGeschaeft = styled(FormControl)`
+const InputIdGeschaeft = styled(Input)`
   background: transparent !important;
+  min-height: 32px;
 `
 const FieldGekoNr = styled(TextareaField)`
   grid-area: fieldGekoNr;
@@ -225,7 +230,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
           <InputIdGeschaeft
             type="number"
             value={geschaeft.idGeschaeft}
-            bsSize="small"
             disabled
           />
         </FieldIdGeschaeft>
@@ -249,13 +253,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.entscheidAwel) && (
           <FieldEntscheidAwel data-ispdf={isPdf}>
-            <FormControl
+            <StyledInput
               type="text"
               value={geschaeft.entscheidAwel || ''}
               name="entscheidAwel"
               onChange={change}
               onBlur={blur}
-              bsSize="small"
               tabIndex={2 + tabsToAdd}
             />
           </FieldEntscheidAwel>
@@ -265,12 +268,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.entscheidBdv) && (
           <FieldEntscheidBdv data-ispdf={isPdf}>
-            <FormControl
+            <StyledInput
+              type="text"
               value={geschaeft.entscheidBdv || ''}
               name="entscheidBdv"
               onChange={change}
               onBlur={blur}
-              bsSize="small"
               tabIndex={4 + tabsToAdd}
             />
           </FieldEntscheidBdv>
@@ -280,12 +283,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.entscheidRrb) && (
           <FieldEntscheidRrb data-ispdf={isPdf}>
-            <FormControl
+            <StyledInput
+              type="text"
               value={geschaeft.entscheidRrb || ''}
               name="entscheidRrb"
               onChange={change}
               onBlur={blur}
-              bsSize="small"
               tabIndex={6 + tabsToAdd}
             />
           </FieldEntscheidRrb>
@@ -295,12 +298,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.entscheidBvv) && (
           <FieldEntscheidBvv data-ispdf={isPdf}>
-            <FormControl
+            <StyledInput
+              type="text"
               value={geschaeft.entscheidBvv || ''}
               name="entscheidBvv"
               onChange={change}
               onBlur={blur}
-              bsSize="small"
               tabIndex={8 + tabsToAdd}
             />
           </FieldEntscheidBvv>
@@ -310,12 +313,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.entscheidKr) && (
           <FieldEntscheidKr data-ispdf={isPdf}>
-            <FormControl
+            <StyledInput
+              type="text"
               value={geschaeft.entscheidKr || ''}
               name="entscheidKr"
               onChange={change}
               onBlur={blur}
-              bsSize="small"
               tabIndex={10 + tabsToAdd}
             />
           </FieldEntscheidKr>

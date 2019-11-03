@@ -1,8 +1,13 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
-import { FormControl } from 'react-bootstrap'
 import { observer } from 'mobx-react-lite'
+import { Input } from 'reactstrap'
+import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+
+const StyledInput = styled(Input)`
+  min-height: 32px;
+`
 
 const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
   const store = useContext(storeContext)
@@ -30,12 +35,11 @@ const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {
   }, [gekoNewCreate, gekoNr, gekoRemove, idGeschaeft, oldGekoNr])
 
   return (
-    <FormControl
+    <StyledInput
       type="text"
       value={gekoNr}
       onChange={onChange}
       onBlur={onBlur}
-      bsSize="small"
       tabIndex={1 + tabsToAdd}
     />
   )
