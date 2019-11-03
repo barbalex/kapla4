@@ -54,8 +54,16 @@ const StyledFormGroup = styled(FormGroup)`
     right: 1em;
   }
 `
+const StyledLabel = styled(Label)`
+  color: #757575;
+  font-size: 11px;
+  font-weight: 500;
+`
 const NonRowLabel = styled(Label)`
-  margin-bottom: 3px;
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 11px;
+  font-weight: 500;
 `
 const StyledInputGroupAddon = styled(InputGroupAddon)`
   cursor: pointer;
@@ -108,9 +116,9 @@ const DateField = ({
     <StyledFormGroup row={row}>
       {row ? (
         <>
-          <Label for={field} sm={2}>
+          <StyledLabel for={field} sm={2}>
             {label}
-          </Label>
+          </StyledLabel>
           <Col sm={10}>
             <InputGroup size="sm">
               <Input

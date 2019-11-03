@@ -4,11 +4,10 @@ import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
-import Date from '../shared/Date'
 
-import DateField from './DateField'
 import storeContext from '../../storeContext'
 import getDauerBisFristMitarbeiter from '../../src/getDauerBisFristMitarbeiter'
+import Date from '../shared/Date'
 
 moment.locale('de')
 
@@ -82,7 +81,6 @@ const AreaFristen = ({
             value={geschaeft.datumEingangAwel}
             field="datumEingangAwel"
             label="Datum des Eingangs im AWEL"
-            saveToDb={saveToDb}
             change={change}
             blur={blur}
             error={errors.datumEingangAwel}
@@ -90,42 +88,50 @@ const AreaFristen = ({
           />
         )}
         {!(!geschaeft.fristAwel && isPdf) && (
-          <DateField
-            name="fristAwel"
+          <Date
+            key={`${geschaeft.idGeschaeft}fristAwel`}
+            value={geschaeft.fristAwel}
+            field="fristAwel"
             label="Frist für Erledigung durch AWEL"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.fristAwel}
             tabIndex={2 + nrOfFieldsBeforeFristen}
           />
         )}
         {!(!geschaeft.fristAmtschef && isPdf) && (
-          <DateField
-            name="fristAmtschef"
+          <Date
+            key={`${geschaeft.idGeschaeft}fristAmtschef`}
+            value={geschaeft.fristAmtschef}
+            field="fristAmtschef"
             label="Frist Vorlage an Amtschef"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.fristAmtschef}
             tabIndex={3 + nrOfFieldsBeforeFristen}
           />
         )}
         {!(!geschaeft.fristAbteilung && isPdf) && (
-          <DateField
-            name="fristAbteilung"
+          <Date
+            key={`${geschaeft.idGeschaeft}fristAbteilung`}
+            value={geschaeft.fristAbteilung}
+            field="fristAbteilung"
             label="Frist für Erledigung durch Abteilung"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.fristAbteilung}
             tabIndex={4 + nrOfFieldsBeforeFristen}
           />
         )}
         {!(!geschaeft.fristMitarbeiter && isPdf) && (
-          <DateField
-            name="fristMitarbeiter"
+          <Date
+            key={`${geschaeft.idGeschaeft}fristMitarbeiter`}
+            value={geschaeft.fristMitarbeiter}
+            field="fristMitarbeiter"
             label="Frist Erledigung nächster Schritt Re"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.fristMitarbeiter}
             tabIndex={5 + nrOfFieldsBeforeFristen}
           />
         )}
@@ -143,22 +149,26 @@ const AreaFristen = ({
           </FieldFristDauerBisMitarbeiter>
         )}
         {!(!geschaeft.datumAusgangAwel && isPdf) && (
-          <DateField
-            name="datumAusgangAwel"
+          <Date
+            key={`${geschaeft.idGeschaeft}datumAusgangAwel`}
+            value={geschaeft.datumAusgangAwel}
+            field="datumAusgangAwel"
             label="Datum Ausgang AWEL (erledigt)"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.datumAusgangAwel}
             tabIndex={6 + nrOfFieldsBeforeFristen}
           />
         )}
         {!(!geschaeft.fristDirektion && isPdf) && (
-          <DateField
-            name="fristDirektion"
+          <Date
+            key={`${geschaeft.idGeschaeft}fristDirektion`}
+            value={geschaeft.fristDirektion}
+            field="fristDirektion"
             label="Frist für Erledigung durch Direktion"
             change={change}
             blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            error={errors.fristDirektion}
             tabIndex={7 + nrOfFieldsBeforeFristen}
           />
         )}

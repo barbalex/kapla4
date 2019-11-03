@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
 
-import DateField from './DateField'
+import Date from '../shared/Date'
 import storeContext from '../../storeContext'
 import createOptions from '../../src/createOptions'
 
@@ -83,6 +83,11 @@ const AreaRechtsmittel = ({
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
 
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
@@ -118,12 +123,14 @@ const AreaRechtsmittel = ({
         )}
         {!(isPdf && !geschaeft.rechtsmittelEntscheidDatum) && (
           <FieldEntscheidDatum>
-            <DateField
-              name="rechtsmittelEntscheidDatum"
+            <Date
+              key={`${geschaeft.idGeschaeft}rechtsmittelEntscheidDatum`}
+              value={geschaeft.rechtsmittelEntscheidDatum}
+              field="rechtsmittelEntscheidDatum"
               label="Entscheid Datum"
               change={change}
               blur={blur}
-              onChangeDatePicker={onChangeDatePicker}
+              error={errors.rechtsmittelEntscheidDatum}
               tabIndex={3 + nrOfFieldsBeforePv}
             />
           </FieldEntscheidDatum>

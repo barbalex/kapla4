@@ -6,7 +6,10 @@ import styled from 'styled-components'
 import storeContext from '../../storeContext'
 
 const NonRowLabel = styled(Label)`
-  margin-bottom: 3px;
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 11px;
+  font-weight: 500;
 `
 const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
