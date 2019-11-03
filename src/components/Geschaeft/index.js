@@ -277,6 +277,7 @@ const Geschaeft = () => {
             change={change}
             blur={blur}
             onChangeDatePicker={onChangeDatePicker}
+            saveToDb={saveToDb}
           />
           <AreaPersonen
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}

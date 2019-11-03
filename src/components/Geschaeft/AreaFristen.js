@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import Date from '../shared/Date'
 
 import DateField from './DateField'
 import storeContext from '../../storeContext'
@@ -47,16 +48,14 @@ const StyledFristDauerBisMitarbeiter = styled(FormControl.Static)`
 const AreaFristen = ({
   blur,
   change,
+  saveToDb,
   nrOfFieldsBeforeFristen,
   onChangeDatePicker,
 }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const {
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-  } = store.geschaefte
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(geschaeft)
@@ -68,17 +67,23 @@ const AreaFristen = ({
     if (dauerBisFristMitarbeiter === 0) colorDauerBisFristMitarbeiter = 'grey'
   }
 
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Fristen</Title>
         {!(!geschaeft.datumEingangAwel && isPdf) && (
-          <DateField
-            name="datumEingangAwel"
+          <Date
+            key={`${geschaeft.idGeschaeft}datumEingangAwel`}
+            value={geschaeft.datumEingangAwel}
+            field="datumEingangAwel"
             label="Datum des Eingangs im AWEL"
-            change={change}
-            blur={blur}
-            onChangeDatePicker={onChangeDatePicker}
+            saveToDb={saveToDb}
+            error={errors.datumEingangAwel}
             tabIndex={1 + nrOfFieldsBeforeFristen}
           />
         )}

@@ -25,7 +25,7 @@ const StyledFormGroup = styled(FormGroup)`
     z-index: 10;
   }
   .react-datepicker {
-    font-size: 1em;
+    font-size: 12px;
   }
   .react-datepicker__header {
     padding-top: 0.8em;
@@ -61,9 +61,21 @@ const NonRowLabel = styled(Label)`
 `
 const StyledInputGroupAddon = styled(InputGroupAddon)`
   cursor: pointer;
+  span {
+    border-top-right-radius: 0.25rem !important;
+    border-bottom-right-radius: 0.25rem !important;
+  }
 `
 
-const DateField = ({ value, field, label, saveToDb, error, row = true }) => {
+const DateField = ({
+  value,
+  field,
+  label,
+  saveToDb,
+  error,
+  row = false,
+  tabIndex,
+}) => {
   const store = useContext(storeContext)
   const { setDirty } = store
 
@@ -122,7 +134,7 @@ const DateField = ({ value, field, label, saveToDb, error, row = true }) => {
             {label}
           </Label>
           <Col sm={10}>
-            <InputGroup>
+            <InputGroup size="sm">
               <Input
                 id={field}
                 type="text"
@@ -131,6 +143,7 @@ const DateField = ({ value, field, label, saveToDb, error, row = true }) => {
                 onChange={onChange}
                 onBlur={onBlur}
                 invalid={!!error}
+                tabIndex={tabIndex}
               />
               <StyledInputGroupAddon
                 addonType="append"
@@ -172,6 +185,7 @@ const DateField = ({ value, field, label, saveToDb, error, row = true }) => {
               onChange={onChange}
               onBlur={onBlur}
               invalid={!!error}
+              tabIndex={tabIndex}
             />
             <StyledInputGroupAddon
               addonType="append"
