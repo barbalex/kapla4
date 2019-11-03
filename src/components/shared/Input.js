@@ -11,6 +11,9 @@ const NonRowLabel = styled(Label)`
 const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
 `
+const StyledInput = styled(Input)`
+  min-height: 32px;
+`
 
 const SharedInput = ({
   value,
@@ -72,7 +75,7 @@ const SharedInput = ({
             {label}
           </Label>
           <Col sm={10}>
-            <Input
+            <StyledInput
               id={field}
               type={type}
               name={field}
@@ -92,7 +95,7 @@ const SharedInput = ({
       ) : (
         <>
           <NonRowLabel for={field}>{label}</NonRowLabel>
-          <Input
+          <StyledInput
             id={field}
             type={type}
             name={field}

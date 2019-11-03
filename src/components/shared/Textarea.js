@@ -1,6 +1,6 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
+import { Col, FormGroup, Label, FormFeedback } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 
@@ -15,6 +15,7 @@ const StyledFormGroup = styled(FormGroup)`
 const StyledTextarea = styled(Textarea)`
   display: block;
   width: 100%;
+  min-height: 32px;
   padding: 6px 12px;
   line-height: 1.42857143;
   color: #555;

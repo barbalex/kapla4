@@ -36,7 +36,8 @@ const SharedSelect = ({
   options,
   saveToDb,
   error,
-  row = true,
+  row = false,
+  tabIndex = 0,
 }) => {
   const onChange = useCallback(
     option => saveToDb({ value: option ? option.value : null, field }),
@@ -69,6 +70,7 @@ const SharedSelect = ({
               isSearchable
               noOptionsMessage={noOptionsMessage}
               invalid={!!error}
+              tabIndex={tabIndex}
             />
             <FormFeedback>{error}</FormFeedback>
           </Col>
@@ -88,6 +90,7 @@ const SharedSelect = ({
             isSearchable
             noOptionsMessage={noOptionsMessage}
             invalid={!!error}
+            tabIndex={tabIndex}
           />
           <FormFeedback>{error}</FormFeedback>
         </>

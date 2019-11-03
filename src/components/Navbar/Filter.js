@@ -36,6 +36,7 @@ const StyledInputGroupText = styled(InputGroupText)`
   padding-right: 0 !important;
   cursor: pointer;
   user-select: none;
+  font-size: 12px !important;
   background-color: ${props =>
     props['data-isfiltered'] === 'true'
       ? '#FFBF73 !important'
@@ -51,7 +52,7 @@ const RemoveFilterButton = styled(InputGroupText)`
 const StyledDropdown = styled(Dropdown)`
   background-color: ${props =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
-  height: 36px;
+  height: 30px;
   margin-left: 10px;
   cursor: pointer;
   .dropdown-toggle:after {

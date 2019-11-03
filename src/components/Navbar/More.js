@@ -23,7 +23,7 @@ const StyledDropdownToggle = styled(DropdownToggle)`
   font-size: 1.7em;
   font-weight: 600;
   padding-top: 0 !important;
-  margin-top: -3px;
+  margin-top: -4px;
   height: 38px;
 `
 const Version = styled.div`

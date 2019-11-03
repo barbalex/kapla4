@@ -1,12 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
-import TextareaAR from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
-import createOptions from '../../src/createOptions'
 import Select from '../shared/Select'
 import Input from '../shared/Input'
 import Textarea from '../shared/Textarea'
@@ -37,22 +34,6 @@ const Title = styled.div`
   font-weight: 900;
   font-size: 16px;
   grid-area: areaGeschaeftTitle;
-`
-const StyledTextarea = styled(TextareaAR)`
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  line-height: 1.42857143;
-  color: #555;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  &:focus {
-    border-color: #66afe9;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-      0 0 8px rgba(102, 175, 233, 0.6);
-  }
 `
 const Ausloeser = styled.div`
   grid-area: fieldAusloeser;
@@ -106,10 +87,6 @@ const AreaGeschaeft = ({
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? nrOfGFields : 0
 
-  const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
-
-  console.log('AreaGeschaeft, idGeschaeft:', geschaeft.idGeschaeft)
-
   const [errors, setErrors] = useState({})
   useEffect(() => {
     setErrors({})
@@ -158,37 +135,34 @@ const AreaGeschaeft = ({
         )}
         {!(!geschaeft.geschaeftsart && isPdf) && (
           <Geschaeftsart>
-            <ControlLabel>Geschäftsart</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.geschaeftsart || ''}
-              name="geschaeftsart"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}geschaeftsart`}
+              value={geschaeft.geschaeftsart}
+              field="geschaeftsart"
+              label="Geschäftsart"
+              options={geschaeftsartOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.geschaeftsart}
               tabIndex={4 + tabsToAdd}
-            >
-              {geschaeftsartOptionsComponent}
-            </FormControl>
+            />
           </Geschaeftsart>
         )}
         {!(!geschaeft.status && isPdf) && (
           <Status>
-            <ControlLabel>Status</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.status || ''}
-              name="status"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}status`}
+              value={geschaeft.status}
+              field="status"
+              label="Status"
+              options={statusOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.status}
               tabIndex={5 + tabsToAdd}
-            >
-              {createOptions(statusOptions)}
-            </FormControl>
+            />
           </Status>
         )}
         {!(!geschaeft.abteilung && isPdf) && (
           <Abteilung>
-            <ControlLabel>Abteilung</ControlLabel>
             <Select
               key={`${geschaeft.idGeschaeft}abteilung`}
               value={geschaeft.abteilung}
@@ -196,59 +170,59 @@ const AreaGeschaeft = ({
               label="Abteilung"
               options={abteilungOptions.map(o => ({ label: o, value: o }))}
               saveToDb={saveToDb}
-              //error={errors.abteilung}
-              row={false}
-              bsSize="small"
+              error={errors.abteilung}
               tabIndex={6 + tabsToAdd}
             />
           </Abteilung>
         )}
         {!(!geschaeft.details && isPdf) && (
           <Details>
-            <ControlLabel>Details</ControlLabel>
-            <StyledTextarea
-              value={geschaeft.details || ''}
-              name="details"
-              onChange={change}
-              onBlur={blur}
+            <Textarea
+              key={`${geschaeft.idGeschaeft}details`}
+              value={geschaeft.details}
+              field="details"
+              label="Details"
+              saveToDb={saveToDb}
+              error={errors.details}
               tabIndex={7 + tabsToAdd}
             />
           </Details>
         )}
         {!(!geschaeft.naechsterSchritt && isPdf) && (
           <NaechsterSchritt>
-            <ControlLabel>Nächster Schritt</ControlLabel>
-            <StyledTextarea
-              value={geschaeft.naechsterSchritt || ''}
-              name="naechsterSchritt"
-              onChange={change}
-              onBlur={blur}
+            <Textarea
+              key={`${geschaeft.idGeschaeft}naechsterSchritt`}
+              value={geschaeft.naechsterSchritt}
+              field="naechsterSchritt"
+              label="Nächster Schritt"
+              saveToDb={saveToDb}
+              error={errors.naechsterSchritt}
               tabIndex={8 + tabsToAdd}
             />
           </NaechsterSchritt>
         )}
         {!(!geschaeft.vermerk && isPdf) && (
           <Vermerk>
-            <ControlLabel>Vermerk</ControlLabel>
-            <StyledTextarea
-              value={geschaeft.vermerk || ''}
-              name="vermerk"
-              onChange={change}
-              onBlur={blur}
+            <Textarea
+              key={`${geschaeft.idGeschaeft}vermerk`}
+              value={geschaeft.vermerk}
+              field="vermerk"
+              label="Vermerk"
+              saveToDb={saveToDb}
+              error={errors.vermerk}
               tabIndex={9 + tabsToAdd}
             />
           </Vermerk>
         )}
         <VermerkIntern>
-          <ControlLabel>
-            Vermerk intern (in Berichten nicht angezeigt)
-          </ControlLabel>
-          <StyledTextarea
-            value={geschaeft.vermerkIntern || ''}
-            name="vermerkIntern"
-            onChange={change}
-            onBlur={blur}
-            tabIndex={9 + tabsToAdd}
+          <Textarea
+            key={`${geschaeft.idGeschaeft}vermerkIntern`}
+            value={geschaeft.vermerkIntern}
+            field="vermerkIntern"
+            label="Vermerk intern (in Berichten nicht angezeigt)"
+            saveToDb={saveToDb}
+            error={errors.vermerkIntern}
+            tabIndex={10 + tabsToAdd}
           />
         </VermerkIntern>
       </Container>
