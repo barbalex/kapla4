@@ -1,6 +1,7 @@
 import React, { useContext, useState, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
+import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
@@ -11,18 +12,31 @@ const NonRowLabel = styled(Label)`
 const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
 `
+const StyledTextarea = styled(Textarea)`
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  line-height: 1.42857143;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  &:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+      0 0 8px rgba(102, 175, 233, 0.6);
+  }
+`
 
-const SharedInput = ({
+const SharedTextarea = ({
   value,
   field,
   label,
-  type = 'text',
-  rows = 1,
   placeholder = '',
   disabled = false,
   saveToDb,
   error,
-  bsSize = 'sm',
   row = false,
   tabIndex = 0,
 }) => {
@@ -72,18 +86,14 @@ const SharedInput = ({
             {label}
           </Label>
           <Col sm={10}>
-            <Input
+            <StyledTextarea
               id={field}
-              type={type}
               name={field}
               placeholder={placeholder}
               disabled={disabled}
               value={stateValue}
               onChange={onChange}
               onBlur={onBlur}
-              rows={rows}
-              invalid={!!error}
-              bsSize={bsSize}
               tabIndex={tabIndex}
             />
             <FormFeedback>{error}</FormFeedback>
@@ -92,18 +102,14 @@ const SharedInput = ({
       ) : (
         <>
           <NonRowLabel for={field}>{label}</NonRowLabel>
-          <Input
+          <StyledTextarea
             id={field}
-            type={type}
             name={field}
             placeholder={placeholder}
             disabled={disabled}
             value={stateValue}
             onChange={onChange}
             onBlur={onBlur}
-            rows={rows}
-            invalid={!!error}
-            bsSize={bsSize}
             tabIndex={tabIndex}
           />
           <FormFeedback>{error}</FormFeedback>
@@ -113,4 +119,4 @@ const SharedInput = ({
   )
 }
 
-export default observer(SharedInput)
+export default observer(SharedTextarea)

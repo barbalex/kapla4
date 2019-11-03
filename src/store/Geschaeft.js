@@ -125,6 +125,10 @@ export default types
       const store = getParent(self, 3)
       const { app, addError } = store
       const { user } = app
+      // update mst
+      self[field] = value
+      self.mutationsperson = user.username
+      self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
       /**
        * if field is date field
        * convert DD.MM.YYYY to YYYY-MM-DD
@@ -138,14 +142,14 @@ export default types
         app.db
           .prepare(
             `
-      UPDATE
-        geschaefte
-      SET
-        ${field} = '${value2}',
-        mutationsdatum = '${now}',
-        mutationsperson = '${user.username}'
-      WHERE
-        idGeschaeft = ${self.idGeschaeft}`,
+              UPDATE
+                geschaefte
+              SET
+                ${field} = '${value2}',
+                mutationsdatum = '${now}',
+                mutationsperson = '${user.username}'
+              WHERE
+                idGeschaeft = ${self.idGeschaeft}`,
           )
           .run()
       } catch (error) {

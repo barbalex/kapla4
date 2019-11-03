@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
-import Textarea from 'react-textarea-autosize'
+import TextareaAR from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -8,6 +8,8 @@ import ErrorBoundary from 'react-error-boundary'
 import storeContext from '../../storeContext'
 import createOptions from '../../src/createOptions'
 import Select from '../shared/Select'
+import Input from '../shared/Input'
+import Textarea from '../shared/Textarea'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -36,7 +38,7 @@ const Title = styled.div`
   font-size: 16px;
   grid-area: areaGeschaeftTitle;
 `
-const StyledTextarea = styled(Textarea)`
+const StyledTextarea = styled(TextareaAR)`
   display: block;
   width: 100%;
   padding: 6px 12px;
@@ -106,42 +108,50 @@ const AreaGeschaeft = ({
 
   const geschaeftsartOptionsComponent = createOptions(geschaeftsartOptions)
 
+  console.log('AreaGeschaeft, idGeschaeft:', geschaeft.idGeschaeft)
+
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Geschäft</Title>
         <Gegenstand>
-          <ControlLabel>Gegenstand</ControlLabel>
-          <StyledTextarea
-            value={geschaeft.gegenstand || ''}
-            name="gegenstand"
-            onChange={change}
-            onBlur={blur}
+          <Textarea
+            key={`${geschaeft.idGeschaeft}gegenstand`}
+            value={geschaeft.gegenstand}
+            field="gegenstand"
+            label="Gegenstand"
+            saveToDb={saveToDb}
+            error={errors.gegenstand}
             tabIndex={1 + tabsToAdd}
           />
         </Gegenstand>
         {!(!geschaeft.ausloeser && isPdf) && (
           <Ausloeser>
-            <ControlLabel>Auslöser</ControlLabel>
-            <StyledTextarea
-              value={geschaeft.ausloeser || ''}
-              name="ausloeser"
-              onChange={change}
-              onBlur={blur}
+            <Textarea
+              key={`${geschaeft.idGeschaeft}ausloeser`}
+              value={geschaeft.ausloeser}
+              field="ausloeser"
+              label="Auslöser"
+              saveToDb={saveToDb}
+              error={errors.ausloeser}
               tabIndex={2 + tabsToAdd}
             />
           </Ausloeser>
         )}
         {!(!geschaeft.ort && isPdf) && (
           <Ort>
-            <ControlLabel>Ort</ControlLabel>
-            <FormControl
-              type="text"
-              value={geschaeft.ort || ''}
-              name="ort"
-              onChange={change}
-              onBlur={blur}
-              bsSize="small"
+            <Input
+              key={`${geschaeft.idGeschaeft}ort`}
+              value={geschaeft.ort}
+              field="ort"
+              label="Ort"
+              saveToDb={saveToDb}
+              error={errors.ort}
               tabIndex={3 + tabsToAdd}
             />
           </Ort>

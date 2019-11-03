@@ -41,7 +41,7 @@ export default () => createGlobalStyle`
   }
 
   .form-control {
-    font-size: 12px;
+    font-size: 12px !important;
   }
 
   .form-group {
