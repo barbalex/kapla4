@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
+import React, { useContext, useState, useEffect } from 'react'
+import { Label } from 'reactstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
 import AreaHistoryRows from './AreaHistoryRows'
 import storeContext from '../../storeContext'
+import Input from '../shared/Input'
 
 // eslint-disable-next-line no-unused-vars
 const Container = styled.div`
@@ -31,22 +32,24 @@ const FieldVorgeschaeft = styled.div`
   grid-area: fieldVorgeschaeft;
 `
 // eslint-disable-next-line no-unused-vars
-const LabelVorgeschaeft = styled(ControlLabel)`
+const LabelVorgeschaeft = styled(Label)`
   grid-area: labelVorgeschaeft;
-  margin-top: ${props => (props['data-ispdf'] ? 0 : '10px')};
+  margin-top: ${props => (props['data-ispdf'] ? 0 : '7px')};
   text-align: right;
 `
 
-const AreaHistory = ({ blur, change }) => {
+const AreaHistory = ({ saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const {
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-  } = store.geschaefte
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const isPdf = activeLocation === 'geschaeftPdf'
+
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
 
   return (
     <ErrorBoundary>
@@ -54,19 +57,20 @@ const AreaHistory = ({ blur, change }) => {
         <Title>Historie</Title>
         <LabelVorgeschaeft data-ispdf={isPdf}>Vorgeschäft</LabelVorgeschaeft>
         <FieldVorgeschaeft>
-          <FormControl
+          <Input
+            key={`${geschaeft.idGeschaeft}idVorgeschaeft`}
             type="number"
             value={
               geschaeft && geschaeft.idVorgeschaeft
                 ? geschaeft.idVorgeschaeft
                 : ''
             }
-            name="idVorgeschaeft"
-            onChange={change}
-            onBlur={blur}
-            bsSize="small"
+            field="idVorgeschaeft"
+            label=""
+            saveToDb={saveToDb}
+            error={errors.idVorgeschaeft}
             placeholder={isPdf ? null : 'ID'}
-            tabIndex={99} // eslint-disable-line
+            tabIndex={99}
           />
         </FieldVorgeschaeft>
         <AreaHistoryRows />

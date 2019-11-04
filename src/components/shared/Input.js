@@ -97,7 +97,7 @@ const SharedInput = ({
         </>
       ) : (
         <>
-          <NonRowLabel for={field}>{label}</NonRowLabel>
+          {!!label && <NonRowLabel for={field}>{label}</NonRowLabel>}
           <StyledInput
             id={field}
             type={type}

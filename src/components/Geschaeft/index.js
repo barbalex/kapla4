@@ -284,7 +284,7 @@ const Geschaeft = () => {
             change={change}
           />
           {showLinks && <AreaLinks />}
-          <AreaHistory blur={blur} change={change} />
+          <AreaHistory saveToDb={saveToDb} />
           <AreaZuletztMutiert />
         </Wrapper>
       </ScrollContainer>
