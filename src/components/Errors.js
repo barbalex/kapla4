@@ -30,15 +30,14 @@ const ErrorDiv = styled.div`
 `
 
 const Errors = () => {
-  const store = useContext(storeContext)
-  const errorMessages = store.errors.slice()
+  const { errors } = useContext(storeContext)
 
-  if (errorMessages.length === 0) return null
+  if (errors.length === 0) return null
 
   return (
     <ErrorBoundary>
       <Container>
-        {errorMessages.map((message, index) => (
+        {errors.map((message, index) => (
           <ErrorDiv key={index}>{message}</ErrorDiv>
         ))}
       </Container>

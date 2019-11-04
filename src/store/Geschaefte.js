@@ -26,7 +26,7 @@ export default types
   .model('Geschaefte', {
     fetching: types.optional(types.boolean, false),
     filterFulltext: types.optional(types.string, ''),
-    filterFulltextIds: types.maybeNull(types.array(types.number)),
+    filterFulltextIds: types.optional(types.array(types.number), []),
     filterType: types.maybeNull(types.string),
     activeId: types.maybeNull(types.number),
     willDelete: types.optional(types.boolean, false),
