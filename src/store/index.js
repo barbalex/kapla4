@@ -1,5 +1,5 @@
 import { types } from 'mobx-state-tree'
-import uniqBy from 'lodash/uniqBy'
+import uniq from 'lodash/uniq'
 
 import App from './App'
 import Geschaefte from './Geschaefte'
@@ -425,9 +425,7 @@ export default () =>
       },
       addError(error) {
         // use uniq in case multiple same messages arrive
-        if (self.errors.filter(e => e === error.message).length === 0) {
-          self.errors.push(error.message)
-        }
+        self.errors = uniq([...self.errors, error.message])
         setTimeout(() => self.popError(), 1000 * 10)
       },
       popError() {
