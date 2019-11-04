@@ -24,7 +24,9 @@ export default () =>
         ['geschaefte'],
       ),
     })
-    .views(self => ({}))
+    .volatile(() => ({
+      errors: [],
+    }))
     .actions(self => ({
       setLocation(location) {
         self.location = location
@@ -425,13 +427,16 @@ export default () =>
       },
       addError(error) {
         // use uniq in case multiple same messages arrive
-        self.app.errors = uniqBy([...self.app.errors, error], 'message')
+        //self.errors = uniqBy([...self.errors, error], 'message')
+        if (self.errors.filter(e => e.message === error.message).length === 0) {
+          self.errors.push(error)
+        }
         setTimeout(() => self.popError(), 1000 * 10)
       },
       popError() {
         // eslint-disable-next-line no-unused-vars
-        const [first, ...last] = self.app.errors
-        self.app.errors = [...last]
+        const [first, ...last] = self.errors
+        self.errors = [...last]
       },
       setDirty(val) {
         self.dirty = val

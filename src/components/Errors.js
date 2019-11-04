@@ -31,7 +31,7 @@ const ErrorDiv = styled.div`
 
 const Errors = () => {
   const store = useContext(storeContext)
-  const errorMessages = store.app.errors.map(e => e.message)
+  const errorMessages = store.errors.map(e => e.message)
 
   if (errorMessages.length === 0) return null
 

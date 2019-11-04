@@ -12,12 +12,14 @@ export default store => {
     filterValue = filterValue.toString()
   }
 
+  console.log('filterGeschaefteByFulltext, filter:', filter)
   let result = []
   try {
     result = app.db
       .prepare(`select idGeschaeft from fts where value match '${filter}*'`)
       .all()
   } catch (error) {
+    console.log('filterGeschaefteByFulltext, error:', error.message)
     addError(error)
   }
   const filteredIds = result.map(o => o.idGeschaeft)

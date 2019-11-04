@@ -73,10 +73,7 @@ const StyledList = styled(List)`
 
 const Geschaefte = () => {
   const store = useContext(storeContext)
-  const {
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-  } = store.geschaefte
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   // get index of active id
   const indexOfActiveId = _.findIndex(
     geschaefte,
@@ -96,20 +93,22 @@ const Geschaefte = () => {
             </StyledRow>
           </StyledHeader>
           <StyledBody>
-            <AutoSizer>
-              {({ height, width }) => (
-                <StyledList
-                  height={height}
-                  rowCount={geschaefte.length}
-                  rowHeight={77}
-                  rowRenderer={RowRenderer}
-                  noRowsRenderer={() => <NoRowsRenderer />}
-                  width={width}
-                  scrollToIndex={indexOfActiveId}
-                  {...geschaefte}
-                />
-              )}
-            </AutoSizer>
+            <ErrorBoundary>
+              <AutoSizer>
+                {({ height, width }) => (
+                  <StyledList
+                    height={height}
+                    rowCount={geschaefte.length}
+                    rowHeight={77}
+                    rowRenderer={RowRenderer}
+                    noRowsRenderer={() => <NoRowsRenderer />}
+                    width={width}
+                    scrollToIndex={indexOfActiveId}
+                    {...geschaefte}
+                  />
+                )}
+              </AutoSizer>
+            </ErrorBoundary>
           </StyledBody>
         </StyledTable>
       </Container>

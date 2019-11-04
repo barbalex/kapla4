@@ -22,7 +22,6 @@ export default types
   })
   .volatile(() => ({
     db: null,
-    errors: [],
   }))
   .actions(self => {
     const store = getParent(self, 1)
