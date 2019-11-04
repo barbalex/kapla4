@@ -33,8 +33,6 @@ const Errors = () => {
   const store = useContext(storeContext)
   const errorMessages = store.errors.slice()
 
-  console.log('Errors, errorMessages:', errorMessages)
-
   if (errorMessages.length === 0) return null
 
   return (
