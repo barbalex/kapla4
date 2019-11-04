@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
-import AreaHistoryRows from './AreaHistoryRows'
+import AreaHistoryRow from './AreaHistoryRows'
 import storeContext from '../../storeContext'
 import Input from '../shared/Input'
 
@@ -37,12 +37,21 @@ const LabelVorgeschaeft = styled(Label)`
   margin-top: ${props => (props['data-ispdf'] ? 0 : '7px')};
   text-align: right;
 `
+const FieldsContainer = styled.div`
+  grid-area: areaHistoryFieldsContainer;
+  display: grid;
+  grid-template-columns: 100%;
+`
 
 const AreaHistory = ({ saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
+  const {
+    activeId,
+    geschaefteFilteredAndSorted: geschaefte,
+    historyOfActiveId,
+  } = store.geschaefte
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const isPdf = activeLocation === 'geschaeftPdf'
 
@@ -73,7 +82,11 @@ const AreaHistory = ({ saveToDb }) => {
             tabIndex={99}
           />
         </FieldVorgeschaeft>
-        <AreaHistoryRows />
+        <FieldsContainer>
+          {historyOfActiveId.map((id, index) => (
+            <AreaHistoryRow id={id} key={id} index={index} />
+          ))}
+        </FieldsContainer>
       </Container>
     </ErrorBoundary>
   )

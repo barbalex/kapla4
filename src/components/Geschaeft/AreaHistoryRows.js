@@ -1,15 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 
-const FieldsContainer = styled.div`
-  grid-area: areaHistoryFieldsContainer;
-  display: grid;
-  grid-template-columns: 100%;
-`
 // eslint-disable-next-line no-unused-vars
 const HistoryField = styled.div`
   grid-column: 1;
@@ -43,7 +37,7 @@ const Gegenstand = styled.div`
   grid-column: 3;
 `
 
-const AreaHistoryRows = () => {
+const AreaHistoryRows = ({ id, index }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
@@ -51,42 +45,35 @@ const AreaHistoryRows = () => {
     toggleActivatedById,
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
-    historyOfActiveId,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const history = historyOfActiveId
+
+  const onClick = useCallback(() => {
+    if (id !== activeId) {
+      return toggleActivatedById(id)
+    }
+  }, [activeId, id, toggleActivatedById])
+
+  const geschaeft = geschaefte.find(g => g.idGeschaeft === id)
+  if (!geschaeft) {
+    return null
+  }
 
   return (
-    <ErrorBoundary>
-      <FieldsContainer>
-        {history.map((id, index) => {
-          const geschaeft = geschaefte.find(g => g.idGeschaeft === id)
-          if (!geschaeft) {
-            return null
-          }
-          return (
-            <HistoryField
-              // add index for cases where two geschaefte
-              // reference each other...
-              key={`${id}${index}`}
-              style={{
-                cursor: id === activeId ? 'default' : 'pointer',
-              }}
-              onClick={() => {
-                if (id !== activeId) {
-                  return toggleActivatedById(id)
-                }
-              }}
-              data-ispdf={isPdf}
-            >
-              <IdGeschaeft>{id}</IdGeschaeft>
-              <Datum>{geschaeft.datumEingangAwel}</Datum>
-              <Gegenstand>{geschaeft.gegenstand}</Gegenstand>
-            </HistoryField>
-          )
-        })}
-      </FieldsContainer>
-    </ErrorBoundary>
+    <HistoryField
+      // add index for cases where two geschaefte
+      // reference each other...
+      key={`${id}${index}`}
+      style={{
+        cursor: id === activeId ? 'default' : 'pointer',
+      }}
+      onClick={onClick}
+      data-ispdf={isPdf}
+    >
+      <IdGeschaeft>{id}</IdGeschaeft>
+      <Datum>{geschaeft.datumEingangAwel}</Datum>
+      <Gegenstand>{geschaeft.gegenstand}</Gegenstand>
+    </HistoryField>
   )
 }
 
