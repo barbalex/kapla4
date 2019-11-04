@@ -23,10 +23,8 @@ export default () =>
         types.array(types.union(types.string, types.integer)),
         ['geschaefte'],
       ),
+      errors: types.array(types.string),
     })
-    .volatile(() => ({
-      errors: [],
-    }))
     .actions(self => ({
       setLocation(location) {
         self.location = location
@@ -427,9 +425,8 @@ export default () =>
       },
       addError(error) {
         // use uniq in case multiple same messages arrive
-        //self.errors = uniqBy([...self.errors, error], 'message')
-        if (self.errors.filter(e => e.message === error.message).length === 0) {
-          self.errors.push(error)
+        if (self.errors.filter(e => e === error.message).length === 0) {
+          self.errors.push(error.message)
         }
         setTimeout(() => self.popError(), 1000 * 10)
       },
