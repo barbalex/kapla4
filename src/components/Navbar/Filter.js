@@ -26,7 +26,7 @@ const Container = styled.div`
   margin-top: auto;
   margin-bottom: auto;
 `
-const VolltextInput = styled(Input)`
+const FilterFultextInput = styled(Input)`
   background-color: ${props =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
@@ -83,6 +83,7 @@ const Filter = () => {
   const { setLocation } = store
   const {
     filterByFulltext,
+    fetchFilterFulltextIds,
     sortByFields,
     resetSort,
     geschaefte: geschaefteUnfiltered,
@@ -121,9 +122,12 @@ const Filter = () => {
     [filterDropdownIsOpen],
   )
 
-  const onChangeVolltextControl = useCallback(
-    e => filterByFulltext(e.target.value),
-    [filterByFulltext],
+  const onChangeFilterFultext = useCallback(
+    e => {
+      fetchFilterFulltextIds(e.target.value)
+      filterByFulltext(e.target.value)
+    },
+    [fetchFilterFulltextIds, filterByFulltext],
   )
   const onSelectFaelligeGeschaefte = useCallback(() => {
     filterByFields(filterForFaelligeGeschaefte, 'fällige')
@@ -167,9 +171,9 @@ const Filter = () => {
     <ErrorBoundary>
       <Container>
         <InputGroup>
-          <VolltextInput
+          <FilterFultextInput
             placeholder="Volltext filtern"
-            onChange={onChangeVolltextControl}
+            onChange={onChangeFilterFultext}
             value={filterFulltext || ''}
             data-isfiltered={dataIsFilteredByFulltext.toString()}
             title="Zum Filtern drücken Sie die Enter-Taste"

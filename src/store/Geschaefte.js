@@ -26,6 +26,7 @@ export default types
   .model('Geschaefte', {
     fetching: types.optional(types.boolean, false),
     filterFulltext: types.optional(types.string, ''),
+    filterFulltextIds: types.maybeNull(types.array(types.number)),
     filterType: types.maybeNull(types.string),
     activeId: types.maybeNull(types.number),
     willDelete: types.optional(types.boolean, false),
@@ -75,6 +76,26 @@ export default types
     const store = getParent(self, 1)
 
     return {
+      fetchFilterFulltextIds(filter) {
+        // convert to lower case if possibe
+        let filterValue = filter.toLowerCase ? filter.toLowerCase() : filter
+        if (filterValue.toString) {
+          // a number is queried
+          // convert to string to also find 7681 when filtering for 681
+          filterValue = filterValue.toString()
+        }
+        let result = []
+        try {
+          result = store.app.db
+            .prepare(
+              `select idGeschaeft from fts where value match '${filterValue}*'`,
+            )
+            .all()
+        } catch (error) {
+          store.addError(error)
+        }
+        self.filterFulltextIds = result.map(o => o.idGeschaeft)
+      },
       sortByFields(field, direction) {
         const { reportType, initiate } = store.pages
         const sortFields = geschaefteSortByFieldsGetSortFields(
