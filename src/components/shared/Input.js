@@ -15,7 +15,8 @@ const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
 `
 const StyledInput = styled(Input)`
-  ${props => !props['data-ispdf'] && 'min-height: 34px;'}
+  ${props =>
+    !props['data-ispdf'] && `min-height: ${props['data-minheight']}px;`}
 `
 
 const SharedInput = ({
@@ -31,6 +32,7 @@ const SharedInput = ({
   bsSize = 'sm',
   row = false,
   tabIndex = 0,
+  minHeight = 34,
 }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
@@ -96,6 +98,7 @@ const SharedInput = ({
               bsSize={bsSize}
               tabIndex={tabIndex}
               data-ispdf={isPdf}
+              data-minheight={minHeight}
             />
             <FormFeedback>{error}</FormFeedback>
           </Col>
@@ -117,6 +120,7 @@ const SharedInput = ({
             bsSize={bsSize}
             tabIndex={tabIndex}
             data-ispdf={isPdf}
+            data-minheight={minHeight}
           />
           <FormFeedback>{error}</FormFeedback>
         </>

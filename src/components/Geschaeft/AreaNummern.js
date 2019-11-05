@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
 import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
@@ -8,7 +8,8 @@ import ErrorBoundary from 'react-error-boundary'
 
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
-import createOptions from '../../src/createOptions'
+import Select from '../shared/Select'
+import InputComponent from '../shared/Input'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -120,7 +121,7 @@ const LabelIdGeschaeft = styled(LabelHorizontal)`
 `
 const InputIdGeschaeft = styled(Input)`
   background: transparent !important;
-  min-height: 34px;
+  ${props => !props['data-ispdf'] && 'min-height: 34px;'}
 `
 const FieldGekoNr = styled(TextareaField)`
   grid-area: fieldGekoNr;
@@ -183,17 +184,18 @@ const FieldAktennummer = styled(Field)`
   }
 `
 
-const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
+const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
+  const isPdf = activeLocation === 'geschaeftPdf'
+
   const {
     aktenstandortOptions,
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
     gekoOfActiveId,
   } = store.geschaefte
-  const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? 0 : nrOfGFields
   const Container = isPdf ? ContainerPrint : ContainerView
@@ -216,7 +218,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
     />,
   )
 
-  const geschaeftsartOptionsComponent = createOptions(aktenstandortOptions)
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
+  console.log('AreaNummern, aktenstandortOptions:', aktenstandortOptions)
 
   return (
     <ErrorBoundary>
@@ -231,6 +238,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
             type="number"
             value={geschaeft.idGeschaeft}
             disabled
+            data-ispdf={isPdf}
           />
         </FieldIdGeschaeft>
         {!(isPdf && !gekoValuesString) && (
@@ -325,30 +333,29 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur }) => {
         )}
         {!(isPdf && !geschaeft.aktenstandort) && (
           <FieldAktenstandort data-ispdf={isPdf}>
-            <ControlLabel>Aktenstandort</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.aktenstandort || ''}
-              name="aktenstandort"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}aktenstandort`}
+              value={geschaeft.aktenstandort}
+              field="aktenstandort"
+              label="Aktenstandort"
+              options={aktenstandortOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.aktenstandort}
               tabIndex={12 + tabsToAdd}
-            >
-              {geschaeftsartOptionsComponent}
-            </FormControl>
+            />
           </FieldAktenstandort>
         )}
-        {!(isPdf && !geschaeft.aktenstandort) && (
+        {!(isPdf && !geschaeft.aktennummer) && (
           <FieldAktennummer data-ispdf={isPdf}>
-            <ControlLabel>Nr.</ControlLabel>
-            <FormControl
-              type="text"
-              value={geschaeft.aktennummer || ''}
-              name="aktennummer"
-              onChange={change}
-              onBlur={blur}
-              bsSize="small"
+            <InputComponent
+              key={`${geschaeft.idGeschaeft}aktennummer`}
+              value={geschaeft.aktennummer}
+              field="aktennummer"
+              label="Nr."
+              saveToDb={saveToDb}
+              error={errors.aktennummer}
               tabIndex={13 + tabsToAdd}
+              minHeight={38}
             />
           </FieldAktennummer>
         )}

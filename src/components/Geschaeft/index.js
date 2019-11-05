@@ -257,6 +257,7 @@ const Geschaeft = () => {
             nrOfGFields={nrOfGFields}
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
           />
           {showAreaParlVorstoss && (
             <AreaParlVorstoss
