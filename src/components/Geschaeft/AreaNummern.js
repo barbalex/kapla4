@@ -227,8 +227,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
-  console.log('AreaNummern, aktenstandortOptions:', aktenstandortOptions)
-
   return (
     <ErrorBoundary>
       <Container>
