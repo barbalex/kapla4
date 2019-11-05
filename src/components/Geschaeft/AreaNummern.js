@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
+import { ControlLabel } from 'react-bootstrap'
 import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
@@ -64,10 +64,13 @@ const ContainerPrint = styled(ContainerBase)`
   border-bottom: none;
   border-left: none;
 `
-const LabelNr = styled(ControlLabel)`
+const LabelNr = styled(Label)`
   grid-area: labelNr;
   position: relative;
   min-height: 16px;
+  margin-bottom: -2px;
+  font-size: 12px;
+  font-weight: 500;
 `
 const LabelNrDiv = styled.div`
   position: absolute;
