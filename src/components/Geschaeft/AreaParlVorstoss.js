@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
 import { FormGroup, Label, Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -7,6 +6,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
+import InputComponent from '../shared/Input'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -93,15 +93,14 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
         {!(isPdf && !geschaeft.parlVorstossStufe) && (
           <FieldStufe>
             {isPdf ? (
-              <div>
-                <ControlLabel>Stufe</ControlLabel>
-                <FormControl
-                  type="text"
-                  defaultValue={stufeValue}
-                  bsSize="small"
-                  tabIndex={2 + nrOfFieldsBeforePv}
-                />
-              </div>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}stufe`}
+                value={stufeValue}
+                field="stufe"
+                label="Stufe"
+                saveToDb={() => {}}
+                tabIndex={2 + nrOfFieldsBeforePv}
+              />
             ) : (
               <FormGroup tag="fieldset">
                 <StyledTitleLabel>Stufe</StyledTitleLabel>
@@ -137,15 +136,14 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
         {!(isPdf && !geschaeft.parlVorstossZustaendigkeitAwel) && (
           <FieldZustaendigkeit>
             {isPdf ? (
-              <div>
-                <ControlLabel>Zuständigkeit</ControlLabel>
-                <FormControl
-                  type="text"
-                  defaultValue={zustaendigkeitValue}
-                  bsSize="small"
-                  tabIndex={6 + nrOfFieldsBeforePv}
-                />
-              </div>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}zustaendigkeit`}
+                value={zustaendigkeitValue}
+                field="zustaendigkeit"
+                label="Zuständigkeit"
+                saveToDb={() => {}}
+                tabIndex={6 + nrOfFieldsBeforePv}
+              />
             ) : (
               <FormGroup tag="fieldset">
                 <StyledTitleLabel>Zuständigkeit</StyledTitleLabel>
