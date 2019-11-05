@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { ControlLabel } from 'react-bootstrap'
-import { Col, FormGroup, Label, Input, FormFeedback } from 'reactstrap'
+import { Label, Input } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -93,11 +92,13 @@ const SlashBvv = styled(Slash)`
   }
 `
 // eslint-disable-next-line no-unused-vars
-const LabelHorizontal = styled(ControlLabel)`
+const LabelHorizontal = styled(Label)`
   margin-top: ${props => (props['data-ispdf'] ? '1px' : '9px')};
   text-align: right;
-  font-size: ${props => (props['data-ispdf'] ? '10px !important' : '11px')};
+  font-size: ${props => (props['data-ispdf'] ? '10px !important' : '12px')};
   height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
+  font-weight: 500;
+  color: #757575;
 `
 const AreaNummernTitle = styled.div`
   font-weight: 900;
