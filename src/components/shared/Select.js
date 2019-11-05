@@ -9,7 +9,10 @@ import storeContext from '../../storeContext'
 const StyledSelect = styled(Select)`
   height: ${props => (props['data-ispdf'] ? '30px' : '38px')};
   .react-select__control {
-    ${props => props['data-ispdf'] && 'border: none !important;'}
+    ${props => props['data-ispdf'] && 'border-left: none !important;'}
+    ${props => props['data-ispdf'] && 'border-top: none !important;'}
+    ${props => props['data-ispdf'] && 'border-right: none !important;'}
+    ${props => props['data-ispdf'] && 'border-radius: 0 !important;'}
     ${props => props['data-ispdf'] && 'min-height: 30px !important;'}
   }
   .react-select__control:focus-within {
@@ -25,7 +28,10 @@ const StyledSelect = styled(Select)`
   }
   @media print {
     .react-select__control {
-      border: none !important;
+      border-left: none !important;
+      border-top: none !important;
+      border-right: none !important;
+      border-radius: 0 !important;
     }
     .react-select__value-container {
       padding: 0 !important;

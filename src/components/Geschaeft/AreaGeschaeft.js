@@ -214,17 +214,19 @@ const AreaGeschaeft = ({
             />
           </Vermerk>
         )}
-        <VermerkIntern>
-          <Textarea
-            key={`${geschaeft.idGeschaeft}vermerkIntern`}
-            value={geschaeft.vermerkIntern}
-            field="vermerkIntern"
-            label="Vermerk intern (in Berichten nicht angezeigt)"
-            saveToDb={saveToDb}
-            error={errors.vermerkIntern}
-            tabIndex={10 + tabsToAdd}
-          />
-        </VermerkIntern>
+        {!(!geschaeft.vermerkIntern && isPdf) && (
+          <VermerkIntern>
+            <Textarea
+              key={`${geschaeft.idGeschaeft}vermerkIntern`}
+              value={geschaeft.vermerkIntern}
+              field="vermerkIntern"
+              label="Vermerk intern (in Berichten nicht angezeigt)"
+              saveToDb={saveToDb}
+              error={errors.vermerkIntern}
+              tabIndex={10 + tabsToAdd}
+            />
+          </VermerkIntern>
+        )}
       </Container>
     </ErrorBoundary>
   )

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel, Radio } from 'react-bootstrap'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { FormControl, ControlLabel } from 'react-bootstrap'
+import { FormGroup, Label, Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -35,6 +35,15 @@ const FieldStufe = styled.div`
 `
 const FieldZustaendigkeit = styled.div`
   grid-area: fieldZustaendigkeit;
+`
+const StyledTitleLabel = styled(Label)`
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 12px;
+  font-weight: 500;
+`
+const StyledLabel = styled(Label)`
+  display: block;
 `
 
 const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
@@ -83,32 +92,7 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
         )}
         {!(isPdf && !geschaeft.parlVorstossStufe) && (
           <FieldStufe>
-            {!isPdf && (
-              <div>
-                <ControlLabel>Stufe</ControlLabel>
-                <Radio
-                  data-value="1"
-                  checked={geschaeft.parlVorstossStufe === '1'}
-                  onChange={change}
-                  bsSize="small"
-                  name="parlVorstossStufe"
-                  tabIndex={2 + nrOfFieldsBeforePv}
-                >
-                  1: nicht überwiesen
-                </Radio>
-                <Radio
-                  data-value="2"
-                  checked={geschaeft.parlVorstossStufe === '2'}
-                  name="parlVorstossStufe"
-                  onChange={change}
-                  bsSize="small"
-                  tabIndex={3 + nrOfFieldsBeforePv}
-                >
-                  2: überwiesen
-                </Radio>
-              </div>
-            )}
-            {isPdf && (
+            {isPdf ? (
               <div>
                 <ControlLabel>Stufe</ControlLabel>
                 <FormControl
@@ -118,12 +102,41 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
                   tabIndex={2 + nrOfFieldsBeforePv}
                 />
               </div>
+            ) : (
+              <FormGroup tag="fieldset">
+                <StyledTitleLabel>Stufe</StyledTitleLabel>
+                <FormGroup check>
+                  <StyledLabel check>
+                    <Input
+                      type="radio"
+                      data-value="1"
+                      checked={geschaeft.parlVorstossStufe === '1'}
+                      name="parlVorstossStufe"
+                      onChange={change}
+                      tabIndex={2 + nrOfFieldsBeforePv}
+                    />
+                    1: nicht überwiesen
+                  </StyledLabel>
+
+                  <StyledLabel check>
+                    <Input
+                      type="radio"
+                      data-value="2"
+                      checked={geschaeft.parlVorstossStufe === '2'}
+                      name="parlVorstossStufe"
+                      onChange={change}
+                      tabIndex={3 + nrOfFieldsBeforePv}
+                    />
+                    2: überwiesen
+                  </StyledLabel>
+                </FormGroup>
+              </FormGroup>
             )}
           </FieldStufe>
         )}
         {!(isPdf && !geschaeft.parlVorstossZustaendigkeitAwel) && (
           <FieldZustaendigkeit>
-            {isPdf && (
+            {isPdf ? (
               <div>
                 <ControlLabel>Zuständigkeit</ControlLabel>
                 <FormControl
@@ -133,37 +146,40 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
                   tabIndex={6 + nrOfFieldsBeforePv}
                 />
               </div>
-            )}
-            {!isPdf && (
-              <div>
-                <ControlLabel>Zuständigkeit</ControlLabel>
-                <Radio
-                  data-value="hauptzuständig"
-                  checked={
-                    geschaeft.parlVorstossZustaendigkeitAwel ===
-                    'hauptzuständig'
-                  }
-                  name="parlVorstossZustaendigkeitAwel"
-                  onChange={change}
-                  bsSize="small"
-                  tabIndex={6 + nrOfFieldsBeforePv}
-                >
-                  haupt
-                </Radio>
-                <Radio
-                  data-value="mitberichtzuständig"
-                  checked={
-                    geschaeft.parlVorstossZustaendigkeitAwel ===
-                    'mitberichtzuständig'
-                  }
-                  name="parlVorstossZustaendigkeitAwel"
-                  onChange={change}
-                  bsSize="small"
-                  tabIndex={7 + nrOfFieldsBeforePv}
-                >
-                  mitbericht
-                </Radio>
-              </div>
+            ) : (
+              <FormGroup tag="fieldset">
+                <StyledTitleLabel>Zuständigkeit</StyledTitleLabel>
+                <FormGroup check>
+                  <StyledLabel check>
+                    <Input
+                      type="radio"
+                      data-value="hauptzuständig"
+                      checked={
+                        geschaeft.parlVorstossZustaendigkeitAwel ===
+                        'hauptzuständig'
+                      }
+                      name="parlVorstossZustaendigkeitAwel"
+                      onChange={change}
+                      tabIndex={6 + nrOfFieldsBeforePv}
+                    />
+                    haupt
+                  </StyledLabel>
+                  <StyledLabel check>
+                    <Input
+                      type="radio"
+                      data-value="mitberichtzuständig"
+                      checked={
+                        geschaeft.parlVorstossZustaendigkeitAwel ===
+                        'mitberichtzuständig'
+                      }
+                      name="parlVorstossZustaendigkeitAwel"
+                      onChange={change}
+                      tabIndex={7 + nrOfFieldsBeforePv}
+                    />
+                    mitbericht
+                  </StyledLabel>
+                </FormGroup>
+              </FormGroup>
             )}
           </FieldZustaendigkeit>
         )}
