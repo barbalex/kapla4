@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react'
 import { FormControl } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -153,6 +154,8 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
+  console.log('AreaPersonen, interneOptions:', interneOptions.slice())
+
   return (
     <ErrorBoundary>
       <Container>
@@ -168,14 +171,7 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
                 value={geschaeft.geschaeftsart}
                 field="geschaeftsart"
                 label=""
-                options={interneOptions.map(o => {
-                  const n = `${o.name || '(kein Nachname)'} ${o.vorname ||
-                    '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`
-                  return {
-                    label: n,
-                    value: n,
-                  }
-                })}
+                options={interneOptions}
                 saveToDb={saveToDb}
                 error={errors.verantwortlich}
                 tabIndex={1 + nrOfFieldsBeforePersonen}
@@ -185,7 +181,7 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
           {!(isPdf && !geschaeft.verantwortlich) && (
             <VerantwortlichName>
               <StyledFormcontrolStatic>
-                {verantwortlichData(geschaeft, interneOptions, isPdf)}
+                {verantwortlichData(geschaeft, interneOptionsPassed, isPdf)}
               </StyledFormcontrolStatic>
             </VerantwortlichName>
           )}
