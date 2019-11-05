@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect, useMemo } from 'react'
 import { FormControl } from 'react-bootstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
@@ -8,25 +8,7 @@ import ErrorBoundary from 'react-error-boundary'
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'
 import storeContext from '../../storeContext'
-
-const verwantwortlichOptions = interneOptions => {
-  // sort interneOptions by kurzzeichen
-  const interneOptionsSorted = _.sortBy(interneOptions, o => {
-    const sort = `${o.name || 'zz'} ${o.vorname || 'zz'} (${o.kurzzeichen})`
-    return sort.toLowerCase()
-  })
-  const options = interneOptionsSorted.map(o => {
-    const name = `${o.name || '(kein Name)'} ${o.vorname ||
-      '(kein Vorname)'} (${o.kurzzeichen})`
-    return (
-      <option key={o.id} value={o.kurzzeichen}>
-        {name}
-      </option>
-    )
-  })
-  options.unshift(<option key={0} value={undefined} />)
-  return options
-}
+import Select from '../shared/Select'
 
 const verantwortlichData = (geschaeft, interneOptions, isPdf) => {
   const data = interneOptions.find(o => {
@@ -125,14 +107,14 @@ const StyledFormcontrolStaticPrint = styled(FormControl.Static)`
   min-height: 0;
 `
 
-const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
+const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
   const {
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
-    interneOptions,
+    interneOptions: interneOptionsPassed,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
@@ -153,6 +135,24 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
     k => k.idGeschaeft === activeId,
   )
 
+  const interneOptions = useMemo(() => {
+    return _.sortBy(interneOptionsPassed, o =>
+      `${o.name || 'zz'} ${o.vorname || 'zz'} (${o.kurzzeichen})`.toLowerCase(),
+    ).map(o => {
+      const n = `${o.name || '(kein Nachname)'} ${o.vorname ||
+        '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`
+      return {
+        label: n,
+        value: n,
+      }
+    })
+  }, [interneOptionsPassed])
+
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
   return (
     <ErrorBoundary>
       <Container>
@@ -163,16 +163,23 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change }) => {
           )}
           {!(isPdf && !geschaeft.verantwortlich) && (
             <Verantwortlich>
-              <FormControl
-                componentClass="select"
-                value={geschaeft.verantwortlich || ''}
-                name="verantwortlich"
-                onChange={change}
-                bsSize="small"
+              <Select
+                key={`${geschaeft.idGeschaeft}geschaeftsart`}
+                value={geschaeft.geschaeftsart}
+                field="geschaeftsart"
+                label=""
+                options={interneOptions.map(o => {
+                  const n = `${o.name || '(kein Nachname)'} ${o.vorname ||
+                    '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`
+                  return {
+                    label: n,
+                    value: n,
+                  }
+                })}
+                saveToDb={saveToDb}
+                error={errors.verantwortlich}
                 tabIndex={1 + nrOfFieldsBeforePersonen}
-              >
-                {verwantwortlichOptions(interneOptions)}
-              </FormControl>
+              />
             </Verantwortlich>
           )}
           {!(isPdf && !geschaeft.verantwortlich) && (

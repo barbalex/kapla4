@@ -282,6 +282,7 @@ const Geschaeft = () => {
           <AreaPersonen
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
             change={change}
+            saveToDb={saveToDb}
           />
           {showLinks && <AreaLinks />}
           <AreaHistory saveToDb={saveToDb} />
