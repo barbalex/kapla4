@@ -262,6 +262,7 @@ const Geschaeft = () => {
             <AreaParlVorstoss
               nrOfFieldsBeforePv={nrOfFieldsBeforePv}
               change={change}
+              saveToDb={saveToDb}
             />
           )}
           {showAreaRechtsmittel && (

@@ -1,29 +1,44 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Col, FormGroup, Label, FormFeedback } from 'reactstrap'
 import Select from 'react-select'
 import styled from 'styled-components'
 
+import storeContext from '../../storeContext'
+
 const StyledSelect = styled(Select)`
-  height: 38px;
-  > div > div > div {
-    top: 46% !important;
+  height: ${props => (props['data-ispdf'] ? '30px' : '38px')};
+  .react-select__control {
+    ${props => props['data-ispdf'] && 'border: none !important;'}
+    ${props => props['data-ispdf'] && 'min-height: 30px !important;'}
   }
-  > div {
-    background-color: rgba(255, 255, 255, 1) !important;
-  }
-  > div:focus-within {
+  .react-select__control:focus-within {
     border-color: #80bdff !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
-  > div:hover {
-    border-color: rgb(204, 204, 204);
+  .react-select__value-container {
+    ${props =>
+      props['data-ispdf'] ? 'padding: 0 !important' : 'padding: 2px 8px'};
+  }
+  .react-select__indicators {
+    ${props => (props['data-ispdf'] ? 'display: none' : 'display: flex')};
+  }
+  @media print {
+    .react-select__control {
+      border: none !important;
+    }
+    .react-select__value-container {
+      padding: 0 !important;
+    }
+    .react-select__indicators {
+      display: none;
+    }
   }
 `
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 `
 const StyledFormGroup = styled(FormGroup)`
@@ -52,14 +67,20 @@ const SharedSelect = ({
     options,
     value,
   ])
+  const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const isPdf = activeLocation === 'geschaeftPdf'
 
   return (
     <StyledFormGroup row={row}>
       {row ? (
         <>
-          <Label for={field} sm={2}>
-            {label}
-          </Label>
+          {!!label && (
+            <Label for={field} sm={2}>
+              {label}
+            </Label>
+          )}
           <Col sm={10}>
             <StyledSelect
               id={field}
@@ -74,13 +95,16 @@ const SharedSelect = ({
               noOptionsMessage={noOptionsMessage}
               invalid={!!error}
               tabIndex={tabIndex}
+              className="react-select-container"
+              classNamePrefix="react-select"
+              data-ispdf={isPdf}
             />
             <FormFeedback>{error}</FormFeedback>
           </Col>
         </>
       ) : (
         <>
-          <NonRowLabel for={field}>{label}</NonRowLabel>
+          {!!label && <NonRowLabel for={field}>{label}</NonRowLabel>}
           <StyledSelect
             id={field}
             name={field}
@@ -94,6 +118,9 @@ const SharedSelect = ({
             noOptionsMessage={noOptionsMessage}
             invalid={!!error}
             tabIndex={tabIndex}
+            className="react-select-container"
+            classNamePrefix="react-select"
+            data-ispdf={isPdf}
           />
           <FormFeedback>{error}</FormFeedback>
         </>

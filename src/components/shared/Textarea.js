@@ -9,7 +9,7 @@ import storeContext from '../../storeContext'
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 `
 const StyledFormGroup = styled(FormGroup)`
@@ -18,8 +18,9 @@ const StyledFormGroup = styled(FormGroup)`
 const StyledTextarea = styled(Textarea)`
   display: block;
   width: 100%;
-  min-height: 32px;
-  padding: 6px 12px;
+  min-height: 34px;
+  padding: ${props =>
+    props['data-ispdf'] ? '6px 12px 6px 0 !important' : '6px 12px'};
   line-height: 1.42857143;
   color: #555;
   border: 1px solid #ccc;
@@ -30,6 +31,9 @@ const StyledTextarea = styled(Textarea)`
     outline: 0;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
       0 0 8px rgba(102, 175, 233, 0.6);
+  }
+  @media print {
+    padding: 6px 12px 6px 0 !important;
   }
 `
 
@@ -49,6 +53,9 @@ const SharedTextarea = ({
   const [stateValue, setStateValue] = useState(
     value || value === 0 ? value : '',
   )
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const isPdf = activeLocation === 'geschaeftPdf'
 
   const onBlur = useCallback(
     event => {
@@ -99,6 +106,7 @@ const SharedTextarea = ({
               onChange={onChange}
               onBlur={onBlur}
               tabIndex={tabIndex}
+              data-ispdf={isPdf}
             />
             <FormFeedback>{error}</FormFeedback>
           </Col>
@@ -115,6 +123,7 @@ const SharedTextarea = ({
             onChange={onChange}
             onBlur={onBlur}
             tabIndex={tabIndex}
+            data-ispdf={isPdf}
           />
           <FormFeedback>{error}</FormFeedback>
         </>

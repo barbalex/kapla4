@@ -21,7 +21,7 @@ const StyledTextarea = styled(Textarea)`
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 `
 const StyledInput = styled(Input)`
-  min-height: 32px;
+  min-height: 34px;
 `
 const ContainerBase = styled.div`
   grid-area: areaNummern;
@@ -120,7 +120,7 @@ const LabelIdGeschaeft = styled(LabelHorizontal)`
 `
 const InputIdGeschaeft = styled(Input)`
   background: transparent !important;
-  min-height: 32px;
+  min-height: 34px;
 `
 const FieldGekoNr = styled(TextareaField)`
   grid-area: fieldGekoNr;

@@ -8,14 +8,14 @@ import storeContext from '../../storeContext'
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 `
 const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
 `
 const StyledInput = styled(Input)`
-  min-height: 32px;
+  min-height: 34px;
 `
 
 const SharedInput = ({

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import storeContext from '../../storeContext'
 
 const StyledInput = styled(Input)`
-  min-height: 32px;
+  min-height: 34px;
 `
 
 const GekoNrField = ({ idGeschaeft, gekoNr: gekoNrPassed, tabsToAdd }) => {

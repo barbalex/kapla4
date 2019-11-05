@@ -59,7 +59,7 @@ const FieldGekoNr = styled.div`
 `
 const LabelJahre = styled.div`
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   grid-area: labelJahre;
   position: relative;

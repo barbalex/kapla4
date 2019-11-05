@@ -13,7 +13,7 @@ export default () => createGlobalStyle`
     position: relative;
     overflow-y: hidden;
     font-family: Arial, Helvetica, Helvetica Neue;
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
 
   .navbar {
@@ -22,9 +22,15 @@ export default () => createGlobalStyle`
 
   .control-label {
     color: #757575;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     margin-bottom: -2px;
+  }
+
+  @media print {
+    .control-label{
+      font-size: 11px;
+    }
   }
 
   /* optimize spacing of vertical radios */
@@ -40,8 +46,9 @@ export default () => createGlobalStyle`
     margin-top: 2px;
   }
 
+  textarea,
   .form-control {
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
 
   .form-group {
@@ -106,10 +113,7 @@ export default () => createGlobalStyle`
       padding: 0 !important;
       height: auto !important;
       overflow: visible !important;
-    } /*
-    * {
-      transition: none !important;
-    }*/
+    }
   }
 
   /* SplitPane */

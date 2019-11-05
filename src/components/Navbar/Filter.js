@@ -36,7 +36,7 @@ const StyledInputGroupText = styled(InputGroupText)`
   padding-right: 0 !important;
   cursor: pointer;
   user-select: none;
-  font-size: 12px !important;
+  font-size: 13px !important;
   background-color: ${props =>
     props['data-isfiltered'] === 'true'
       ? '#FFBF73 !important'

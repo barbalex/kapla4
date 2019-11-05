@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useContext } from 'react'
 import {
   Col,
   FormGroup,
@@ -13,6 +13,8 @@ import DatePicker from 'react-datepicker'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { FaCalendarAlt } from 'react-icons/fa'
+
+import storeContext from '../../storeContext'
 
 moment.locale('de')
 
@@ -53,16 +55,19 @@ const StyledFormGroup = styled(FormGroup)`
     border-left-color: #ccc;
     right: 1em;
   }
+  .input-group-append {
+    display: ${props => (props['data-ispdf'] ? 'none' : 'flex')};
+  }
 `
 const StyledLabel = styled(Label)`
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 `
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
   color: #757575;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 `
 const StyledInputGroupAddon = styled(InputGroupAddon)`
@@ -84,6 +89,11 @@ const DateField = ({
   row = false,
   tabIndex,
 }) => {
+  const store = useContext(storeContext)
+  const location = store.location.toJSON()
+  const activeLocation = location[0]
+  const isPdf = activeLocation === 'geschaeftPdf'
+
   const [open, setOpen] = useState(false)
   const [stateValue, setStateValue] = useState(
     value || value === 0 ? value : '',
@@ -113,7 +123,7 @@ const DateField = ({
   }, [value])
 
   return (
-    <StyledFormGroup row={row}>
+    <StyledFormGroup row={row} data-ispdf={isPdf}>
       {row ? (
         <>
           <StyledLabel for={field} sm={2}>

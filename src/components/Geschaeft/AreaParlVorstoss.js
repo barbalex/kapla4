@@ -1,11 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel, Radio } from 'react-bootstrap'
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../../storeContext'
-import createOptions from '../../src/createOptions'
+import Select from '../shared/Select'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -36,7 +37,7 @@ const FieldZustaendigkeit = styled.div`
   grid-area: fieldZustaendigkeit;
 `
 
-const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
+const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
@@ -54,23 +55,30 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change }) => {
     ? geschaeft.parlVorstossZustaendigkeitAwel.replace('zuständig', '')
     : ''
 
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [geschaeft.idGeschaeft])
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Parlamentarischer Vorstoss</Title>
         {!(isPdf && !geschaeft.parlVorstossTyp) && (
           <FieldParlVorstossTyp>
-            <ControlLabel>Typ</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.parlVorstossTyp || ''}
-              name="parlVorstossTyp"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}parlVorstossTyp`}
+              value={geschaeft.parlVorstossTyp}
+              field="parlVorstossTyp"
+              label="Typ"
+              options={parlVorstossTypOptions.map(o => ({
+                label: o,
+                value: o,
+              }))}
+              saveToDb={saveToDb}
+              error={errors.parlVorstossTyp}
               tabIndex={1 + nrOfFieldsBeforePv}
-            >
-              {createOptions(parlVorstossTypOptions)}
-            </FormControl>
+            />
           </FieldParlVorstossTyp>
         )}
         {!(isPdf && !geschaeft.parlVorstossStufe) && (
