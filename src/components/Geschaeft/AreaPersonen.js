@@ -149,11 +149,6 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
-  console.log(
-    'AreaPersonen, interneOptionsPassed:',
-    interneOptionsPassed.slice(),
-  )
-
   return (
     <ErrorBoundary>
       <Container>
