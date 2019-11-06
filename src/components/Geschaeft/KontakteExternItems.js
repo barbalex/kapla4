@@ -83,7 +83,7 @@ const RemoveIcon = styled(FaRegTimesCircle)`
   cursor: pointer;
 `
 
-const GeschaefteKontakteExtern = () => {
+const GeschaefteKontakteExtern = ({ refresh }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
@@ -110,9 +110,10 @@ const GeschaefteKontakteExtern = () => {
             </Field>
             <RemoveIconContainer data-ispdf={isPdf}>
               <RemoveIcon
-                onClick={() =>
+                onClick={() => {
                   geschaeftKontaktExternRemove(activeId, gKE.idKontakt)
-                }
+                  setTimeout(() => refresh())
+                }}
                 title={titleText(gKE.idKontakt, externeOptions)}
               />
             </RemoveIconContainer>

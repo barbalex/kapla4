@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react'
+import React, { useContext, useState, useMemo, useCallback } from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -65,7 +65,12 @@ const GeschaefteKontakteExtern = ({ tabIndex }) => {
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
-        <KontakteExternItems />
+        <KontakteExternItems
+          refresh={() => {
+            setValue(null)
+            setValue('')
+          }}
+        />
         <RowFvDropdown data-ispdf={isPdf}>
           <FvDropdown data-ispdf={isPdf}>
             <Select
