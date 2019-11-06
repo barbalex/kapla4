@@ -89,11 +89,6 @@ const AreaRechtsmittel = ({
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
-  console.log('AreaRechtsmittel', {
-    geschaeft,
-    rechtsmittelErledigungOptions: rechtsmittelErledigungOptions.slice(),
-  })
-
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
