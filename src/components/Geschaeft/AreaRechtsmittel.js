@@ -8,8 +8,8 @@ import ErrorBoundary from 'react-error-boundary'
 import moment from 'moment'
 
 import Date from '../shared/Date'
+import Select from '../shared/Select'
 import storeContext from '../../storeContext'
-import createOptions from '../../src/createOptions'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -85,6 +85,7 @@ const AreaRechtsmittel = ({
   nrOfFieldsBeforePv,
   change,
   blur,
+  saveToDb,
   onChangeDatePicker,
 }) => {
   const store = useContext(storeContext)
@@ -104,23 +105,30 @@ const AreaRechtsmittel = ({
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
+  console.log('AreaRechtsmittel', {
+    geschaeft,
+    rechtsmittelErledigungOptions: rechtsmittelErledigungOptions.slice(),
+  })
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Rekurs / Beschwerde</Title>
         {!isPdf && (
           <FieldInstanz>
-            <ControlLabel>Instanz</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.rechtsmittelInstanz || ''}
-              name="rechtsmittelInstanz"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}rechtsmittelInstanz`}
+              value={geschaeft.rechtsmittelInstanz}
+              field="rechtsmittelInstanz"
+              label="Instanz"
+              options={rechtsmittelInstanzOptions.map(o => ({
+                label: o,
+                value: o,
+              }))}
+              saveToDb={saveToDb}
+              error={errors.rechtsmittelInstanz}
               tabIndex={1 + nrOfFieldsBeforePv}
-            >
-              {createOptions(rechtsmittelInstanzOptions)}
-            </FormControl>
+            />
           </FieldInstanz>
         )}
         {isPdf && !!geschaeft.rechtsmittelInstanz && (
@@ -222,20 +230,22 @@ const AreaRechtsmittel = ({
         )}
         {!isPdf && (
           <FieldErledigung>
-            <ControlLabel>Erledigung</ControlLabel>
-            <FormControl
-              componentClass="select"
-              value={geschaeft.rechtsmittelErledigung || ''}
-              name="rechtsmittelErledigung"
-              onChange={change}
-              bsSize="small"
+            <Select
+              key={`${geschaeft.idGeschaeft}rechtsmittelErledigung`}
+              value={geschaeft.rechtsmittelErledigung}
+              field="rechtsmittelErledigung"
+              label="Erledigung"
+              options={rechtsmittelErledigungOptions.map(o => ({
+                label: o,
+                value: o,
+              }))}
+              saveToDb={saveToDb}
+              error={errors.rechtsmittelErledigung}
               tabIndex={4 + nrOfFieldsBeforePv}
-            >
-              {createOptions(rechtsmittelErledigungOptions)}
-            </FormControl>
+            />
           </FieldErledigung>
         )}
-        {!isPdf && !!geschaeft.rechtsmittelErledigung && (
+        {isPdf && !!geschaeft.rechtsmittelErledigung && (
           <FieldErledigung>
             <NonRowLabel>Erledigung</NonRowLabel>
             <PdfField
