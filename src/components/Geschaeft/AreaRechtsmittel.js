@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
 import { Label } from 'reactstrap'
-import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -9,6 +7,8 @@ import moment from 'moment'
 
 import Date from '../shared/Date'
 import Select from '../shared/Select'
+import Input from '../shared/Input'
+import Textarea from '../shared/Textarea'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
@@ -49,22 +49,6 @@ const FieldErledigung = styled.div`
 `
 const FieldRechtsmittelTxt = styled.div`
   grid-area: fieldRechtsmittelTxt;
-`
-const StyledTextarea = styled(Textarea)`
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  line-height: 1.42857143;
-  color: #555;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  &:focus {
-    border-color: #66afe9;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
-      0 0 8px rgba(102, 175, 233, 0.6);
-  }
 `
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
@@ -155,14 +139,13 @@ const AreaRechtsmittel = ({
         )}
         {!isPdf && (
           <FieldEntscheidNr>
-            <ControlLabel>Entscheid Nr.</ControlLabel>
-            <FormControl
-              type="text"
-              value={geschaeft.rechtsmittelEntscheidNr || ''}
-              name="rechtsmittelEntscheidNr"
-              onChange={change}
-              onBlur={blur}
-              bsSize="small"
+            <Input
+              key={`${geschaeft.idGeschaeft}rechtsmittelEntscheidNr`}
+              value={geschaeft.rechtsmittelEntscheidNr}
+              field="rechtsmittelEntscheidNr"
+              label="Entscheid Nr."
+              saveToDb={saveToDb}
+              error={errors.rechtsmittelEntscheidNr}
               tabIndex={2 + nrOfFieldsBeforePv}
             />
           </FieldEntscheidNr>
@@ -269,12 +252,13 @@ const AreaRechtsmittel = ({
         )}
         {!isPdf && (
           <FieldRechtsmittelTxt>
-            <ControlLabel>Bemerkungen</ControlLabel>
-            <StyledTextarea
-              value={geschaeft.rechtsmittelTxt || ''}
-              name="rechtsmittelTxt"
-              onChange={change}
-              onBlur={blur}
+            <Textarea
+              key={`${geschaeft.idGeschaeft}rechtsmittelTxt`}
+              value={geschaeft.rechtsmittelTxt}
+              field="rechtsmittelTxt"
+              label="Bemerkungen"
+              saveToDb={saveToDb}
+              error={errors.rechtsmittelTxt}
               tabIndex={5 + nrOfFieldsBeforePv}
             />
           </FieldRechtsmittelTxt>
