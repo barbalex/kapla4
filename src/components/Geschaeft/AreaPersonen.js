@@ -1,6 +1,4 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react'
-import { FormControl } from 'react-bootstrap'
-import { Label } from 'reactstrap'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -91,18 +89,15 @@ const VerantwortlichPrint = styled.div`
 `
 const VerantwortlichNameView = styled.div`
   grid-column: 2 / span 1;
-  font-size: 12px;
 `
 const VerantwortlichNamePrint = styled.div`
   grid-column: 1;
   font-size: 10px;
 `
-const StyledFormcontrolStaticView = styled(FormControl.Static)`
-  padding-top: 9px;
-  padding-bottom: 7px;
-  min-height: 35px;
+const VerantwortlichInfoView = styled.div`
+  margin-top: -11px;
 `
-const StyledFormcontrolStaticPrint = styled(FormControl.Static)`
+const VerantwortlichInfoPrint = styled.div`
   padding-top: 2px;
   padding-bottom: 2px;
   min-height: 0;
@@ -126,9 +121,9 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
   const VerantwortlichName = isPdf
     ? VerantwortlichNamePrint
     : VerantwortlichNameView
-  const StyledFormcontrolStatic = isPdf
-    ? StyledFormcontrolStaticPrint
-    : StyledFormcontrolStaticView
+  const VerantwortlichInfo = isPdf
+    ? VerantwortlichInfoPrint
+    : VerantwortlichInfoView
   const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
     k => k.idGeschaeft === activeId,
   )
@@ -144,7 +139,7 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
         '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`
       return {
         label: n,
-        value: n,
+        value: o.kurzzeichen,
       }
     })
   }, [interneOptionsPassed])
@@ -154,7 +149,10 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
-  console.log('AreaPersonen, interneOptions:', interneOptions.slice())
+  console.log(
+    'AreaPersonen, interneOptionsPassed:',
+    interneOptionsPassed.slice(),
+  )
 
   return (
     <ErrorBoundary>
@@ -167,9 +165,9 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
           {!(isPdf && !geschaeft.verantwortlich) && (
             <Verantwortlich>
               <Select
-                key={`${geschaeft.idGeschaeft}geschaeftsart`}
-                value={geschaeft.geschaeftsart}
-                field="geschaeftsart"
+                key={`${geschaeft.idGeschaeft}verantwortlich`}
+                value={geschaeft.verantwortlich}
+                field="verantwortlich"
                 label=""
                 options={interneOptions}
                 saveToDb={saveToDb}
@@ -180,9 +178,9 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
           )}
           {!(isPdf && !geschaeft.verantwortlich) && (
             <VerantwortlichName>
-              <StyledFormcontrolStatic>
+              <VerantwortlichInfo>
                 {verantwortlichData(geschaeft, interneOptionsPassed, isPdf)}
-              </StyledFormcontrolStatic>
+              </VerantwortlichInfo>
             </VerantwortlichName>
           )}
           {!(isPdf && interne.length === 0) && (
