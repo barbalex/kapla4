@@ -82,6 +82,7 @@ const PdfField = styled.div`
     `font-size: ${props['data-fontsize']}px !important;`}
   border-bottom: 1px solid #ccc;
   padding-bottom: 3px;
+  margin-bottom: 5px;
 `
 
 const AreaGeschaeft = ({
@@ -114,17 +115,41 @@ const AreaGeschaeft = ({
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Geschäft</Title>
-        <Gegenstand>
-          <Textarea
-            key={`${geschaeft.idGeschaeft}gegenstand`}
-            value={geschaeft.gegenstand}
-            field="gegenstand"
-            label="Gegenstand"
-            saveToDb={saveToDb}
-            error={errors.gegenstand}
-            tabIndex={1 + tabsToAdd}
-          />
-        </Gegenstand>
+        {!isPdf && (
+          <Gegenstand>
+            <Textarea
+              key={`${geschaeft.idGeschaeft}gegenstand`}
+              value={geschaeft.gegenstand}
+              field="gegenstand"
+              label="Gegenstand"
+              saveToDb={saveToDb}
+              error={errors.gegenstand}
+              tabIndex={1 + tabsToAdd}
+            />
+          </Gegenstand>
+        )}
+        {isPdf && !!geschaeft.gegenstand && (
+          <Gegenstand>
+            <NonRowLabel>Gegenstand</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.gegenstand.length < 400
+                  ? 13
+                  : geschaeft.gegenstand.length < 700
+                  ? 12
+                  : geschaeft.gegenstand.length < 1000
+                  ? 11
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.gegenstand}
+            </PdfField>
+          </Gegenstand>
+        )}
         {!isPdf && (
           <Ausloeser>
             <Textarea
@@ -149,7 +174,11 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.ausloeser.length < 1000
                   ? 11
-                  : 10
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
               }
             >
               {geschaeft.ausloeser}
@@ -180,7 +209,11 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.ort.length < 1000
                   ? 11
-                  : 10
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
               }
             >
               {geschaeft.ort}
@@ -203,16 +236,24 @@ const AreaGeschaeft = ({
         )}
         {isPdf && !!geschaeft.geschaeftsart && (
           <Geschaeftsart>
-            <Select
-              key={`${geschaeft.idGeschaeft}geschaeftsart`}
-              value={geschaeft.geschaeftsart}
-              field="geschaeftsart"
-              label="Geschäftsart"
-              options={geschaeftsartOptions.map(o => ({ label: o, value: o }))}
-              saveToDb={saveToDb}
-              error={errors.geschaeftsart}
-              tabIndex={4 + tabsToAdd}
-            />
+            <NonRowLabel>Geschäftsart</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.geschaeftsart.length < 400
+                  ? 13
+                  : geschaeft.geschaeftsart.length < 700
+                  ? 12
+                  : geschaeft.geschaeftsart.length < 1000
+                  ? 11
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.geschaeftsart}
+            </PdfField>
           </Geschaeftsart>
         )}
         {!isPdf && (
@@ -231,16 +272,24 @@ const AreaGeschaeft = ({
         )}
         {isPdf && !!geschaeft.status && (
           <Status>
-            <Select
-              key={`${geschaeft.idGeschaeft}status`}
-              value={geschaeft.status}
-              field="status"
-              label="Status"
-              options={statusOptions.map(o => ({ label: o, value: o }))}
-              saveToDb={saveToDb}
-              error={errors.status}
-              tabIndex={5 + tabsToAdd}
-            />
+            <NonRowLabel>Status</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.status.length < 400
+                  ? 13
+                  : geschaeft.status.length < 700
+                  ? 12
+                  : geschaeft.status.length < 1000
+                  ? 11
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.status}
+            </PdfField>
           </Status>
         )}
         {!isPdf && (
@@ -259,16 +308,24 @@ const AreaGeschaeft = ({
         )}
         {isPdf && !!geschaeft.abteilung && (
           <Abteilung>
-            <Select
-              key={`${geschaeft.idGeschaeft}abteilung`}
-              value={geschaeft.abteilung}
-              field="abteilung"
-              label="Abteilung"
-              options={abteilungOptions.map(o => ({ label: o, value: o }))}
-              saveToDb={saveToDb}
-              error={errors.abteilung}
-              tabIndex={6 + tabsToAdd}
-            />
+            <NonRowLabel>Abteilung</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.abteilung.length < 400
+                  ? 13
+                  : geschaeft.abteilung.length < 700
+                  ? 12
+                  : geschaeft.abteilung.length < 1000
+                  ? 11
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.abteilung}
+            </PdfField>
           </Abteilung>
         )}
         {!isPdf && (
@@ -295,7 +352,11 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.details.length < 1000
                   ? 11
-                  : 10
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
               }
             >
               {geschaeft.details}
@@ -317,15 +378,24 @@ const AreaGeschaeft = ({
         )}
         {isPdf && !!geschaeft.naechsterSchritt && (
           <NaechsterSchritt>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}naechsterSchritt`}
-              value={geschaeft.naechsterSchritt}
-              field="naechsterSchritt"
-              label="Nächster Schritt"
-              saveToDb={saveToDb}
-              error={errors.naechsterSchritt}
-              tabIndex={8 + tabsToAdd}
-            />
+            <NonRowLabel>Nächster Schritt</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.naechsterSchritt.length < 400
+                  ? 13
+                  : geschaeft.naechsterSchritt.length < 700
+                  ? 12
+                  : geschaeft.naechsterSchritt.length < 1000
+                  ? 11
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.naechsterSchritt}
+            </PdfField>
           </NaechsterSchritt>
         )}
         {!isPdf && (
@@ -351,7 +421,11 @@ const AreaGeschaeft = ({
                 ? 12
                 : geschaeft.vermerk.length < 1000
                 ? 11
-                : 10
+                : geschaeft.vermerk.length < 1500
+                ? 10
+                : geschaeft.vermerk.length < 2000
+                ? 9
+                : 8
             }
           >
             <NonRowLabel>Vermerk</NonRowLabel>
@@ -363,7 +437,11 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.vermerk.length < 1000
                   ? 11
-                  : 10
+                  : geschaeft.vermerk.length < 1500
+                  ? 10
+                  : geschaeft.vermerk.length < 2000
+                  ? 9
+                  : 8
               }
             >
               {geschaeft.vermerk}
