@@ -21,7 +21,7 @@ const StyledTextarea = styled(Textarea)`
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 `
 const StyledInput = styled(Input)`
-  min-height: 34px;
+  min-height: ${props => (props['data-ispdf'] ? '17px' : '34px')};
 `
 const ContainerBase = styled.div`
   grid-area: areaNummern;
@@ -58,7 +58,8 @@ const ContainerPrint = styled(ContainerBase)`
     'labelEntscheidRrb . fieldEntscheidRrb'
     'labelEntscheidBvv . fieldEntscheidBvv'
     'labelEntscheidKr . fieldEntscheidKr'
-    'fieldAktenstandort . fieldAktennummer';
+    'labelAktennummer . fieldAktennummer'
+    'labelAktenstandort . fieldAktenstandort';
   border: 1px solid #ccc;
   border-bottom: none;
   border-left: none;
@@ -75,28 +76,10 @@ const LabelNrDiv = styled.div`
   position: absolute;
   bottom: 1px;
 `
-// eslint-disable-next-line no-unused-vars
-const Slash = styled.div`
-  margin-top: ${props => (props['data-ispdf'] ? '-3px' : '2px')};
-  font-size: ${props => (props['data-ispdf'] ? '18px' : '22px')};
-  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
-  color: #757575;
-  margin-left: 1px;
-`
-// eslint-disable-next-line no-unused-vars
-const SlashBvv = styled(Slash)`
-  grid-area: slashBvv;
-  margin-top: ${props => (props['data-ispdf'] ? '-7px' : 'inherit')};
-  div {
-    margin-left: -1px;
-  }
-`
-// eslint-disable-next-line no-unused-vars
 const LabelHorizontal = styled(Label)`
-  margin-top: ${props => (props['data-ispdf'] ? '1px' : '9px')};
+  margin-top: ${props => (props['data-ispdf'] ? '3px' : '9px')};
   text-align: right;
   font-size: ${props => (props['data-ispdf'] ? '10px !important' : '12px')};
-  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
   font-weight: 500;
   color: #757575;
 `
@@ -105,12 +88,8 @@ const AreaNummernTitle = styled.div`
   font-size: 16px;
   grid-area: areaNummernTitle;
 `
-// eslint-disable-next-line no-unused-vars
 const Field = styled.div`
   height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
-  input {
-    font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
-  }
 `
 const TextareaField = styled.div`
   input {
@@ -151,6 +130,12 @@ const FieldEntscheidKr = styled(Field)`
 const LabelEntscheidKr = styled(LabelHorizontal)`
   grid-area: labelEntscheidKr;
 `
+const LabelAktennummer = styled(LabelHorizontal)`
+  grid-area: labelAktennummer;
+`
+const LabelAktenstandort = styled(LabelHorizontal)`
+  grid-area: labelAktenstandort;
+`
 const FieldEntscheidBvv = styled(Field)`
   grid-area: fieldEntscheidBvv;
 `
@@ -163,29 +148,13 @@ const FieldEntscheidRrb = styled(Field)`
 const LabelEntscheidRrb = styled(LabelHorizontal)`
   grid-area: labelEntscheidRrb;
 `
-// eslint-disable-next-line no-unused-vars
 const FieldAktenstandort = styled(Field)`
-  height: ${props => (props['data-ispdf'] ? '29px' : 'auto')};
   grid-area: fieldAktenstandort;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
-  select,
-  label {
-    font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
-  }
-  select {
-    height: ${props => (props['data-ispdf'] ? '15px !important' : '34px')};
-    line-height: inherit !important;
-  }
+  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
 `
-// eslint-disable-next-line no-unused-vars
 const FieldAktennummer = styled(Field)`
-  height: ${props => (props['data-ispdf'] ? '29px' : 'auto')};
   grid-area: fieldAktennummer;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
-  input,
-  label {
-    font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
-  }
+  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
 `
 
 const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
@@ -270,6 +239,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
               onChange={change}
               onBlur={blur}
               tabIndex={2 + tabsToAdd}
+              data-ispdf={isPdf}
             />
           </FieldEntscheidAwel>
         )}
@@ -285,6 +255,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
               onChange={change}
               onBlur={blur}
               tabIndex={4 + tabsToAdd}
+              data-ispdf={isPdf}
             />
           </FieldEntscheidBdv>
         )}
@@ -300,6 +271,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
               onChange={change}
               onBlur={blur}
               tabIndex={6 + tabsToAdd}
+              data-ispdf={isPdf}
             />
           </FieldEntscheidRrb>
         )}
@@ -315,25 +287,27 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
               onChange={change}
               onBlur={blur}
               tabIndex={8 + tabsToAdd}
+              data-ispdf={isPdf}
             />
           </FieldEntscheidBvv>
         )}
         {!(isPdf && !geschaeft.entscheidKr) && (
-          <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
+          <>
+            <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
+            <FieldEntscheidKr data-ispdf={isPdf}>
+              <StyledInput
+                type="text"
+                value={geschaeft.entscheidKr || ''}
+                name="entscheidKr"
+                onChange={change}
+                onBlur={blur}
+                tabIndex={10 + tabsToAdd}
+                data-ispdf={isPdf}
+              />
+            </FieldEntscheidKr>
+          </>
         )}
-        {!(isPdf && !geschaeft.entscheidKr) && (
-          <FieldEntscheidKr data-ispdf={isPdf}>
-            <StyledInput
-              type="text"
-              value={geschaeft.entscheidKr || ''}
-              name="entscheidKr"
-              onChange={change}
-              onBlur={blur}
-              tabIndex={10 + tabsToAdd}
-            />
-          </FieldEntscheidKr>
-        )}
-        {!(isPdf && !geschaeft.aktenstandort) && (
+        {!isPdf && (
           <FieldAktenstandort data-ispdf={isPdf}>
             <Select
               key={`${geschaeft.idGeschaeft}aktenstandort`}
@@ -347,7 +321,23 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
             />
           </FieldAktenstandort>
         )}
-        {!(isPdf && !geschaeft.aktennummer) && (
+        {isPdf && !!geschaeft.aktenstandort && (
+          <>
+            <LabelAktenstandort data-ispdf={isPdf}>Akten</LabelAktenstandort>
+            <FieldAktenstandort data-ispdf={isPdf}>
+              <StyledInput
+                type="text"
+                value={geschaeft.aktenstandort || ''}
+                name="aktenstandort"
+                onChange={change}
+                onBlur={blur}
+                tabIndex={12 + tabsToAdd}
+                data-ispdf={isPdf}
+              />
+            </FieldAktenstandort>
+          </>
+        )}
+        {!isPdf && (
           <FieldAktennummer data-ispdf={isPdf}>
             <InputComponent
               key={`${geschaeft.idGeschaeft}aktennummer`}
@@ -360,6 +350,22 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
               minHeight={38}
             />
           </FieldAktennummer>
+        )}
+        {isPdf && !!geschaeft.aktennummer && (
+          <>
+            <LabelAktennummer data-ispdf={isPdf}>Nr.</LabelAktennummer>
+            <FieldAktennummer data-ispdf={isPdf}>
+              <StyledInput
+                type="text"
+                value={geschaeft.aktennummer || ''}
+                name="aktennummer"
+                onChange={change}
+                onBlur={blur}
+                tabIndex={13 + tabsToAdd}
+                data-ispdf={isPdf}
+              />
+            </FieldAktennummer>
+          </>
         )}
       </Container>
     </ErrorBoundary>

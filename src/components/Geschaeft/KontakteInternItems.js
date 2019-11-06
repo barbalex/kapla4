@@ -43,7 +43,6 @@ const Row = styled.div`
   align-items: center;
   min-height: ${props => (props['data-ispdf'] ? 0 : '35px')};
   border-bottom: thin solid #cecbcb;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
   &:first-of-type {
     border-top: thin solid #cecbcb;
   }

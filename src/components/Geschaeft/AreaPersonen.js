@@ -76,7 +76,6 @@ const SubtitleView = styled(SubtitleBase)`
   grid-column: 1 / span 2;
 `
 const SubtitlePrint = styled(SubtitleBase)`
-  font-size: 10px;
   margin-top: 2px;
   grid-column: 1;
 `
@@ -92,7 +91,6 @@ const VerantwortlichNameView = styled.div`
 `
 const VerantwortlichNamePrint = styled.div`
   grid-column: 1;
-  font-size: 10px;
 `
 const VerantwortlichInfoView = styled.div`
   margin-top: -11px;

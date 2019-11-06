@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import { Label } from 'reactstrap'
 
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
@@ -49,6 +50,8 @@ const Gegenstand = styled.div`
 `
 const Details = styled.div`
   grid-area: fieldDetails;
+  ${props => props['data-ispdf'] && 'max-height: 250px;'}
+  ${props => props['data-ispdf'] && 'margin-bottom: 12px;'}
 `
 const Status = styled.div`
   grid-area: fieldStatus;
@@ -61,9 +64,24 @@ const NaechsterSchritt = styled.div`
 `
 const Vermerk = styled.div`
   grid-area: fieldVermerk;
+  ${props => props['data-ispdf'] && 'max-height: 250px;'}
+  ${props => props['data-ispdf'] && 'margin-bottom: 12px;'}
 `
 const VermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
+`
+const NonRowLabel = styled(Label)`
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 12px;
+  font-weight: 500;
+`
+const PdfField = styled.div`
+  ${props =>
+    props['data-fontsize'] &&
+    `font-size: ${props['data-fontsize']}px !important;`}
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 3px;
 `
 
 const AreaGeschaeft = ({
@@ -107,7 +125,7 @@ const AreaGeschaeft = ({
             tabIndex={1 + tabsToAdd}
           />
         </Gegenstand>
-        {!(!geschaeft.ausloeser && isPdf) && (
+        {!isPdf && (
           <Ausloeser>
             <Textarea
               key={`${geschaeft.idGeschaeft}ausloeser`}
@@ -120,7 +138,25 @@ const AreaGeschaeft = ({
             />
           </Ausloeser>
         )}
-        {!(!geschaeft.ort && isPdf) && (
+        {isPdf && !!geschaeft.ausloeser && (
+          <Ausloeser>
+            <NonRowLabel>Auslöser</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.ausloeser.length < 400
+                  ? 13
+                  : geschaeft.ausloeser.length < 700
+                  ? 12
+                  : geschaeft.ausloeser.length < 1000
+                  ? 11
+                  : 10
+              }
+            >
+              {geschaeft.ausloeser}
+            </PdfField>
+          </Ausloeser>
+        )}
+        {!isPdf && (
           <Ort>
             <Input
               key={`${geschaeft.idGeschaeft}ort`}
@@ -133,7 +169,25 @@ const AreaGeschaeft = ({
             />
           </Ort>
         )}
-        {!(!geschaeft.geschaeftsart && isPdf) && (
+        {isPdf && !!geschaeft.ort && (
+          <Ort>
+            <NonRowLabel>Ort</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.ort.length < 400
+                  ? 13
+                  : geschaeft.ort.length < 700
+                  ? 12
+                  : geschaeft.ort.length < 1000
+                  ? 11
+                  : 10
+              }
+            >
+              {geschaeft.ort}
+            </PdfField>
+          </Ort>
+        )}
+        {!isPdf && (
           <Geschaeftsart>
             <Select
               key={`${geschaeft.idGeschaeft}geschaeftsart`}
@@ -147,7 +201,21 @@ const AreaGeschaeft = ({
             />
           </Geschaeftsart>
         )}
-        {!(!geschaeft.status && isPdf) && (
+        {isPdf && !!geschaeft.geschaeftsart && (
+          <Geschaeftsart>
+            <Select
+              key={`${geschaeft.idGeschaeft}geschaeftsart`}
+              value={geschaeft.geschaeftsart}
+              field="geschaeftsart"
+              label="Geschäftsart"
+              options={geschaeftsartOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.geschaeftsart}
+              tabIndex={4 + tabsToAdd}
+            />
+          </Geschaeftsart>
+        )}
+        {!isPdf && (
           <Status>
             <Select
               key={`${geschaeft.idGeschaeft}status`}
@@ -161,7 +229,21 @@ const AreaGeschaeft = ({
             />
           </Status>
         )}
-        {!(!geschaeft.abteilung && isPdf) && (
+        {isPdf && !!geschaeft.status && (
+          <Status>
+            <Select
+              key={`${geschaeft.idGeschaeft}status`}
+              value={geschaeft.status}
+              field="status"
+              label="Status"
+              options={statusOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.status}
+              tabIndex={5 + tabsToAdd}
+            />
+          </Status>
+        )}
+        {!isPdf && (
           <Abteilung>
             <Select
               key={`${geschaeft.idGeschaeft}abteilung`}
@@ -175,8 +257,22 @@ const AreaGeschaeft = ({
             />
           </Abteilung>
         )}
-        {!(!geschaeft.details && isPdf) && (
-          <Details>
+        {isPdf && !!geschaeft.abteilung && (
+          <Abteilung>
+            <Select
+              key={`${geschaeft.idGeschaeft}abteilung`}
+              value={geschaeft.abteilung}
+              field="abteilung"
+              label="Abteilung"
+              options={abteilungOptions.map(o => ({ label: o, value: o }))}
+              saveToDb={saveToDb}
+              error={errors.abteilung}
+              tabIndex={6 + tabsToAdd}
+            />
+          </Abteilung>
+        )}
+        {!isPdf && (
+          <Details data-ispdf={isPdf}>
             <Textarea
               key={`${geschaeft.idGeschaeft}details`}
               value={geschaeft.details}
@@ -188,7 +284,25 @@ const AreaGeschaeft = ({
             />
           </Details>
         )}
-        {!(!geschaeft.naechsterSchritt && isPdf) && (
+        {isPdf && !!geschaeft.details && (
+          <Details data-ispdf={isPdf}>
+            <NonRowLabel>Details</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.details.length < 400
+                  ? 13
+                  : geschaeft.details.length < 700
+                  ? 12
+                  : geschaeft.details.length < 1000
+                  ? 11
+                  : 10
+              }
+            >
+              {geschaeft.details}
+            </PdfField>
+          </Details>
+        )}
+        {!isPdf && (
           <NaechsterSchritt>
             <Textarea
               key={`${geschaeft.idGeschaeft}naechsterSchritt`}
@@ -201,8 +315,21 @@ const AreaGeschaeft = ({
             />
           </NaechsterSchritt>
         )}
-        {!(!geschaeft.vermerk && isPdf) && (
-          <Vermerk>
+        {isPdf && !!geschaeft.naechsterSchritt && (
+          <NaechsterSchritt>
+            <Textarea
+              key={`${geschaeft.idGeschaeft}naechsterSchritt`}
+              value={geschaeft.naechsterSchritt}
+              field="naechsterSchritt"
+              label="Nächster Schritt"
+              saveToDb={saveToDb}
+              error={errors.naechsterSchritt}
+              tabIndex={8 + tabsToAdd}
+            />
+          </NaechsterSchritt>
+        )}
+        {!isPdf && (
+          <Vermerk data-ispdf={isPdf}>
             <Textarea
               key={`${geschaeft.idGeschaeft}vermerk`}
               value={geschaeft.vermerk}
@@ -214,7 +341,36 @@ const AreaGeschaeft = ({
             />
           </Vermerk>
         )}
-        {!(!geschaeft.vermerkIntern && isPdf) && (
+        {isPdf && !!geschaeft.vermerk && (
+          <Vermerk
+            data-ispdf={isPdf}
+            data-fontsize={
+              geschaeft.vermerk.length < 400
+                ? 13
+                : geschaeft.vermerk.length < 700
+                ? 12
+                : geschaeft.vermerk.length < 1000
+                ? 11
+                : 10
+            }
+          >
+            <NonRowLabel>Vermerk</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.vermerk.length < 400
+                  ? 13
+                  : geschaeft.vermerk.length < 700
+                  ? 12
+                  : geschaeft.vermerk.length < 1000
+                  ? 11
+                  : 10
+              }
+            >
+              {geschaeft.vermerk}
+            </PdfField>
+          </Vermerk>
+        )}
+        {!isPdf && (
           <VermerkIntern>
             <Textarea
               key={`${geschaeft.idGeschaeft}vermerkIntern`}
