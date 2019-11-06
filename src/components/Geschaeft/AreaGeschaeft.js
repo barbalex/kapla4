@@ -139,9 +139,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.gegenstand.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.gegenstand.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.gegenstand.length < 2000
                   ? 9
                   : 8
               }
@@ -174,9 +174,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.ausloeser.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.ausloeser.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.ausloeser.length < 2000
                   ? 9
                   : 8
               }
@@ -209,9 +209,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.ort.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.ort.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.ort.length < 2000
                   ? 9
                   : 8
               }
@@ -245,9 +245,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.geschaeftsart.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.geschaeftsart.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.geschaeftsart.length < 2000
                   ? 9
                   : 8
               }
@@ -281,9 +281,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.status.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.status.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.status.length < 2000
                   ? 9
                   : 8
               }
@@ -317,9 +317,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.abteilung.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.abteilung.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.abteilung.length < 2000
                   ? 9
                   : 8
               }
@@ -352,9 +352,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.details.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.details.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.details.length < 2000
                   ? 9
                   : 8
               }
@@ -387,9 +387,9 @@ const AreaGeschaeft = ({
                   ? 12
                   : geschaeft.naechsterSchritt.length < 1000
                   ? 11
-                  : geschaeft.vermerk.length < 1500
+                  : geschaeft.naechsterSchritt.length < 1500
                   ? 10
-                  : geschaeft.vermerk.length < 2000
+                  : geschaeft.naechsterSchritt.length < 2000
                   ? 9
                   : 8
               }
@@ -412,22 +412,7 @@ const AreaGeschaeft = ({
           </Vermerk>
         )}
         {isPdf && !!geschaeft.vermerk && (
-          <Vermerk
-            data-ispdf={isPdf}
-            data-fontsize={
-              geschaeft.vermerk.length < 400
-                ? 13
-                : geschaeft.vermerk.length < 700
-                ? 12
-                : geschaeft.vermerk.length < 1000
-                ? 11
-                : geschaeft.vermerk.length < 1500
-                ? 10
-                : geschaeft.vermerk.length < 2000
-                ? 9
-                : 8
-            }
-          >
+          <Vermerk data-ispdf={isPdf}>
             <NonRowLabel>Vermerk</NonRowLabel>
             <PdfField
               data-fontsize={

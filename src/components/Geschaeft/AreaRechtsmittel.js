@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { FormControl, ControlLabel } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
+import moment from 'moment'
 
 import Date from '../shared/Date'
 import storeContext from '../../storeContext'
@@ -64,6 +66,20 @@ const StyledTextarea = styled(Textarea)`
       0 0 8px rgba(102, 175, 233, 0.6);
   }
 `
+const NonRowLabel = styled(Label)`
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 12px;
+  font-weight: 500;
+`
+const PdfField = styled.div`
+  ${props =>
+    props['data-fontsize'] &&
+    `font-size: ${props['data-fontsize']}px !important;`}
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 3px;
+  margin-bottom: 5px;
+`
 
 const AreaRechtsmittel = ({
   nrOfFieldsBeforePv,
@@ -92,7 +108,7 @@ const AreaRechtsmittel = ({
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Rekurs / Beschwerde</Title>
-        {!(isPdf && !geschaeft.rechtsmittelInstanz) && (
+        {!isPdf && (
           <FieldInstanz>
             <ControlLabel>Instanz</ControlLabel>
             <FormControl
@@ -107,7 +123,29 @@ const AreaRechtsmittel = ({
             </FormControl>
           </FieldInstanz>
         )}
-        {!(isPdf && !geschaeft.rechtsmittelEntscheidNr) && (
+        {isPdf && !!geschaeft.rechtsmittelInstanz && (
+          <FieldInstanz>
+            <NonRowLabel>Instanz</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.rechtsmittelInstanz.length < 400
+                  ? 13
+                  : geschaeft.rechtsmittelInstanz.length < 700
+                  ? 12
+                  : geschaeft.rechtsmittelInstanz.length < 1000
+                  ? 11
+                  : geschaeft.rechtsmittelInstanz.length < 1500
+                  ? 10
+                  : geschaeft.rechtsmittelInstanz.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.rechtsmittelInstanz}
+            </PdfField>
+          </FieldInstanz>
+        )}
+        {!isPdf && (
           <FieldEntscheidNr>
             <ControlLabel>Entscheid Nr.</ControlLabel>
             <FormControl
@@ -121,7 +159,29 @@ const AreaRechtsmittel = ({
             />
           </FieldEntscheidNr>
         )}
-        {!(isPdf && !geschaeft.rechtsmittelEntscheidDatum) && (
+        {isPdf && !!geschaeft.rechtsmittelEntscheidNr && (
+          <FieldEntscheidNr>
+            <NonRowLabel>Entscheid Nr.</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.rechtsmittelEntscheidNr.length < 400
+                  ? 13
+                  : geschaeft.rechtsmittelEntscheidNr.length < 700
+                  ? 12
+                  : geschaeft.rechtsmittelEntscheidNr.length < 1000
+                  ? 11
+                  : geschaeft.rechtsmittelEntscheidNr.length < 1500
+                  ? 10
+                  : geschaeft.rechtsmittelEntscheidNr.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.rechtsmittelEntscheidNr}
+            </PdfField>
+          </FieldEntscheidNr>
+        )}
+        {!isPdf && (
           <FieldEntscheidDatum>
             <Date
               key={`${geschaeft.idGeschaeft}rechtsmittelEntscheidDatum`}
@@ -135,7 +195,32 @@ const AreaRechtsmittel = ({
             />
           </FieldEntscheidDatum>
         )}
-        {!(isPdf && !geschaeft.rechtsmittelErledigung) && (
+        {isPdf && !!geschaeft.rechtsmittelEntscheidDatum && (
+          <FieldEntscheidDatum>
+            <NonRowLabel>Entscheid Datum</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.rechtsmittelEntscheidDatum.length < 400
+                  ? 13
+                  : geschaeft.rechtsmittelEntscheidDatum.length < 700
+                  ? 12
+                  : geschaeft.rechtsmittelEntscheidDatum.length < 1000
+                  ? 11
+                  : geschaeft.rechtsmittelEntscheidDatum.length < 1500
+                  ? 10
+                  : geschaeft.rechtsmittelEntscheidDatum.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {moment(
+                geschaeft.rechtsmittelEntscheidDatum,
+                'DD.MM.YYYY',
+              ).format('DD.MM.YYYY')}
+            </PdfField>
+          </FieldEntscheidDatum>
+        )}
+        {!isPdf && (
           <FieldErledigung>
             <ControlLabel>Erledigung</ControlLabel>
             <FormControl
@@ -150,7 +235,29 @@ const AreaRechtsmittel = ({
             </FormControl>
           </FieldErledigung>
         )}
-        {!(isPdf && !geschaeft.rechtsmittelTxt) && (
+        {!isPdf && !!geschaeft.rechtsmittelErledigung && (
+          <FieldErledigung>
+            <NonRowLabel>Erledigung</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.rechtsmittelErledigung.length < 400
+                  ? 13
+                  : geschaeft.rechtsmittelErledigung.length < 700
+                  ? 12
+                  : geschaeft.rechtsmittelErledigung.length < 1000
+                  ? 11
+                  : geschaeft.rechtsmittelErledigung.length < 1500
+                  ? 10
+                  : geschaeft.rechtsmittelErledigung.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.rechtsmittelErledigung}
+            </PdfField>
+          </FieldErledigung>
+        )}
+        {!isPdf && (
           <FieldRechtsmittelTxt>
             <ControlLabel>Bemerkungen</ControlLabel>
             <StyledTextarea
@@ -160,6 +267,28 @@ const AreaRechtsmittel = ({
               onBlur={blur}
               tabIndex={5 + nrOfFieldsBeforePv}
             />
+          </FieldRechtsmittelTxt>
+        )}
+        {isPdf && !!geschaeft.rechtsmittelTxt && (
+          <FieldRechtsmittelTxt>
+            <NonRowLabel>Bemerkungen</NonRowLabel>
+            <PdfField
+              data-fontsize={
+                geschaeft.rechtsmittelTxt.length < 400
+                  ? 13
+                  : geschaeft.rechtsmittelTxt.length < 700
+                  ? 12
+                  : geschaeft.rechtsmittelTxt.length < 1000
+                  ? 11
+                  : geschaeft.rechtsmittelTxt.length < 1500
+                  ? 10
+                  : geschaeft.rechtsmittelTxt.length < 2000
+                  ? 9
+                  : 8
+              }
+            >
+              {geschaeft.rechtsmittelTxt}
+            </PdfField>
           </FieldRechtsmittelTxt>
         )}
       </Container>
