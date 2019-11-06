@@ -241,8 +241,6 @@ const Geschaeft = () => {
   )
   const showLinks = !(isPdf && myLinks.length === 0)
 
-  console.log('Geschaeft', { isPdf, showAreaForGeschaeftsart, viewIsNarrow })
-
   return (
     <ErrorBoundary>
       <ScrollContainer>
@@ -274,6 +272,7 @@ const Geschaeft = () => {
               change={change}
               blur={blur}
               onChangeDatePicker={onChangeDatePicker}
+              saveToDb={saveToDb}
             />
           )}
           <AreaFristen
