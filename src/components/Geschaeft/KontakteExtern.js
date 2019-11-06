@@ -1,37 +1,12 @@
-import React, { useContext, useState } from 'react'
-import { FormControl } from 'react-bootstrap'
+import React, { useContext, useState, useMemo } from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
+import Select from '../shared/Select'
 import KontakteExternItems from './KontakteExternItems'
 import storeContext from '../../storeContext'
-
-const optionsList = (externeOptions, geschaefteKontakteExtern, activeId) => {
-  // filter out options already choosen
-  const kontakteInternOfActiveGeschaeft = geschaefteKontakteExtern.filter(
-    g => g.idGeschaeft === activeId,
-  )
-  const idKontakteOfGkiOfActiveGeschaeft = kontakteInternOfActiveGeschaeft.map(
-    kI => kI.idKontakt,
-  )
-  const externeOptionsFiltered = externeOptions.filter(
-    o => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id),
-  )
-  // sort externeOptions by nameVorname
-  const externeOptionsSorted = _.sortBy(externeOptionsFiltered, o =>
-    `${o.name} ${o.vorname}`.toLowerCase(),
-  )
-  const options = externeOptionsSorted.map(o => (
-    <option key={o.id} value={o.id}>
-      {`${o.name} ${o.vorname}`}
-    </option>
-  ))
-
-  options.unshift(<option key={0} value="" />)
-  return options
-}
 
 const Container = styled.div`
   grid-column: ${props => (props['data-ispdf'] ? '1 / span 1' : '1 / span 2')};
@@ -61,11 +36,31 @@ const GeschaefteKontakteExtern = ({ tabIndex }) => {
   const location = store.location.toJSON()
   const activeLocation = location[0]
   const { geschaeftKontaktExternNewCreate } = store
-  const { externeOptions, activeId } = store.geschaefte
+  const { externeOptions: externeOptionsPassed, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
   const isPdf = activeLocation === 'geschaeftPdf'
 
   const [value, setValue] = useState('')
+
+  const externeOptions = useMemo(() => {
+    // filter out options already choosen
+    const kontakteInternOfActiveGeschaeft = geschaefteKontakteExtern.filter(
+      g => g.idGeschaeft === activeId,
+    )
+    const idKontakteOfGkiOfActiveGeschaeft = kontakteInternOfActiveGeschaeft.map(
+      kI => kI.idKontakt,
+    )
+    const externeOptionsFiltered = externeOptionsPassed.filter(
+      o => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id),
+    )
+    // sort externeOptions by nameVorname
+    const externeOptionsSorted = _.sortBy(externeOptionsFiltered, o =>
+      `${o.name} ${o.vorname}`.toLowerCase(),
+    ).map(o => ({ label: `${o.name} ${o.vorname}`, value: o.id }))
+    return externeOptionsSorted
+    // value is added to update list after adding Kontakt to remove choosen Kontakt from list
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId, externeOptionsPassed, geschaefteKontakteExtern, value])
 
   return (
     <ErrorBoundary>
@@ -73,22 +68,19 @@ const GeschaefteKontakteExtern = ({ tabIndex }) => {
         <KontakteExternItems />
         <RowFvDropdown data-ispdf={isPdf}>
           <FvDropdown data-ispdf={isPdf}>
-            <FormControl
-              componentClass="select"
-              bsSize="small"
-              onChange={e => {
-                const idKontakt = e.target.value
-                setValue(idKontakt)
-                geschaeftKontaktExternNewCreate(activeId, idKontakt)
-                // need to empty dropdown
-                setTimeout(() => setValue(''), 500)
-              }}
+            <Select
               value={value}
-              title="Neuen Kontakt hinzufügen"
+              field="not-relevant"
+              placeholder="Externen Kontakt hinzufügen"
+              options={externeOptions}
+              saveToDb={({ value, field }) => {
+                setValue(value)
+                geschaeftKontaktExternNewCreate(activeId, value)
+                // empty dropdown
+                setTimeout(() => setValue(''), 1000)
+              }}
               tabIndex={tabIndex}
-            >
-              {optionsList(externeOptions, geschaefteKontakteExtern, activeId)}
-            </FormControl>
+            />
           </FvDropdown>
         </RowFvDropdown>
       </Container>

@@ -62,6 +62,7 @@ const SharedSelect = ({
   error,
   row = false,
   tabIndex = 0,
+  placeholder = '',
 }) => {
   const onChange = useCallback(
     option => saveToDb({ value: option ? option.value : null, field }),
@@ -95,7 +96,7 @@ const SharedSelect = ({
               options={options}
               onChange={onChange}
               hideSelectedOptions
-              placeholder=""
+              placeholder={placeholder}
               isClearable
               isSearchable
               noOptionsMessage={noOptionsMessage}
@@ -118,7 +119,7 @@ const SharedSelect = ({
             options={options}
             onChange={onChange}
             hideSelectedOptions
-            placeholder=""
+            placeholder={placeholder}
             isClearable
             isSearchable
             noOptionsMessage={noOptionsMessage}

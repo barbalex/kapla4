@@ -153,28 +153,26 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
         <AreaPersonenDiv>
           <Title>Personen</Title>
           {!(isPdf && !geschaeft.verantwortlich) && (
-            <Subtitle>Verantwortlich</Subtitle>
-          )}
-          {!(isPdf && !geschaeft.verantwortlich) && (
-            <Verantwortlich>
-              <Select
-                key={`${geschaeft.idGeschaeft}verantwortlich`}
-                value={geschaeft.verantwortlich}
-                field="verantwortlich"
-                label=""
-                options={interneOptions}
-                saveToDb={saveToDb}
-                error={errors.verantwortlich}
-                tabIndex={1 + nrOfFieldsBeforePersonen}
-              />
-            </Verantwortlich>
-          )}
-          {!(isPdf && !geschaeft.verantwortlich) && (
-            <VerantwortlichName>
-              <VerantwortlichInfo>
-                {verantwortlichData(geschaeft, interneOptionsPassed, isPdf)}
-              </VerantwortlichInfo>
-            </VerantwortlichName>
+            <>
+              <Subtitle>Verantwortlich</Subtitle>
+              <Verantwortlich>
+                <Select
+                  key={`${geschaeft.idGeschaeft}verantwortlich`}
+                  value={geschaeft.verantwortlich}
+                  field="verantwortlich"
+                  label=""
+                  options={interneOptions}
+                  saveToDb={saveToDb}
+                  error={errors.verantwortlich}
+                  tabIndex={1 + nrOfFieldsBeforePersonen}
+                />
+              </Verantwortlich>
+              <VerantwortlichName>
+                <VerantwortlichInfo>
+                  {verantwortlichData(geschaeft, interneOptionsPassed, isPdf)}
+                </VerantwortlichInfo>
+              </VerantwortlichName>
+            </>
           )}
           {!(isPdf && interne.length === 0) && (
             <Subtitle>Interne Kontakte</Subtitle>
