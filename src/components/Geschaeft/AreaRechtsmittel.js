@@ -176,8 +176,10 @@ const AreaRechtsmittel = ({
               label="Entscheid Datum"
               change={change}
               blur={blur}
+              saveToDb={saveToDb}
               error={errors.rechtsmittelEntscheidDatum}
               tabIndex={3 + nrOfFieldsBeforePv}
+              popperPlacement="left"
             />
           </FieldEntscheidDatum>
         )}

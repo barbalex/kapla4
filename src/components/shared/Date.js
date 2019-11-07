@@ -1,19 +1,9 @@
-import React, { useState, useCallback, useEffect, forwardRef } from 'react'
-import {
-  FormGroup,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  FormFeedback,
-} from 'reactstrap'
+import React, { useCallback } from 'react'
+import { FormGroup, Label, FormFeedback } from 'reactstrap'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { FaCalendarAlt } from 'react-icons/fa'
-
-moment.locale('de')
 
 const Container = styled.div`
   grid-column: 1;
@@ -36,130 +26,95 @@ const NonRowLabel = styled(Label)`
   font-size: 12px;
   font-weight: 500;
 `
-const StyledInputGroupAddon = styled(InputGroupAddon)`
-  cursor: pointer;
-  span {
-    border-top-right-radius: 0.25rem !important;
-    border-bottom-right-radius: 0.25rem !important;
-  }
-`
 const StyledDatePicker = styled(DatePicker)`
   width: 100%;
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  min-height: 34px;
+  &:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
 `
+const dateFormat = [
+  'dd.MM.yyyy',
+  'd.MM.yyyy',
+  'd.M.yyyy',
+  'dd.M.yyyy',
+  'dd.MM.yy',
+  'd.MM.yy',
+  'd.M.yy',
+  'dd.M.yy',
+  'd.M',
+  'd.MM',
+  'dd.M',
+  'dd.MM',
+  'd',
+  'dd',
+]
 
 const DateField = ({
   value,
   field,
   label,
   saveToDb,
-  change,
-  blur,
   error,
   row = false,
   tabIndex,
+  popperPlacement = 'auto',
 }) => {
-  const [stateValue, setStateValue] = useState(
-    value || value === 0 ? value : '',
-  )
-
   const onChangeDatePicker = useCallback(
-    date => {
-      const myEvent = {
-        target: {
-          value: moment(date, 'DD.MM.YYYY').format('DD.MM.YYYY'),
-          name: field,
-        },
-      }
-      change(myEvent)
-      blur(myEvent)
-    },
-    [blur, change, field],
+    date =>
+      saveToDb({
+        value: moment(date, 'DD.MM.YYYY').format('DD.MM.YYYY'),
+        field,
+      }),
+    [field, saveToDb],
   )
+  const selected = moment(value, 'DD.MM.YYYY').isValid()
+    ? new Date(moment(value, 'DD.MM.YYYY').toDate())
+    : null
 
-  // without lifecycle state value does not immediately update
-  // after user enters new date
-  useEffect(() => {
-    setStateValue(value || value === 0 ? value : '')
-  }, [value])
-
-  // need to forward refs to custom input
-  // see: https://github.com/Hacker0x01/react-datepicker/issues/862#issuecomment-522333766
-  const CustomInputRow = forwardRef(({ value, onClick }, ref) => (
-    <StyledFormGroup>
-      <StyledLabel for={field} sm={2}>
-        {label}
-      </StyledLabel>
-      <InputGroup size="sm">
-        <Input
-          id={field}
-          type="text"
-          name={field}
-          value={stateValue}
-          onChange={change}
-          onBlur={blur}
-          invalid={!!error}
-          tabIndex={tabIndex}
-        />
-        <StyledInputGroupAddon
-          addonType="append"
-          id="datePickerInputGroup"
-          onClick={onClick}
-          title="Kalender öffnen"
-        >
-          <span className="input-group-text">
-            <FaCalendarAlt />
-          </span>
-        </StyledInputGroupAddon>
-        <FormFeedback>{error}</FormFeedback>
-      </InputGroup>
-    </StyledFormGroup>
-  ))
-  const CustomInputNonRow = forwardRef(({ value, onClick }, ref) => (
-    <StyledFormGroup>
-      <NonRowLabel for={field}>{label}</NonRowLabel>
-      <InputGroup>
-        <Input
-          id={field}
-          type="text"
-          name={field}
-          value={stateValue}
-          onChange={change}
-          onBlur={blur}
-          invalid={!!error}
-          tabIndex={tabIndex}
-        />
-        <StyledInputGroupAddon
-          addonType="append"
-          id="datePickerInputGroup"
-          onClick={onClick}
-          title="Kalender öffnen"
-        >
-          <span className="input-group-text">
-            <FaCalendarAlt />
-          </span>
-        </StyledInputGroupAddon>
-        <FormFeedback>{error}</FormFeedback>
-      </InputGroup>
-    </StyledFormGroup>
-  ))
-
+  if (row) {
+    return (
+      <Container row={row}>
+        <StyledFormGroup>
+          <StyledLabel for={field} sm={2}>
+            {label}
+          </StyledLabel>
+          <StyledDatePicker
+            selected={selected}
+            onChange={onChangeDatePicker}
+            dateFormat={dateFormat}
+            popperPlacement={popperPlacement}
+          />
+          <FormFeedback>{error}</FormFeedback>
+        </StyledFormGroup>
+      </Container>
+    )
+  }
   return (
     <Container row={row}>
-      <StyledDatePicker
-        selected={
-          moment(stateValue, 'DD.MM.YYYY').isValid()
-            ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
-            : null
-        }
-        onChange={onChangeDatePicker}
-        dateFormat="dd.mm.yyyy"
-        customInput={row ? <CustomInputRow /> : <CustomInputNonRow />}
-        openToDate={
-          moment(stateValue, 'DD.MM.YYYY').isValid()
-            ? moment(stateValue, 'DD.MM.YYYY').toDate()
-            : null
-        }
-      />
+      <StyledFormGroup>
+        <NonRowLabel for={field}>{label}</NonRowLabel>
+        <StyledDatePicker
+          selected={selected}
+          onChange={onChangeDatePicker}
+          dateFormat={dateFormat}
+          popperPlacement={popperPlacement}
+        />
+        <FormFeedback>{error}</FormFeedback>
+      </StyledFormGroup>
     </Container>
   )
 }

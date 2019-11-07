@@ -108,7 +108,7 @@ const Geschaeft = () => {
   const { config } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
-  const { setValue, setValueInDb } = geschaeft
+  const { setValue } = geschaeft
 
   const change = useCallback(e => {
     const { type, name: field, dataset } = e.target
@@ -126,40 +126,25 @@ const Geschaeft = () => {
         value = dataset.value
       }
       // blur does not occur in radio
-      setValueInDb({ field, value })
+      setValue({ field, value })
     }
     if (type === 'select-one') {
-      setValueInDb({ idGeschaeft: activeId, field, value })
+      setValue({ idGeschaeft: activeId, field, value })
     }
-    setValue({ field, value })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const blur = useCallback(
     e => {
       const { type, name: field, value } = e.target
       if (type !== 'radio' && type !== 'select-one') {
-        if (isDateField(field)) {
-          if (validateDate(value)) {
-            // if correct date, save to db
-            setValueInDb({ field, value })
-          }
-          // else: give user hint
-          let value2 = ''
-          if (value) value2 = moment(value, 'DD.MM.YYYY').format('DD.MM.YYYY')
-          if (value2.includes('Invalid date')) {
-            value2 = value2.replace('Invalid date', 'Format: DD.MM.YYYY')
-          }
-          setValue({ field, value: value2 })
-        } else {
-          setValueInDb({ idGeschaeft: activeId, field, value })
-        }
+        setValue({ idGeschaeft: activeId, field, value })
       }
     },
-    [activeId, setValue, setValueInDb],
+    [activeId, setValue],
   )
   const saveToDb = useCallback(
-    ({ value, field }) => setValueInDb({ field, value }),
-    [setValueInDb],
+    ({ value, field }) => setValue({ field, value }),
+    [setValue],
   )
   const onChangeDatePicker = useCallback(
     (name, date) => {
@@ -281,6 +266,7 @@ const Geschaeft = () => {
             blur={blur}
             onChangeDatePicker={onChangeDatePicker}
             saveToDb={saveToDb}
+            viewIsNarrow={viewIsNarrow}
           />
           <AreaPersonen
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}

@@ -56,6 +56,7 @@ const AreaFristen = ({
   saveToDb,
   nrOfFieldsBeforeFristen,
   onChangeDatePicker,
+  viewIsNarrow,
 }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
@@ -77,6 +78,8 @@ const AreaFristen = ({
     setErrors({})
   }, [geschaeft.idGeschaeft])
 
+  const popperPlacement = viewIsNarrow ? 'left' : 'right'
+
   return (
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
@@ -89,8 +92,10 @@ const AreaFristen = ({
             label="Datum des Eingangs im AWEL"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.datumEingangAwel}
             tabIndex={1 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {!(!geschaeft.fristAwel && isPdf) && (
@@ -101,8 +106,10 @@ const AreaFristen = ({
             label="Frist für Erledigung durch AWEL"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.fristAwel}
             tabIndex={2 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {!(!geschaeft.fristAmtschef && isPdf) && (
@@ -113,8 +120,10 @@ const AreaFristen = ({
             label="Frist Vorlage an Amtschef"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.fristAmtschef}
             tabIndex={3 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {!(!geschaeft.fristAbteilung && isPdf) && (
@@ -125,8 +134,10 @@ const AreaFristen = ({
             label="Frist für Erledigung durch Abteilung"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.fristAbteilung}
             tabIndex={4 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {!(!geschaeft.fristMitarbeiter && isPdf) && (
@@ -137,8 +148,10 @@ const AreaFristen = ({
             label="Frist Erledigung nächster Schritt Re"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.fristMitarbeiter}
             tabIndex={5 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {(!!dauerBisFristMitarbeiter || dauerBisFristMitarbeiter === 0) && (
@@ -161,8 +174,10 @@ const AreaFristen = ({
             label="Datum Ausgang AWEL (erledigt)"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.datumAusgangAwel}
             tabIndex={6 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
         {!(!geschaeft.fristDirektion && isPdf) && (
@@ -173,8 +188,10 @@ const AreaFristen = ({
             label="Frist für Erledigung durch Direktion"
             change={change}
             blur={blur}
+            saveToDb={saveToDb}
             error={errors.fristDirektion}
             tabIndex={7 + nrOfFieldsBeforeFristen}
+            popperPlacement={popperPlacement}
           />
         )}
       </Container>

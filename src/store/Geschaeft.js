@@ -115,14 +115,6 @@ export default types
   .actions(self => ({
     setValue({ field, value }) {
       const store = getParent(self, 3)
-      const { user } = store.app
-      const { username } = user
-      self[field] = value
-      self.mutationsperson = username
-      self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
-    },
-    setValueInDb({ field, value }) {
-      const store = getParent(self, 3)
       const { app, addError } = store
       const { user } = app
       // update mst
