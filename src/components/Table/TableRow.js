@@ -1,9 +1,10 @@
-import React, { useContext, useCallback } from 'react'
-import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
+import React, { useContext, useCallback, useState, useEffect } from 'react'
+import { FormGroup, Form } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
+import Input from '../shared/Input'
 
 const StyledRow = styled.div`
   background-image: linear-gradient(
@@ -16,44 +17,23 @@ const StyledRow = styled.div`
   overflow-y: auto;
 `
 const StyledFormGroup = styled(FormGroup)`
-  padding-top: 3px;
-  padding-bottom: 3px;
+  margin-bottom: 3px !important;
 `
 
 const TableRow = () => {
   const store = useContext(storeContext)
-  const { rows, id, table, changeState, updateInDb } = store.table
+  const { rows, id, table, updateInDb } = store.table
   const row = rows[table].find(r => r.id === id)
 
-  /**
-   * TODO:
-   * somehow this is called with _last_ name
-   * but next value when bluring next field
-   */
-  const onBlur = useCallback(
-    event => {
-      const { type, name, dataset } = event.target
-      let { value } = event.target
-      if (type === 'radio') value = dataset.value
-      console.log('TableRow, onBlur', { name, value, id, table })
-      updateInDb(id, name, value)
-    },
-    [updateInDb, id, table],
+  const saveToDb = useCallback(
+    ({ value, field }) => updateInDb(id, field, value),
+    [id, updateInDb],
   )
-  const onChange = useCallback(
-    event => {
-      const { type, name, dataset } = event.target
-      let { value } = event.target
-      if (type === 'radio') {
-        value = dataset.value
-        // onBlur does not occur in radio
-        onBlur(event)
-      }
-      console.log('TableRow, onChange', { name, value, id })
-      changeState(id, name, value)
-    },
-    [id, onBlur, changeState],
-  )
+
+  const [errors, setErrors] = useState({})
+  useEffect(() => {
+    setErrors({})
+  }, [row.id])
 
   if (row === undefined) return null
 
@@ -64,19 +44,19 @@ const TableRow = () => {
           let value = row[fieldName]
           // react complains if value is null
           if (value === null) value = ''
-          const field = (
+
+          return (
             <StyledFormGroup key={index}>
-              <ControlLabel>{fieldName}</ControlLabel>
-              <FormControl
-                type="text"
-                name={fieldName}
+              <Input
+                key={`${row.id}${fieldName}`}
                 value={value}
-                onChange={onChange}
-                onBlur={onBlur}
+                field={fieldName}
+                label={fieldName}
+                saveToDb={saveToDb}
+                error={errors[fieldName]}
               />
             </StyledFormGroup>
           )
-          return field
         })}
       </Form>
     </StyledRow>
