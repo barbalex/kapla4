@@ -135,8 +135,7 @@ const AreaFristen = ({
             tabIndex={5 + nrOfFieldsBeforeFristen}
           />
         )}
-        {(!!geschaeft.dauerBisFristMitarbeiter ||
-          geschaeft.dauerBisFristMitarbeiter === 0) && (
+        {(!!dauerBisFristMitarbeiter || dauerBisFristMitarbeiter === 0) && (
           <FieldFristDauerBisMitarbeiter>
             <ControlLabel>Tage bis Frist Mitarbeiter</ControlLabel>
             <StyledFristDauerBisMitarbeiter
@@ -144,7 +143,7 @@ const AreaFristen = ({
               data-ispdf={isPdf}
               className="formControlStatic"
             >
-              {geschaeft.dauerBisFristMitarbeiter}
+              {dauerBisFristMitarbeiter}
             </StyledFristDauerBisMitarbeiter>
           </FieldFristDauerBisMitarbeiter>
         )}
