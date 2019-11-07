@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormControl, ControlLabel } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -31,7 +31,7 @@ const FieldFristDauerBisMitarbeiter = styled.div`
   font-weight: 700;
   font-size: 14px;
 `
-const StyledFristDauerBisMitarbeiter = styled(FormControl.Static)`
+const StyledFristDauerBisMitarbeiter = styled.div`
   font-weight: 900;
   letter-spacing: 0.13em;
   font-size: ${props => (props.isPdf ? '14px' : '16px')};
@@ -42,6 +42,12 @@ const StyledFristDauerBisMitarbeiter = styled(FormControl.Static)`
   -webkit-text-stroke-color: black;
   -webkit-text-stroke-width: 1px;
   -webkit-text-fill-color: ${props => props.color};
+`
+const NonRowLabel = styled(Label)`
+  margin-bottom: -2px;
+  color: #757575;
+  font-size: 12px;
+  font-weight: 500;
 `
 
 const AreaFristen = ({
@@ -137,7 +143,7 @@ const AreaFristen = ({
         )}
         {(!!dauerBisFristMitarbeiter || dauerBisFristMitarbeiter === 0) && (
           <FieldFristDauerBisMitarbeiter>
-            <ControlLabel>Tage bis Frist Mitarbeiter</ControlLabel>
+            <NonRowLabel>Tage bis Frist Mitarbeiter</NonRowLabel>
             <StyledFristDauerBisMitarbeiter
               color={colorDauerBisFristMitarbeiter}
               data-ispdf={isPdf}
