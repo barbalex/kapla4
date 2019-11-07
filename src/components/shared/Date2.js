@@ -122,32 +122,6 @@ const DateField = ({
     setStateValue(value || value === 0 ? value : '')
   }, [value])
 
-  const CustomInput = ({ value, onClick }) => (
-    <InputGroup size="sm">
-      <Input
-        id={field}
-        type="text"
-        name={field}
-        value={stateValue}
-        onChange={change}
-        onBlur={blur}
-        invalid={!!error}
-        tabIndex={tabIndex}
-      />
-      <StyledInputGroupAddon
-        addonType="append"
-        id="datePickerInputGroup"
-        onClick={onClick}
-        title="Kalender öffnen"
-      >
-        <span className="input-group-text">
-          <FaCalendarAlt />
-        </span>
-      </StyledInputGroupAddon>
-      <FormFeedback>{error}</FormFeedback>
-    </InputGroup>
-  )
-
   return (
     <StyledFormGroup row={row} data-ispdf={isPdf}>
       {row ? (
@@ -156,33 +130,85 @@ const DateField = ({
             {label}
           </StyledLabel>
           <Col sm={10}>
-            <DatePicker
-              selected={
-                moment(stateValue, 'dd.mm.yyyy').isValid()
-                  ? moment(stateValue, 'dd.mm.yyyy').toDate()
-                  : null
-              }
-              onChange={onChangeDatePicker}
-              dateFormat="dd.mm.yyyy"
-              onClickOutside={closePicker}
-              customInput={<CustomInput />}
-            />
+            <InputGroup size="sm">
+              <Input
+                id={field}
+                type="text"
+                name={field}
+                value={stateValue}
+                onChange={change}
+                onBlur={blur}
+                invalid={!!error}
+                tabIndex={tabIndex}
+              />
+              <StyledInputGroupAddon
+                addonType="append"
+                id="datePickerInputGroup"
+                onClick={openPicker}
+                title="Kalender öffnen"
+              >
+                <span className="input-group-text">
+                  <FaCalendarAlt />
+                </span>
+                {open && (
+                  <DatePicker
+                    selected={
+                      moment(stateValue, 'DD.MM.YYYY').isValid()
+                        ? moment(stateValue, 'DD.MM.YYYY').toDate()
+                        : null
+                    }
+                    onChange={onChangeDatePicker}
+                    dateFormat="DD.MM.YYYY"
+                    //withPortal
+                    //inline
+                    onClickOutside={closePicker}
+                  />
+                )}
+              </StyledInputGroupAddon>
+              <FormFeedback>{error}</FormFeedback>
+            </InputGroup>
           </Col>
         </>
       ) : (
         <>
           <NonRowLabel for={field}>{label}</NonRowLabel>
-          <DatePicker
-            selected={
-              moment(stateValue, 'dd.mm.yyyy').isValid()
-                ? moment(stateValue, 'dd.mm.yyyy').toDate()
-                : null
-            }
-            onChange={onChangeDatePicker}
-            dateFormat="dd.mm.yyyy"
-            onClickOutside={closePicker}
-            customInput={<CustomInput />}
-          />
+          <InputGroup>
+            <Input
+              id={field}
+              type="text"
+              name={field}
+              value={stateValue}
+              onChange={change}
+              onBlur={blur}
+              invalid={!!error}
+              tabIndex={tabIndex}
+            />
+            <StyledInputGroupAddon
+              addonType="append"
+              id="datePickerInputGroup"
+              onClick={openPicker}
+              title="Kalender öffnen"
+            >
+              <span className="input-group-text">
+                <FaCalendarAlt />
+              </span>
+              {open && (
+                <DatePicker
+                  selected={
+                    moment(stateValue, 'DD.MM.YYYY').isValid()
+                      ? moment(stateValue, 'DD.MM.YYYY').toDate()
+                      : null
+                  }
+                  onChange={onChangeDatePicker}
+                  dateFormat="DD.MM.YYYY"
+                  withPortal
+                  inline
+                  onClickOutside={closePicker}
+                />
+              )}
+            </StyledInputGroupAddon>
+            <FormFeedback>{error}</FormFeedback>
+          </InputGroup>
         </>
       )}
     </StyledFormGroup>
