@@ -81,6 +81,7 @@ const DateField = ({
     ? new Date(moment(value, 'DD.MM.YYYY').toDate())
     : null
 
+  // for popperPlacement see https://github.com/Hacker0x01/react-datepicker/issues/1246#issuecomment-361833919
   if (row) {
     return (
       <StyledFormGroup row={row}>
