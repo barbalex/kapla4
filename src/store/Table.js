@@ -52,29 +52,26 @@ export default types
       },
       updateInDb(id, field, value) {
         const { app, addError } = store
-        console.log('Store, updateInDb', {
-          id,
-          field,
-          value,
-          table: self.table,
-        })
         // no need to do something on then
         // ui was updated on TABLE_CHANGE_STATE
         try {
-          app.db.prepare(
-            `
+          app.db
+            .prepare(
+              `
             UPDATE
               ${self.table}
             SET
               ${field} = '${value}'
             WHERE
               id = ${id}`,
-          )
+            )
+            .run()
         } catch (error) {
           // TODO: reset ui
           console.log('Store, updateInDb, error:', error.message)
           return addError(error)
         }
+        self.changeState(id, field, value)
         // need to reload this table in self
         const actionName = `${self.table}OptionsGet`
         store[actionName]()
