@@ -143,27 +143,6 @@ const DateField = ({
     </StyledFormGroup>
   ))
 
-  if (row)
-    return (
-      <Container row={row}>
-        <StyledDatePicker
-          selected={
-            moment(stateValue, 'DD.MM.YYYY').isValid()
-              ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
-              : null
-          }
-          onChange={onChangeDatePicker}
-          dateFormat="dd.mm.yyyy"
-          customInput={<CustomInputRow />}
-          openToDate={
-            moment(stateValue, 'DD.MM.YYYY').isValid()
-              ? moment(stateValue, 'DD.MM.YYYY').toDate()
-              : null
-          }
-        />
-      </Container>
-    )
-
   return (
     <Container row={row}>
       <StyledDatePicker
@@ -174,7 +153,7 @@ const DateField = ({
         }
         onChange={onChangeDatePicker}
         dateFormat="dd.mm.yyyy"
-        customInput={<CustomInputNonRow />}
+        customInput={row ? <CustomInputRow /> : <CustomInputNonRow />}
         openToDate={
           moment(stateValue, 'DD.MM.YYYY').isValid()
             ? moment(stateValue, 'DD.MM.YYYY').toDate()
