@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Button, Modal, ModalBody } from 'reactstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
 import storeContext from '../storeContext'
 
-const Body = styled(Modal.Body)`
+const Body = styled(ModalBody)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,17 +24,19 @@ const PagesModal = () => {
   const { modalTextLine1, modalTextLine2, stop } = store.pages
 
   return (
-    <Modal.Dialog bsSize={modalTextLine2 ? 'large' : 'small'}>
+    <Modal isOpen={true} size={modalTextLine2 ? 'lg' : 'sm'}>
       <Body>
         <div>
           <P>{modalTextLine1}</P>
           {modalTextLine2 && <P>{modalTextLine2}</P>}
         </div>
         <RightDiv>
-          <Button onClick={stop}>Abbrechen</Button>
+          <Button color="secondary" onClick={stop}>
+            Abbrechen
+          </Button>
         </RightDiv>
       </Body>
-    </Modal.Dialog>
+    </Modal>
   )
 }
 

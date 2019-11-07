@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react'
-import { FormGroup, FormControl } from 'react-bootstrap'
+import { FormGroup, Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -12,16 +12,17 @@ const Container = styled.div`
     page-break-inside: avoid !important;
   }
 `
-const StyledTitleInput = styled(FormControl)`
+const StyledTitleInput = styled(Input)`
   margin-top: 3px;
   margin-bottom: 7px;
 `
 const StyledTitle = styled.div`
   cursor: pointer;
-  margin-top: 0;
   font-weight: 700;
   font-size: 32px;
   padding-left: 5px;
+  height: 56px;
+  margin-top: -10px;
 
   @media print {
     page-break-before: avoid !important;
@@ -61,7 +62,7 @@ const Page = ({ firstPage }) => {
             onChange={changeQueryTitle}
             onKeyPress={onKeyPressTitle}
             onBlur={onBlurTitle}
-            bsSize="large"
+            size="lg"
             autoFocus
           />
         </FormGroup>
