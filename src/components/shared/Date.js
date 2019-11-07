@@ -94,13 +94,10 @@ const DateField = ({
   const activeLocation = location[0]
   const isPdf = activeLocation === 'geschaeftPdf'
 
-  const [open, setOpen] = useState(false)
   const [stateValue, setStateValue] = useState(
     value || value === 0 ? value : '',
   )
 
-  const openPicker = useCallback(() => setOpen(true), [])
-  const closePicker = useCallback(() => setOpen(false), [])
   const onChangeDatePicker = useCallback(
     date => {
       const myEvent = {
@@ -111,7 +108,6 @@ const DateField = ({
       }
       change(myEvent)
       blur(myEvent)
-      setTimeout(() => setOpen(false))
     },
     [blur, change, field],
   )
@@ -122,8 +118,14 @@ const DateField = ({
     setStateValue(value || value === 0 ? value : '')
   }, [value])
 
+  console.log('Date', {
+    isValid: moment(stateValue, 'dd.mm.yyyy').isValid(),
+    date: moment(stateValue, 'dd.mm.yyyy').toDate(),
+    stateValue,
+  })
+
   const CustomInput = ({ value, onClick }) => (
-    <InputGroup size="sm">
+    <InputGroup>
       <Input
         id={field}
         type="text"
@@ -159,13 +161,13 @@ const DateField = ({
             <DatePicker
               selected={
                 moment(stateValue, 'dd.mm.yyyy').isValid()
-                  ? moment(stateValue, 'dd.mm.yyyy').toDate()
+                  ? new Date(moment(stateValue, 'dd.mm.yyyy').toDate())
                   : null
               }
               onChange={onChangeDatePicker}
               dateFormat="dd.mm.yyyy"
-              onClickOutside={closePicker}
               customInput={<CustomInput />}
+              openToDate={new Date(stateValue)}
             />
           </Col>
         </>
@@ -180,8 +182,12 @@ const DateField = ({
             }
             onChange={onChangeDatePicker}
             dateFormat="dd.mm.yyyy"
-            onClickOutside={closePicker}
             customInput={<CustomInput />}
+            openToDate={
+              moment(stateValue, 'dd.mm.yyyy').isValid()
+                ? new Date(moment(stateValue, 'dd.mm.yyyy').toDate())
+                : null
+            }
           />
         </>
       )}
