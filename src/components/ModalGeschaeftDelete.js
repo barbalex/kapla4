@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Modal, Button } from 'react-bootstrap'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 
 import storeContext from '../storeContext'
@@ -10,23 +10,24 @@ const ModalGeschaeftDelete = () => {
     geschaeftDelete,
     geschaeftRemoveDeleteIntended,
     activeId,
+    willDelete,
   } = store.geschaefte
 
   return (
-    <Modal.Dialog>
-      <Modal.Header>
-        <Modal.Title>Geschäft löschen</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    <Modal isOpen={willDelete} toggle={geschaeftRemoveDeleteIntended}>
+      <ModalHeader>Geschäft löschen</ModalHeader>
+      <ModalBody>
         Möchten Sie das Geschäft Nr. {activeId} wirklich löschen?
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={geschaeftRemoveDeleteIntended}>Nein</Button>
-        <Button bsStyle="primary" onClick={() => geschaeftDelete(activeId)}>
+      </ModalBody>
+      <ModalFooter>
+        <Button color="secondary" onClick={geschaeftRemoveDeleteIntended}>
+          Nein
+        </Button>
+        <Button color="primary" onClick={() => geschaeftDelete(activeId)}>
           Ja
         </Button>
-      </Modal.Footer>
-    </Modal.Dialog>
+      </ModalFooter>
+    </Modal>
   )
 }
 

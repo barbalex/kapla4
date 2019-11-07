@@ -46,7 +46,6 @@ const NavbarComponent = () => {
   const toggleNavbar = useCallback(() => {
     setOpen(!open)
   }, [open])
-  const closeNavbar = useCallback(() => setOpen(false), [])
 
   const { dirty } = store
   const { showMessageModal, config } = store.app
