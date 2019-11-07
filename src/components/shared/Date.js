@@ -118,78 +118,100 @@ const DateField = ({
     setStateValue(value || value === 0 ? value : '')
   }, [value])
 
-  const CustomInput = ({ value, onClick }) => (
-    <InputGroup>
-      <Input
-        id={field}
-        type="text"
-        name={field}
-        value={stateValue}
-        onChange={change}
-        onBlur={blur}
-        invalid={!!error}
-        tabIndex={tabIndex}
-      />
-      <StyledInputGroupAddon
-        addonType="append"
-        id="datePickerInputGroup"
-        onClick={onClick}
-        title="Kalender öffnen"
-      >
-        <span className="input-group-text">
-          <FaCalendarAlt />
-        </span>
-      </StyledInputGroupAddon>
-      <FormFeedback>{error}</FormFeedback>
-    </InputGroup>
+  const CustomInputRow = ({ value, onClick }) => (
+    <StyledFormGroup row={row} data-ispdf={isPdf}>
+      <StyledLabel for={field} sm={2}>
+        {label}
+      </StyledLabel>
+      <InputGroup size="sm">
+        <Input
+          id={field}
+          type="text"
+          name={field}
+          value={stateValue}
+          onChange={change}
+          onBlur={blur}
+          invalid={!!error}
+          tabIndex={tabIndex}
+        />
+        <StyledInputGroupAddon
+          addonType="append"
+          id="datePickerInputGroup"
+          onClick={onClick}
+          title="Kalender öffnen"
+        >
+          <span className="input-group-text">
+            <FaCalendarAlt />
+          </span>
+        </StyledInputGroupAddon>
+        <FormFeedback>{error}</FormFeedback>
+      </InputGroup>
+    </StyledFormGroup>
+  )
+  const CustomInputNonRow = ({ value, onClick }) => (
+    <StyledFormGroup row={row} data-ispdf={isPdf}>
+      <NonRowLabel for={field}>{label}</NonRowLabel>
+      <InputGroup>
+        <Input
+          id={field}
+          type="text"
+          name={field}
+          value={stateValue}
+          onChange={change}
+          onBlur={blur}
+          invalid={!!error}
+          tabIndex={tabIndex}
+        />
+        <StyledInputGroupAddon
+          addonType="append"
+          id="datePickerInputGroup"
+          onClick={onClick}
+          title="Kalender öffnen"
+        >
+          <span className="input-group-text">
+            <FaCalendarAlt />
+          </span>
+        </StyledInputGroupAddon>
+        <FormFeedback>{error}</FormFeedback>
+      </InputGroup>
+    </StyledFormGroup>
   )
 
+  if (row)
+    return (
+      <DatePicker
+        selected={
+          moment(stateValue, 'DD.MM.YYYY').isValid()
+            ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
+            : null
+        }
+        onChange={onChangeDatePicker}
+        dateFormat="dd.mm.yyyy"
+        customInput={<CustomInputRow />}
+        openToDate={
+          moment(stateValue, 'DD.MM.YYYY').isValid()
+            ? moment(stateValue, 'DD.MM.YYYY').toDate()
+            : null
+        }
+      />
+    )
+
   return (
-    <StyledFormGroup row={row} data-ispdf={isPdf}>
-      {row ? (
-        <>
-          <StyledLabel for={field} sm={2}>
-            {label}
-          </StyledLabel>
-          <Col sm={10}>
-            <DatePicker
-              selected={
-                moment(stateValue, 'DD.MM.YYYY').isValid()
-                  ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
-                  : null
-              }
-              onChange={onChangeDatePicker}
-              dateFormat="dd.mm.yyyy"
-              customInput={<CustomInput />}
-              openToDate={
-                moment(stateValue, 'DD.MM.YYYY').isValid()
-                  ? moment(stateValue, 'DD.MM.YYYY').toDate()
-                  : null
-              }
-            />
-          </Col>
-        </>
-      ) : (
-        <>
-          <NonRowLabel for={field}>{label}</NonRowLabel>
-          <DatePicker
-            selected={
-              moment(stateValue, 'DD.MM.YYYY').isValid()
-                ? moment(stateValue, 'DD.MM.YYYY').toDate()
-                : null
-            }
-            onChange={onChangeDatePicker}
-            dateFormat="dd.mm.yyyy"
-            customInput={<CustomInput />}
-            openToDate={
-              moment(stateValue, 'DD.MM.YYYY').isValid()
-                ? moment(stateValue, 'DD.MM.YYYY').toDate()
-                : null
-            }
-          />
-        </>
-      )}
-    </StyledFormGroup>
+    <DatePicker
+      selected={
+        moment(stateValue, 'DD.MM.YYYY').isValid()
+          ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
+          : null
+      }
+      onChange={onChangeDatePicker}
+      dateFormat="dd.mm.yyyy"
+      customInput={<CustomInputNonRow />}
+      openToDate={
+        moment(stateValue, 'DD.MM.YYYY').isValid()
+          ? moment(stateValue, 'DD.MM.YYYY').toDate()
+          : null
+      }
+    />
   )
 }
 
