@@ -5,15 +5,11 @@ import DatePicker from 'react-datepicker'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  grid-column: 1;
+const StyledFormGroup = styled(FormGroup)`
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
   .react-datepicker-wrapper {
     width: 100%;
   }
-`
-const StyledFormGroup = styled(FormGroup)`
-  margin-bottom: 0 !important;
 `
 const StyledLabel = styled(Label)`
   color: #757575;
@@ -87,27 +83,12 @@ const DateField = ({
 
   if (row) {
     return (
-      <Container row={row}>
-        <StyledFormGroup>
-          <StyledLabel for={field} sm={2}>
-            {label}
-          </StyledLabel>
-          <StyledDatePicker
-            selected={selected}
-            onChange={onChangeDatePicker}
-            dateFormat={dateFormat}
-            popperPlacement={popperPlacement}
-          />
-          <FormFeedback>{error}</FormFeedback>
-        </StyledFormGroup>
-      </Container>
-    )
-  }
-  return (
-    <Container row={row}>
-      <StyledFormGroup>
-        <NonRowLabel for={field}>{label}</NonRowLabel>
+      <StyledFormGroup row={row}>
+        <StyledLabel for={field} sm={2}>
+          {label}
+        </StyledLabel>
         <StyledDatePicker
+          id={field}
           selected={selected}
           onChange={onChangeDatePicker}
           dateFormat={dateFormat}
@@ -115,7 +96,20 @@ const DateField = ({
         />
         <FormFeedback>{error}</FormFeedback>
       </StyledFormGroup>
-    </Container>
+    )
+  }
+  return (
+    <StyledFormGroup row={row}>
+      <NonRowLabel for={field}>{label}</NonRowLabel>
+      <StyledDatePicker
+        id={field}
+        selected={selected}
+        onChange={onChangeDatePicker}
+        dateFormat={dateFormat}
+        popperPlacement={popperPlacement}
+      />
+      <FormFeedback>{error}</FormFeedback>
+    </StyledFormGroup>
   )
 }
 
