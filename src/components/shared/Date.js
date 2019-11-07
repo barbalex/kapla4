@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react'
 import {
-  Col,
   FormGroup,
   Label,
   Input,
@@ -18,14 +17,21 @@ import storeContext from '../../storeContext'
 
 moment.locale('de')
 
-const StyledFormGroup = styled(FormGroup)`
+const Container = styled.div`
   grid-column: 1;
   margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
+`
+const StyledFormGroup = styled(FormGroup)`
+  margin-bottom: 0 !important;
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
   .react-datepicker-popper {
     z-index: 10;
   }
   .react-datepicker {
     font-size: 12px;
+    user-select: none !important;
   }
   .react-datepicker__header {
     padding-top: 0.8em;
@@ -77,6 +83,9 @@ const StyledInputGroupAddon = styled(InputGroupAddon)`
     border-bottom-right-radius: 0.25rem !important;
   }
 `
+const StyledDatePicker = styled(DatePicker)`
+  width: 100%;
+`
 
 const DateField = ({
   value,
@@ -119,7 +128,7 @@ const DateField = ({
   }, [value])
 
   const CustomInputRow = ({ value, onClick }) => (
-    <StyledFormGroup row={row} data-ispdf={isPdf}>
+    <StyledFormGroup data-ispdf={isPdf}>
       <StyledLabel for={field} sm={2}>
         {label}
       </StyledLabel>
@@ -149,7 +158,7 @@ const DateField = ({
     </StyledFormGroup>
   )
   const CustomInputNonRow = ({ value, onClick }) => (
-    <StyledFormGroup row={row} data-ispdf={isPdf}>
+    <StyledFormGroup data-ispdf={isPdf}>
       <NonRowLabel for={field}>{label}</NonRowLabel>
       <InputGroup>
         <Input
@@ -179,7 +188,28 @@ const DateField = ({
 
   if (row)
     return (
-      <DatePicker
+      <Container row={row}>
+        <StyledDatePicker
+          selected={
+            moment(stateValue, 'DD.MM.YYYY').isValid()
+              ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
+              : null
+          }
+          onChange={onChangeDatePicker}
+          dateFormat="dd.mm.yyyy"
+          customInput={<CustomInputRow />}
+          openToDate={
+            moment(stateValue, 'DD.MM.YYYY').isValid()
+              ? moment(stateValue, 'DD.MM.YYYY').toDate()
+              : null
+          }
+        />
+      </Container>
+    )
+
+  return (
+    <Container row={row}>
+      <StyledDatePicker
         selected={
           moment(stateValue, 'DD.MM.YYYY').isValid()
             ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
@@ -187,31 +217,14 @@ const DateField = ({
         }
         onChange={onChangeDatePicker}
         dateFormat="dd.mm.yyyy"
-        customInput={<CustomInputRow />}
+        customInput={<CustomInputNonRow />}
         openToDate={
           moment(stateValue, 'DD.MM.YYYY').isValid()
             ? moment(stateValue, 'DD.MM.YYYY').toDate()
             : null
         }
       />
-    )
-
-  return (
-    <DatePicker
-      selected={
-        moment(stateValue, 'DD.MM.YYYY').isValid()
-          ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
-          : null
-      }
-      onChange={onChangeDatePicker}
-      dateFormat="dd.mm.yyyy"
-      customInput={<CustomInputNonRow />}
-      openToDate={
-        moment(stateValue, 'DD.MM.YYYY').isValid()
-          ? moment(stateValue, 'DD.MM.YYYY').toDate()
-          : null
-      }
-    />
+    </Container>
   )
 }
 
