@@ -118,12 +118,6 @@ const DateField = ({
     setStateValue(value || value === 0 ? value : '')
   }, [value])
 
-  console.log('Date', {
-    isValid: moment(stateValue, 'dd.mm.yyyy').isValid(),
-    date: moment(stateValue, 'dd.mm.yyyy').toDate(),
-    stateValue,
-  })
-
   const CustomInput = ({ value, onClick }) => (
     <InputGroup>
       <Input
@@ -160,14 +154,18 @@ const DateField = ({
           <Col sm={10}>
             <DatePicker
               selected={
-                moment(stateValue, 'dd.mm.yyyy').isValid()
-                  ? new Date(moment(stateValue, 'dd.mm.yyyy').toDate())
+                moment(stateValue, 'DD.MM.YYYY').isValid()
+                  ? new Date(moment(stateValue, 'DD.MM.YYYY').toDate())
                   : null
               }
               onChange={onChangeDatePicker}
               dateFormat="dd.mm.yyyy"
               customInput={<CustomInput />}
-              openToDate={new Date(stateValue)}
+              openToDate={
+                moment(stateValue, 'DD.MM.YYYY').isValid()
+                  ? moment(stateValue, 'DD.MM.YYYY').toDate()
+                  : null
+              }
             />
           </Col>
         </>
@@ -176,16 +174,16 @@ const DateField = ({
           <NonRowLabel for={field}>{label}</NonRowLabel>
           <DatePicker
             selected={
-              moment(stateValue, 'dd.mm.yyyy').isValid()
-                ? moment(stateValue, 'dd.mm.yyyy').toDate()
+              moment(stateValue, 'DD.MM.YYYY').isValid()
+                ? moment(stateValue, 'DD.MM.YYYY').toDate()
                 : null
             }
             onChange={onChangeDatePicker}
             dateFormat="dd.mm.yyyy"
             customInput={<CustomInput />}
             openToDate={
-              moment(stateValue, 'dd.mm.yyyy').isValid()
-                ? new Date(moment(stateValue, 'dd.mm.yyyy').toDate())
+              moment(stateValue, 'DD.MM.YYYY').isValid()
+                ? moment(stateValue, 'DD.MM.YYYY').toDate()
                 : null
             }
           />
