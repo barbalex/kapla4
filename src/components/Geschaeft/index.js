@@ -116,7 +116,6 @@ const Geschaeft = () => {
   const change = useCallback(e => {
     const { type, name: field, dataset } = e.target
     let { value } = e.target
-    console.log('Geschaeft, change', { type, field, dataset, value })
     // need to convert numbers into numbers
     if (type && type === 'number') {
       value = +value
