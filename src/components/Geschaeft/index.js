@@ -162,8 +162,8 @@ const Geschaeft = () => {
   )
 
   useEffect(() => {
-    if (dirty) setDirty(false)
-  }, [geschaeft.idGeschaeft, setDirty, dirty])
+    setDirty(false)
+  }, [geschaeft.idGeschaeft, setDirty])
 
   // return immediately if no geschaeft
   const showGeschaeft = geschaeft.idGeschaeft
@@ -234,8 +234,6 @@ const Geschaeft = () => {
           <AreaGeschaeft
             viewIsNarrow={viewIsNarrow}
             nrOfGFields={nrOfGFields}
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
           />
           <AreaNummern
@@ -255,23 +253,18 @@ const Geschaeft = () => {
           {showAreaRechtsmittel && (
             <AreaRechtsmittel
               nrOfFieldsBeforePv={nrOfFieldsBeforePv}
-              change={change}
-              blur={blur}
               onChangeDatePicker={onChangeDatePicker}
               saveToDb={saveToDb}
             />
           )}
           <AreaFristen
             nrOfFieldsBeforeFristen={nrOfFieldsBeforeFristen}
-            change={change}
-            blur={blur}
             onChangeDatePicker={onChangeDatePicker}
             saveToDb={saveToDb}
             viewIsNarrow={viewIsNarrow}
           />
           <AreaPersonen
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
-            change={change}
             saveToDb={saveToDb}
           />
           {showLinks && <AreaLinks />}
