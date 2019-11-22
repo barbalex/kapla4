@@ -108,7 +108,7 @@ const SharedTextarea = ({
               tabIndex={tabIndex}
               data-ispdf={isPdf}
             />
-            <FormFeedback>{error}</FormFeedback>
+            {!!error && <FormFeedback>{error}</FormFeedback>}
           </Col>
         </>
       ) : (
@@ -125,7 +125,7 @@ const SharedTextarea = ({
             tabIndex={tabIndex}
             data-ispdf={isPdf}
           />
-          <FormFeedback>{error}</FormFeedback>
+          {!!error && <FormFeedback>{error}</FormFeedback>}
         </>
       )}
     </StyledFormGroup>
