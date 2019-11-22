@@ -113,6 +113,7 @@ const Geschaeft = () => {
   const change = useCallback(e => {
     const { type, name: field, dataset } = e.target
     let { value } = e.target
+    console.log('Geschaeft, change', { type, field, dataset, value })
     // need to convert numbers into numbers
     if (type && type === 'number') {
       value = +value
@@ -129,7 +130,7 @@ const Geschaeft = () => {
       setValue({ field, value })
     }
     if (type === 'select-one') {
-      setValue({ idGeschaeft: activeId, field, value })
+      setValue({ field, value })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -137,10 +138,10 @@ const Geschaeft = () => {
     e => {
       const { type, name: field, value } = e.target
       if (type !== 'radio' && type !== 'select-one') {
-        setValue({ idGeschaeft: activeId, field, value })
+        setValue({ field, value })
       }
     },
-    [activeId, setValue],
+    [setValue],
   )
   const saveToDb = useCallback(
     ({ value, field }) => setValue({ field, value }),
