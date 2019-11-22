@@ -51,7 +51,6 @@ const Gegenstand = styled.div`
 const Details = styled.div`
   grid-area: fieldDetails;
   ${props => props['data-ispdf'] && 'max-height: 250px;'}
-  ${props => props['data-ispdf'] && 'margin-bottom: 12px;'}
 `
 const Status = styled.div`
   grid-area: fieldStatus;
@@ -65,7 +64,6 @@ const NaechsterSchritt = styled.div`
 const Vermerk = styled.div`
   grid-area: fieldVermerk;
   ${props => props['data-ispdf'] && 'max-height: 250px;'}
-  ${props => props['data-ispdf'] && 'margin-bottom: 12px;'}
 `
 const VermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
