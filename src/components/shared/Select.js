@@ -70,10 +70,17 @@ const SharedSelect = ({
   )
   // need to return '' instead of undefined if no option is found
   // otherwise field does not update
-  const option = useMemo(() => options.find(o => o.value === value) || '', [
-    options,
-    value,
-  ])
+  const option = useMemo(() => {
+    // ensure null is never returned as value
+    const option = options.find(o => o.value === value)
+    if (option) {
+      if (option.value === null || option.value === undefined) {
+        return { ...option, value: '' }
+      }
+      return option
+    }
+    return ''
+  }, [options, value])
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
