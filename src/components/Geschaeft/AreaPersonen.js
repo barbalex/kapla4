@@ -101,7 +101,7 @@ const VerantwortlichInfoPrint = styled.div`
   min-height: 0;
 `
 
-const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, change, saveToDb }) => {
+const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
