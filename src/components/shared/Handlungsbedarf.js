@@ -232,7 +232,9 @@ const Handlungsbedarf = ({
               />
             )}
           </StyledInputGroupAddon>
-          <FormFeedback>{errorMutationFrist}</FormFeedback>
+          {!!errorMutationFrist && (
+            <FormFeedback>{errorMutationFrist}</FormFeedback>
+          )}
         </FristInputGroup>
         <MutationBemerkungContainer>
           <Input
@@ -245,7 +247,9 @@ const Handlungsbedarf = ({
             invalid={!!errorMutationBemerkung}
             title="Bemerkung zum Handlungsbedarf"
           />
-          <FormFeedback>{errorMutationBemerkung}</FormFeedback>
+          {!!errorMutationBemerkung && (
+            <FormFeedback>{errorMutationBemerkung}</FormFeedback>
+          )}
         </MutationBemerkungContainer>
       </Data>
     </Container>

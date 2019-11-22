@@ -95,7 +95,7 @@ const DateField = ({
           dateFormat={dateFormat}
           popperPlacement={popperPlacement}
         />
-        <FormFeedback>{error}</FormFeedback>
+        {!!error && <FormFeedback>{error}</FormFeedback>}
       </StyledFormGroup>
     )
   }
@@ -109,7 +109,7 @@ const DateField = ({
         dateFormat={dateFormat}
         popperPlacement={popperPlacement}
       />
-      <FormFeedback>{error}</FormFeedback>
+      {!!error && <FormFeedback>{error}</FormFeedback>}
     </StyledFormGroup>
   )
 }
