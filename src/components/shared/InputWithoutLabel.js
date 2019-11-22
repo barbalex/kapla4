@@ -30,14 +30,14 @@ const SharedInputWithoutLabel = ({
       // save nulls if empty
       if (newValue === '') newValue = null
       // only save if value has changed
-      if (!showFilter && (!newValue && !value && value !== 0 && newValue !== 0))
+      if (!showFilter && !newValue && !value && value !== 0 && newValue !== 0)
         return
       callback && callback()
       if (!showFilter && newValue === value) return
       saveToDb({ value: newValue, field })
       setDirty(false)
     },
-    [field, saveToDb, setDirty, showFilter, value],
+    [callback, field, saveToDb, setDirty, showFilter, value],
   )
   const onChange = useCallback(
     event => {
