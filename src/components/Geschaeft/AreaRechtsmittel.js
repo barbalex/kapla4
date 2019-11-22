@@ -67,8 +67,6 @@ const PdfField = styled.div`
 
 const AreaRechtsmittel = ({
   nrOfFieldsBeforePv,
-  change,
-  blur,
   saveToDb,
   onChangeDatePicker,
 }) => {
@@ -174,8 +172,6 @@ const AreaRechtsmittel = ({
               value={geschaeft.rechtsmittelEntscheidDatum}
               field="rechtsmittelEntscheidDatum"
               label="Entscheid Datum"
-              change={change}
-              blur={blur}
               saveToDb={saveToDb}
               error={errors.rechtsmittelEntscheidDatum}
               tabIndex={3 + nrOfFieldsBeforePv}
