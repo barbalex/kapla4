@@ -172,7 +172,6 @@ const DateField = ({
           <StyledDatePicker
             onChange={onChangeDatePicker}
             dateFormat="DD.MM.YYYY"
-            //locale="de"
             customInput={
               <CalendarIconContainer>
                 <FaCalendarAlt />
