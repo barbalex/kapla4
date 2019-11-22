@@ -105,7 +105,7 @@ const SharedInput = ({
               data-minheight={minHeight}
               data-background={background}
             />
-            <FormFeedback>{error}</FormFeedback>
+            {!!error && <FormFeedback>{error}</FormFeedback>}
           </Col>
         </>
       ) : (
@@ -128,7 +128,7 @@ const SharedInput = ({
             data-minheight={minHeight}
             data-background={background}
           />
-          <FormFeedback>{error}</FormFeedback>
+          {!!error && <FormFeedback>{error}</FormFeedback>}
         </>
       )}
     </StyledFormGroup>

@@ -106,7 +106,7 @@ const SharedSelect = ({
               classNamePrefix="react-select"
               data-ispdf={isPdf}
             />
-            <FormFeedback>{error}</FormFeedback>
+            {!!error && <FormFeedback>{error}</FormFeedback>}
           </Col>
         </>
       ) : (
@@ -129,7 +129,7 @@ const SharedSelect = ({
             classNamePrefix="react-select"
             data-ispdf={isPdf}
           />
-          <FormFeedback>{error}</FormFeedback>
+          {!!error && <FormFeedback>{error}</FormFeedback>}
         </>
       )}
     </StyledFormGroup>

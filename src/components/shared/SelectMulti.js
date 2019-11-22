@@ -73,7 +73,7 @@ const SharedSelectMulti = ({
               noOptionsMessage={noOptionsMessage}
               invalid={!!error}
             />
-            <FormFeedback>{error}</FormFeedback>
+            {!!error && <FormFeedback>{error}</FormFeedback>}
           </Col>
         </>
       ) : (
@@ -93,7 +93,7 @@ const SharedSelectMulti = ({
             noOptionsMessage={noOptionsMessage}
             invalid={!!error}
           />
-          <FormFeedback>{error}</FormFeedback>
+          {!!error && <FormFeedback>{error}</FormFeedback>}
         </>
       )}
     </StyledFormGroup>
