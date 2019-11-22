@@ -9,18 +9,7 @@ import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
 import Input from '../shared/Input'
-import Textarea from '../shared/Textarea'
 
-const StyledTextarea = styled(Textarea)`
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  line-height: 1.42857143;
-  color: #555;
-  border: thin solid #ccc;
-  border-radius: 4px;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-`
 const ContainerBase = styled.div`
   grid-area: areaNummern;
   display: grid;
@@ -90,7 +79,7 @@ const Field = styled.div`
 `
 const TextareaField = styled.div`
   input {
-    font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+    ${props => props['data-ispdf'] && 'font-size: 10px;'}
   }
 `
 const FieldIdGeschaeft = styled(Field)`
@@ -143,11 +132,11 @@ const LabelEntscheidRrb = styled(LabelHorizontal)`
 `
 const FieldAktenstandort = styled(Field)`
   grid-area: fieldAktenstandort;
-  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
+  ${props => props['data-ispdf'] && 'height: 17px;'}
 `
 const FieldAktennummer = styled(Field)`
   grid-area: fieldAktennummer;
-  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
+  ${props => props['data-ispdf'] && 'height: 17px;'}
 `
 const PdfField = styled.div`
   ${props =>

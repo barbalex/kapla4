@@ -22,10 +22,10 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: ${props => (props['data-ispdf'] ? '1px' : '8px')};
   padding: 8px;
-  border: ${props => (props['data-ispdf'] ? 'thin solid #ccc' : 'none')};
+  ${props => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-collapse: collapse;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+  ${props => props['data-ispdf'] && 'font-size: 10px;'}
 `
 const Title = styled.div`
   font-weight: 900;

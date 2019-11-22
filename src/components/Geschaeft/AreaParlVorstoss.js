@@ -18,7 +18,7 @@ const Container = styled.div`
   grid-gap: 15px 8px;
   padding: 8px;
   padding-right: 15px;
-  border: ${props => (props['data-ispdf'] ? 'thin solid #ccc' : 'none')};
+  ${props => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-left: none;
   border-collapse: collapse;

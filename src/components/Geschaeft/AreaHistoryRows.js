@@ -19,7 +19,7 @@ const HistoryField = styled.div`
   padding-top: ${props => (props['data-ispdf'] ? '2px' : '10px')};
   padding-bottom: ${props => (props['data-ispdf'] ? '2px' : '10px')};
   align-items: center;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+  ${props => props['data-ispdf'] && 'font-size: 10px;'}
 
   &:first-of-type {
     border-top: thin solid #cecbcb;

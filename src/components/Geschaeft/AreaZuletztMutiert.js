@@ -16,7 +16,7 @@ const Container = styled.div`
 // eslint-disable-next-line no-unused-vars
 const Field = styled.div`
   grid-column: 1;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+  ${props => props['data-ispdf'] && 'font-size: 10px;'}
 `
 
 const AreaZuletztMutiert = () => {

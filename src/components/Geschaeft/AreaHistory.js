@@ -19,9 +19,10 @@ const Container = styled.div`
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   padding: 8px;
-  border: ${props => (props['data-ispdf'] ? 'thin solid #CCC' : 'inherit')};
+  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  border-left: none;
   border-collapse: collapse;
-  font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+  ${props => props['data-ispdf'] && 'font-size: 10px;'}
   ${props => props['data-single-row'] && 'height: 50px;'}
 `
 const Title = styled.div`

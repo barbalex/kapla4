@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo, useCallback } from 'react'
+import React, { useContext, useState, useMemo } from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -14,7 +14,6 @@ const Container = styled.div`
   grid-template-columns: 100%;
   grid-gap: 0;
 `
-// eslint-disable-next-line no-unused-vars
 const RowFvDropdown = styled.div`
   grid-column: 1 / span 1;
   display: ${props => (props['data-ispdf'] ? 'none' : 'grid')};
@@ -25,10 +24,9 @@ const RowFvDropdown = styled.div`
   grid-gap: 4px;
   margin-top: 5px;
 `
-// eslint-disable-next-line no-unused-vars
 const FvDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
+  display: grid;
 `
 
 const GeschaefteKontakteExtern = ({ tabIndex }) => {
