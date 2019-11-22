@@ -8,7 +8,7 @@ import ErrorBoundary from 'react-error-boundary'
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
-import InputComponent from '../shared/Input'
+import Input from '../shared/Input'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -198,7 +198,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
         </LabelNr>
         <LabelIdGeschaeft data-ispdf={isPdf}>ID</LabelIdGeschaeft>
         <FieldIdGeschaeft data-ispdf={isPdf}>
-          <InputComponent
+          <Input
             key={`${geschaeft.idGeschaeft}idGeschaeft`}
             type="number"
             value={geschaeft.idGeschaeft}
@@ -228,7 +228,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelEntscheidAwel data-ispdf={isPdf}>AWEL</LabelEntscheidAwel>
             <FieldEntscheidAwel data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}entscheidAwel`}
                 value={geschaeft.entscheidAwel}
                 field="entscheidAwel"
@@ -243,7 +243,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelEntscheidBdv data-ispdf={isPdf}>BDV</LabelEntscheidBdv>
             <FieldEntscheidBdv data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}entscheidBdv`}
                 value={geschaeft.entscheidBdv}
                 field="entscheidBdv"
@@ -258,7 +258,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelEntscheidRrb data-ispdf={isPdf}>RRB</LabelEntscheidRrb>
             <FieldEntscheidRrb data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}entscheidRrb`}
                 value={geschaeft.entscheidRrb}
                 field="entscheidRrb"
@@ -273,7 +273,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelEntscheidBvv data-ispdf={isPdf}>BVV</LabelEntscheidBvv>
             <FieldEntscheidBvv data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}entscheidBvv`}
                 value={geschaeft.entscheidBvv}
                 field="entscheidBvv"
@@ -288,7 +288,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
             <FieldEntscheidKr data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}entscheidKr`}
                 value={geschaeft.entscheidKr}
                 field="entscheidKr"
@@ -317,7 +317,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelAktenstandort data-ispdf={isPdf}>Akten</LabelAktenstandort>
             <FieldAktenstandort data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}aktenstandort`}
                 value={geschaeft.aktenstandort}
                 field="aktenstandort"
@@ -330,7 +330,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
         )}
         {!isPdf && (
           <FieldAktennummer data-ispdf={isPdf}>
-            <InputComponent
+            <Input
               key={`${geschaeft.idGeschaeft}aktennummer`}
               value={geschaeft.aktennummer}
               field="aktennummer"
@@ -346,7 +346,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelAktennummer data-ispdf={isPdf}>Akt.Nr.</LabelAktennummer>
             <FieldAktennummer data-ispdf={isPdf}>
-              <InputComponent
+              <Input
                 key={`${geschaeft.idGeschaeft}aktennummer`}
                 value={geschaeft.aktennummer}
                 field="aktennummer"
