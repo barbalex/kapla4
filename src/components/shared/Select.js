@@ -32,6 +32,7 @@ const StyledSelect = styled(Select)`
       border-top: none !important;
       border-right: none !important;
       border-radius: 0 !important;
+      border-bottom-width: thin;
     }
     .react-select__value-container {
       padding: 0 !important;

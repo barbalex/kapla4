@@ -16,7 +16,7 @@ const StyledTextarea = styled(Textarea)`
   padding: 6px 12px;
   line-height: 1.42857143;
   color: #555;
-  border: 1px solid #ccc;
+  border: thin solid #ccc;
   border-radius: 4px;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 `
@@ -57,9 +57,10 @@ const ContainerPrint = styled(ContainerBase)`
     'labelEntscheidKr . fieldEntscheidKr'
     'labelAktennummer . fieldAktennummer'
     'labelAktenstandort . fieldAktenstandort';
-  border: 1px solid #ccc;
+  border: thin solid #ccc;
   border-bottom: none;
   border-left: none;
+  border-collapse: collapse;
 `
 const LabelNr = styled(Label)`
   grid-area: labelNr;

@@ -38,6 +38,8 @@ const ScrollContainerPdf = styled.div`
 `
 const WrapperNarrow = styled.div`
   display: grid;
+  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  border-collapse: collapse;
   grid-template-columns: repeat(1, 100%);
   grid-template-rows: auto;
   grid-template-areas:
@@ -49,6 +51,8 @@ const WrapperNarrowNoAreaForGeschaeftsart = styled(WrapperNarrow)`
 `
 const WrapperWide = styled.div`
   display: grid;
+  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  border-collapse: collapse;
   grid-template-columns: repeat(12, 8.33333%);
   grid-template-rows: auto;
   grid-template-areas:
@@ -97,9 +101,10 @@ const Geschaeft = () => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { setDirty, dirty } = store
+  const { setDirty } = store
   const {
     activeId,
+    historyOfActiveId,
     geschaefteFilteredAndSorted: geschaefte,
     links,
   } = store.geschaefte
@@ -228,7 +233,7 @@ const Geschaeft = () => {
   return (
     <ErrorBoundary>
       <ScrollContainer>
-        <Wrapper isPdf={isPdf}>
+        <Wrapper data-ispdf={isPdf}>
           <AreaGeschaeft
             viewIsNarrow={viewIsNarrow}
             nrOfGFields={nrOfGFields}
@@ -264,7 +269,9 @@ const Geschaeft = () => {
             saveToDb={saveToDb}
           />
           {showLinks && <AreaLinks />}
-          <AreaHistory saveToDb={saveToDb} />
+          {(!isPdf || !!historyOfActiveId.length) && (
+            <AreaHistory saveToDb={saveToDb} />
+          )}
           <AreaZuletztMutiert />
         </Wrapper>
       </ScrollContainer>

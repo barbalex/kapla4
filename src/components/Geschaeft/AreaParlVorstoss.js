@@ -18,9 +18,10 @@ const Container = styled.div`
   grid-gap: 15px 8px;
   padding: 8px;
   padding-right: 15px;
-  border: ${props => (props['data-ispdf'] ? '1px solid #ccc' : 'none')};
+  border: ${props => (props['data-ispdf'] ? 'thin solid #ccc' : 'none')};
   border-bottom: none;
   border-left: none;
+  border-collapse: collapse;
 `
 const Title = styled.div`
   font-weight: 900;

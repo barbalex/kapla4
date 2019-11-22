@@ -19,7 +19,8 @@ const Container = styled.div`
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   padding: 8px;
-  border: ${props => (props['data-ispdf'] ? '1px solid #CCC' : 'inherit')};
+  border: ${props => (props['data-ispdf'] ? 'thin solid #CCC' : 'inherit')};
+  border-collapse: collapse;
   font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
   ${props => props['data-single-row'] && 'height: 50px;'}
 `

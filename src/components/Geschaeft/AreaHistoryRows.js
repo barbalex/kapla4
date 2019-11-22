@@ -14,6 +14,7 @@ const HistoryField = styled.div`
       : '55px 75px calc(100% - 130px)'};
   grid-gap: 0;
   border-bottom: thin solid #cecbcb;
+  border-collapse: collapse;
   padding-left: ${props => (props['data-ispdf'] ? 0 : '13px')};
   padding-top: ${props => (props['data-ispdf'] ? '2px' : '10px')};
   padding-bottom: ${props => (props['data-ispdf'] ? '2px' : '10px')};

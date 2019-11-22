@@ -43,9 +43,10 @@ const ContainerView = styled(ContainerBase)`
   background-color: rgb(246, 255, 245);
 `
 const ContainerPrint = styled(ContainerBase)`
-  border: 1px solid #ccc;
+  border: thin solid #ccc;
   border-bottom: none;
   border-left: none;
+  border-collapse: collapse;
 `
 const AreaPersonenDivBase = styled.div`
   display: grid;

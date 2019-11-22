@@ -26,9 +26,10 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;
-  border: ${props => (props['data-ispdf'] ? '1px solid #ccc' : 'none')};
+  border: ${props => (props['data-ispdf'] ? 'thin solid #ccc' : 'none')};
   border-bottom: none;
   border-left: none;
+  border-collapse: collapse;
 `
 const Title = styled.div`
   font-weight: 900;
@@ -60,7 +61,7 @@ const PdfField = styled.div`
   ${props =>
     props['data-fontsize'] &&
     `font-size: ${props['data-fontsize']}px !important;`}
-  border-bottom: 1px solid #ccc;
+  border-bottom: thin solid #ccc;
   padding-bottom: 3px;
   margin-bottom: 5px;
 `
