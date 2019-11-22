@@ -130,14 +130,6 @@ export default types
         value2 = convertDateToYyyyMmDd(value)
       }
       const now = moment().format('YYYY-MM-DD HH:mm:ss')
-      console.log('Store, Geschaeft, setValue', {
-        field,
-        value,
-        self,
-        value2,
-        now,
-        username: user.username,
-      })
       try {
         app.db
           .prepare(
