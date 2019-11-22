@@ -8,6 +8,7 @@ import ErrorBoundary from 'react-error-boundary'
 import storeContext from '../../storeContext'
 import getDauerBisFristMitarbeiter from '../../src/getDauerBisFristMitarbeiter'
 import Date from '../shared/Date'
+import Input from '../shared/Input'
 
 moment.locale('de')
 
@@ -82,7 +83,7 @@ const AreaFristen = ({
     <ErrorBoundary>
       <Container data-ispdf={isPdf}>
         <Title>Fristen</Title>
-        {!(!geschaeft.datumEingangAwel && isPdf) && (
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}datumEingangAwel`}
             value={geschaeft.datumEingangAwel}
@@ -94,7 +95,18 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
-        {!(!geschaeft.fristAwel && isPdf) && (
+        {isPdf && !!geschaeft.datumEingangAwel && (
+          <Input
+            key={`${geschaeft.idGeschaeft}datumEingangAwel`}
+            value={geschaeft.datumEingangAwel}
+            field="datumEingangAwel"
+            label="Datum des Eingangs im AWEL"
+            disabled
+            error={errors.datumEingangAwel}
+            tabIndex={1 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}fristAwel`}
             value={geschaeft.fristAwel}
@@ -106,7 +118,18 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
-        {!(!geschaeft.fristAmtschef && isPdf) && (
+        {isPdf && !!geschaeft.fristAwel && (
+          <Input
+            key={`${geschaeft.idGeschaeft}fristAwel`}
+            value={geschaeft.fristAwel}
+            field="fristAwel"
+            label="Frist für Erledigung durch AWEL"
+            disabled
+            error={errors.fristAwel}
+            tabIndex={2 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}fristAmtschef`}
             value={geschaeft.fristAmtschef}
@@ -118,7 +141,18 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
-        {!(!geschaeft.fristAbteilung && isPdf) && (
+        {isPdf && !!geschaeft.fristAmtschef && (
+          <Input
+            key={`${geschaeft.idGeschaeft}fristAmtschef`}
+            value={geschaeft.fristAmtschef}
+            field="fristAmtschef"
+            label="Frist Vorlage an Amtschef"
+            disabled
+            error={errors.fristAmtschef}
+            tabIndex={3 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}fristAbteilung`}
             value={geschaeft.fristAbteilung}
@@ -130,7 +164,18 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
-        {!(!geschaeft.fristMitarbeiter && isPdf) && (
+        {isPdf && !!geschaeft.fristAbteilung && (
+          <Input
+            key={`${geschaeft.idGeschaeft}fristAbteilung`}
+            value={geschaeft.fristAbteilung}
+            field="fristAbteilung"
+            label="Frist für Erledigung durch Abteilung"
+            disabled
+            error={errors.fristAbteilung}
+            tabIndex={4 + nrOfFieldsBeforeFristen}
+          />
+        )}
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}fristMitarbeiter`}
             value={geschaeft.fristMitarbeiter}
@@ -142,19 +187,43 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
-        {(!!dauerBisFristMitarbeiter || dauerBisFristMitarbeiter === 0) && (
-          <FieldFristDauerBisMitarbeiter>
-            <NonRowLabel>Tage bis Frist Mitarbeiter</NonRowLabel>
-            <StyledFristDauerBisMitarbeiter
-              color={colorDauerBisFristMitarbeiter}
-              data-ispdf={isPdf}
-              className="formControlStatic"
-            >
-              {dauerBisFristMitarbeiter}
-            </StyledFristDauerBisMitarbeiter>
-          </FieldFristDauerBisMitarbeiter>
+        {isPdf && !!geschaeft.fristMitarbeiter && (
+          <Input
+            key={`${geschaeft.idGeschaeft}fristMitarbeiter`}
+            value={geschaeft.fristMitarbeiter}
+            field="fristMitarbeiter"
+            label="Frist Erledigung nächster Schritt Re"
+            disabled
+            error={errors.fristMitarbeiter}
+            tabIndex={5 + nrOfFieldsBeforeFristen}
+          />
         )}
-        {!(!geschaeft.datumAusgangAwel && isPdf) && (
+        {(!!dauerBisFristMitarbeiter || dauerBisFristMitarbeiter === 0) && (
+          <>
+            {isPdf ? (
+              <Input
+                key={`${geschaeft.idGeschaeft}dauerBisFristMitarbeiter`}
+                value={dauerBisFristMitarbeiter}
+                field="dauerBisFristMitarbeiter"
+                label="Tage bis Frist Mitarbeiter"
+                disabled
+                error={errors.fristMitarbeiter}
+              />
+            ) : (
+              <FieldFristDauerBisMitarbeiter>
+                <NonRowLabel>Tage bis Frist Mitarbeiter</NonRowLabel>
+                <StyledFristDauerBisMitarbeiter
+                  color={colorDauerBisFristMitarbeiter}
+                  data-ispdf={isPdf}
+                  className="formControlStatic"
+                >
+                  {dauerBisFristMitarbeiter}
+                </StyledFristDauerBisMitarbeiter>
+              </FieldFristDauerBisMitarbeiter>
+            )}
+          </>
+        )}
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}datumAusgangAwel`}
             value={geschaeft.datumAusgangAwel}
@@ -166,6 +235,18 @@ const AreaFristen = ({
             popperPlacement={popperPlacement}
           />
         )}
+        {isPdf && !!geschaeft.datumAusgangAwel && (
+          <Input
+            key={`${geschaeft.idGeschaeft}datumAusgangAwel`}
+            value={geschaeft.datumAusgangAwel}
+            field="datumAusgangAwel"
+            label="Datum Ausgang AWEL (erledigt)"
+            disabled
+            error={errors.datumAusgangAwel}
+            tabIndex={6 + nrOfFieldsBeforeFristen}
+          />
+        )}
+
         {!(!geschaeft.fristDirektion && isPdf) && (
           <Date
             key={`${geschaeft.idGeschaeft}fristDirektion`}

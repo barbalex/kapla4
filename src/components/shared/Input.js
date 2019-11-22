@@ -30,7 +30,7 @@ const SharedInput = ({
   rows = 1,
   placeholder = '',
   disabled = false,
-  saveToDb,
+  saveToDb = () => {},
   error,
   bsSize = 'sm',
   row = false,

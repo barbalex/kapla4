@@ -203,7 +203,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
             type="number"
             value={geschaeft.idGeschaeft}
             field="idGeschaeft"
-            saveToDb={saveToDb}
             error={errors.idGeschaeft}
             disabled
             background="transparent"
