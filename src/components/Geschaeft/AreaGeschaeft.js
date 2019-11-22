@@ -85,13 +85,7 @@ const PdfField = styled.div`
   margin-bottom: 5px;
 `
 
-const AreaGeschaeft = ({
-  blur,
-  saveToDb,
-  change,
-  nrOfGFields,
-  viewIsNarrow,
-}) => {
+const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
