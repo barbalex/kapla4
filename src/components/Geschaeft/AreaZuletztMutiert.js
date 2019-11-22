@@ -10,7 +10,8 @@ const Container = styled.div`
   background-color: rgba(239, 239, 239, 1);
   display: grid;
   grid-template-columns: 100%;
-  padding: 8px;
+  ${props => props['data-border-top'] && 'border-top: thin solid #CCC;'}
+  padding: ${props => (props['data-ispdf'] ? '2px 8px' : '8px')};
   align-items: center;
 `
 // eslint-disable-next-line no-unused-vars
@@ -25,6 +26,7 @@ const AreaZuletztMutiert = () => {
   const activeLocation = location[0]
   const {
     activeId,
+    historyOfActiveId,
     geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
@@ -55,7 +57,7 @@ const AreaZuletztMutiert = () => {
 
   return (
     <ErrorBoundary>
-      <Container>
+      <Container data-border-top={!historyOfActiveId.length} data-ispdf={isPdf}>
         <Field data-ispdf={isPdf}>{zuletztMutiertText}</Field>
       </Container>
     </ErrorBoundary>
