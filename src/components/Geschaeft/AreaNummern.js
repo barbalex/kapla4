@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Label } from 'reactstrap'
-import Textarea from 'react-textarea-autosize'
+//import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
@@ -9,6 +9,7 @@ import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
 import Input from '../shared/Input'
+import Textarea from '../shared/Textarea'
 
 const StyledTextarea = styled(Textarea)`
   display: block;
@@ -57,9 +58,7 @@ const ContainerPrint = styled(ContainerBase)`
     'labelEntscheidKr . fieldEntscheidKr'
     'labelAktennummer . fieldAktennummer'
     'labelAktenstandort . fieldAktenstandort';
-  border: thin solid #ccc;
-  border-bottom: none;
-  border-left: none;
+  border: none;
   border-collapse: collapse;
 `
 const LabelNr = styled(Label)`
@@ -150,6 +149,14 @@ const FieldAktennummer = styled(Field)`
   grid-area: fieldAktennummer;
   height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
 `
+const PdfField = styled.div`
+  ${props =>
+    props['data-fontsize'] &&
+    `font-size: ${props['data-fontsize']}px !important;`}
+  border-bottom: thin solid #ccc;
+  padding-bottom: 3px;
+  margin-bottom: 5px;
+`
 
 const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
   const store = useContext(storeContext)
@@ -213,13 +220,7 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
           <>
             <LabelGekoNr data-ispdf={isPdf}>Geko</LabelGekoNr>
             <FieldGekoNr data-ispdf={isPdf}>
-              {isPdf && (
-                <StyledTextarea
-                  value={gekoValuesString}
-                  name="gekoNr"
-                  tabIndex={1 + tabsToAdd}
-                />
-              )}
+              {isPdf && <PdfField>{gekoValuesString}</PdfField>}
               {!isPdf && <div>{gekoFields}</div>}
             </FieldGekoNr>
           </>

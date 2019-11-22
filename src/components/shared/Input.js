@@ -20,9 +20,7 @@ const StyledInput = styled(Input)`
   ${props =>
     !props['data-background'] &&
     `background: ${props['data-background']} !important;`}
-  @media print {
-    border-bottom-width: thin;
-  }
+  ${props => props['data-ispdf'] && 'border-bottom-width: thin !important;'}
 `
 
 const SharedInput = ({

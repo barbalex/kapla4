@@ -20,7 +20,8 @@ const Container = styled.div`
   grid-gap: 2px;
   padding: 8px;
   border: ${props => (props['data-ispdf'] ? 'thin solid #CCC' : 'none')};
-  border-bottom: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
+  ${props => props['data-ispdf'] && 'border-bottom: none;'};
+  border-left: none;
   border-collapse: collapse;
 `
 const Title = styled.div`

@@ -28,8 +28,10 @@ const Container = styled.div`
   grid-column-gap: 5px;
   grid-row-gap: 2px;
   padding: 8px;
-  border: ${props => (props['data-ispdf'] ? 'thin solid #ccc' : 'none')};
+  ${props => props['data-ispdf'] && 'border: thin solid #ccc'};
   border-bottom: none;
+  border-left: none;
+  border-top: none;
   border-collapse: collapse;
 `
 const Title = styled.div`

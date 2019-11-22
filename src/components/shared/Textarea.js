@@ -25,6 +25,7 @@ const StyledTextarea = styled(Textarea)`
   color: #555;
   border: 1px solid #ccc;
   border-radius: 4px;
+  ${props => props['data-ispdf'] && 'border-bottom-width: thin !important;'}
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   &:focus {
     border-color: #66afe9;
@@ -93,9 +94,11 @@ const SharedTextarea = ({
     <StyledFormGroup row={row}>
       {row ? (
         <>
-          <Label for={field} sm={2}>
-            {label}
-          </Label>
+          {!!label && (
+            <Label for={field} sm={2}>
+              {label}
+            </Label>
+          )}
           <Col sm={10}>
             <StyledTextarea
               id={field}
@@ -113,7 +116,7 @@ const SharedTextarea = ({
         </>
       ) : (
         <>
-          <NonRowLabel for={field}>{label}</NonRowLabel>
+          {!!label && <NonRowLabel for={field}>{label}</NonRowLabel>}
           <StyledTextarea
             id={field}
             name={field}

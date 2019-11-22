@@ -14,6 +14,7 @@ const StyledSelect = styled(Select)`
     ${props => props['data-ispdf'] && 'border-right: none !important;'}
     ${props => props['data-ispdf'] && 'border-radius: 0 !important;'}
     ${props => props['data-ispdf'] && 'min-height: 30px !important;'}
+    ${props => props['data-ispdf'] && 'border-bottom-width: thin;'}
   }
   .react-select__control:focus-within {
     border-color: #80bdff !important;
