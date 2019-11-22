@@ -246,8 +246,7 @@ const AreaFristen = ({
             tabIndex={6 + nrOfFieldsBeforeFristen}
           />
         )}
-
-        {!(!geschaeft.fristDirektion && isPdf) && (
+        {!isPdf && (
           <Date
             key={`${geschaeft.idGeschaeft}fristDirektion`}
             value={geschaeft.fristDirektion}
@@ -257,6 +256,17 @@ const AreaFristen = ({
             error={errors.fristDirektion}
             tabIndex={7 + nrOfFieldsBeforeFristen}
             popperPlacement={popperPlacement}
+          />
+        )}
+        {isPdf && !!geschaeft.fristDirektion && (
+          <Input
+            key={`${geschaeft.idGeschaeft}fristDirektion`}
+            value={geschaeft.fristDirektion}
+            field="fristDirektion"
+            label="Frist für Erledigung durch Direktion"
+            disabled
+            error={errors.fristDirektion}
+            tabIndex={7 + nrOfFieldsBeforeFristen}
           />
         )}
       </Container>
