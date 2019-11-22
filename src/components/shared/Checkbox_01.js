@@ -53,7 +53,7 @@ const SharedCheckbox = ({
               invalid={!!error}
               data-row={row}
             />
-            <FormFeedback>{error}</FormFeedback>
+            {!!error && <FormFeedback>{error}</FormFeedback>}
           </FormGroup>
         </Col>
       </StyledFormGroup>
@@ -73,7 +73,7 @@ const SharedCheckbox = ({
         />
         {!row && <LabelSpan>{` ${label}`}</LabelSpan>}
       </Label>
-      <FormFeedback>{error}</FormFeedback>
+      {!!error && <FormFeedback>{error}</FormFeedback>}
     </FormGroup>
   )
 }
