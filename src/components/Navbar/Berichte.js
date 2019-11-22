@@ -47,7 +47,7 @@ const Berichte = () => {
   const { navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
   const { initiate, reportType } = store.pages
-  const isActive = activeLocation === 'pages'
+  const isActive = ['geschaeftPdf', 'pages'].includes(activeLocation)
   const nameObject = {
     typFaelligeGeschaefte: 'Bericht: Typ "fällige Geschäfte"',
     list1: 'Bericht: Einfache Liste',
