@@ -18,10 +18,10 @@ const Container = styled.div`
     'areaHistoryTitle labelVorgeschaeft fieldVorgeschaeft'
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
-  grid-row-gap: ${props => (props['data-ispdf'] ? '1px' : '8px')};
   padding: 8px;
   border: ${props => (props['data-ispdf'] ? '1px solid #CCC' : 'inherit')};
   font-size: ${props => (props['data-ispdf'] ? '10px' : 'inherit')};
+  ${props => props['data-single-row'] && 'height: 50px;'}
 `
 const Title = styled.div`
   font-weight: 900;
@@ -30,11 +30,15 @@ const Title = styled.div`
 `
 const FieldVorgeschaeft = styled.div`
   grid-area: fieldVorgeschaeft;
+  > div {
+    margin-bottom: 0 !important!;
+  }
 `
 // eslint-disable-next-line no-unused-vars
 const LabelVorgeschaeft = styled(Label)`
   grid-area: labelVorgeschaeft;
-  margin-top: ${props => (props['data-ispdf'] ? 0 : '7px')};
+  margin-top: ${props => (props['data-ispdf'] ? '2px' : '7px')};
+  margin-bottom: 0;
   text-align: right;
 `
 const FieldsContainer = styled.div`
@@ -62,7 +66,10 @@ const AreaHistory = ({ saveToDb }) => {
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container
+        data-ispdf={isPdf}
+        data-single-row={historyOfActiveId.length === 0}
+      >
         <Title>Historie</Title>
         <LabelVorgeschaeft data-ispdf={isPdf}>Vorgeschäft</LabelVorgeschaeft>
         <FieldVorgeschaeft>

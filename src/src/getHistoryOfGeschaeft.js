@@ -27,5 +27,7 @@ export default (geschaefte, activeId) => {
       idNachgeschaeft = null
     }
   }
+  // if no vor- or nachgeschaeft: return nothing
+  if (history.length === 1 && history[0] === activeId) return []
   return history
 }

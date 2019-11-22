@@ -41,11 +41,7 @@ const AreaHistoryRows = ({ id, index }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const {
-    toggleActivatedById,
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-  } = store.geschaefte
+  const { toggleActivatedById, activeId, geschaefte } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
 
   const onClick = useCallback(() => {
