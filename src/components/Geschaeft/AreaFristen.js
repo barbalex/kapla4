@@ -51,8 +51,6 @@ const NonRowLabel = styled(Label)`
 `
 
 const AreaFristen = ({
-  blur,
-  change,
   saveToDb,
   nrOfFieldsBeforeFristen,
   onChangeDatePicker,
@@ -90,8 +88,6 @@ const AreaFristen = ({
             value={geschaeft.datumEingangAwel}
             field="datumEingangAwel"
             label="Datum des Eingangs im AWEL"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.datumEingangAwel}
             tabIndex={1 + nrOfFieldsBeforeFristen}
@@ -104,8 +100,6 @@ const AreaFristen = ({
             value={geschaeft.fristAwel}
             field="fristAwel"
             label="Frist für Erledigung durch AWEL"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.fristAwel}
             tabIndex={2 + nrOfFieldsBeforeFristen}
@@ -118,8 +112,6 @@ const AreaFristen = ({
             value={geschaeft.fristAmtschef}
             field="fristAmtschef"
             label="Frist Vorlage an Amtschef"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.fristAmtschef}
             tabIndex={3 + nrOfFieldsBeforeFristen}
@@ -132,8 +124,6 @@ const AreaFristen = ({
             value={geschaeft.fristAbteilung}
             field="fristAbteilung"
             label="Frist für Erledigung durch Abteilung"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.fristAbteilung}
             tabIndex={4 + nrOfFieldsBeforeFristen}
@@ -146,8 +136,6 @@ const AreaFristen = ({
             value={geschaeft.fristMitarbeiter}
             field="fristMitarbeiter"
             label="Frist Erledigung nächster Schritt Re"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.fristMitarbeiter}
             tabIndex={5 + nrOfFieldsBeforeFristen}
@@ -172,8 +160,6 @@ const AreaFristen = ({
             value={geschaeft.datumAusgangAwel}
             field="datumAusgangAwel"
             label="Datum Ausgang AWEL (erledigt)"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.datumAusgangAwel}
             tabIndex={6 + nrOfFieldsBeforeFristen}
@@ -186,8 +172,6 @@ const AreaFristen = ({
             value={geschaeft.fristDirektion}
             field="fristDirektion"
             label="Frist für Erledigung durch Direktion"
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
             error={errors.fristDirektion}
             tabIndex={7 + nrOfFieldsBeforeFristen}
