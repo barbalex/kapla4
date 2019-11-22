@@ -54,7 +54,9 @@ const Berichte = () => {
     angekVernehml: 'Bericht: angekündigte Vernehmlassungen',
     laufendeVernehml: 'Bericht: laufende Vernehmlassungen',
   }
-  const name = nameObject[reportType] || 'Berichte'
+  let name = 'Berichte'
+  if (nameObject[reportType]) name = nameObject[reportType]
+  if (activeLocation === 'geschaeftPdf') name = 'Deckblatt'
   const title = isActive ? name : 'Berichte'
 
   const onClickList1 = useCallback(() => {
