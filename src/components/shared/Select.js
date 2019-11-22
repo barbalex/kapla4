@@ -68,9 +68,9 @@ const SharedSelect = ({
     option => saveToDb({ value: option ? option.value : null, field }),
     [field, saveToDb],
   )
-  // need to return null instead of undefined if no option is found
+  // need to return '' instead of undefined if no option is found
   // otherwise field does not update
-  const option = useMemo(() => options.find(o => o.value === value) || null, [
+  const option = useMemo(() => options.find(o => o.value === value) || '', [
     options,
     value,
   ])
