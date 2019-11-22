@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Label, Input } from 'reactstrap'
+import { Label } from 'reactstrap'
 import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -19,9 +19,6 @@ const StyledTextarea = styled(Textarea)`
   border: 1px solid #ccc;
   border-radius: 4px;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-`
-const StyledInput = styled(Input)`
-  min-height: ${props => (props['data-ispdf'] ? '17px' : '34px')};
 `
 const ContainerBase = styled.div`
   grid-area: areaNummern;
@@ -102,10 +99,6 @@ const FieldIdGeschaeft = styled(Field)`
 const LabelIdGeschaeft = styled(LabelHorizontal)`
   grid-area: labelIdGeschaeft;
 `
-const InputIdGeschaeft = styled(Input)`
-  background: transparent !important;
-  ${props => !props['data-ispdf'] && 'min-height: 34px;'}
-`
 const FieldGekoNr = styled(TextareaField)`
   grid-area: fieldGekoNr;
 `
@@ -157,7 +150,7 @@ const FieldAktennummer = styled(Field)`
   height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
 `
 
-const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
+const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
@@ -205,104 +198,103 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
         </LabelNr>
         <LabelIdGeschaeft data-ispdf={isPdf}>ID</LabelIdGeschaeft>
         <FieldIdGeschaeft data-ispdf={isPdf}>
-          <InputIdGeschaeft
+          <InputComponent
+            key={`${geschaeft.idGeschaeft}idGeschaeft`}
             type="number"
             value={geschaeft.idGeschaeft}
+            field="idGeschaeft"
+            saveToDb={saveToDb}
+            error={errors.idGeschaeft}
             disabled
-            data-ispdf={isPdf}
+            background="transparent"
           />
         </FieldIdGeschaeft>
         {!(isPdf && !gekoValuesString) && (
-          <LabelGekoNr data-ispdf={isPdf}>Geko</LabelGekoNr>
+          <>
+            <LabelGekoNr data-ispdf={isPdf}>Geko</LabelGekoNr>
+            <FieldGekoNr data-ispdf={isPdf}>
+              {isPdf && (
+                <StyledTextarea
+                  value={gekoValuesString}
+                  name="gekoNr"
+                  tabIndex={1 + tabsToAdd}
+                />
+              )}
+              {!isPdf && <div>{gekoFields}</div>}
+            </FieldGekoNr>
+          </>
         )}
-        {!(isPdf && !gekoValuesString) && (
-          <FieldGekoNr data-ispdf={isPdf}>
-            {isPdf && (
-              <StyledTextarea
-                value={gekoValuesString}
-                name="gekoNr"
-                tabIndex={1 + tabsToAdd}
+        {!(isPdf && !geschaeft.entscheidAwel) && (
+          <>
+            <LabelEntscheidAwel data-ispdf={isPdf}>AWEL</LabelEntscheidAwel>
+            <FieldEntscheidAwel data-ispdf={isPdf}>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}entscheidAwel`}
+                value={geschaeft.entscheidAwel}
+                field="entscheidAwel"
+                saveToDb={saveToDb}
+                error={errors.entscheidAwel}
+                tabIndex={2 + tabsToAdd}
               />
-            )}
-            {!isPdf && <div>{gekoFields}</div>}
-          </FieldGekoNr>
-        )}
-        {!(isPdf && !geschaeft.entscheidAwel) && (
-          <LabelEntscheidAwel data-ispdf={isPdf}>AWEL</LabelEntscheidAwel>
-        )}
-        {!(isPdf && !geschaeft.entscheidAwel) && (
-          <FieldEntscheidAwel data-ispdf={isPdf}>
-            <StyledInput
-              type="text"
-              value={geschaeft.entscheidAwel || ''}
-              name="entscheidAwel"
-              onChange={change}
-              onBlur={blur}
-              tabIndex={2 + tabsToAdd}
-              data-ispdf={isPdf}
-            />
-          </FieldEntscheidAwel>
+            </FieldEntscheidAwel>
+          </>
         )}
         {!(isPdf && !geschaeft.entscheidBdv) && (
-          <LabelEntscheidBdv data-ispdf={isPdf}>BDV</LabelEntscheidBdv>
-        )}
-        {!(isPdf && !geschaeft.entscheidBdv) && (
-          <FieldEntscheidBdv data-ispdf={isPdf}>
-            <StyledInput
-              type="text"
-              value={geschaeft.entscheidBdv || ''}
-              name="entscheidBdv"
-              onChange={change}
-              onBlur={blur}
-              tabIndex={4 + tabsToAdd}
-              data-ispdf={isPdf}
-            />
-          </FieldEntscheidBdv>
-        )}
-        {!(isPdf && !geschaeft.entscheidRrb) && (
-          <LabelEntscheidRrb data-ispdf={isPdf}>RRB</LabelEntscheidRrb>
+          <>
+            <LabelEntscheidBdv data-ispdf={isPdf}>BDV</LabelEntscheidBdv>
+            <FieldEntscheidBdv data-ispdf={isPdf}>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}entscheidBdv`}
+                value={geschaeft.entscheidBdv}
+                field="entscheidBdv"
+                saveToDb={saveToDb}
+                error={errors.entscheidBdv}
+                tabIndex={4 + tabsToAdd}
+              />
+            </FieldEntscheidBdv>
+          </>
         )}
         {!(isPdf && !geschaeft.entscheidRrb) && (
-          <FieldEntscheidRrb data-ispdf={isPdf}>
-            <StyledInput
-              type="text"
-              value={geschaeft.entscheidRrb || ''}
-              name="entscheidRrb"
-              onChange={change}
-              onBlur={blur}
-              tabIndex={6 + tabsToAdd}
-              data-ispdf={isPdf}
-            />
-          </FieldEntscheidRrb>
+          <>
+            <LabelEntscheidRrb data-ispdf={isPdf}>RRB</LabelEntscheidRrb>
+            <FieldEntscheidRrb data-ispdf={isPdf}>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}entscheidRrb`}
+                value={geschaeft.entscheidRrb}
+                field="entscheidRrb"
+                saveToDb={saveToDb}
+                error={errors.entscheidRrb}
+                tabIndex={6 + tabsToAdd}
+              />
+            </FieldEntscheidRrb>
+          </>
         )}
         {!(isPdf && !geschaeft.entscheidBvv) && (
-          <LabelEntscheidBvv data-ispdf={isPdf}>BVV</LabelEntscheidBvv>
-        )}
-        {!(isPdf && !geschaeft.entscheidBvv) && (
-          <FieldEntscheidBvv data-ispdf={isPdf}>
-            <StyledInput
-              type="text"
-              value={geschaeft.entscheidBvv || ''}
-              name="entscheidBvv"
-              onChange={change}
-              onBlur={blur}
-              tabIndex={8 + tabsToAdd}
-              data-ispdf={isPdf}
-            />
-          </FieldEntscheidBvv>
+          <>
+            <LabelEntscheidBvv data-ispdf={isPdf}>BVV</LabelEntscheidBvv>
+            <FieldEntscheidBvv data-ispdf={isPdf}>
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}entscheidBvv`}
+                value={geschaeft.entscheidBvv}
+                field="entscheidBvv"
+                saveToDb={saveToDb}
+                error={errors.entscheidBvv}
+                tabIndex={8 + tabsToAdd}
+              />
+            </FieldEntscheidBvv>
+          </>
         )}
         {!(isPdf && !geschaeft.entscheidKr) && (
           <>
             <LabelEntscheidKr data-ispdf={isPdf}>KR</LabelEntscheidKr>
             <FieldEntscheidKr data-ispdf={isPdf}>
-              <StyledInput
-                type="text"
-                value={geschaeft.entscheidKr || ''}
-                name="entscheidKr"
-                onChange={change}
-                onBlur={blur}
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}entscheidKr`}
+                value={geschaeft.entscheidKr}
+                field="entscheidKr"
+                saveToDb={saveToDb}
+                error={errors.entscheidKr}
                 tabIndex={10 + tabsToAdd}
-                data-ispdf={isPdf}
               />
             </FieldEntscheidKr>
           </>
@@ -325,14 +317,13 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
           <>
             <LabelAktenstandort data-ispdf={isPdf}>Akten</LabelAktenstandort>
             <FieldAktenstandort data-ispdf={isPdf}>
-              <StyledInput
-                type="text"
-                value={geschaeft.aktenstandort || ''}
-                name="aktenstandort"
-                onChange={change}
-                onBlur={blur}
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}aktenstandort`}
+                value={geschaeft.aktenstandort}
+                field="aktenstandort"
+                saveToDb={saveToDb}
+                error={errors.aktenstandort}
                 tabIndex={12 + tabsToAdd}
-                data-ispdf={isPdf}
               />
             </FieldAktenstandort>
           </>
@@ -353,16 +344,15 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, change, blur, saveToDb }) => {
         )}
         {isPdf && !!geschaeft.aktennummer && (
           <>
-            <LabelAktennummer data-ispdf={isPdf}>Nr.</LabelAktennummer>
+            <LabelAktennummer data-ispdf={isPdf}>Akt.Nr.</LabelAktennummer>
             <FieldAktennummer data-ispdf={isPdf}>
-              <StyledInput
-                type="text"
-                value={geschaeft.aktennummer || ''}
-                name="aktennummer"
-                onChange={change}
-                onBlur={blur}
+              <InputComponent
+                key={`${geschaeft.idGeschaeft}aktennummer`}
+                value={geschaeft.aktennummer}
+                field="aktennummer"
+                saveToDb={saveToDb}
+                error={errors.aktennummer}
                 tabIndex={13 + tabsToAdd}
-                data-ispdf={isPdf}
               />
             </FieldAktennummer>
           </>

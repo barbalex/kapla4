@@ -7,8 +7,6 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import ErrorBoundary from 'react-error-boundary'
 
-import isDateField from '../../src/isDateField'
-import validateDate from '../../src/validateDate'
 import AreaGeschaeft from './AreaGeschaeft'
 import AreaNummern from './AreaNummern'
 import AreaFristen from './AreaFristen'
@@ -239,8 +237,6 @@ const Geschaeft = () => {
           <AreaNummern
             viewIsNarrow={viewIsNarrow}
             nrOfGFields={nrOfGFields}
-            change={change}
-            blur={blur}
             saveToDb={saveToDb}
           />
           {showAreaParlVorstoss && (
