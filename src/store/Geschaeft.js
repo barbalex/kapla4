@@ -130,6 +130,14 @@ export default types
         value2 = convertDateToYyyyMmDd(value)
       }
       const now = moment().format('YYYY-MM-DD HH:mm:ss')
+      console.log('Store, Geschaeft, setValue', {
+        field,
+        value,
+        self,
+        value2,
+        now,
+        username: user.username,
+      })
       try {
         app.db
           .prepare(
@@ -137,7 +145,7 @@ export default types
               UPDATE
                 geschaefte
               SET
-                ${field} = '${value2}',
+                ${field} = ${value === null ? null : `'${value2}'`},
                 mutationsdatum = '${now}',
                 mutationsperson = '${user.username}'
               WHERE

@@ -213,7 +213,7 @@ export default () =>
           UPDATE
             geko
           SET
-            ${field} = '${value}'
+            ${field} = ${value === null ? null : `'${value}'`},
           WHERE
             idGeschaeft = ${idGeschaeft} AND
             gekoNr = '${gekoNr}'`,

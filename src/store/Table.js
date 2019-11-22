@@ -61,7 +61,7 @@ export default types
             UPDATE
               ${self.table}
             SET
-              ${field} = '${value}'
+              ${field} = ${value === null ? null : `'${value}'`},
             WHERE
               id = ${id}`,
             )
