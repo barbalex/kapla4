@@ -27,14 +27,8 @@ const ScrollContainerRegular = styled.div`
 `
 const ScrollContainerPdf = styled.div`
   overflow: hidden;
-  height: 26cm;
-  max-height: 26cm;
-
-  @media print {
-    page-break-inside: avoid !important;
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
-  }
+  height: 28cm;
+  max-height: 28cm;
 `
 const WrapperNarrow = styled.div`
   display: grid;
@@ -63,13 +57,7 @@ const WrapperWide = styled.div`
     'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
     'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
 `
-const WrapperPdf = styled(WrapperWide)`
-  max-height: 26cm;
-  overflow: hidden;
-  max-width: 180mm;
-  grid-template-columns: repeat(12, 15mm);
-`
-const WrapperWidePdf = styled(WrapperPdf)`
+const WrapperWidePdf = styled(WrapperWide)`
   grid-template-areas:
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaForGeschaeftsart areaForGeschaeftsart areaForGeschaeftsart'
@@ -87,7 +75,7 @@ const WrapperWideNoAreaForGeschaeftsart = styled(WrapperWide)`
     'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
     'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
 `
-const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperPdf)`
+const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperWide)`
   grid-template-areas:
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'

@@ -34,9 +34,6 @@ const GeschaefteLayout = () => {
     [config],
   )
 
-  if (isPrinting && showGeschaeftPdf) return <GeschaeftPdf />
-  if (isPrinting && showPages) return <Pages />
-
   return (
     <StyledSplitPane
       split="vertical"
@@ -45,11 +42,10 @@ const GeschaefteLayout = () => {
       onChange={onChange}
     >
       <Geschaefte />
-      <div>
-        {showGeschaeft && <Geschaeft />}
-        {showPages && <Pages />}
-        {showGeschaeftPdf && <GeschaeftPdf />}
-      </div>
+      {showGeschaeft && <Geschaeft />}
+      {showPages && <Pages />}
+      {showGeschaeftPdf && <GeschaeftPdf />}
+      {!showGeschaeftPdf && !showPages && !showGeschaeftPdf && <div />}
     </StyledSplitPane>
   )
 }
