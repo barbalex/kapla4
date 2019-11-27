@@ -54,6 +54,7 @@ const TableRow = () => {
                 label={fieldName}
                 saveToDb={saveToDb}
                 error={errors[fieldName]}
+                disabled={fieldName === 'id'}
               />
             </StyledFormGroup>
           )
