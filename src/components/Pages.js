@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { getSnapshot } from 'mobx-state-tree'
 
 import Page from './Page'
 import storeContext from '../storeContext'
@@ -35,7 +34,7 @@ const Pages = () => {
   const store = useContext(storeContext)
 
   return (
-    <Container>
+    <Container className="printer-content">
       {store.pages.pages.map((page, pageIndex) => (
         <Page key={pageIndex} pageIndex={pageIndex} />
       ))}

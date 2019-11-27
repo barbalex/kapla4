@@ -133,7 +133,7 @@ const Berichte = () => {
         marginsType: 0,
         pageSize: 'A4',
         landscape,
-        printBackground: false,
+        printBackground: true,
       }
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback

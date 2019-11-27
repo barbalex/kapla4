@@ -27,7 +27,7 @@ const Container = styled.div`
   & select {
     -webkit-appearance: none;
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: thin solid #ccc;
     border-radius: 0;
     box-shadow: none;
     padding: 0;
@@ -45,8 +45,10 @@ const Container = styled.div`
     background-color: #fff;
     /* with overflow auto an empty page is inserted between each page */
     overflow-y: visible;
+    height: 29.7cm;
+    width: 21cm;
     /* make sure body grows as needed */
-    height: auto !important;
+    /*height: auto !important;*/
 
     page-break-inside: avoid;
     page-break-before: avoid;
@@ -76,8 +78,10 @@ const PageContainer = styled.div`
 
   @media print {
     /* this is when it is actually printed */
-    height: inherit;
-    width: inherit;
+    /*height: inherit;
+    width: inherit;*/
+    height: 100%;
+    width: 100%;
 
     margin: 0 !important;
     padding: 0.5cm !important;
@@ -88,7 +92,6 @@ const PageContainer = styled.div`
     page-break-after: avoid !important;
   }
 `
-// eslint-disable-next-line no-unused-expressions
 const GlobalStyle = createGlobalStyle`
   @page .hochformat {
     size: A4 portrait;
@@ -105,7 +108,7 @@ const Footer = styled.div`
 
 const GeschaeftPdf = () => (
   <Container>
-    <PageContainer className="hochformat">
+    <PageContainer className="hochformat printer-content">
       <GlobalStyle />
       <Geschaeft />
       <Footer>{moment().format('DD.MM.YYYY')}</Footer>
