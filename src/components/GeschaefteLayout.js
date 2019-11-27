@@ -27,13 +27,15 @@ const GeschaefteLayout = () => {
   const { activeId } = store.geschaefte
   const showGeschaeft = activeLocation === 'geschaefte' && !!activeId
   const showPages = activeLocation === 'pages'
-  const showGeschaeftPdf =
-    !isPrinting && activeLocation === 'geschaeftPdf' && !!activeId
+  const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && !!activeId
 
   const onChange = useCallback(
     size => config.setKey('geschaefteColumnWidth', size),
     [config],
   )
+
+  if (isPrinting && showGeschaeftPdf) return <GeschaeftPdf />
+  if (isPrinting && showPages) return <Pages />
 
   return (
     <StyledSplitPane

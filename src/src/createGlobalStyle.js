@@ -146,31 +146,18 @@ export default () => createGlobalStyle`
     height: calc(100vh - 58px) !important;
   }
 
-  /*@media print {
-    #root {
-      page-break-after: avoid !important;
-      page-break-before: avoid !important;
-    }
-
+  @media print {
     .SplitPane.vertical {
       height: auto !important;
-      page-break-after: avoid !important;
-      page-break-before: avoid !important;
+      display: block !important;
     }
-
-    .Pane.Pane1 {
-      display: none;
-      width: 0;
-      page-break-after: avoid !important;
-      page-break-inside: avoid !important;
-      page-break-before: avoid !important;
-    }
-
     .Pane.Pane2 {
-      page-break-after: avoid !important;
-      page-break-before: avoid !important;
+      height: auto !important;
+      display: block !important;
+      flex: none !important;
+      position: static !important;
     }
-  }*/
+  }
 
   .Resizer {
     background: #000;

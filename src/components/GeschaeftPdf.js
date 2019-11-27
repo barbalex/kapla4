@@ -102,8 +102,8 @@ const Footer = styled.div`
 `
 
 const GeschaeftPdf = () => (
-  <Container>
-    <PageContainer className="hochformat printer-content">
+  <Container className="hochformat printer-content">
+    <PageContainer>
       <Geschaeft />
       <Footer>{moment().format('DD.MM.YYYY')}</Footer>
     </PageContainer>

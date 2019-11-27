@@ -135,6 +135,7 @@ const Berichte = () => {
         landscape,
         printBackground: true,
       }
+      //console.log('Berichte, printToPdfOptions:', printToPDFOptions)
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
       const data = await win.webContents.printToPDF(printToPDFOptions)

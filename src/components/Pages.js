@@ -1,10 +1,15 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import Page from './Page'
 import storeContext from '../storeContext'
 
+const GlobalStyle = createGlobalStyle`
+  @page .querformat {
+    size: A4 landscape;
+  }
+`
 const Container = styled.div`
   background-color: #eee;
   font-size: 9pt;
@@ -34,11 +39,14 @@ const Pages = () => {
   const store = useContext(storeContext)
 
   return (
-    <Container className="printer-content">
-      {store.pages.pages.map((page, pageIndex) => (
-        <Page key={pageIndex} pageIndex={pageIndex} />
-      ))}
-    </Container>
+    <>
+      <GlobalStyle />
+      <Container className="printer-content">
+        {store.pages.pages.map((page, pageIndex) => (
+          <Page key={pageIndex} pageIndex={pageIndex} />
+        ))}
+      </Container>
+    </>
   )
 }
 
