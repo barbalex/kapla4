@@ -107,7 +107,7 @@ const Footer = styled.div`
 `
 
 const GeschaeftPdf = () => (
-  <Container className="hochformat printer-content">
+  <Container className="printer-content">
     <PageContainer>
       <GlobalStyle />
       <Geschaeft />
