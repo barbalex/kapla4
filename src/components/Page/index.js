@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { observer } from 'mobx-react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import FaelligeGeschaefteHeader from './faelligeGeschaefte/Header'
 import FaelligeGeschaefteRows from './faelligeGeschaefte/Rows'
@@ -135,12 +135,6 @@ const StyledFooter = styled.div`
     page-break-inside: avoid !important;
   }
 `
-// eslint-disable-next-line no-unused-expressions
-const GlobalStyle = createGlobalStyle`
-  @page .querformat {
-    size: A4 landscape;
-  }
-`
 
 class Page extends Component {
   static propTypes = {
@@ -223,8 +217,7 @@ class Page extends Component {
     const { pages, remainingGeschaefte, showModal } = store.pages
     const { geschaefteFilteredAndSorted } = store.geschaefte
     const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 =
-      geschaefteFilteredAndSorted.length > 50 ? msgLine2Txt : ''
+    const msgLine2 = geschaefteFilteredAndSorted.length > 50 ? msgLine2Txt : ''
     showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
@@ -249,7 +242,6 @@ class Page extends Component {
 
     return (
       <PageContainer building={building} className="querformat">
-        <GlobalStyle />
         <InnerPageContainer>
           <StyledRowsContainer
             building={building}

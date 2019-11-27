@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 
 import Geschaeft from './Geschaeft'
 
@@ -92,11 +92,6 @@ const PageContainer = styled.div`
     page-break-after: avoid !important;
   }
 `
-const GlobalStyle = createGlobalStyle`
-  @page .hochformat {
-    size: A4 portrait;
-  }
-`
 const Footer = styled.div`
   padding-top: 5px;
   @media print {
@@ -109,13 +104,10 @@ const Footer = styled.div`
 const GeschaeftPdf = () => (
   <Container>
     <PageContainer className="hochformat printer-content">
-      <GlobalStyle />
       <Geschaeft />
       <Footer>{moment().format('DD.MM.YYYY')}</Footer>
     </PageContainer>
   </Container>
 )
-
-GeschaeftPdf.displayName = 'GeschaeftPdf'
 
 export default GeschaeftPdf

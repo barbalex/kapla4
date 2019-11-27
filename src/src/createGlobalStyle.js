@@ -27,12 +27,6 @@ export default () => createGlobalStyle`
     margin-bottom: -2px;
   }
 
-  @media print {
-    .control-label{
-      font-size: 11px;
-    }
-  }
-
   /* optimize spacing of vertical radios */
   .control-label ~ .radio {
     margin-top: 7px;
@@ -101,19 +95,49 @@ export default () => createGlobalStyle`
     border-radius: 0;
   }
 
+
+  @page .querformat {
+    size: A4 landscape;
+  }
+  @page .hochformat {
+    size: A4 portrait;
+  }
+
   @media print {
+    /*
+    * hide everything BUT what shall be printed
+    */
+    body * {
+      visibility: hidden;
+    }
+
+    .printer-content,
+    .printer-content * {
+      visibility: visible !important;
+    }
+
+    .printer-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
     /**
     * ensure html and body
     * have no margins, no padding,
     * grow and overflow as needed
     */
     html,
-    body {
+    body,
+    #root {
       margin: 0 !important;
       padding: 0 !important;
       height: auto !important;
+      width: auto !important;
       overflow: visible !important;
     }
+    /*.control-label{
+      font-size: 11px;
+    }*/
   }
 
   /* SplitPane */
@@ -122,7 +146,7 @@ export default () => createGlobalStyle`
     height: calc(100vh - 58px) !important;
   }
 
-  @media print {
+  /*@media print {
     #root {
       page-break-after: avoid !important;
       page-break-before: avoid !important;
@@ -146,7 +170,7 @@ export default () => createGlobalStyle`
       page-break-after: avoid !important;
       page-break-before: avoid !important;
     }
-  }
+  }*/
 
   .Resizer {
     background: #000;

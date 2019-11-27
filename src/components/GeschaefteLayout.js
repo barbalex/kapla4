@@ -39,7 +39,7 @@ const GeschaefteLayout = () => {
     <StyledSplitPane
       split="vertical"
       minSize={100}
-      defaultSize={config.geschaefteColumnWidth}
+      defaultSize={isPrinting ? 0 : config.geschaefteColumnWidth}
       onChange={onChange}
     >
       <Geschaefte />
