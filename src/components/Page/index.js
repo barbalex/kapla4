@@ -241,7 +241,7 @@ class Page extends Component {
     const firstPage = pageIndex === 0
 
     return (
-      <PageContainer building={building} className="querformat">
+      <PageContainer building={building}>
         <InnerPageContainer>
           <StyledRowsContainer
             building={building}
