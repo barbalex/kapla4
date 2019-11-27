@@ -50,12 +50,7 @@ const NavbarComponent = () => {
   const { dirty } = store
   const { showMessageModal, config } = store.app
   const { showPagesModal } = store.pages
-  const {
-    //geschaefteFilteredAndSorted: geschaefte,
-    willDelete,
-  } = store.geschaefte
-  /*const dataIsFiltered =
-    geschaefte.length !== store.geschaefte.geschaefte.length*/
+  const { willDelete } = store.geschaefte
   const showBerichteNavs =
     activeLocation === 'pages' || activeLocation === 'geschaeftPdf'
   const showGeschaefteNavs =
@@ -66,8 +61,6 @@ const NavbarComponent = () => {
   useEffect(() => {
     config.get()
   }, [config])
-
-  console.log('Navbar, dirty:', dirty)
 
   return (
     <ErrorBoundary>
