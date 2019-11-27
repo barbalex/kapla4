@@ -6,7 +6,7 @@ import Page from './Page'
 import storeContext from '../storeContext'
 
 const GlobalStyle = createGlobalStyle`
-  @page .querformat {
+  @page {
     size: A4 landscape;
   }
 `

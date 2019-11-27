@@ -70,12 +70,12 @@ textarea::-webkit-scrollbar {
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 2px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar-corner {
@@ -90,13 +90,17 @@ textarea::-webkit-scrollbar {
   border-radius: 0;
 }
 
+/*
+// adding a class after @page made it not be applied!
+// had to add @page without class via createGlobalStyle
+// directly when printing
 @page .querformat {
   size: A4 landscape;
 }
 
 @page .hochformat {
   size: A4 portrait;
-}
+}*/
 
 @media print {
   /*

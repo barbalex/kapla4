@@ -1,9 +1,14 @@
 import React from 'react'
 import moment from 'moment'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import Geschaeft from './Geschaeft'
 
+const GlobalStyle = createGlobalStyle`
+  @page {
+    size: A4 portrait;
+  }
+`
 /*
  * need defined height and overflow
  * to make the pages scrollable in UI
@@ -104,6 +109,7 @@ const Footer = styled.div`
 const GeschaeftPdf = () => (
   <Container className="hochformat printer-content">
     <PageContainer>
+      <GlobalStyle />
       <Geschaeft />
       <Footer>{moment().format('DD.MM.YYYY')}</Footer>
     </PageContainer>
