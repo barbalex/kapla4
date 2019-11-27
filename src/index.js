@@ -5,8 +5,8 @@ import { de } from 'date-fns/locale'
 
 import App from './components/App'
 import { Provider as MstProvider } from './storeContext'
-import createGlobalStyle from './src/createGlobalStyle'
 import createStore from './store'
+import './styles.css'
 const store = createStore().create()
 
 registerLocale('de', de)
@@ -15,12 +15,9 @@ setDefaultLocale('de')
 // make store accessible in dev
 window.store = store
 
-const GlobalStyle = createGlobalStyle()
-
 render(
   <MstProvider value={store}>
     <>
-      <GlobalStyle />
       <App />
     </>
   </MstProvider>,
