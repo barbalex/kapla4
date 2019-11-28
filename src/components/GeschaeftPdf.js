@@ -83,8 +83,8 @@ const PageContainer = styled.div`
 
   @media print {
     /* this is when it is actually printed */
-    height: 29.7cm;
-    width: 21cm;
+    height: 100%;
+    width: 100%;
 
     margin: 0 !important;
     padding: 0.5cm !important;

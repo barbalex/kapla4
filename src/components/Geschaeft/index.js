@@ -26,9 +26,9 @@ const ScrollContainerRegular = styled.div`
   overflow-x: hidden;
 `
 const ScrollContainerPdf = styled.div`
-  overflow: hidden;
-  height: 28cm;
-  max-height: 28cm;
+  overflow: visible;
+  height: 29.7cm;
+  max-height: 29.7cm;
 `
 const WrapperNarrow = styled.div`
   display: grid;
