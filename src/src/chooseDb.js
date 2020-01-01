@@ -6,11 +6,9 @@ const options = {
   filters: [{ name: 'sqlite-Datenbanken', extensions: ['db'] }],
 }
 
-export default () =>
-  new Promise((resolve, reject) => {
-    dialog.showOpenDialog(options, result => {
-      if (result && result[0]) resolve(result[0])
-      // eslint-disable-next-line prefer-promise-reject-errors
-      reject('keine Datenbank gewählt')
-    })
-  })
+const chooseDb = async () => {
+  const result = await dialog.showOpenDialog(options)
+  return result.filePaths[0]
+}
+
+export default chooseDb
