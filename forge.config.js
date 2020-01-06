@@ -2,6 +2,7 @@ module.exports = {
   // see: https://github.com/electron-userland/electron-forge/issues/1224#issuecomment-544294836
   // this seems to be to ensure all deps of better-sqlite3 are copied
   packagerConfig: {
+    icon: './src/etc/app.png',
     ignore: file => {
       return false
     },
@@ -11,6 +12,12 @@ module.exports = {
       name: '@electron-forge/maker-squirrel',
       config: {
         name: 'Kapla',
+        iconUrl: './src/etc/app.ico',
+        copyright: 'AWEL Kt. Zürich, Schweiz, Abteilung Recht',
+        owners: 'AWEL Kt. Zürich, Schweiz',
+        description:
+          'Damit verwaltet das AWEL Kt. ZH seine juristischen Geschäfte',
+        authors: 'Alexander Gabriel, Gabriel-Software',
       },
     },
     {
