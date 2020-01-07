@@ -1,5 +1,5 @@
 import { types, getParent } from 'mobx-state-tree'
-import betterSqlite from 'better-sqlite3'
+import Database from 'better-sqlite3'
 import fs from 'fs'
 import getMyName from 'username'
 
@@ -32,7 +32,7 @@ export default types
         self.errorFetchingDb = null
         chooseDb()
           .then(dbPath => {
-            const db = betterSqlite(dbPath, { fileMustExist: true })
+            const db = new Database(dbPath, { fileMustExist: true })
             self.dbChooseSuccess(dbPath, db)
             self.config.configSetKey('dbPath', dbPath)
           })
@@ -73,7 +73,7 @@ export default types
         // need function that tests if db exists at standard path
         const standardDbExists = fs.existsSync(standardDbPath)
         if (standardDbExists) {
-          const db = betterSqlite(standardDbPath, { fileMustExist: true })
+          const db = new Database(standardDbPath, { fileMustExist: true })
           self.dbChooseSuccess(standardDbPath, db)
           self.config.configSetKey('dbPath', standardDbPath)
         } else {
@@ -82,7 +82,7 @@ export default types
           self.errorFetchingDb = null
           chooseDb()
             .then(dbPath => {
-              const db = betterSqlite(dbPath, { fileMustExist: true })
+              const db = new Database(dbPath, { fileMustExist: true })
               self.dbChooseSuccess(dbPath, db)
               self.config.configSetKey('dbPath', dbPath)
             })
