@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const fs = require('fs-extra')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -43,6 +43,8 @@ const createWindow = () => {
   if (lastWindowState && lastWindowState.maximized) {
     mainWindow.maximize()
   }
+
+  Menu.setApplicationMenu(null)
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
