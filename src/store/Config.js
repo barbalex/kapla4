@@ -1,5 +1,5 @@
 import { types, getParent } from 'mobx-state-tree'
-import betterSqlite from 'better-sqlite3'
+import Database from 'better-sqlite3'
 import fs from 'fs'
 
 import saveConfig from '../src/saveConfig'
@@ -37,7 +37,7 @@ export default types
           if (!dbExists) {
             return appStore.dbGetAtStandardpathIfPossible()
           }
-          const db = betterSqlite(dbPath, { fileMustExist: true })
+          const db = new Database(dbPath, { fileMustExist: true })
           appStore.dbChooseSuccess(dbPath, db)
         })
         .catch(error => console.error(error))
