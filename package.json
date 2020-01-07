@@ -87,7 +87,6 @@
     "electron": "7.x",
     "eslint": "6.x",
     "eslint-config-react-app": "5.1.0",
-    "eslint-plugin-flowtype": "3.x",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
