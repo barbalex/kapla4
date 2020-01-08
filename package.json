@@ -23,7 +23,7 @@
   "dependencies": {
     "better-sqlite3": "5.4.3",
     "bootstrap": "4.4.1",
-    "date-fns": "2.8.1",
+    "date-fns": "2.9.0",
     "electron-squirrel-startup": "1.0.0",
     "exceljs": "3.5.0",
     "global": "4.4.0",
