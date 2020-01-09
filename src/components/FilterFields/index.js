@@ -81,7 +81,7 @@ const Wrapper = styled.div`
 const FilterFields = () => {
   const store = useContext(storeContext)
   let { filterFields, filterByFields } = store.geschaefte
-  const { config } = store.app
+  const { geschaefteColumnWidth } = store.app
 
   const changeComparator = useCallback(
     (value, name) => {
@@ -164,7 +164,7 @@ const FilterFields = () => {
 
   // need to adapt layout to differing widths
   const windowWidth = $(window).width()
-  const areaFilterFieldsWidth = windowWidth - config.geschaefteColumnWidth
+  const areaFilterFieldsWidth = windowWidth - geschaefteColumnWidth
   const width = areaFilterFieldsWidth < 980 ? 'narrow' : 'wide'
 
   // prepare tab indexes

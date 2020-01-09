@@ -2,6 +2,7 @@ import React, { useContext, useCallback } from 'react'
 import SplitPane from 'react-split-pane'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import { useDebouncedCallback } from 'use-debounce'
 
 import FilterFields from './FilterFields'
 import Geschaefte from './Geschaefte'
@@ -13,17 +14,24 @@ const StyledSplitPane = styled(SplitPane)`
 
 const FilterFieldsLayout = () => {
   const store = useContext(storeContext)
-  const onChange = useCallback(
-    size => store.app.config.setKey('geschaefteColumnWidth', size),
-    [store],
+  const {setGeschaefteColumnWidth, geschaefteColumnWidth, saveConfig} = store.app
+
+  const [saveConfigDebounced] = useDebouncedCallback(
+    (size) => {
+      saveConfig()
+    },
+    200
   )
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
-      defaultSize={store.app.config.geschaefteColumnWidth}
-      onChange={onChange}
+      defaultSize={geschaefteColumnWidth}
+      onChange={(value) => {
+        setGeschaefteColumnWidth(value)
+        saveConfigDebounced(value)
+      }}
     >
       <Geschaefte />
       <FilterFields />

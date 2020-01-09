@@ -2,6 +2,7 @@ import React, { useContext, useCallback } from 'react'
 import SplitPane from 'react-split-pane'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
+import { useDebouncedCallback } from 'use-debounce'
 
 import TableRow from './Table/TableRow'
 import Table from './Table'
@@ -13,19 +14,25 @@ const StyledSplitPane = styled(SplitPane)`
 
 const TableLayout = () => {
   const store = useContext(storeContext)
-  const { setKey, tableColumnWidth } = store.app.config
+  const { setTableColumnWidth, tableColumnWidth, saveConfig } = store.app
   const { id } = store.table
 
-  const onChange = useCallback(size => setKey('tableColumnWidth', size), [
-    setKey,
-  ])
+  const [saveConfigDebounced] = useDebouncedCallback(
+    (size) => {
+      saveConfig()
+    },
+    200
+  )
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
       defaultSize={tableColumnWidth}
-      onChange={onChange}
+      onChange={(value) => {
+        setTableColumnWidth(value)
+        saveConfigDebounced(value)
+      }}
     >
       <Table />
       <div>{id && <TableRow />}</div>

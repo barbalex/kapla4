@@ -3,6 +3,7 @@ import SplitPane from 'react-split-pane'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import useDetectPrint from 'use-detect-print'
+import { useDebouncedCallback } from 'use-debounce'
 
 import Geschaeft from './Geschaeft'
 import Pages from './Pages'
@@ -23,23 +24,28 @@ const GeschaefteLayout = () => {
 
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { config } = store.app
+  const { geschaefteColumnWidth, setGeschaefteColumnWidth, saveConfig } = store.app
   const { activeId } = store.geschaefte
   const showGeschaeft = activeLocation === 'geschaefte' && !!activeId
   const showPages = activeLocation === 'pages'
   const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && !!activeId
 
-  const onChange = useCallback(
-    size => config.setKey('geschaefteColumnWidth', size),
-    [config],
+  const [saveConfigDebounced] = useDebouncedCallback(
+    (size) => {
+      saveConfig()
+    },
+    200
   )
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
-      defaultSize={isPrinting ? 0 : config.geschaefteColumnWidth}
-      onChange={onChange}
+      defaultSize={isPrinting ? 0 : geschaefteColumnWidth}
+      onChange={(value) => {
+        setGeschaefteColumnWidth(value)
+        saveConfigDebounced(value)
+      }}
     >
       <Geschaefte />
       {showGeschaeft && <Geschaeft />}

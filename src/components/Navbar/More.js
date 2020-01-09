@@ -49,7 +49,7 @@ const onClickIssues = () => {
 
 const OptionsNav = () => {
   const store = useContext(storeContext)
-  const { config } = store.app
+  const { dbPath, uiReset, saveConfig } = store.app
 
   return (
     <MoreMenu nav inNavbar>
@@ -57,13 +57,16 @@ const OptionsNav = () => {
         &#8942;
       </StyledDropdownToggle>
       <DropdownMenu right>
-        <DropdownItem onClick={chooseDbConnection}>
+        <DropdownItem onClick={()=> chooseDbConnection(store)}>
           Datenbank wählen
           <br />
-          {config.dbPath && <DbPath>{`Aktuell: ${config.dbPath}`}</DbPath>}
+          {dbPath && <DbPath>{`Aktuell: ${dbPath}`}</DbPath>}
         </DropdownItem>
         <DropdownItem divider />
-        <StyledDropdownItem onClick={config.uiReset}>
+        <StyledDropdownItem onClick={() => {
+          uiReset()
+          setTimeout(() => saveConfig())
+        }}>
           Einstellungen zurücksetzen
         </StyledDropdownItem>
         <DropdownItem divider />

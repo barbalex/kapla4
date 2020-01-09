@@ -6,8 +6,13 @@ import saveConfig from './saveConfig'
 import standardDbPath from './standardDbPath'
 
 export default async (store) => {
+  const {addErrorMessage} = store
+  const {setDbPath, setTableColumnWidth, setGeschaefteColumnWidth, setLastWindowState, saveConfig} = store.app
   const config = getConfig()
-  //console.log('getDb, config:', config)
+  if (config.dbPath) setDbPath(config.dbPath)
+  if (config.tableColumnWidth) setTableColumnWidth(config.tableColumnWidth)
+  if (config.geschaefteColumnWidth) setGeschaefteColumnWidth(config.geschaefteColumnWidth)
+  if (config.lastWindowState) setLastWindowState(config.lastWindowState)
   let dbPath = config.dbPath || standardDbPath
 
   let db
@@ -25,9 +30,9 @@ export default async (store) => {
         store.addErrorMessage(chooseError.message)
         return console.log('Error after choosing db:', chooseError)
       }
+      setDbPath(dbPath)
+      saveConfig({ dbPath })
       db = new Database(dbPath, { fileMustExist: true })
-      config.dbPath = dbPath
-      saveConfig(config)
     } else {
       store.addErrorMessage(error.message)
       return console.log('index.js, Error opening db file:', error)

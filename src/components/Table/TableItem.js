@@ -30,11 +30,11 @@ const TableItem = ({ index }) => {
   const store = useContext(storeContext)
   const { rows, table, id, toggleActivatedRow } = store.table
   const row = rows[table][index]
-  const { config } = store.app
+  const { tableColumnWidth } = store.app
   const keys = Object.keys(row)
   const values = _.values(row)
   const windowWidth = $(window).width()
-  const tableWidth = (windowWidth * config.tableColumnWidth) / 100
+  const tableWidth = (windowWidth * tableColumnWidth) / 100
   const normalFieldWidth = (tableWidth - 50) / (keys.length - 1)
   const isActive = !!id && id === row.id
 

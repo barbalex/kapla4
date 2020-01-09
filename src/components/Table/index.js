@@ -60,13 +60,13 @@ const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
 const Table = () => {
   const store = useContext(storeContext)
-  const { config } = store.app
+  const { tableColumnWidth } = store.app
   const { rows, id, table, reset } = store.table
 
   const indexOfActiveId = _.findIndex(rows[table], r => r.id === id)
   const headers = Object.keys(rows[table][0] || {})
   const windowWidth = $(window).width()
-  const tableWidth = (windowWidth * config.tableColumnWidth) / 100
+  const tableWidth = (windowWidth * tableColumnWidth) / 100
   const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
 
   useEffect(() => {
