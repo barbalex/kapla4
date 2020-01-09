@@ -30,11 +30,8 @@ export default types
       const newConfig = config || standardConfig
       self = newConfig
       const { dbPath } = newConfig
-      if (!dbPath) {
-        return appStore.dbGetAtStandardpathIfPossible()
-      }
       const dbExists = fs.existsSync(dbPath)
-      if (!dbExists) {
+      if (!dbPath || !dbExists) {
         return appStore.dbGetAtStandardpathIfPossible()
       }
       const db = new Database(dbPath, { fileMustExist: true })
