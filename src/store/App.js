@@ -48,7 +48,7 @@ export default types
           tableColumnWidth: self.tableColumnWidth,
           geschaefteColumnWidth: self.geschaefteColumnWidth,
           lastWindowState: self.lastWindowState,
-          ...val
+          ...val,
         })
       },
       setDbPath(val) {

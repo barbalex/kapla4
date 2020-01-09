@@ -11,29 +11,29 @@ import getDb from './src/getDb'
 import fetchInitialData from './src/fetchInitialData'
 
 const run = async () => {
+  const store = createStore().create()
 
-const store = createStore().create()
+  let db
+  try {
+    db = await getDb(store)
+  } catch (error) {
+    store.addErrorMessage(error.message)
+  }
+  store.app.setDb(db)
+  fetchInitialData(store)
 
-let db
-try {
-  db = await getDb(store)
-} catch (error) {
-  store.addErrorMessage(error.message)
+  registerLocale('de', de)
+  setDefaultLocale('de')
+
+  // make store accessible in dev
+  window.store = store
+
+  render(
+    <MstProvider value={store}>
+      <App />
+    </MstProvider>,
+    document.getElementById('root'),
+  )
 }
-store.app.setDb(db)
-fetchInitialData(store)
-
-registerLocale('de', de)
-setDefaultLocale('de')
-
-// make store accessible in dev
-window.store = store
-
-render(
-  <MstProvider value={store}>
-    <App />
-  </MstProvider>,
-  document.getElementById('root'),
-)}
 
 run()

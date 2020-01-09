@@ -14,21 +14,22 @@ const StyledSplitPane = styled(SplitPane)`
 
 const FilterFieldsLayout = () => {
   const store = useContext(storeContext)
-  const {setGeschaefteColumnWidth, geschaefteColumnWidth, saveConfig} = store.app
+  const {
+    setGeschaefteColumnWidth,
+    geschaefteColumnWidth,
+    saveConfig,
+  } = store.app
 
-  const [saveConfigDebounced] = useDebouncedCallback(
-    (size) => {
-      saveConfig()
-    },
-    200
-  )
+  const [saveConfigDebounced] = useDebouncedCallback(size => {
+    saveConfig()
+  }, 200)
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
       defaultSize={geschaefteColumnWidth}
-      onChange={(value) => {
+      onChange={value => {
         setGeschaefteColumnWidth(value)
         saveConfigDebounced(value)
       }}

@@ -57,16 +57,18 @@ const OptionsNav = () => {
         &#8942;
       </StyledDropdownToggle>
       <DropdownMenu right>
-        <DropdownItem onClick={()=> chooseDbConnection(store)}>
+        <DropdownItem onClick={() => chooseDbConnection(store)}>
           Datenbank wählen
           <br />
           {dbPath && <DbPath>{`Aktuell: ${dbPath}`}</DbPath>}
         </DropdownItem>
         <DropdownItem divider />
-        <StyledDropdownItem onClick={() => {
-          uiReset()
-          setTimeout(() => saveConfig())
-        }}>
+        <StyledDropdownItem
+          onClick={() => {
+            uiReset()
+            setTimeout(() => saveConfig())
+          }}
+        >
           Einstellungen zurücksetzen
         </StyledDropdownItem>
         <DropdownItem divider />
