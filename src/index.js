@@ -17,9 +17,7 @@ window.store = store
 
 render(
   <MstProvider value={store}>
-    <>
-      <App />
-    </>
+    <App />
   </MstProvider>,
   document.getElementById('root'),
 )
