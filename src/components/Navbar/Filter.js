@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useState, useEffect } from 'react'
+import React, { useContext, useCallback, useState } from 'react'
 import {
   InputGroup,
   InputGroupAddon,
@@ -13,7 +13,7 @@ import { FaTimes, FaCaretDown } from 'react-icons/fa'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
-import { useDebounce, useDebouncedCallback } from 'use-debounce'
+import { useDebouncedCallback } from 'use-debounce'
 
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
@@ -82,8 +82,6 @@ const Filter = () => {
   const activeLocation = location[0]
   const { setLocation } = store
   const {
-    filterByFulltext,
-    fetchFilterFulltextIds,
     sortByFields,
     resetSort,
     geschaefte: geschaefteUnfiltered,
@@ -92,6 +90,8 @@ const Filter = () => {
     filterFields,
     filterType,
     filterFulltext,
+    filterByFulltext,
+    setFilterFulltext,
     isFiltered,
     sortFields,
     geschaefteFilteredAndSorted: geschaefte,
@@ -122,24 +122,9 @@ const Filter = () => {
     [filterDropdownIsOpen],
   )
 
-  const [ffInternal, setFfInternal] = useState('')
-  useEffect(() => {
-    if (filterFulltext !== ffInternal) setFfInternal(filterFulltext)
-  }, [ffInternal, filterFulltext])
-
-  // use a debounced version of filterFulltext to fetch ids in db
-  const [ff] = useDebounce(filterFulltext, 200)
-  useEffect(() => {
-    !!ff && fetchFilterFulltextIds(ff)
-  }, [fetchFilterFulltextIds, ff])
-
-  const onChangeFilterFulltext = useCallback(
-    e => {
-      // use internal version of value because store version can be very slow
-      setFfInternal(e.target.value)
-      filterByFulltext(e.target.value)
-    },
-    [filterByFulltext],
+  const [onChangeFilterFulltextDebounced] = useDebouncedCallback(
+    value => filterByFulltext(value),
+    300,
   )
 
   const onSelectFaelligeGeschaefte = useCallback(() => {
@@ -186,8 +171,11 @@ const Filter = () => {
         <InputGroup>
           <FilterFultextInput
             placeholder="Volltext filtern"
-            onChange={onChangeFilterFulltext}
-            value={ffInternal}
+            onChange={e => {
+              setFilterFulltext(e.target.value)
+              onChangeFilterFulltextDebounced(e.target.value)
+            }}
+            value={filterFulltext}
             data-isfiltered={dataIsFilteredByFulltext.toString()}
             title="Zum Filtern drücken Sie die Enter-Taste"
           />
