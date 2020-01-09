@@ -22,23 +22,6 @@ export default types
     ),
   })
   .actions(self => ({
-    get() {
-      const appStore = getParent(self, 1)
-
-      const config = getConfig()
-      console.log('Store, App, Config, get, config:', config)
-      const newConfig = config || standardConfig
-      console.log('Store, App, Config, get, newConfig:', newConfig)
-      self = newConfig
-      const { dbPath } = newConfig
-      const dbExists = fs.existsSync(dbPath)
-      if (!dbPath || !dbExists) {
-        return appStore.dbGetAtStandardpathIfPossible()
-      }
-      const db = new Database(dbPath, { fileMustExist: true })
-      console.log('Store, App, Config, get, dbPath:', dbPath)
-      appStore.dbChooseSuccess(dbPath, db)
-    },
     setKey(key, value) {
       if (value) {
         self[key] = value
