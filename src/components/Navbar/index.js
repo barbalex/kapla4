@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, useCallback } from 'react'
+import React, { useContext, useState, useCallback } from 'react'
 import { Collapse, Navbar, NavbarToggler, Nav, Button } from 'reactstrap'
 import { FaSave } from 'react-icons/fa'
 import styled from 'styled-components'
@@ -48,7 +48,7 @@ const NavbarComponent = () => {
   }, [open])
 
   const { dirty } = store
-  const { showMessageModal, config } = store.app
+  const { showMessageModal } = store.app
   const { showPagesModal } = store.pages
   const { willDelete } = store.geschaefte
   const showBerichteNavs =
@@ -57,10 +57,6 @@ const NavbarComponent = () => {
     activeLocation === 'geschaefte' || activeLocation === 'filterFields'
   const showGeschaefteAndPrint = showBerichteNavs || showGeschaefteNavs
   const showTableNavs = activeLocation === 'table'
-
-  useEffect(() => {
-    config.get()
-  }, [config])
 
   return (
     <ErrorBoundary>
