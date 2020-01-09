@@ -5,7 +5,7 @@ export default (store, name) => {
       .prepare(`SELECT ${name} FROM ${name} WHERE historisch = 0 ORDER BY sort`)
       .all()
   } catch (error) {
-    store.addError(error)
+    store.addErrorMessage(error.message)
   }
   const options = result.map(res => res[name])
   return options

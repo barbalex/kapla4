@@ -6,6 +6,6 @@ export default store => {
   if (username) {
     setUsername(username)
   } else {
-    addError(new Error('keinen Benutzernamen erhalten'))
+    addErrorMessage('keinen Benutzernamen erhalten')
   }
 }

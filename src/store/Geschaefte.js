@@ -92,7 +92,7 @@ export default types
             )
             .all()
         } catch (error) {
-          store.addError(error)
+          store.addErrorMessage(error.message)
         }
         self.filterFulltextIds = result.map(o => o.idGeschaeft)
       },
@@ -177,7 +177,7 @@ export default types
       fetch() {
         const location = store.location.toJSON()
         const activeLocation = location[0]
-        const { app, addError, setLocation } = store
+        const { app, addErrorMessage, setLocation } = store
         self.fetching = true
         let geschaefte = []
         try {
@@ -186,7 +186,7 @@ export default types
             .all()
         } catch (error) {
           self.fetching = false
-          addError(error)
+          addErrorMessage(error.message)
         }
         /**
          * convert date fields
@@ -207,7 +207,7 @@ export default types
         }
       },
       fetchGeko() {
-        const { app, addError } = store
+        const { app, addErrorMessage } = store
         self.fetching = true
         let geko = []
         try {
@@ -216,13 +216,13 @@ export default types
             .all()
         } catch (error) {
           self.fetching = false
-          addError(error)
+          addErrorMessage(error.message)
         }
         self.fetching = false
         self.geko = geko
       },
       fetchLinks() {
-        const { app, addError } = store
+        const { app, addErrorMessage } = store
         self.fetching = true
         let links = []
         try {
@@ -231,7 +231,7 @@ export default types
             .all()
         } catch (error) {
           self.fetching = false
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         self.fetching = false
         self.links = links
@@ -254,7 +254,7 @@ export default types
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         const idGeschaeft = result.lastInsertRowid
 
@@ -273,7 +273,7 @@ export default types
             )
             .get()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.unshift(geschaeft)
         // need to remove filters
@@ -291,7 +291,7 @@ export default types
           app,
           geschaefteKontakteIntern,
           geschaefteKontakteExtern,
-          addError,
+          addErrorMessage,
           geschaeftKontaktInternDelete,
         } = store
         try {
@@ -306,7 +306,7 @@ export default types
             .run()
         } catch (error) {
           console.log('geschaeftDelete error', error)
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         self.geschaeftRemoveDeleteIntended(idGeschaeft)
         self.geschaefte = self.geschaefte.filter(

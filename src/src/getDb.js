@@ -22,14 +22,14 @@ export default async (store) => {
       try {
         dbPath = await chooseDb()
       } catch (chooseError) {
-        store.addError(chooseError)
+        store.addErrorMessage(chooseError.message)
         return console.log('Error after choosing db:', chooseError)
       }
       db = new Database(dbPath, { fileMustExist: true })
       config.dbPath = dbPath
       saveConfig(config)
     } else {
-      store.addError(error)
+      store.addErrorMessage(error.message)
       return console.log('index.js, Error opening db file:', error)
     }
   }

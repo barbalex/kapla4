@@ -80,7 +80,7 @@ export default () =>
             )
             .all()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.faelligeStatiOptions = options.map(res => res.status)
       },
@@ -109,7 +109,7 @@ export default () =>
             .prepare('SELECT * FROM interne ORDER BY kurzzeichen')
             .all()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.interneOptions = interneOptions
       },
@@ -129,7 +129,7 @@ export default () =>
             )
             .all()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.externeOptions = externeOptions
       },
@@ -163,7 +163,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         // return full dataset
         try {
@@ -180,7 +180,7 @@ export default () =>
             )
             .get()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.geko.unshift(geko)
       },
@@ -197,7 +197,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.geko = self.geschaefte.geko.filter(
           g => g.idGeschaeft !== idGeschaeft || g.gekoNr !== gekoNr,
@@ -220,7 +220,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          self.addError(error)
+          self.addErrorMessage(error.message)
         }
       },
       linkNewCreate(idGeschaeft, url) {
@@ -235,7 +235,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefte.links.unshift({ idGeschaeft, url })
       },
@@ -252,7 +252,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.linkDelete(idGeschaeft, url)
       },
@@ -271,7 +271,7 @@ export default () =>
             .all()
         } catch (error) {
           self.geschaefteKontakteExtern.fetching = false
-          self.addError(error)
+          self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteExtern.fetching = false
         self.geschaefteKontakteExtern.geschaefteKontakteExtern = geschaefteKontakteExtern
@@ -290,7 +290,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         // return full object
         try {
@@ -307,7 +307,7 @@ export default () =>
             )
             .get()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteExtern.geschaefteKontakteExtern.push(
           geschaeftKontaktExtern,
@@ -333,7 +333,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteExtern.willDelete = false
         self.geschaeftKontaktExternDelete(idGeschaeft, idKontakt)
@@ -348,8 +348,7 @@ export default () =>
             .all()
         } catch (error) {
           self.geschaefteKontakteIntern.fetching = false
-          self.addError(error)
-          return
+          return self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteIntern.fetching = false
         self.geschaefteKontakteIntern.geschaefteKontakteIntern = geschaefteKontakteIntern
@@ -368,7 +367,7 @@ export default () =>
             .run()
         } catch (error) {
           console.log({ error, idGeschaeft, idKontakt })
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         // return full object
         let geschaeftKontaktIntern
@@ -387,7 +386,7 @@ export default () =>
             .get()
         } catch (error) {
           console.log({ error, idGeschaeft, idKontakt })
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteIntern.geschaefteKontakteIntern.push(
           geschaeftKontaktIntern,
@@ -413,7 +412,7 @@ export default () =>
             )
             .run()
         } catch (error) {
-          return self.addError(error)
+          return self.addErrorMessage(error.message)
         }
         self.geschaefteKontakteIntern.willDelete = false
         self.geschaeftKontaktInternDelete(idGeschaeft, idKontakt)
@@ -423,9 +422,9 @@ export default () =>
         self.app.messageTextLine1 = messageTextLine1
         self.app.messageTextLine2 = messageTextLine2
       },
-      addError(error) {
+      addErrorMessage(message) {
         // use uniq in case multiple same messages arrive
-        self.errors = uniq([...self.errors, error.message])
+        self.errors = uniq([...self.errors, message])
         setTimeout(() => self.popError(), 1000 * 10)
       },
       popError() {

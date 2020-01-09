@@ -28,7 +28,7 @@ export default types
         self[table] = rows
       },
       delete(table, id) {
-        const { app, addError } = store
+        const { app, addErrorMessage } = store
         try {
           app.db
             .prepare(
@@ -40,7 +40,7 @@ export default types
             )
             .run()
         } catch (error) {
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         store.table.toggleActivatedRow(id)
         self[table] = self[table].filter(g => g.id !== id)
@@ -48,13 +48,13 @@ export default types
       insert(table) {
         const location = store.location.toJSON()
         const activeLocation = location[0]
-        const { addError, setLocation } = store
+        const { addErrorMessage, setLocation } = store
         const { db } = store.app
         let result
         try {
           result = db.prepare(`INSERT INTO ${table} (id) VALUES (NULL)`).run()
         } catch (error) {
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         const id = result.lastInsertRowid
         // return full dataset
@@ -62,7 +62,7 @@ export default types
         try {
           row = db.prepare(`SELECT * FROM ${table} WHERE id = ${id}`).get()
         } catch (error) {
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         self[table].unshift(row)
         store.table.toggleActivatedRow(row.id)

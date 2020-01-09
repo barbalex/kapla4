@@ -10,7 +10,6 @@ import filterForFaelligeGeschaefte from '../src/filterForFaelligeGeschaefte'
 
 export default types
   .model('App', {
-    errorFetchingDb: types.maybeNull(types.string),
     showMessageModal: types.optional(types.boolean, false),
     messageTextLine1: types.optional(types.string, ''),
     messageTextLine2: types.optional(types.string, ''),

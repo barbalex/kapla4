@@ -21,13 +21,13 @@ export default types
       fetch(table) {
         const location = store.location.toJSON()
         const activeLocation = location[0]
-        const { app, addError, setLocation } = store
+        const { app, addErrorMessage, setLocation } = store
         self.table = table
         let rows
         try {
           rows = app.db.prepare(`SELECT * FROM ${table}`).all()
         } catch (error) {
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         self.table = table
         self.rows.setRows(table, rows)
@@ -51,7 +51,7 @@ export default types
         }
       },
       updateInDb(id, field, value) {
-        const { app, addError } = store
+        const { app, addErrorMessage } = store
         // no need to do something on then
         // ui was updated on TABLE_CHANGE_STATE
         try {
@@ -69,7 +69,7 @@ export default types
         } catch (error) {
           // TODO: reset ui
           console.log('Store, updateInDb, error:', error.message)
-          return addError(error)
+          return addErrorMessage(error.message)
         }
         self.changeState(id, field, value)
         // need to reload this table in self

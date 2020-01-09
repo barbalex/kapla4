@@ -18,7 +18,7 @@ let db
 try {
   db = await getDb(store)
 } catch (error) {
-  store.addError(error)
+  store.addErrorMessage(error.message)
 }
 store.app.setDb(db)
 fetchInitialData(store)

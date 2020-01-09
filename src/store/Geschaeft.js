@@ -115,7 +115,7 @@ export default types
   .actions(self => ({
     setValue({ field, value }) {
       const store = getParent(self, 3)
-      const { app, addError } = store
+      const { app, addErrorMessage } = store
       const { username } = app
       // update mst
       self[field] = value
@@ -145,7 +145,7 @@ export default types
           )
           .run()
       } catch (error) {
-        addError(error)
+        addErrorMessage(error.message)
       }
     },
   }))
