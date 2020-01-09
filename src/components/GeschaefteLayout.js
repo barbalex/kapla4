@@ -24,25 +24,26 @@ const GeschaefteLayout = () => {
 
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { geschaefteColumnWidth, setGeschaefteColumnWidth, saveConfig } = store.app
+  const {
+    geschaefteColumnWidth,
+    setGeschaefteColumnWidth,
+    saveConfig,
+  } = store.app
   const { activeId } = store.geschaefte
   const showGeschaeft = activeLocation === 'geschaefte' && !!activeId
   const showPages = activeLocation === 'pages'
   const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && !!activeId
 
-  const [saveConfigDebounced] = useDebouncedCallback(
-    (size) => {
-      saveConfig()
-    },
-    200
-  )
+  const [saveConfigDebounced] = useDebouncedCallback(size => {
+    saveConfig()
+  }, 200)
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
       defaultSize={isPrinting ? 0 : geschaefteColumnWidth}
-      onChange={(value) => {
+      onChange={value => {
         setGeschaefteColumnWidth(value)
         saveConfigDebounced(value)
       }}

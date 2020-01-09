@@ -4,8 +4,8 @@ import chooseDb from './chooseDb'
 import getConfig from './getConfig'
 import saveConfig from './saveConfig'
 
-export default async (store) => {
-  const {setDbPath, saveConfig} = store.app
+export default async store => {
+  const { setDbPath, saveConfig } = store.app
   const config = getConfig()
 
   let dbPath
@@ -17,6 +17,6 @@ export default async (store) => {
   setDbPath(dbPath)
   setTimeout(() => {
     saveConfig({ dbPath })
-    setTimeout(()=> remote.getCurrentWindow().reload())
+    setTimeout(() => remote.getCurrentWindow().reload())
   })
 }
