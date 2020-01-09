@@ -10,15 +10,15 @@ export default types
   .model('Config', {
     dbPath: types.optional(
       types.union(types.string, types.integer, types.null),
-      '',
+      standardConfig.dbPath,
     ),
     tableColumnWidth: types.optional(
       types.union(types.integer, types.null),
-      700,
+      standardConfig.tableColumnWidth,
     ),
     geschaefteColumnWidth: types.optional(
       types.union(types.integer, types.null),
-      400,
+      standardConfig.geschaefteColumnWidth,
     ),
   })
   .actions(self => ({
@@ -28,6 +28,7 @@ export default types
       const config = getConfig()
       console.log('Store, App, Config, get, config:', config)
       const newConfig = config || standardConfig
+      console.log('Store, App, Config, get, newConfig:', newConfig)
       self = newConfig
       const { dbPath } = newConfig
       const dbExists = fs.existsSync(dbPath)
@@ -44,14 +45,14 @@ export default types
       } else if (self[key]) {
         delete self[key]
       }
+      console.log('Store, Config, setting:',{key,value})
+      console.log('Store, Config, self:',self)
       saveConfig(self)
     },
-    configUiReset() {
-      const newConfig = {}
-      const dbPath = self.dbPath
-      if (dbPath) {
-        newConfig.dbPath = dbPath
-      }
+    uiReset() {
+      const newConfig = {...self}
+      delete newConfig.tableColumnWidth
+      delete newConfig.geschaefteColumnWidth
       saveConfig(newConfig)
       self = newConfig
     },
