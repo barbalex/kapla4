@@ -240,17 +240,17 @@ export default types
         const location = store.location.toJSON()
         const activeLocation = location[0]
         const { app, setLocation } = store
-        const { user } = app
+        const { username } = app
         const now = moment().format('YYYY-MM-DD HH:mm:ss')
         let result
         try {
           result = app.db
             .prepare(
               `
-        INSERT INTO
-          geschaefte (mutationsdatum, mutationsperson)
-        VALUES
-          ('${now}', '${user.username}')`,
+              INSERT INTO
+                geschaefte (mutationsdatum, mutationsperson)
+              VALUES
+                ('${now}', '${username}')`,
             )
             .run()
         } catch (error) {

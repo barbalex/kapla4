@@ -96,7 +96,7 @@ const Filter = () => {
     sortFields,
     geschaefteFilteredAndSorted: geschaefte,
   } = store.geschaefte
-  const { username } = store.app.user
+  const { username } = store.app
   const dataIsFilteredByFulltext =
     geschaefte.length !== geschaefteUnfiltered.length && !!filterFulltext
   const dataIsFilteredByFields =

@@ -28,8 +28,6 @@ export default types
       } else if (self[key]) {
         delete self[key]
       }
-      console.log('Store, Config, setting:',{key,value})
-      console.log('Store, Config, self:',self)
       saveConfig(self)
     },
     uiReset() {

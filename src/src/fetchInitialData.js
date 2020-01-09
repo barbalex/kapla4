@@ -2,7 +2,7 @@ import filterForFaelligeGeschaefte from './filterForFaelligeGeschaefte'
 import fetchUsername from './fetchUsername'
 
 export default store => {
-  store.app.fetchUsername(store)
+  fetchUsername(store)
   store.faelligeStatiOptionsGet()
   store.geschaefte.fetchGeko()
   store.geschaefte.fetchLinks()

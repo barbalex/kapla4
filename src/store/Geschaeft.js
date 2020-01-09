@@ -116,10 +116,10 @@ export default types
     setValue({ field, value }) {
       const store = getParent(self, 3)
       const { app, addError } = store
-      const { user } = app
+      const { username } = app
       // update mst
       self[field] = value
-      self.mutationsperson = user.username
+      self.mutationsperson = username
       self.mutationsdatum = moment().format('YYYY-MM-DD HH:mm:ss')
       /**
        * if field is date field
@@ -139,7 +139,7 @@ export default types
               SET
                 ${field} = ${value === null ? null : `'${value2}'`},
                 mutationsdatum = '${now}',
-                mutationsperson = '${user.username}'
+                mutationsperson = '${username}'
               WHERE
                 idGeschaeft = ${self.idGeschaeft}`,
           )
