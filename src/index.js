@@ -7,8 +7,21 @@ import App from './components/App'
 import { Provider as MstProvider } from './storeContext'
 import createStore from './store'
 import './styles.css'
+import getDb from './src/getDb'
+import fetchInitialData from './src/fetchInitialData'
+
+const run = async () => {
+
 const store = createStore().create()
-store.app.config.get()
+
+let db
+try {
+  db = await getDb(store)
+} catch (error) {
+  store.addError(error)
+}
+store.app.setDb(db)
+fetchInitialData(store)
 
 registerLocale('de', de)
 setDefaultLocale('de')
@@ -21,4 +34,6 @@ render(
     <App />
   </MstProvider>,
   document.getElementById('root'),
-)
+)}
+
+run()
