@@ -8,6 +8,7 @@ import { Provider as MstProvider } from './storeContext'
 import createStore from './store'
 import './styles.css'
 const store = createStore().create()
+store.app.config.get()
 
 registerLocale('de', de)
 setDefaultLocale('de')
