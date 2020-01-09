@@ -25,22 +25,21 @@ export default types
     get() {
       const appStore = getParent(self, 1)
 
-      getConfig()
-        .then(config => {
-          const newConfig = config || standardConfig
-          self = newConfig
-          const { dbPath } = newConfig
-          if (!dbPath) {
-            return appStore.dbGetAtStandardpathIfPossible()
-          }
-          const dbExists = fs.existsSync(dbPath)
-          if (!dbExists) {
-            return appStore.dbGetAtStandardpathIfPossible()
-          }
-          const db = new Database(dbPath, { fileMustExist: true })
-          appStore.dbChooseSuccess(dbPath, db)
-        })
-        .catch(error => console.error(error))
+      const config = getConfig()
+      console.log('Store, App, Config, get, config:', config)
+      const newConfig = config || standardConfig
+      self = newConfig
+      const { dbPath } = newConfig
+      if (!dbPath) {
+        return appStore.dbGetAtStandardpathIfPossible()
+      }
+      const dbExists = fs.existsSync(dbPath)
+      if (!dbExists) {
+        return appStore.dbGetAtStandardpathIfPossible()
+      }
+      const db = new Database(dbPath, { fileMustExist: true })
+      console.log('Store, App, Config, get, dbPath:', dbPath)
+      appStore.dbChooseSuccess(dbPath, db)
     },
     setKey(key, value) {
       if (value) {

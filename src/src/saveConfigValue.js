@@ -4,12 +4,8 @@
 const getConfig = require('./getConfig.js')
 const saveConfig = require('./saveConfig.js')
 
-module.exports = (key, value) =>
-  new Promise((resolve, reject) => {
-    getConfig()
-      .then((config) => {
-        config[key] = value
-        saveConfig(config)
-      })
-      .catch(error => reject(error))
-  })
+module.exports = (key, value) => {
+  const config = getConfig()
+  config[key] = value
+  saveConfig(config)
+}

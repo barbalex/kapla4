@@ -12,7 +12,7 @@ if (require('electron-squirrel-startup')) {
 let mainWindow
 
 const saveConfigValue = require('./src/saveConfigValue.js')
-const getConfigSync = require('./src/getConfigSync.js')
+const getConfig = require('./src/getConfig.js')
 
 const browserWindowOptions = {
   width: 1800,
@@ -27,7 +27,7 @@ const browserWindowOptions = {
 
 // get last window state
 // and set it again
-const { lastWindowState } = getConfigSync()
+const { lastWindowState } = getConfig()
 if (lastWindowState) {
   if (lastWindowState.width) browserWindowOptions.width = lastWindowState.width
   if (lastWindowState.height) {
