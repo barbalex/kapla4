@@ -64,7 +64,7 @@ export default types
         if (standardDbExists) {
           const db = new Database(standardDbPath, { fileMustExist: true })
           self.dbChooseSuccess(standardDbPath, db)
-          self.config.configSetKey('dbPath', standardDbPath)
+          self.config.setKey('dbPath', standardDbPath)
         } else {
           // let user choose db file
           self.fetchingDb = true
@@ -73,7 +73,7 @@ export default types
             .then(dbPath => {
               const db = new Database(dbPath, { fileMustExist: true })
               self.dbChooseSuccess(dbPath, db)
-              self.config.configSetKey('dbPath', dbPath)
+              self.config.setKey('dbPath', dbPath)
             })
             .catch(err => self.dbChooseError(err))
         }

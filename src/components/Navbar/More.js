@@ -63,7 +63,7 @@ const OptionsNav = () => {
           {config.dbPath && <DbPath>{`Aktuell: ${config.dbPath}`}</DbPath>}
         </DropdownItem>
         <DropdownItem divider />
-        <StyledDropdownItem onClick={config.configUiReset}>
+        <StyledDropdownItem onClick={config.uiReset}>
           Einstellungen zurücksetzen
         </StyledDropdownItem>
         <DropdownItem divider />
