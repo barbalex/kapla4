@@ -10,6 +10,7 @@ import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 
 import storeContext from '../../storeContext'
+import chooseDbConnection from '../../src/chooseDbConnection'
 
 const DbPath = styled.span`
   color: #adadad;
@@ -48,7 +49,7 @@ const onClickIssues = () => {
 
 const OptionsNav = () => {
   const store = useContext(storeContext)
-  const { config, dbGet } = store.app
+  const { config } = store.app
 
   return (
     <MoreMenu nav inNavbar>
@@ -56,7 +57,7 @@ const OptionsNav = () => {
         &#8942;
       </StyledDropdownToggle>
       <DropdownMenu right>
-        <DropdownItem onClick={dbGet}>
+        <DropdownItem onClick={chooseDbConnection}>
           Datenbank wählen
           <br />
           {config.dbPath && <DbPath>{`Aktuell: ${config.dbPath}`}</DbPath>}

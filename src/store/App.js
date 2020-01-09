@@ -27,17 +27,6 @@ export default types
     const store = getParent(self, 1)
 
     return {
-      dbGet() {
-        self.fetchingDb = true
-        self.errorFetchingDb = null
-        chooseDb()
-          .then(dbPath => {
-            const db = new Database(dbPath, { fileMustExist: true })
-            self.dbChooseSuccess(dbPath, db)
-            self.config.configSetKey('dbPath', dbPath)
-          })
-          .catch(err => self.dbChooseError(err))
-      },
       dbChooseError(err) {
         self.fetchingDb = false
         self.errorFetchingDb = err.message
