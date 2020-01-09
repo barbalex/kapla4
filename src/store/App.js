@@ -12,7 +12,6 @@ import User from './User'
 
 export default types
   .model('App', {
-    fetchingDb: types.optional(types.boolean, false),
     errorFetchingDb: types.maybeNull(types.string),
     showMessageModal: types.optional(types.boolean, false),
     messageTextLine1: types.optional(types.string, ''),
@@ -27,56 +26,11 @@ export default types
     const store = getParent(self, 1)
 
     return {
-      dbChooseError(err) {
-        self.fetchingDb = false
-        self.errorFetchingDb = err.message
-        self.db = null
+      setDb(val) {
+        self.db = val
       },
-      dbChooseSuccess(dbPath, db) {
-        self.fetchingDb = false
-        self.db = db
-        self.config = Object.assign({}, self.config, { dbPath })
-        // get data
-        store.faelligeStatiOptionsGet()
-        store.geschaefte.fetchGeko()
-        store.geschaefte.fetchLinks()
-        store.interneOptionsGet()
-        store.externeOptionsGet()
-        store.getGeschaefteKontakteIntern()
-        store.getGeschaefteKontakteExtern()
-        store.rechtsmittelErledigungOptionsGet()
-        store.parlVorstossTypOptionsGet()
-        store.statusOptionsGet()
-        store.geschaeftsartOptionsGet()
-        store.aktenstandortOptionsGet()
-        store.rechtsmittelInstanzOptionsGet()
-        store.abteilungOptionsGet()
-        store.geschaefte.fetch()
-        self.fetchUsername()
-        // set filter to fällige
-        store.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
-        store.geschaefte.sortByFields('fristMitarbeiter', 'DESCENDING')
-      },
-      dbGetAtStandardpathIfPossible() {
-        // try to open db at standard path
-        // need function that tests if db exists at standard path
-        const standardDbExists = fs.existsSync(standardDbPath)
-        if (standardDbExists) {
-          const db = new Database(standardDbPath, { fileMustExist: true })
-          self.dbChooseSuccess(standardDbPath, db)
-          self.config.setKey('dbPath', standardDbPath)
-        } else {
-          // let user choose db file
-          self.fetchingDb = true
-          self.errorFetchingDb = null
-          chooseDb()
-            .then(dbPath => {
-              const db = new Database(dbPath, { fileMustExist: true })
-              self.dbChooseSuccess(dbPath, db)
-              self.config.setKey('dbPath', dbPath)
-            })
-            .catch(err => self.dbChooseError(err))
-        }
+      setUser(user) {
+        self.user = user
       },
       fetchUsername() {
         const { user } = self
