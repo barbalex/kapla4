@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { FormGroup, Label, Input } from 'reactstrap'
+import { FormGroup, Label, CustomInput } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -42,9 +42,6 @@ const StyledTitleLabel = styled(Label)`
   color: #757575;
   font-size: 12px;
   font-weight: 500;
-`
-const StyledLabel = styled(Label)`
-  display: block;
 `
 
 const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
@@ -105,30 +102,26 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
             ) : (
               <FormGroup tag="fieldset">
                 <StyledTitleLabel>Stufe</StyledTitleLabel>
-                <FormGroup check>
-                  <StyledLabel check>
-                    <Input
-                      type="radio"
-                      data-value="1"
-                      checked={geschaeft.parlVorstossStufe === '1'}
-                      name="parlVorstossStufe"
-                      onChange={change}
-                      tabIndex={2 + nrOfFieldsBeforePv}
-                    />
-                    1: nicht überwiesen
-                  </StyledLabel>
-                  <StyledLabel check>
-                    <Input
-                      type="radio"
-                      data-value="2"
-                      checked={geschaeft.parlVorstossStufe === '2'}
-                      name="parlVorstossStufe"
-                      onChange={change}
-                      tabIndex={3 + nrOfFieldsBeforePv}
-                    />
-                    2: überwiesen
-                  </StyledLabel>
-                </FormGroup>
+                <CustomInput
+                  id="parlVorstossStufeCb1"
+                  type="checkbox"
+                  data-value="1"
+                  checked={geschaeft.parlVorstossStufe === '1'}
+                  onChange={change}
+                  name="parlVorstossStufe"
+                  label="1: nicht überwiesen"
+                  tabIndex={2 + nrOfFieldsBeforePv}
+                />
+                <CustomInput
+                  id="parlVorstossStufeCb2"
+                  type="checkbox"
+                  data-value="2"
+                  checked={geschaeft.parlVorstossStufe === '2'}
+                  onChange={change}
+                  name="parlVorstossStufe"
+                  label="2: überwiesen"
+                  tabIndex={3 + nrOfFieldsBeforePv}
+                />
               </FormGroup>
             )}
           </FieldStufe>
@@ -147,36 +140,32 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
             ) : (
               <FormGroup tag="fieldset">
                 <StyledTitleLabel>Zuständigkeit</StyledTitleLabel>
-                <FormGroup check>
-                  <StyledLabel check>
-                    <Input
-                      type="radio"
-                      data-value="hauptzuständig"
-                      checked={
-                        geschaeft.parlVorstossZustaendigkeitAwel ===
-                        'hauptzuständig'
-                      }
-                      name="parlVorstossZustaendigkeitAwel"
-                      onChange={change}
-                      tabIndex={6 + nrOfFieldsBeforePv}
-                    />
-                    haupt
-                  </StyledLabel>
-                  <StyledLabel check>
-                    <Input
-                      type="radio"
-                      data-value="mitberichtzuständig"
-                      checked={
-                        geschaeft.parlVorstossZustaendigkeitAwel ===
-                        'mitberichtzuständig'
-                      }
-                      name="parlVorstossZustaendigkeitAwel"
-                      onChange={change}
-                      tabIndex={7 + nrOfFieldsBeforePv}
-                    />
-                    mitbericht
-                  </StyledLabel>
-                </FormGroup>
+                <CustomInput
+                  id="parlVorstossZustCb1"
+                  type="checkbox"
+                  data-value="hauptzuständig"
+                  checked={
+                    geschaeft.parlVorstossZustaendigkeitAwel ===
+                    'hauptzuständig'
+                  }
+                  onChange={change}
+                  name="parlVorstossZustaendigkeitAwel"
+                  label="haupt"
+                  tabIndex={6 + nrOfFieldsBeforePv}
+                />
+                <CustomInput
+                  id="parlVorstossZustCb2"
+                  type="checkbox"
+                  data-value="mitberichtzuständig"
+                  checked={
+                    geschaeft.parlVorstossZustaendigkeitAwel ===
+                    'mitberichtzuständig'
+                  }
+                  onChange={change}
+                  name="parlVorstossZustaendigkeitAwel"
+                  label="mitbericht"
+                  tabIndex={7 + nrOfFieldsBeforePv}
+                />
               </FormGroup>
             )}
           </FieldZustaendigkeit>

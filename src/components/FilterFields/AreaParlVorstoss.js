@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { Radio } from 'react-bootstrap'
-import { FormGroup, Label, Input, InputGroup } from 'reactstrap'
+import { CustomInput, Label, Input, InputGroup } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -42,9 +41,6 @@ const StyledLabel = styled(Label)`
   color: #757575;
   margin: 0 0 -2px 0;
 `
-const StyledRadioLabel = styled(Label)`
-  display: block;
-`
 
 const AreaParlVorstoss = ({
   values,
@@ -53,8 +49,6 @@ const AreaParlVorstoss = ({
   changeComparator,
 }) => {
   const store = useContext(storeContext)
-
-  console.log('AreaParlVorstoss, values:', values)
 
   return (
     <ErrorBoundary>
@@ -79,56 +73,52 @@ const AreaParlVorstoss = ({
           </InputGroup>
         </FieldParlVorstossTyp>
         <FieldStufe>
-          <FormGroup tag="fieldset">
-            <StyledLabel>Stufe</StyledLabel>
-            <FormGroup>
-              <StyledRadioLabel check={values.parlVorstossStufe === '1'}>
-                <Input
-                  type="checkbox"
-                  data-value="1"
-                  checked={values.parlVorstossStufe === '1'}
-                  onChange={change}
-                  name="parlVorstossStufe"
-                  tabIndex={2 + firstTabIndex}
-                />
-                1: nicht überwiesen
-              </StyledRadioLabel>
-              <StyledRadioLabel check={values.parlVorstossStufe === '2'}>
-                <Input
-                  type="checkbox"
-                  data-value="2"
-                  checked={values.parlVorstossStufe === '2'}
-                  onChange={change}
-                  name="parlVorstossStufe"
-                  tabIndex={3 + firstTabIndex}
-                />
-                2: überwiesen
-              </StyledRadioLabel>
-            </FormGroup>
-          </FormGroup>
+          <StyledLabel>Stufe</StyledLabel>
+          <CustomInput
+            id="parlVorstossStufeCheckbox1"
+            type="checkbox"
+            data-value="1"
+            checked={values.parlVorstossStufe === '1'}
+            onChange={change}
+            name="parlVorstossStufe"
+            label="1: nicht überwiesen"
+            tabIndex={2 + firstTabIndex}
+          />
+          <CustomInput
+            id="parlVorstossStufeCheckbox2"
+            type="checkbox"
+            data-value="2"
+            checked={values.parlVorstossStufe === '2'}
+            onChange={change}
+            name="parlVorstossStufe"
+            label="2: überwiesen"
+            tabIndex={3 + firstTabIndex}
+          />
         </FieldStufe>
         <FieldZustaendigkeit>
           <StyledLabel>Zuständigkeit</StyledLabel>
-          <Radio
+          <CustomInput
+            id="parlVorstossZustCheckbox1"
+            type="checkbox"
             data-value="hauptzuständig"
             checked={values.parlVorstossZustaendigkeitAwel === 'hauptzuständig'}
-            name="parlVorstossZustaendigkeitAwel"
             onChange={change}
+            name="parlVorstossZustaendigkeitAwel"
+            label="haupt"
             tabIndex={6 + firstTabIndex}
-          >
-            haupt
-          </Radio>
-          <Radio
+          />
+          <CustomInput
+            id="parlVorstossZustCheckbox2"
+            type="checkbox"
             data-value="mitberichtzuständig"
             checked={
               values.parlVorstossZustaendigkeitAwel === 'mitberichtzuständig'
             }
-            name="parlVorstossZustaendigkeitAwel"
             onChange={change}
+            name="parlVorstossZustaendigkeitAwel"
+            label="mitbericht"
             tabIndex={7 + firstTabIndex}
-          >
-            mitbericht
-          </Radio>
+          />
         </FieldZustaendigkeit>
       </Container>
     </ErrorBoundary>

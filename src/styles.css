@@ -19,6 +19,17 @@ body {
   margin-bottom: -2px;
 }
 
+/* style custom checkboxes */
+.custom-control-label::before,
+.custom-control-label::after {
+  top: 0.1rem !important;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+  border-color: rgb(43, 148, 0) !important;
+  background-color: rgb(43, 148, 0) !important;
+}
+
 /* optimize spacing of vertical radios */
 .control-label~.radio {
   margin-top: 7px;

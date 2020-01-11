@@ -108,7 +108,7 @@ const Geschaeft = () => {
     if (type && type === 'number') {
       value = +value
     }
-    if (type === 'radio') {
+    if (['radio', 'checkbox'].includes(type)) {
       // need to set null if existing value was clicked
       if (geschaeft[field] === dataset.value) {
         value = ''
