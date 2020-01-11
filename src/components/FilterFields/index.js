@@ -95,9 +95,9 @@ const FilterFields = () => {
       if (filterFields.forEach) {
         filterFields.forEach(f => {
           if (f.field !== name) {
-            newFilterFields.push(f)
+            newFilterFields.push({ ...f })
           } else {
-            changedField = f
+            changedField = { ...f }
           }
         })
       }
