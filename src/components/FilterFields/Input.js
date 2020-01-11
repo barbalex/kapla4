@@ -1,11 +1,11 @@
 import React from 'react'
-import { FormControl, InputGroup } from 'react-bootstrap'
+import { InputGroup, Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
 
-const Input = ({
+const InputControl = ({
   type = 'text',
   name,
   change,
@@ -17,7 +17,7 @@ const Input = ({
   <InputGroup>
     <SortSelector name={name} />
     <ComparatorSelector name={name} changeComparator={changeComparator} />
-    <FormControl
+    <Input
       type={type}
       value={values[name] || ''}
       name={name}
@@ -28,4 +28,4 @@ const Input = ({
   </InputGroup>
 )
 
-export default observer(Input)
+export default observer(InputControl)
