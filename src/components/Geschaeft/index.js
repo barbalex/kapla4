@@ -96,7 +96,7 @@ const Geschaeft = () => {
     geschaefteFilteredAndSorted: geschaefte,
     links,
   } = store.geschaefte
-  const { config } = store.app
+  const { geschaefteColumnWidth } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
   const { setValue } = geschaeft
@@ -181,7 +181,7 @@ const Geschaeft = () => {
 
   // need width to adapt layout to differing widths
   const windowWidth = $(window).width()
-  const areaGeschaefteWidth = windowWidth - config.geschaefteColumnWidth
+  const areaGeschaefteWidth = windowWidth - geschaefteColumnWidth
 
   // prepare tab indexes
   const nrOfGFields = 10

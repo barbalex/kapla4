@@ -117,7 +117,6 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
                     />
                     1: nicht überwiesen
                   </StyledLabel>
-
                   <StyledLabel check>
                     <Input
                       type="radio"

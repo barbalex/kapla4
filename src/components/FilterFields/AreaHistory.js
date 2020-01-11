@@ -1,5 +1,5 @@
 import React from 'react'
-import { ControlLabel } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -26,12 +26,17 @@ const FieldVorgeschaeft = styled.div`
   grid-column: 1;
   width: 175px;
 `
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -6px 0;
+`
 
 const AreaHistory = ({ values, change, changeComparator, firstTabIndex }) => (
   <ErrorBoundary>
     <Container>
       <Title>Historie</Title>
-      <ControlLabel>Vorgeschäft</ControlLabel>
+      <StyledLabel>Vorgeschäft</StyledLabel>
       <FieldVorgeschaeft>
         <Input
           name="idVorgeschaeft"

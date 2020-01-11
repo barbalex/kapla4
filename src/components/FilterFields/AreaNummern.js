@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ControlLabel } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -41,7 +41,12 @@ const LabelNrDiv = styled.div`
   position: absolute;
   bottom: 1px;
 `
-const LabelIdGeschaeft = styled(ControlLabel)`
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -2px 0;
+`
+const LabelIdGeschaeft = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelIdGeschaeft;
@@ -49,7 +54,7 @@ const LabelIdGeschaeft = styled(ControlLabel)`
 const FieldIdGeschaeft = styled.div`
   grid-area: fieldIdGeschaeft;
 `
-const LabelGekoNr = styled(ControlLabel)`
+const LabelGekoNr = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelGekoNr;
@@ -65,7 +70,7 @@ const LabelJahre = styled.div`
   position: relative;
   min-height: 16px;
 `
-const LabelEntscheidAwel = styled(ControlLabel)`
+const LabelEntscheidAwel = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelEntscheidAwel;
@@ -73,7 +78,7 @@ const LabelEntscheidAwel = styled(ControlLabel)`
 const FieldEntscheidAwel = styled.div`
   grid-area: fieldEntscheidAwel;
 `
-const LabelEntscheidBdv = styled(ControlLabel)`
+const LabelEntscheidBdv = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelEntscheidBdv;
@@ -81,7 +86,7 @@ const LabelEntscheidBdv = styled(ControlLabel)`
 const FieldEntscheidBdv = styled.div`
   grid-area: fieldEntscheidBdv;
 `
-const LabelEntscheidRrb = styled(ControlLabel)`
+const LabelEntscheidRrb = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelEntscheidRrb;
@@ -89,7 +94,7 @@ const LabelEntscheidRrb = styled(ControlLabel)`
 const FieldEntscheidRrb = styled.div`
   grid-area: fieldEntscheidRrb;
 `
-const LabelEntscheidBvv = styled(ControlLabel)`
+const LabelEntscheidBvv = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelEntscheidBvv;
@@ -97,7 +102,7 @@ const LabelEntscheidBvv = styled(ControlLabel)`
 const FieldEntscheidBvv = styled.div`
   grid-area: fieldEntscheidBvv;
 `
-const LabelEntscheidKr = styled(ControlLabel)`
+const LabelEntscheidKr = styled(StyledLabel)`
   margin-top: 11px;
   text-align: right;
   grid-area: labelEntscheidKr;
@@ -198,7 +203,7 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
           />
         </FieldEntscheidKr>
         <FieldAktenstandort>
-          <ControlLabel>Aktenstandort</ControlLabel>
+          <StyledLabel>Aktenstandort</StyledLabel>
           <SelectInput
             name="aktenstandort"
             change={change}
@@ -209,7 +214,7 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
           />
         </FieldAktenstandort>
         <FieldAktennummer>
-          <ControlLabel>Nr.</ControlLabel>
+          <StyledLabel>Nr.</StyledLabel>
           <Input
             type="text"
             name="aktennummer"

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { FormControl, ControlLabel, Radio, InputGroup } from 'react-bootstrap'
+import { Radio } from 'react-bootstrap'
+import { FormGroup, Label, Input, InputGroup } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -36,6 +37,14 @@ const FieldStufe = styled.div`
 const FieldZustaendigkeit = styled.div`
   grid-area: fieldZustaendigkeit;
 `
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -2px 0;
+`
+const StyledRadioLabel = styled(Label)`
+  display: block;
+`
 
 const AreaParlVorstoss = ({
   values,
@@ -45,51 +54,61 @@ const AreaParlVorstoss = ({
 }) => {
   const store = useContext(storeContext)
 
+  console.log('AreaParlVorstoss, values:', values)
+
   return (
     <ErrorBoundary>
       <Container>
         <Title>Parlamentarischer Vorstoss</Title>
         <FieldParlVorstossTyp>
-          <ControlLabel>Typ</ControlLabel>
+          <StyledLabel>Typ</StyledLabel>
           <InputGroup>
             <ComparatorSelector
               name="parlVorstossTyp"
               changeComparator={changeComparator}
             />
-            <FormControl
-              componentClass="select"
+            <Input
+              type="select"
               value={values.parlVorstossTyp || ''}
               name="parlVorstossTyp"
               onChange={change}
               tabIndex={1 + firstTabIndex}
             >
               {createOptions(store.geschaefte.parlVorstossTypOptions)}
-            </FormControl>
+            </Input>
           </InputGroup>
         </FieldParlVorstossTyp>
         <FieldStufe>
-          <ControlLabel>Stufe</ControlLabel>
-          <Radio
-            data-value={1}
-            checked={values.parlVorstossStufe === '1'}
-            onChange={change}
-            name="parlVorstossStufe"
-            tabIndex={2 + firstTabIndex}
-          >
-            1: nicht überwiesen
-          </Radio>
-          <Radio
-            data-value={2}
-            checked={values.parlVorstossStufe === '2'}
-            name="parlVorstossStufe"
-            onChange={change}
-            tabIndex={3 + firstTabIndex}
-          >
-            2: überwiesen
-          </Radio>
+          <FormGroup tag="fieldset">
+            <StyledLabel>Stufe</StyledLabel>
+            <FormGroup>
+              <StyledRadioLabel check={values.parlVorstossStufe === '1'}>
+                <Input
+                  type="checkbox"
+                  data-value="1"
+                  checked={values.parlVorstossStufe === '1'}
+                  onChange={change}
+                  name="parlVorstossStufe"
+                  tabIndex={2 + firstTabIndex}
+                />
+                1: nicht überwiesen
+              </StyledRadioLabel>
+              <StyledRadioLabel check={values.parlVorstossStufe === '2'}>
+                <Input
+                  type="checkbox"
+                  data-value="2"
+                  checked={values.parlVorstossStufe === '2'}
+                  onChange={change}
+                  name="parlVorstossStufe"
+                  tabIndex={3 + firstTabIndex}
+                />
+                2: überwiesen
+              </StyledRadioLabel>
+            </FormGroup>
+          </FormGroup>
         </FieldStufe>
         <FieldZustaendigkeit>
-          <ControlLabel>Zuständigkeit</ControlLabel>
+          <StyledLabel>Zuständigkeit</StyledLabel>
           <Radio
             data-value="hauptzuständig"
             checked={values.parlVorstossZustaendigkeitAwel === 'hauptzuständig'}
