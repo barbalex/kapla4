@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ControlLabel } from 'react-bootstrap'
+import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
@@ -61,6 +61,11 @@ const FieldVermerk = styled.div`
 const FieldVermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
 `
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -2px 0;
+`
 
 const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
   const store = useContext(storeContext)
@@ -77,7 +82,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
       <Container>
         <Title>Geschäft</Title>
         <FieldGegenstand>
-          <ControlLabel>Gegenstand</ControlLabel>
+          <StyledLabel>Gegenstand</StyledLabel>
           <Input
             name="gegenstand"
             change={change}
@@ -87,7 +92,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldGegenstand>
         <FieldAusloeser>
-          <ControlLabel>Auslöser</ControlLabel>
+          <StyledLabel>Auslöser</StyledLabel>
           <Input
             name="ausloeser"
             change={change}
@@ -97,7 +102,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldAusloeser>
         <FieldOrt>
-          <ControlLabel>Ort</ControlLabel>
+          <StyledLabel>Ort</StyledLabel>
           <Input
             name="ort"
             change={change}
@@ -107,7 +112,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldOrt>
         <FieldGeschaeftsart>
-          <ControlLabel>Geschäftsart</ControlLabel>
+          <StyledLabel>Geschäftsart</StyledLabel>
           <SelectInput
             name="geschaeftsart"
             change={change}
@@ -118,7 +123,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldGeschaeftsart>
         <FieldStatus>
-          <ControlLabel>Status</ControlLabel>
+          <StyledLabel>Status</StyledLabel>
           <SelectInput
             name="status"
             change={change}
@@ -129,7 +134,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldStatus>
         <FieldAbteilung>
-          <ControlLabel>Abteilung</ControlLabel>
+          <StyledLabel>Abteilung</StyledLabel>
           <SelectInput
             name="abteilung"
             change={change}
@@ -140,7 +145,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldAbteilung>
         <FieldDetails>
-          <ControlLabel>Details</ControlLabel>
+          <StyledLabel>Details</StyledLabel>
           <Input
             name="details"
             change={change}
@@ -150,7 +155,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldDetails>
         <FieldNaechsterSchritt>
-          <ControlLabel>Nächster Schritt</ControlLabel>
+          <StyledLabel>Nächster Schritt</StyledLabel>
           <Input
             name="naechsterSchritt"
             change={change}
@@ -160,7 +165,7 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldNaechsterSchritt>
         <FieldVermerk>
-          <ControlLabel>Vermerk</ControlLabel>
+          <StyledLabel>Vermerk</StyledLabel>
           <Input
             name="vermerk"
             change={change}
@@ -170,9 +175,9 @@ const AreaGeschaeft = ({ change, values, firstTabIndex, changeComparator }) => {
           />
         </FieldVermerk>
         <FieldVermerkIntern>
-          <ControlLabel>
+          <StyledLabel>
             Vermerk intern (in Berichten nicht angezeigt)
-          </ControlLabel>
+          </StyledLabel>
           <Input
             name="vermerkIntern"
             change={change}
