@@ -91,8 +91,6 @@ const DateField = ({
     values[name] ? moment(values[name], 'YYYY-MM-DD').format('DD.MM.YYYY') : '',
   )
   useEffect(() => {
-    name === 'datumEingangAwel' &&
-      console.log('DateField, useEffect setting value')
     setValue(
       values[name]
         ? moment(values[name], 'YYYY-MM-DD').format('DD.MM.YYYY')
@@ -100,13 +98,8 @@ const DateField = ({
     )
   }, [name, value, values])
 
-  name === 'datumEingangAwel' &&
-    console.log('DateField', { name, values, value })
-
   const onChange = useCallback(e => setValue(e.target.value), [])
   const onBlur = useCallback(() => {
-    name === 'datumEingangAwel' &&
-      console.log('DateField, onBlur', { value, valuesName: values[name] })
     // only filter if value has changed
     if (value !== values[name]) {
       if (!value || moment(value, 'DD.MM.YYYY').isValid()) {
