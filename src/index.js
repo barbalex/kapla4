@@ -4,7 +4,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker'
 import { de } from 'date-fns/locale'
 
 import App from './components/App'
-import { Provider as MstProvider } from './storeContext'
+import { Provider as StoreProvider } from './storeContext'
 import createStore from './store'
 import './styles.css'
 import getDb from './src/getDb'
@@ -29,9 +29,9 @@ const run = async () => {
   window.store = store
 
   render(
-    <MstProvider value={store}>
+    <StoreProvider value={store}>
       <App />
-    </MstProvider>,
+    </StoreProvider>,
     document.getElementById('root'),
   )
 }
