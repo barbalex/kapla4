@@ -3,14 +3,14 @@
  * Hooks can only be called inside the body of a function component.
  */
 import React, { useContext } from 'react'
-import { InputGroup, FormControl } from 'react-bootstrap'
+import { Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
 import storeContext from '../../storeContext'
 
-const StyledFormControl = styled(FormControl)`
-  width: 45px !important;
+const StyledInput = styled(Input)`
+  max-width: 45px !important;
   margin-right: -1px !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
@@ -29,17 +29,15 @@ const SortSelector = ({ name }) => {
   const direction = filterField ? filterField.direction : ''
 
   return (
-    <InputGroup.Button>
-      <StyledFormControl
-        componentClass="select"
-        onChange={e => sortByFields(name, e.target.value)}
-        value={direction}
-      >
-        <option value="" />
-        <option value="ASCENDING">&#8679;</option>
-        <option value="DESCENDING">&#8681;</option>
-      </StyledFormControl>
-    </InputGroup.Button>
+    <StyledInput
+      type="select"
+      onChange={e => sortByFields(name, e.target.value)}
+      value={direction}
+    >
+      <option value="" />
+      <option value="ASCENDING">&#8679;</option>
+      <option value="DESCENDING">&#8681;</option>
+    </StyledInput>
   )
 }
 
