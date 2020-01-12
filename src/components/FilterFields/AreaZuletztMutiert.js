@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap'
+import { Label, Input, InputGroup } from 'reactstrap'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -59,12 +59,20 @@ const Container = styled.div`
 const FieldVerantwortlichSelector = styled.div`
   grid-column: 1 / span 1;
 `
-const FieldVerantwortlichName = styled(FormControl.Static)`
+const FieldVerantwortlichName = styled.div`
   grid-column: 2 / span 1;
+  height: 33.5px;
+  display: flex;
+  align-items: center;
 `
-const VerantwortlichDropdown = styled(FormControl)`
+const VerantwortlichDropdown = styled(Input)`
   font-family: 'Lucida Console', Monaco, monospace;
   width: 80px;
+`
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -2px 0;
 `
 
 const AreaZuletztMutiert = ({
@@ -79,7 +87,7 @@ const AreaZuletztMutiert = ({
     <ErrorBoundary>
       <Container>
         <FieldVerantwortlichSelector>
-          <ControlLabel>Mutations-Person</ControlLabel>
+          <StyledLabel>Mutations-Person</StyledLabel>
           <InputGroup>
             <SortSelector name="mutationsperson" />
             <ComparatorSelector
@@ -87,7 +95,7 @@ const AreaZuletztMutiert = ({
               changeComparator={changeComparator}
             />
             <VerantwortlichDropdown
-              componentClass="select"
+              type="select"
               value={values.mutationsperson || ''}
               name="mutationsperson"
               onChange={change}

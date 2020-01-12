@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, InputGroup } from 'react-bootstrap'
+import { Input, InputGroup } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 
 import ComparatorSelector from './ComparatorSelector'
@@ -17,8 +17,8 @@ const SelectInput = ({
   <InputGroup>
     <SortSelector name={name} />
     <ComparatorSelector name={name} changeComparator={changeComparator} />
-    <FormControl
-      componentClass="select"
+    <Input
+      type="select"
       value={values[name] || ''}
       name={name}
       onChange={change}
@@ -26,7 +26,7 @@ const SelectInput = ({
       autoFocus={autoFocus}
     >
       {options}
-    </FormControl>
+    </Input>
   </InputGroup>
 )
 
