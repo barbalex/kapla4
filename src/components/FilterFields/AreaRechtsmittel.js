@@ -7,7 +7,7 @@ import ErrorBoundary from 'react-error-boundary'
 
 import ComparatorSelector from './ComparatorSelector'
 import createOptions from '../../src/createOptions'
-import DateField from './DateField'
+import Date from './Date'
 import InputCompoment from './Input'
 import storeContext from '../../storeContext'
 
@@ -104,7 +104,7 @@ const AreaRechtsmittel = ({
           </InputGroup>
         </FieldEntscheidNr>
         <FieldEntscheidDatum>
-          <DateField
+          <Date
             name="rechtsmittelEntscheidDatum"
             label="Entscheid Datum"
             tabIndex={3 + firstTabIndex}
