@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { FormControl, ControlLabel, InputGroup } from 'react-bootstrap'
+import { Label, Input, InputGroup } from 'reactstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -8,7 +8,7 @@ import ErrorBoundary from 'react-error-boundary'
 import ComparatorSelector from './ComparatorSelector'
 import createOptions from '../../src/createOptions'
 import DateField from './DateField'
-import Input from './Input'
+import InputCompoment from './Input'
 import storeContext from '../../storeContext'
 
 moment.locale('de')
@@ -49,6 +49,11 @@ const FieldErledigung = styled.div`
 const FieldRechtsmittelTxt = styled.div`
   grid-area: fieldRechtsmittelTxt;
 `
+const StyledLabel = styled(Label)`
+  font-size: 12px;
+  color: #757575;
+  margin: 0 0 -2px 0;
+`
 
 const AreaRechtsmittel = ({
   values,
@@ -63,31 +68,31 @@ const AreaRechtsmittel = ({
       <Container>
         <Title>Rekurs / Beschwerde</Title>
         <FieldInstanz>
-          <ControlLabel>Instanz</ControlLabel>
+          <StyledLabel>Instanz</StyledLabel>
           <InputGroup>
             <ComparatorSelector
               name="rechtsmittelInstanz"
               changeComparator={changeComparator}
             />
-            <FormControl
-              componentClass="select"
+            <Input
+              type="select"
               value={values.rechtsmittelInstanz || ''}
               name="rechtsmittelInstanz"
               onChange={change}
               tabIndex={1 + firstTabIndex}
             >
               {createOptions(store.geschaefte.rechtsmittelInstanzOptions)}
-            </FormControl>
+            </Input>
           </InputGroup>
         </FieldInstanz>
         <FieldEntscheidNr>
-          <ControlLabel>Entscheid Nr.</ControlLabel>
+          <StyledLabel>Entscheid Nr.</StyledLabel>
           <InputGroup>
             <ComparatorSelector
               name="rechtsmittelEntscheidNr"
               changeComparator={changeComparator}
             />
-            <FormControl
+            <Input
               type="text"
               value={values.rechtsmittelEntscheidNr || ''}
               name="rechtsmittelEntscheidNr"
@@ -107,26 +112,26 @@ const AreaRechtsmittel = ({
           />
         </FieldEntscheidDatum>
         <FieldErledigung>
-          <ControlLabel>Erledigung</ControlLabel>
+          <StyledLabel>Erledigung</StyledLabel>
           <InputGroup>
             <ComparatorSelector
               name="rechtsmittelErledigung"
               changeComparator={changeComparator}
             />
-            <FormControl
-              componentClass="select"
+            <Input
+              type="select"
               value={values.rechtsmittelErledigung || ''}
               name="rechtsmittelErledigung"
               onChange={change}
               tabIndex={4 + firstTabIndex}
             >
               {createOptions(store.geschaefte.rechtsmittelErledigungOptions)}
-            </FormControl>
+            </Input>
           </InputGroup>
         </FieldErledigung>
         <FieldRechtsmittelTxt>
-          <ControlLabel>Bemerkungen</ControlLabel>
-          <Input
+          <StyledLabel>Bemerkungen</StyledLabel>
+          <InputCompoment
             name="rechtsmittelTxt"
             change={change}
             values={values}
