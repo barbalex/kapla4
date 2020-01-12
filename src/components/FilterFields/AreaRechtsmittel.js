@@ -73,6 +73,7 @@ const AreaRechtsmittel = ({
             <ComparatorSelector
               name="rechtsmittelInstanz"
               changeComparator={changeComparator}
+              radiusLeft={4}
             />
             <Input
               type="select"
@@ -91,6 +92,7 @@ const AreaRechtsmittel = ({
             <ComparatorSelector
               name="rechtsmittelEntscheidNr"
               changeComparator={changeComparator}
+              radiusLeft={4}
             />
             <Input
               type="text"
@@ -117,6 +119,7 @@ const AreaRechtsmittel = ({
             <ComparatorSelector
               name="rechtsmittelErledigung"
               changeComparator={changeComparator}
+              radiusLeft={4}
             />
             <Input
               type="select"

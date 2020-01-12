@@ -13,12 +13,16 @@ const StyledInput = styled(Input)`
   max-width: 55px !important;
   margin-right: -1px !important;
   border-radius: 0 !important;
+  border-top-left-radius: ${props =>
+    `${props['data-radius-left']}px !important`};
+  border-bottom-left-radius: ${props =>
+    `${props['data-radius-left']}px !important`};
   padding-left: 3px !important;
   padding-right: 0 !important;
   font-weight: 900;
 `
 
-const ComparatorSelector = ({ name, changeComparator }) => {
+const ComparatorSelector = ({ name, changeComparator, radiusLeft = 0 }) => {
   const store = useContext(storeContext)
   const filterField = store.geschaefte.filterFields.find(
     ff => ff.field === name,
@@ -30,6 +34,7 @@ const ComparatorSelector = ({ name, changeComparator }) => {
       type="select"
       onChange={e => changeComparator(e.target.value, name)}
       value={comparatorValue}
+      data-radius-left={radiusLeft}
     >
       <option value="" />
       <option value="=">&#8776;</option>
