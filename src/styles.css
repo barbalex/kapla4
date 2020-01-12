@@ -161,17 +161,24 @@ textarea::-webkit-scrollbar {
 
 @media print {
   .SplitPane.vertical {
-    height: auto !important;
+    flex: none !important;
     display: block !important;
+    position: inherit !important;
     overflow: visible !important;
+    height: auto !important;
+  }
+
+  .Pane.Pane1 {
+    flex: none !important;
   }
 
   .Pane.Pane2 {
+    flex: none !important;
+    display: block !important;
+    position: inherit !important;
+    overflow: visible !important;
     height: auto !important;
     width: auto !important;
-    display: block !important;
-    position: static !important;
-    overflow: visible !important;
   }
 }
 
