@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
-import { FormControl, InputGroup } from 'react-bootstrap'
-//import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
+import { InputGroup, Input } from 'reactstrap'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import { observer } from 'mobx-react-lite'
@@ -158,7 +157,7 @@ const ExterneKontakteName = styled.div`
   display: flex;
   align-items: center;
 `
-const KontakteDropdown = styled(FormControl)`
+const KontakteDropdown = styled(Input)`
   width: 80px;
 `
 
@@ -182,7 +181,7 @@ const AreaPersonen = ({
             changeComparator={changeComparator}
           />
           <KontakteDropdown
-            componentClass="select"
+            type="select"
             value={values.verantwortlich || ''}
             name="verantwortlich"
             onChange={change}
@@ -203,7 +202,7 @@ const AreaPersonen = ({
             changeComparator={changeComparator}
           />
           <KontakteDropdown
-            componentClass="select"
+            type="select"
             value={values.kontaktInternVornameName || ''}
             name="kontaktInternVornameName"
             onChange={change}
@@ -224,7 +223,7 @@ const AreaPersonen = ({
             changeComparator={changeComparator}
           />
           <KontakteDropdown
-            componentClass="select"
+            type="select"
             value={values.kontaktExternNameVorname || ''}
             name="kontaktExternNameVorname"
             onChange={change}
