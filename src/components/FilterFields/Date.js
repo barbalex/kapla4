@@ -27,7 +27,8 @@ const NonRowLabel = styled(Label)`
 `
 const StyledDatePicker = styled(DatePicker)`
   width: 100%;
-  height: calc(1.5em + 0.5rem + 2px);
+  height: 33.5px;
+  min-height: 33.5px;
   padding: 0.25rem 0.5rem;
   line-height: 1.5;
   border-radius: 0.2rem;
@@ -38,7 +39,6 @@ const StyledDatePicker = styled(DatePicker)`
   background-clip: padding-box;
   border: 1px solid #ced4da;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  min-height: 34px;
   &:focus {
     color: #495057;
     background-color: #fff;

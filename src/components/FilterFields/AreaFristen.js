@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import ErrorBoundary from 'react-error-boundary'
 
-import DateField from './DateField'
+import Date from './Date'
 
 const Container = styled.div`
   grid-area: areaFristen;
@@ -26,7 +26,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
   <ErrorBoundary>
     <Container>
       <Title>Fristen</Title>
-      <DateField
+      <Date
         name="datumEingangAwel"
         label="Datum des Eingangs im AWEL"
         tabIndex={1 + firstTabIndex}
@@ -34,7 +34,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="fristAwel"
         label="Frist für Erledigung durch AWEL"
         tabIndex={2 + firstTabIndex}
@@ -42,7 +42,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="fristAmtschef"
         label="Frist Vorlage an Amtschef"
         tabIndex={3 + firstTabIndex}
@@ -50,7 +50,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="fristAbteilung"
         label="Frist für Erledigung durch Abteilung"
         tabIndex={4 + firstTabIndex}
@@ -58,7 +58,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="fristMitarbeiter"
         label="Frist Erledigung nächster Schritt Re"
         tabIndex={5 + firstTabIndex}
@@ -66,7 +66,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="datumAusgangAwel"
         label="Datum Ausgang AWEL (erledigt)"
         tabIndex={6 + firstTabIndex}
@@ -74,7 +74,7 @@ const AreaFristen = ({ values, firstTabIndex, change, changeComparator }) => (
         change={change}
         changeComparator={changeComparator}
       />
-      <DateField
+      <Date
         name="fristDirektion"
         label="Frist für Erledigung durch Direktion"
         tabIndex={7 + firstTabIndex}
