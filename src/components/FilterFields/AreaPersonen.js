@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { FormControl, InputGroup } from 'react-bootstrap'
+//import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import { observer } from 'mobx-react-lite'
@@ -127,8 +128,11 @@ const VerantwortlichSubTitle = styled.div`
 const VerantwortlichSelector = styled(InputGroup)`
   grid-column: 1 / span 1;
 `
-const VerantwortlichName = styled(FormControl.Static)`
+const VerantwortlichName = styled.div`
   grid-column: 2 / span 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
 `
 const InterneKontakteSubTitle = styled.div`
   ${subtitle} grid-column: 1 / span 2;
@@ -136,8 +140,11 @@ const InterneKontakteSubTitle = styled.div`
 const InterneKontakteSelector = styled(InputGroup)`
   grid-column: 1 / span 1;
 `
-const InterneKontakteName = styled(FormControl.Static)`
+const InterneKontakteName = styled.div`
   grid-column: 2 / span 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
 `
 const ExterneKontakteSubTitle = styled.div`
   ${subtitle} grid-column: 1 / span 2;
@@ -145,8 +152,11 @@ const ExterneKontakteSubTitle = styled.div`
 const ExterneKontakteSelector = styled(InputGroup)`
   grid-column: 1 / span 1;
 `
-const ExterneKontakteName = styled(FormControl.Static)`
+const ExterneKontakteName = styled.div`
   grid-column: 2 / span 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
 `
 const KontakteDropdown = styled(FormControl)`
   width: 80px;
