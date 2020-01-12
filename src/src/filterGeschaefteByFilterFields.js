@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import isDateField from './isDateField'
 import getItKontoForVerantwortlich from './getItKontoForVerantwortlich'
+import ifIsNumericAsNumber from './ifIsNumericAsNumber'
 
 export default store => {
   const {
@@ -71,6 +72,7 @@ export default store => {
         if (isString(filterValue)) {
           filterValue = filterValue.toLowerCase()
         }
+        filterValue = ifIsNumericAsNumber(filterValue)
         const fieldsWithList = [
           'kontaktInternVornameName',
           'kontaktExternNameVorname',

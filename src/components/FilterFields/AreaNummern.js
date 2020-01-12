@@ -37,10 +37,6 @@ const Title = styled.div`
   font-size: 16px;
   grid-area: areaNummernTitle;
 `
-const LabelNrDiv = styled.div`
-  position: absolute;
-  bottom: 1px;
-`
 const StyledLabel = styled(Label)`
   font-size: 12px;
   color: #757575;
@@ -61,14 +57,6 @@ const LabelGekoNr = styled(StyledLabel)`
 `
 const FieldGekoNr = styled.div`
   grid-area: fieldGekoNr;
-`
-const LabelJahre = styled.div`
-  color: #757575;
-  font-size: 12px;
-  font-weight: 500;
-  grid-area: labelJahre;
-  position: relative;
-  min-height: 16px;
 `
 const LabelEntscheidAwel = styled(StyledLabel)`
   margin-top: 11px;
@@ -149,9 +137,6 @@ const AreaNummern = ({ values, firstTabIndex, change, changeComparator }) => {
             tabIndex={2 + firstTabIndex}
           />
         </FieldGekoNr>
-        <LabelJahre>
-          <LabelNrDiv>Jahr</LabelNrDiv>
-        </LabelJahre>
         <LabelEntscheidAwel>AWEL</LabelEntscheidAwel>
         <FieldEntscheidAwel>
           <Input
