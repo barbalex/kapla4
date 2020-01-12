@@ -83,8 +83,8 @@ const PageContainer = styled.div`
 
   @media print {
     /* this is when it is actually printed */
-    height: 100%;
-    width: 100%;
+    /*height: 100%;*/
+    /*width: 100%;*/
 
     margin: 0 !important;
     padding: 0.5cm !important;
@@ -106,8 +106,8 @@ const Footer = styled.div`
 
 const GeschaeftPdf = () => (
   <Container className="printer-content">
+    <GlobalStyle />
     <PageContainer>
-      <GlobalStyle />
       <Geschaeft />
       <Footer>{moment().format('DD.MM.YYYY')}</Footer>
     </PageContainer>

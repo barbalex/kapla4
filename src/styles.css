@@ -147,10 +147,6 @@ textarea::-webkit-scrollbar {
     width: auto !important;
     overflow: visible !important;
   }
-
-  /*.control-label{
-    font-size: 11px;
-  }*/
 }
 
 /* SplitPane */

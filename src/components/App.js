@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
 import useDetectPrint from 'use-detect-print'
 
 import GeschaefteLayout from './GeschaefteLayout'
@@ -9,20 +8,28 @@ import TableLayout from './TableLayout'
 import Navbar from './Navbar'
 import Errors from './Errors'
 import storeContext from '../storeContext'
+import GeschaeftPdf from './GeschaeftPdf'
 
 const App = () => {
   const store = useContext(storeContext)
 
   const isPrinting = useDetectPrint()
+  console.log('App, isPrinting:', isPrinting)
 
   const location = store.location.toJSON()
   const activeLocation = location[0]
+  isPrinting && console.log('app, activeLocation:', activeLocation)
   const showGeschaefteLayout = ['geschaefte', 'pages', 'geschaeftPdf'].includes(
     activeLocation,
   )
   const showFilterFieldsLayout =
     activeLocation === 'filterFields' && !isPrinting
   const showTableLayout = activeLocation === 'table' && !isPrinting
+
+  if (isPrinting && activeLocation === 'geschaeftPdf') {
+    console.log('App, directly printing GeschaeftPdf')
+    return <GeschaeftPdf />
+  }
 
   return (
     <>
