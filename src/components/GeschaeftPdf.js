@@ -89,6 +89,8 @@ const PageContainer = styled.div`
     margin: 0 !important;
     padding: 0.5cm !important;
     overflow-y: hidden !important;
+    /* get background colors to show */
+    -webkit-print-color-adjust: exact;
     /* try this */
     page-break-inside: avoid !important;
     page-break-before: avoid !important;

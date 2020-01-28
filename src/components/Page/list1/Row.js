@@ -6,6 +6,10 @@ const StyledRow = styled.div`
   padding: 3px;
   background-color: ${props =>
     props.shaded ? 'rgba(0, 0, 0, 0.05)' : 'inherit'};
+  /* get background colors to show */
+  @media print {
+    -webkit-print-color-adjust: exact;
+  }
 `
 const StyledGegenstand = styled.div`
   flex: 1;
