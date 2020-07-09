@@ -30,7 +30,7 @@ const dialogOptions = {
 
 const StyledUncontrolledDropdown = styled(UncontrolledDropdown)`
   display: flex;
-  border: ${props =>
+  border: ${(props) =>
     props.active ? '1px solid rgb(255, 255, 255, .5)' : 'unset'};
   border-radius: 0.25rem;
   margin-right: 5px;
@@ -125,7 +125,7 @@ const Berichte = () => {
     window.print()
   }
   const onClickCreatePdf = useCallback(
-    async e => {
+    async (e) => {
       e.preventDefault()
       const landscape = activeLocation === 'pages'
       const win = remote.getCurrentWindow()
@@ -143,9 +143,9 @@ const Berichte = () => {
       if (filePath) {
         ipcRenderer.send('SAVE_FILE', filePath, data)
         ipcRenderer.once('SAVED_FILE', () => {
-          shell.openItem(filePath)
+          shell.openPath(filePath)
         })
-        ipcRenderer.once('ERROR', error => {
+        ipcRenderer.once('ERROR', (error) => {
           throw new Error(error)
         })
       }

@@ -12,7 +12,7 @@ function getDataArrayFromExportObjects(exportObjects) {
   // first the field names:
   dataArray.push(Object.keys(exportObjects[0]))
   // then the field values
-  exportObjects.forEach(object =>
+  exportObjects.forEach((object) =>
     dataArray.push(
       Object.keys(object).map((key, index) => {
         /**
@@ -49,7 +49,7 @@ export default async (geschaefte, messageShow) => {
       const dataArray = getDataArrayFromExportObjects(geschaefte)
       const callback = () => {
         messageShow(false, '', '')
-        shell.openItem(path)
+        shell.openPath(path)
       }
       try {
         await writeExport(path, dataArray, callback)

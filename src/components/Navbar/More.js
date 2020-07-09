@@ -39,12 +39,12 @@ const StyledDropdownItem = styled(DropdownItem)`
 `
 
 const onGetProjektbeschreibung = () => {
-  shell.openItem(
+  shell.openPath(
     'https://github.com/barbalex/kapla3/raw/master/app/etc/Projektbeschreibung.pdf',
   )
 }
 const onClickIssues = () => {
-  shell.openItem('https://github.com/barbalex/kapla3/issues')
+  shell.openPath('https://github.com/barbalex/kapla3/issues')
 }
 
 const OptionsNav = () => {
