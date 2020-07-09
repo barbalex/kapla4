@@ -4,8 +4,8 @@ import { FaRegTimesCircle } from 'react-icons/fa'
 import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`

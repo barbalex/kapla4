@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 import { Label } from 'reactstrap'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
 import Input from '../shared/Input'
@@ -11,7 +11,8 @@ import Textarea from '../shared/Textarea'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
-  background-color: ${props => (props.isPdf ? 'white' : 'rgb(255, 186, 137)')};
+  background-color: ${(props) =>
+    props.isPdf ? 'white' : 'rgb(255, 186, 137)'};
   display: grid;
   grid-template-columns: repeat(12, calc((100% - 55px) / 12));
   grid-template-rows: auto;
@@ -28,7 +29,7 @@ const Container = styled.div`
   grid-column-gap: 5px;
   grid-row-gap: 2px;
   padding: 8px;
-  ${props => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-left: none;
   border-top: none;
@@ -53,7 +54,7 @@ const Gegenstand = styled.div`
 `
 const Details = styled.div`
   grid-area: fieldDetails;
-  ${props => props['data-ispdf'] && 'max-height: 250px;'}
+  ${(props) => props['data-ispdf'] && 'max-height: 250px;'}
 `
 const Status = styled.div`
   grid-area: fieldStatus;
@@ -66,7 +67,7 @@ const NaechsterSchritt = styled.div`
 `
 const Vermerk = styled.div`
   grid-area: fieldVermerk;
-  ${props => props['data-ispdf'] && 'max-height: 250px;'}
+  ${(props) => props['data-ispdf'] && 'max-height: 250px;'}
 `
 const VermerkIntern = styled.div`
   grid-area: fieldVermerkIntern;
@@ -78,7 +79,7 @@ const NonRowLabel = styled(Label)`
   font-weight: 500;
 `
 const PdfField = styled.div`
-  ${props =>
+  ${(props) =>
     props['data-fontsize'] &&
     `font-size: ${props['data-fontsize']}px !important;`}
   border-bottom: thin solid #ccc;
@@ -98,7 +99,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
     geschaeftsartOptions,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? nrOfGFields : 0
 
   const [errors, setErrors] = useState({})
@@ -222,7 +223,10 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
               value={geschaeft.geschaeftsart}
               field="geschaeftsart"
               label="Geschäftsart"
-              options={geschaeftsartOptions.map(o => ({ label: o, value: o }))}
+              options={geschaeftsartOptions.map((o) => ({
+                label: o,
+                value: o,
+              }))}
               saveToDb={saveToDb}
               error={errors.geschaeftsart}
               tabIndex={4 + tabsToAdd}
@@ -258,7 +262,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
               value={geschaeft.status}
               field="status"
               label="Status"
-              options={statusOptions.map(o => ({ label: o, value: o }))}
+              options={statusOptions.map((o) => ({ label: o, value: o }))}
               saveToDb={saveToDb}
               error={errors.status}
               tabIndex={5 + tabsToAdd}
@@ -294,7 +298,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
               value={geschaeft.abteilung}
               field="abteilung"
               label="Abteilung"
-              options={abteilungOptions.map(o => ({ label: o, value: o }))}
+              options={abteilungOptions.map((o) => ({ label: o, value: o }))}
               saveToDb={saveToDb}
               error={errors.abteilung}
               tabIndex={6 + tabsToAdd}

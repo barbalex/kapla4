@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Label } from 'reactstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import AreaHistoryRow from './AreaHistoryRows'
 import storeContext from '../../storeContext'
 import Input from '../shared/Input'
@@ -19,11 +19,11 @@ const Container = styled.div`
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   padding: 8px;
-  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-left: none;
   border-collapse: collapse;
-  ${props => props['data-ispdf'] && 'font-size: 10px;'}
-  ${props => props['data-single-row'] && 'height: 50px;'}
+  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
+  ${(props) => props['data-single-row'] && 'height: 50px;'}
 `
 const Title = styled.div`
   font-weight: 900;
@@ -39,7 +39,7 @@ const FieldVorgeschaeft = styled.div`
 // eslint-disable-next-line no-unused-vars
 const LabelVorgeschaeft = styled(Label)`
   grid-area: labelVorgeschaeft;
-  margin-top: ${props => (props['data-ispdf'] ? '2px' : '7px')};
+  margin-top: ${(props) => (props['data-ispdf'] ? '2px' : '7px')};
   margin-bottom: 0;
   text-align: right;
 `
@@ -58,7 +58,7 @@ const AreaHistory = ({ saveToDb }) => {
     geschaefteFilteredAndSorted: geschaefte,
     historyOfActiveId,
   } = store.geschaefte
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const isPdf = activeLocation === 'geschaeftPdf'
 
   const [errors, setErrors] = useState({})

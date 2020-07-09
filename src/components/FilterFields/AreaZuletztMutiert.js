@@ -3,16 +3,16 @@ import { Label, Input, InputGroup } from 'reactstrap'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
 import storeContext from '../../storeContext'
 
-const interneOptionsList = interneOptions => {
+const interneOptionsList = (interneOptions) => {
   // sort interneOptions by kurzzeichen
-  const interneOptionsWithItKonto = interneOptions.filter(o => !!o.itKonto)
-  const interneOptionsSorted = _.sortBy(interneOptionsWithItKonto, o =>
+  const interneOptionsWithItKonto = interneOptions.filter((o) => !!o.itKonto)
+  const interneOptionsSorted = _.sortBy(interneOptionsWithItKonto, (o) =>
     o.kurzzeichen.toLowerCase(),
   )
   const options = interneOptionsSorted.map((o, index) => {
@@ -34,7 +34,7 @@ const interneOptionsList = interneOptions => {
 }
 
 const interneData = (values, interneOptions) => {
-  const data = interneOptions.find(o => o.itKonto === values.mutationsperson)
+  const data = interneOptions.find((o) => o.itKonto === values.mutationsperson)
   if (!data) return ''
   const name = `${data.vorname || ''} ${data.name || ''}`
   const abt = data.abteilung ? `, ${data.abteilung}` : ''

@@ -3,8 +3,8 @@ import { Label } from 'reactstrap'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 import getDauerBisFristMitarbeiter from '../../src/getDauerBisFristMitarbeiter'
 import Date from '../shared/Date'
@@ -19,8 +19,9 @@ const Container = styled.div`
   grid-template-columns: 100%;
   grid-gap: 2px;
   padding: 8px;
-  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
-  ${props => props['data-ispdf'] && 'border-bottom: none;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  ${(props) =>
+    props['data-ispdf'] && 'border-bottom: none;'}
   border-left: none;
   border-collapse: collapse;
 `
@@ -37,14 +38,14 @@ const FieldFristDauerBisMitarbeiter = styled.div`
 const StyledFristDauerBisMitarbeiter = styled.div`
   font-weight: 900;
   letter-spacing: 0.13em;
-  font-size: ${props => (props.isPdf ? '14px' : '16px')};
+  font-size: ${(props) => (props.isPdf ? '14px' : '16px')};
   padding-top: 0;
-  padding-bottom: ${props => (props.isPdf ? 0 : 'inherit')};
+  padding-bottom: ${(props) => (props.isPdf ? 0 : 'inherit')};
   margin-top: 0;
-  margin-bottom: ${props => (props['data-ispdf'] ? '-12px' : 'inherit')};
+  margin-bottom: ${(props) => (props['data-ispdf'] ? '-12px' : 'inherit')};
   -webkit-text-stroke-color: black;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-fill-color: ${props => props.color};
+  -webkit-text-fill-color: ${(props) => props.color};
 `
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
@@ -64,7 +65,7 @@ const AreaFristen = ({
   const activeLocation = location[0]
   const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const dauerBisFristMitarbeiter = getDauerBisFristMitarbeiter(geschaeft)
   let colorDauerBisFristMitarbeiter = 'black'
   if (!isPdf) {
