@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
@@ -10,14 +10,14 @@ const Container = styled.div`
   background-color: rgba(239, 239, 239, 1);
   display: grid;
   grid-template-columns: 100%;
-  ${props => props['data-border-top'] && 'border-top: thin solid #CCC;'}
-  padding: ${props => (props['data-ispdf'] ? '2px 8px' : '8px')};
+  ${(props) => props['data-border-top'] && 'border-top: thin solid #CCC;'}
+  padding: ${(props) => (props['data-ispdf'] ? '2px 8px' : '8px')};
   align-items: center;
 `
 // eslint-disable-next-line no-unused-vars
 const Field = styled.div`
   grid-column: 1;
-  ${props => props['data-ispdf'] && 'font-size: 10px;'}
+  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
 `
 
 const AreaZuletztMutiert = () => {
@@ -30,7 +30,7 @@ const AreaZuletztMutiert = () => {
     geschaefteFilteredAndSorted: geschaefte,
     interneOptions,
   } = store.geschaefte
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const isPdf = activeLocation === 'geschaeftPdf'
   let zuletztMutiertText
 
@@ -38,7 +38,7 @@ const AreaZuletztMutiert = () => {
     zuletztMutiertText =
       'Bei diesem Geschäft wurde (noch) keine Mutationsperson gespeichert'
   } else {
-    const mutPersonOptions = interneOptions.find(o => {
+    const mutPersonOptions = interneOptions.find((o) => {
       if (o.itKonto) {
         // seems that data contains lower case differences
         // and whitespace

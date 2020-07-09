@@ -3,8 +3,8 @@ import { Label } from 'reactstrap'
 //import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import GekoNrField from './GekoNrField'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
@@ -63,9 +63,9 @@ const LabelNrDiv = styled.div`
   bottom: 1px;
 `
 const LabelHorizontal = styled(Label)`
-  margin-top: ${props => (props['data-ispdf'] ? '3px' : '9px')};
+  margin-top: ${(props) => (props['data-ispdf'] ? '3px' : '9px')};
   text-align: right;
-  font-size: ${props => (props['data-ispdf'] ? '10px !important' : '12px')};
+  font-size: ${(props) => (props['data-ispdf'] ? '10px !important' : '12px')};
   font-weight: 500;
   color: #757575;
 `
@@ -75,11 +75,11 @@ const AreaNummernTitle = styled.div`
   grid-area: areaNummernTitle;
 `
 const Field = styled.div`
-  height: ${props => (props['data-ispdf'] ? '17px' : 'auto')};
+  height: ${(props) => (props['data-ispdf'] ? '17px' : 'auto')};
 `
 const TextareaField = styled.div`
   input {
-    ${props => props['data-ispdf'] && 'font-size: 10px;'}
+    ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
   }
 `
 const FieldIdGeschaeft = styled(Field)`
@@ -132,14 +132,14 @@ const LabelEntscheidRrb = styled(LabelHorizontal)`
 `
 const FieldAktenstandort = styled(Field)`
   grid-area: fieldAktenstandort;
-  ${props => props['data-ispdf'] && 'height: 17px;'}
+  ${(props) => props['data-ispdf'] && 'height: 17px;'}
 `
 const FieldAktennummer = styled(Field)`
   grid-area: fieldAktennummer;
-  ${props => props['data-ispdf'] && 'height: 17px;'}
+  ${(props) => props['data-ispdf'] && 'height: 17px;'}
 `
 const PdfField = styled.div`
-  ${props =>
+  ${(props) =>
     props['data-fontsize'] &&
     `font-size: ${props['data-fontsize']}px !important;`}
   border-bottom: thin solid #ccc;
@@ -159,12 +159,12 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
     geschaefteFilteredAndSorted: geschaefte,
     gekoOfActiveId,
   } = store.geschaefte
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? 0 : nrOfGFields
   const Container = isPdf ? ContainerPrint : ContainerView
-  const gekoValues = gekoOfActiveId.map(g => g.gekoNr).sort()
+  const gekoValues = gekoOfActiveId.map((g) => g.gekoNr).sort()
   const gekoValuesString = gekoValues.join(', ')
-  const gekoFields = gekoValues.map(g => (
+  const gekoFields = gekoValues.map((g) => (
     <GekoNrField
       key={g || 0}
       idGeschaeft={geschaeft.idGeschaeft}
@@ -296,7 +296,10 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
               value={geschaeft.aktenstandort}
               field="aktenstandort"
               label="Aktenstandort"
-              options={aktenstandortOptions.map(o => ({ label: o, value: o }))}
+              options={aktenstandortOptions.map((o) => ({
+                label: o,
+                value: o,
+              }))}
               saveToDb={saveToDb}
               error={errors.aktenstandort}
               tabIndex={12 + tabsToAdd}

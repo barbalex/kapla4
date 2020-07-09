@@ -2,15 +2,15 @@ import React, { useContext, useState, useEffect, useMemo } from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import KontakteIntern from './KontakteIntern'
 import KontakteExtern from './KontakteExtern'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
 
 const verantwortlichData = (geschaeft, interneOptions, isPdf) => {
-  const data = interneOptions.find(o => {
+  const data = interneOptions.find((o) => {
     if (geschaeft && geschaeft.verantwortlich) {
       return o.kurzzeichen === geschaeft.verantwortlich
     }
@@ -112,7 +112,7 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, saveToDb }) => {
     interneOptions: interneOptionsPassed,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const Container = isPdf ? ContainerPrint : ContainerView
   const AreaPersonenDiv = isPdf ? AreaPersonenDivPrint : AreaPersonenDivView
   const Subtitle = isPdf ? SubtitlePrint : SubtitleView
@@ -124,18 +124,19 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, saveToDb }) => {
     ? VerantwortlichInfoPrint
     : VerantwortlichInfoView
   const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
-    k => k.idGeschaeft === activeId,
+    (k) => k.idGeschaeft === activeId,
   )
   const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
-    k => k.idGeschaeft === activeId,
+    (k) => k.idGeschaeft === activeId,
   )
 
   const interneOptions = useMemo(() => {
-    return _.sortBy(interneOptionsPassed, o =>
+    return _.sortBy(interneOptionsPassed, (o) =>
       `${o.name || 'zz'} ${o.vorname || 'zz'} (${o.kurzzeichen})`.toLowerCase(),
-    ).map(o => {
-      const n = `${o.name || '(kein Nachname)'} ${o.vorname ||
-        '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`
+    ).map((o) => {
+      const n = `${o.name || '(kein Nachname)'} ${
+        o.vorname || '(kein Vorname)'
+      } (${o.kurzzeichen || 'kein Kurzzeichen'})`
       return {
         label: n,
         value: o.kurzzeichen,

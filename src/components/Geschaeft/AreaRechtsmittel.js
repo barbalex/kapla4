@@ -2,9 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 import moment from 'moment'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import Date from '../shared/Date'
 import Select from '../shared/Select'
 import Input from '../shared/Input'
@@ -15,7 +15,7 @@ const Container = styled.div`
   grid-area: areaForGeschaeftsart;
   background-color: rgb(255, 237, 199);
   display: grid;
-  grid-template-columns: ${props =>
+  grid-template-columns: ${(props) =>
     props['data-ispdf']
       ? 'calc((100% - 8px) * 0.4) calc((100% - 8px) * 0.6)'
       : 'calc(100% - 138px) 130px'};
@@ -26,7 +26,7 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;
-  ${props => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-left: none;
   border-collapse: collapse;
@@ -58,7 +58,7 @@ const NonRowLabel = styled(Label)`
   font-weight: 500;
 `
 const PdfField = styled.div`
-  ${props =>
+  ${(props) =>
     props['data-fontsize'] &&
     `font-size: ${props['data-fontsize']}px !important;`}
   border-bottom: thin solid #ccc;
@@ -81,7 +81,7 @@ const AreaRechtsmittel = ({
     rechtsmittelInstanzOptions,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
 
   const [errors, setErrors] = useState({})
   useEffect(() => {
@@ -99,7 +99,7 @@ const AreaRechtsmittel = ({
               value={geschaeft.rechtsmittelInstanz}
               field="rechtsmittelInstanz"
               label="Instanz"
-              options={rechtsmittelInstanzOptions.map(o => ({
+              options={rechtsmittelInstanzOptions.map((o) => ({
                 label: o,
                 value: o,
               }))}
@@ -212,7 +212,7 @@ const AreaRechtsmittel = ({
               value={geschaeft.rechtsmittelErledigung}
               field="rechtsmittelErledigung"
               label="Erledigung"
-              options={rechtsmittelErledigungOptions.map(o => ({
+              options={rechtsmittelErledigungOptions.map((o) => ({
                 label: o,
                 value: o,
               }))}

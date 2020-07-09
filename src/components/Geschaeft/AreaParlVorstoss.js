@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from 'react'
 import { FormGroup, Label, CustomInput } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 import Select from '../shared/Select'
 import InputComponent from '../shared/Input'
@@ -18,7 +18,7 @@ const Container = styled.div`
   grid-gap: 15px 8px;
   padding: 8px;
   padding-right: 15px;
-  ${props => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-left: none;
   border-collapse: collapse;
@@ -54,7 +54,7 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
     parlVorstossTypOptions,
   } = store.geschaefte
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   let stufeValue = ''
   if (geschaeft.parlVorstossStufe === '1') stufeValue = '1: nicht überwiesen'
   if (geschaeft.parlVorstossStufe === '2') stufeValue = '2: überwiesen'
@@ -78,7 +78,7 @@ const AreaParlVorstoss = ({ nrOfFieldsBeforePv, change, saveToDb }) => {
               value={geschaeft.parlVorstossTyp}
               field="parlVorstossTyp"
               label="Typ"
-              options={parlVorstossTypOptions.map(o => ({
+              options={parlVorstossTypOptions.map((o) => ({
                 label: o,
                 value: o,
               }))}
