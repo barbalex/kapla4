@@ -32,6 +32,12 @@ module.exports = {
         to: './node_modules/better-sqlite3', // still under node_modules directory so it could find this module
       },
     ]),
+    new CopyPlugin([
+      {
+        from: './src/etc/app.ico',
+        to: './src/etc/app.ico', // still under node_modules directory so it could find this module
+      },
+    ]),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

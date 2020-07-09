@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const fs = require('fs-extra')
+const path = require('path')
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -17,7 +18,7 @@ const getConfig = require('./src/getConfig.js')
 const browserWindowOptions = {
   width: 1800,
   height: 1024,
-  icon: './src/etc/app.png',
+  icon: path.join(__dirname, 'src/etc/app.ico'),
   // only show after it was sized
   show: false,
   webPreferences: {
