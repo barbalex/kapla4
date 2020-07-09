@@ -2,8 +2,8 @@ import React from 'react'
 import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import Input from './Input'
 
 const Container = styled.div`

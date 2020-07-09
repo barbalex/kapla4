@@ -4,15 +4,15 @@ import _ from 'lodash'
 import Linkify from 'react-linkify'
 import { observer } from 'mobx-react-lite'
 import styled, { css } from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import ComparatorSelector from './ComparatorSelector'
 import SortSelector from './SortSelector'
 import storeContext from '../../storeContext'
 
-const interneOptionsList = interneOptions => {
+const interneOptionsList = (interneOptions) => {
   // sort interneOptions by kurzzeichen
-  const interneOptionsSorted = _.sortBy(interneOptions, o => {
+  const interneOptionsSorted = _.sortBy(interneOptions, (o) => {
     const sort = `${o.name || 'zz'} ${o.vorname || 'zz'} (${o.kurzzeichen})`
     return sort.toLowerCase()
   })
@@ -30,9 +30,9 @@ const interneOptionsList = interneOptions => {
   return options
 }
 
-const verantwortlichOptionsList = interneOptions => {
+const verantwortlichOptionsList = (interneOptions) => {
   // sort interneOptions by kurzzeichen
-  const interneOptionsSorted = _.sortBy(interneOptions, o => {
+  const interneOptionsSorted = _.sortBy(interneOptions, (o) => {
     const sort = `${o.name || 'zz'} ${o.vorname || 'zz'} (${o.kurzzeichen})`
     return sort.toLowerCase()
   })
@@ -47,9 +47,9 @@ const verantwortlichOptionsList = interneOptions => {
   return options
 }
 
-const externeOptionsList = externeOptions => {
+const externeOptionsList = (externeOptions) => {
   // sort externeOptions by nameVorname
-  const externeOptionsSorted = _.sortBy(externeOptions, o =>
+  const externeOptionsSorted = _.sortBy(externeOptions, (o) =>
     `${o.name} ${o.vorname}`.toLowerCase(),
   )
   const options = externeOptionsSorted.map((o, index) => (
@@ -62,7 +62,9 @@ const externeOptionsList = externeOptions => {
 }
 
 const verantwortlichData = (values, interneOptions) => {
-  const data = interneOptions.find(o => o.kurzzeichen === values.verantwortlich)
+  const data = interneOptions.find(
+    (o) => o.kurzzeichen === values.verantwortlich,
+  )
   if (!data) return ''
   const abt = data.abteilung ? `${data.abteilung}` : ''
   const eMail = data.eMail ? `, ${data.eMail}` : ''
@@ -71,7 +73,7 @@ const verantwortlichData = (values, interneOptions) => {
 }
 
 const interneData = (values, interneOptions) => {
-  const data = interneOptions.find(o => {
+  const data = interneOptions.find((o) => {
     const name = `${o.vorname || ''} ${o.name || ''}`
     return name === values.kontaktInternVornameName
   })
@@ -89,7 +91,7 @@ const externeData = (values, externeOptions) => {
     return value
   }
   const data = externeOptions.find(
-    o => `${o.name} ${o.vorname}` === values.kontaktExternNameVorname,
+    (o) => `${o.name} ${o.vorname}` === values.kontaktExternNameVorname,
   )
   if (!data) return ''
   let info = ''
