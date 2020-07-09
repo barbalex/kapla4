@@ -22,6 +22,7 @@ const browserWindowOptions = {
   show: false,
   webPreferences: {
     nodeIntegration: true,
+    enableRemoteModule: true,
   },
 }
 
@@ -62,7 +63,7 @@ const createWindow = () => {
   })
 
   // save window state on close
-  mainWindow.on('close', e => {
+  mainWindow.on('close', (e) => {
     e.preventDefault()
 
     const bounds = mainWindow.getBounds()
@@ -108,7 +109,7 @@ app.on('activate', () => {
 ipcMain.on('SAVE_FILE', (event, path, data) => {
   fs.outputFile(path, data)
     .then(() => event.sender.send('SAVED_FILE'))
-    .catch(error => event.sender.send('ERROR', error.message))
+    .catch((error) => event.sender.send('ERROR', error.message))
 })
 
 // In this file you can include the rest of your app's specific main process
