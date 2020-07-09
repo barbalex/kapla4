@@ -2,14 +2,15 @@ import React, { useContext, useState, useMemo } from 'react'
 import _ from 'lodash'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import Select from '../shared/Select'
 import KontakteInternItems from './KontakteInternItems'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
-  grid-column: ${props => (props['data-ispdf'] ? '1 / span 1' : '1 / span 2')};
+  grid-column: ${(props) =>
+    props['data-ispdf'] ? '1 / span 1' : '1 / span 2'};
   display: grid;
   grid-template-columns: 100%;
   grid-gap: 0;
@@ -17,8 +18,8 @@ const Container = styled.div`
 // eslint-disable-next-line no-unused-vars
 const RowfVDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${props => (props['data-ispdf'] ? 'none' : 'grid')};
-  grid-template-columns: ${props =>
+  display: ${(props) => (props['data-ispdf'] ? 'none' : 'grid')};
+  grid-template-columns: ${(props) =>
     props['data-ispdf']
       ? '160px calc(100% - 160px)'
       : '260px calc(100% - 260px)'};
@@ -28,7 +29,7 @@ const RowfVDropdown = styled.div`
 // eslint-disable-next-line no-unused-vars
 const FvDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
+  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 
 const GeschaefteKontakteIntern = ({ tabIndex }) => {
@@ -45,22 +46,23 @@ const GeschaefteKontakteIntern = ({ tabIndex }) => {
   const interneOptions = useMemo(() => {
     // filter out options already choosen
     const kontakteInternOfActiveGeschaeft = geschaefteKontakteIntern.filter(
-      g => g.idGeschaeft === activeId,
+      (g) => g.idGeschaeft === activeId,
     )
     const idKontakteOfGkiOfActiveGeschaeft = kontakteInternOfActiveGeschaeft.map(
-      kI => kI.idKontakt,
+      (kI) => kI.idKontakt,
     )
     const interneOptionsFiltered = interneOptionsPassed.filter(
-      o => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id),
+      (o) => !idKontakteOfGkiOfActiveGeschaeft.includes(o.id),
     )
     // sort interneOptions by kurzzeichen
-    const interneOptionsSorted = _.sortBy(interneOptionsFiltered, o => {
+    const interneOptionsSorted = _.sortBy(interneOptionsFiltered, (o) => {
       const name = o.name ? o.name.toLowerCase() : 'zz'
       const vorname = o.vorname ? o.vorname.toLowerCase() : 'zz'
       return `${name} ${vorname} ${o.kurzzeichen}`
-    }).map(o => ({
-      label: `${o.name || '(kein Nachname)'} ${o.vorname ||
-        '(kein Vorname)'} (${o.kurzzeichen || 'kein Kurzzeichen'})`,
+    }).map((o) => ({
+      label: `${o.name || '(kein Nachname)'} ${
+        o.vorname || '(kein Vorname)'
+      } (${o.kurzzeichen || 'kein Kurzzeichen'})`,
       value: o.id,
     }))
     return interneOptionsSorted

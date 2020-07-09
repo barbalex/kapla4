@@ -5,8 +5,8 @@ import moment from 'moment'
 import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import AreaGeschaeft from './AreaGeschaeft'
 import AreaNummern from './AreaNummern'
 import AreaFristen from './AreaFristen'
@@ -32,7 +32,7 @@ const ScrollContainerPdf = styled.div`
 `
 const WrapperNarrow = styled.div`
   display: grid;
-  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-collapse: collapse;
   grid-template-columns: repeat(1, 100%);
   grid-template-rows: auto;
@@ -45,7 +45,7 @@ const WrapperNarrowNoAreaForGeschaeftsart = styled(WrapperNarrow)`
 `
 const WrapperWide = styled.div`
   display: grid;
-  ${props => props['data-ispdf'] && 'border: thin solid #CCC;'}
+  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-collapse: collapse;
   grid-template-columns: repeat(12, 8.33333%);
   grid-template-rows: auto;
@@ -98,10 +98,10 @@ const Geschaeft = () => {
   } = store.geschaefte
   const { geschaefteColumnWidth } = store.app
   const isPdf = activeLocation === 'geschaeftPdf'
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === activeId) || {}
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const { setValue } = geschaeft
 
-  const change = useCallback(e => {
+  const change = useCallback((e) => {
     const { type, name: field, dataset } = e.target
     let { value } = e.target
     // need to convert numbers into numbers
@@ -125,7 +125,7 @@ const Geschaeft = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const blur = useCallback(
-    e => {
+    (e) => {
       const { type, name: field, value } = e.target
       if (type !== 'radio' && type !== 'select-one') {
         setValue({ field, value })
@@ -213,7 +213,7 @@ const Geschaeft = () => {
   }
 
   const myLinks = links.filter(
-    link => link.idGeschaeft === geschaeft.idGeschaeft,
+    (link) => link.idGeschaeft === geschaeft.idGeschaeft,
   )
   const showLinks = !(isPdf && myLinks.length === 0)
 

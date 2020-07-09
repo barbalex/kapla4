@@ -4,8 +4,8 @@ import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 
 const verantwortlichData = (gKE, externeOptions) => {
@@ -14,11 +14,12 @@ const verantwortlichData = (gKE, externeOptions) => {
     if (info) return `${info}, ${value}`
     return value
   }
-  const data = externeOptions.find(o => o.id === gKE.idKontakt)
+  const data = externeOptions.find((o) => o.id === gKE.idKontakt)
   if (!data) return ''
   let info = ''
-  const name = `${data.name || '(kein Name)'} ${data.vorname ||
-    '(kein Vorname)'}`
+  const name = `${data.name || '(kein Name)'} ${
+    data.vorname || '(kein Vorname)'
+  }`
   info = addValueToInfo(info, name)
   info = addValueToInfo(info, data.firma)
   info = addValueToInfo(info, data.eMail)
@@ -27,7 +28,7 @@ const verantwortlichData = (gKE, externeOptions) => {
 }
 
 const titleText = (idKontakt, externeOptions) => {
-  const data = externeOptions.find(o => o.id === idKontakt)
+  const data = externeOptions.find((o) => o.id === idKontakt)
   if (!data) return 'Kontakt entfernen'
   return `${data.name} ${data.vorname} entfernen`
 }
@@ -42,13 +43,13 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${props =>
+  grid-template-columns: ${(props) =>
     props['data-ispdf'] ? 'calc(100% - 10px)' : 'calc(100% - 20px) 20px'};
   grid-gap: 0;
   padding: 3px;
-  margin-right: ${props => (props['data-ispdf'] ? '9px' : 'inherit')};
+  margin-right: ${(props) => (props['data-ispdf'] ? '9px' : 'inherit')};
   align-items: center;
-  min-height: ${props => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
   border-bottom: thin solid #cecbcb;
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -68,14 +69,14 @@ const Field = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: ${props => (props['data-ispdf'] ? 0 : '7px')};
+    padding: ${(props) => (props['data-ispdf'] ? 0 : '7px')};
   }
 `
 // eslint-disable-next-line no-unused-vars
 const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
-  display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
+  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
@@ -93,17 +94,17 @@ const GeschaefteKontakteExtern = ({ refresh }) => {
   const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteExtern.filter(
-    g => g.idGeschaeft === activeId,
+    (g) => g.idGeschaeft === activeId,
   )
-  const gKISorted = _.sortBy(gkIFiltered, g => {
-    const intOption = externeOptions.find(o => o.id === g.idKontakt)
+  const gKISorted = _.sortBy(gkIFiltered, (g) => {
+    const intOption = externeOptions.find((o) => o.id === g.idKontakt)
     return `${intOption.name} ${intOption.vorname}`.toLowerCase()
   })
 
   return (
     <ErrorBoundary>
       <Container>
-        {gKISorted.map(gKE => (
+        {gKISorted.map((gKE) => (
           <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
             <Field data-ispdf={isPdf}>
               {verantwortlichData(gKE, externeOptions)}

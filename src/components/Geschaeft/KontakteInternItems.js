@@ -4,18 +4,18 @@ import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import storeContext from '../../storeContext'
 
 const titleText = (idKontakt, interneOptions) => {
-  const data = interneOptions.find(o => o.id === idKontakt)
+  const data = interneOptions.find((o) => o.id === idKontakt)
   if (!data) return 'Kontakt entfernen'
   return `${data.kurzzeichen} entfernen`
 }
 
 const verantwortlichData = (gkI, interneOptions) => {
-  const data = interneOptions.find(o => o.id === gkI.idKontakt)
+  const data = interneOptions.find((o) => o.id === gkI.idKontakt)
   if (!data) return ''
   const name = `${data.name} ${data.vorname}, ${data.kurzzeichen}`
   const abt = data.abteilung ? `, ${data.abteilung}` : ''
@@ -35,13 +35,13 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${props =>
+  grid-template-columns: ${(props) =>
     props['data-ispdf'] ? '100%' : 'calc(100% - 20px) 20px'};
   grid-gap: 0;
   padding: 3px;
-  margin-right: ${props => (props['data-ispdf'] ? '9px' : 'inherit')};
+  margin-right: ${(props) => (props['data-ispdf'] ? '9px' : 'inherit')};
   align-items: center;
-  min-height: ${props => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
   border-bottom: thin solid #cecbcb;
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -66,7 +66,7 @@ const Fv = styled.div`
 const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
-  display: ${props => (props['data-ispdf'] ? 'none' : 'inherit')};
+  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
@@ -84,10 +84,10 @@ const GeschaefteKontakteInternItems = ({ refresh }) => {
   const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteIntern.filter(
-    g => g.idGeschaeft === activeId,
+    (g) => g.idGeschaeft === activeId,
   )
-  const gkISorted = _.sortBy(gkIFiltered, g => {
-    const intOption = interneOptions.find(o => o.id === g.idKontakt)
+  const gkISorted = _.sortBy(gkIFiltered, (g) => {
+    const intOption = interneOptions.find((o) => o.id === g.idKontakt)
     const sort = `${intOption.name} ${intOption.vorname}, ${intOption.kurzzeichen}`
     return sort.toLowerCase()
   })
@@ -95,7 +95,7 @@ const GeschaefteKontakteInternItems = ({ refresh }) => {
   return (
     <ErrorBoundary>
       <Container>
-        {gkISorted.map(gkI => (
+        {gkISorted.map((gkI) => (
           <Row key={`${gkI.idGeschaeft}${gkI.idKontakt}`} data-ispdf={isPdf}>
             <Fv>{verantwortlichData(gkI, interneOptions)}</Fv>
             <RemoveIconContainer data-ispdf={isPdf}>
