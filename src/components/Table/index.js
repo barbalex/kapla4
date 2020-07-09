@@ -4,8 +4,8 @@ import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import TableItem from './TableItem'
 import storeContext from '../../storeContext'
 
@@ -28,7 +28,7 @@ const StyledTableHeader = styled.div`
 const StyledTableHeaderRow = styled.div`
   display: flex;
   padding: 5px;
-  padding-right: ${props => props.paddingRight};
+  padding-right: ${(props) => props.paddingRight};
 `
 const StyledTableHeaderCell = styled.div`
   flex: 1;
@@ -37,7 +37,7 @@ const StyledTableHeaderCell = styled.div`
   overflow: hidden;
   white-space: nowrap;
   overflow: hidden;
-  max-width: ${props => `${props.maxWidth}px`};
+  max-width: ${(props) => `${props.maxWidth}px`};
 `
 const StyledTableBody = styled.div`
   overflow: auto;
@@ -63,7 +63,7 @@ const Table = () => {
   const { tableColumnWidth } = store.app
   const { rows, id, table, reset } = store.table
 
-  const indexOfActiveId = _.findIndex(rows[table], r => r.id === id)
+  const indexOfActiveId = _.findIndex(rows[table], (r) => r.id === id)
   const headers = Object.keys(rows[table][0] || {})
   const windowWidth = $(window).width()
   const tableWidth = (windowWidth * tableColumnWidth) / 100

@@ -3,8 +3,8 @@ import { Collapse, Navbar, NavbarToggler, Nav, Button } from 'reactstrap'
 import { FaSave } from 'react-icons/fa'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import Geschaefte from './Geschaefte'
 import ModalGeschaeftDelete from '../ModalGeschaeftDelete'
 import ModalMessage from '../ModalMessage'
@@ -32,7 +32,7 @@ const SaveButton = styled(Button)`
   background-color: transparent !important;
   border: none !important;
   &:hover {
-    background-color: ${props =>
+    background-color: ${(props) =>
       props.disabled ? 'transparent !important' : '#6c757d !important'};
   }
 `

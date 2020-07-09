@@ -12,9 +12,9 @@ import {
 import { FaTimes, FaCaretDown } from 'react-icons/fa'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 import { useDebouncedCallback } from 'use-debounce'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
@@ -27,7 +27,7 @@ const Container = styled.div`
   margin-bottom: auto;
 `
 const FilterFultextInput = styled(Input)`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
 `
 const StyledInputGroupText = styled(InputGroupText)`
@@ -37,20 +37,20 @@ const StyledInputGroupText = styled(InputGroupText)`
   cursor: pointer;
   user-select: none;
   font-size: 13px !important;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props['data-isfiltered'] === 'true'
       ? '#FFBF73 !important'
       : 'white !important'};
 `
 const RemoveFilterButton = styled(InputGroupText)`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props['data-isfiltered'] === 'true'
       ? 'white !important'
       : '#d3d3d3 !important'};
   cursor: pointer;
 `
 const StyledDropdown = styled(Dropdown)`
-  background-color: ${props =>
+  background-color: ${(props) =>
     props['data-isfiltered'] === 'true' ? '#FFBF73 !important' : 'white'};
   height: 30px;
   margin-left: 10px;
@@ -68,8 +68,9 @@ const StyledDropdownToggle = styled(DropdownToggle)`
   }
 `
 const StyledDropdownItem = styled(DropdownItem)`
-  background-color: ${props => (props.active ? '#FFBF73 !important' : 'unset')};
-  color: ${props => (props.active ? '#212529 !important' : 'unset')};
+  background-color: ${(props) =>
+    props.active ? '#FFBF73 !important' : 'unset'};
+  color: ${(props) => (props.active ? '#212529 !important' : 'unset')};
 `
 const StyledCriteria = styled.span`
   cursor: default !important;
@@ -115,7 +116,7 @@ const Filter = () => {
 
   const [filterDropdownIsOpen, setFilterDropdownIsOpen] = useState(false)
   const toggleFilterDropdown = useCallback(
-    e => {
+    (e) => {
       setFilterDropdownIsOpen(!filterDropdownIsOpen)
       e.stopPropagation()
     },
@@ -123,7 +124,7 @@ const Filter = () => {
   )
 
   const [onChangeFilterFulltextDebounced] = useDebouncedCallback(
-    value => filterByFulltext(value),
+    (value) => filterByFulltext(value),
     300,
   )
 
@@ -171,7 +172,7 @@ const Filter = () => {
         <InputGroup>
           <FilterFultextInput
             placeholder="Volltext filtern"
-            onChange={e => {
+            onChange={(e) => {
               setFilterFulltext(e.target.value)
               onChangeFilterFulltextDebounced(e.target.value)
             }}

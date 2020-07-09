@@ -3,8 +3,8 @@ import { AutoSizer, List } from 'react-virtualized'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
+import ErrorBoundary from '../shared/ErrorBoundary'
 import RowRenderer from './RowRenderer'
 import NoRowsRenderer from './NoRowsRenderer'
 import storeContext from '../../storeContext'
@@ -77,7 +77,7 @@ const Geschaefte = () => {
   // get index of active id
   const indexOfActiveId = _.findIndex(
     geschaefte,
-    g => g.idGeschaeft === activeId,
+    (g) => g.idGeschaeft === activeId,
   )
 
   return (

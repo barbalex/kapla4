@@ -1,47 +1,39 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin: 10px;
+  padding: 15px;
 `
-const ErrorTitle = styled.div`
-  margin-bottom: 10px;
+const Details = styled.details`
+  margin-bottom: 25px;
+`
+const Summary = styled.summary`
+  user-select: none;
+  &:focus {
+    outline: none !important;
+  }
+`
+const PreWrapping = styled.pre`
+  white-space: normal;
+`
+const Pre = styled.pre`
+  background-color: rgba(128, 128, 128, 0.09);
 `
 
-class ErrorBoundary extends Component {
-  static getDerivedStateFromError(error) {
-    // Catch errors in any components below and re-render with error message
-    return {
-      error,
-    }
-  }
+const ErrorFallback = ({ error, componentStack, resetErrorBoundary }) => (
+  <Container>
+    <p>Sorry, ein Fehler ist aufgetreten:</p>
+    <PreWrapping>{error.message}</PreWrapping>
+    <Details>
+      <Summary>Mehr Informationen</Summary>
+      <Pre>{componentStack}</Pre>
+    </Details>
+  </Container>
+)
 
-  constructor(props) {
-    super(props)
-    this.state = { error: null }
-  }
+const MyErrorBoundary = ({ children }) => (
+  <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
+)
 
-  render() {
-    const { error } = this.state
-    if (error) {
-      return (
-        <Container>
-          <ErrorTitle>
-            Oh je, es ist ein Fehler aufgetreten! Bericht:
-          </ErrorTitle>
-          <div>{error.message}</div>
-        </Container>
-      )
-    }
-    const { children } = this.props
-    const childrenWithProps = React.Children.map(children, child =>
-      React.cloneElement(child, { ...this.props }),
-    )
-
-    // Normally, just render children
-    // and pass all props
-    return childrenWithProps
-  }
-}
-
-export default ErrorBoundary
+export default MyErrorBoundary
