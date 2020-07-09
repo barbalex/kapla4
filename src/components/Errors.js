@@ -2,9 +2,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import ErrorBoundary from 'react-error-boundary'
 
 import storeContext from '../storeContext'
+import ErrorBoundary from '../components/shared/ErrorBoundary'
 
 const Container = styled.div`
   position: absolute;

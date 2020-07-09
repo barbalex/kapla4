@@ -1,9 +1,9 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import ErrorBoundary from 'react-error-boundary'
 
 import Date from './Date'
+import ErrorBoundary from '../shared/ErrorBoundary'
 
 const Container = styled.div`
   grid-area: areaFristen;
