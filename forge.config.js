@@ -3,9 +3,7 @@ module.exports = {
   // this seems to be to ensure all deps of better-sqlite3 are copied
   packagerConfig: {
     icon: './src/etc/app.png',
-    ignore: file => {
-      return false
-    },
+    ignore: ['\\.gitignore', 'node_modules/\\.cache'],
   },
   makers: [
     {
