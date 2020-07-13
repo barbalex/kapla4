@@ -101,5 +101,8 @@
     "@typescript-eslint/parser": "2.x",
     "popper.js": "1.16.1",
     "react-is": "16.13.1"
+  },
+  "dependenciesComments": {
+    "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498"
   }
 }
