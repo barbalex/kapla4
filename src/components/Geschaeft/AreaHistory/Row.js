@@ -2,24 +2,24 @@ import React, { useContext, useCallback } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import storeContext from '../../storeContext'
+import storeContext from '../../../storeContext'
 
 // eslint-disable-next-line no-unused-vars
 const HistoryField = styled.div`
   grid-column: 1;
   display: grid;
-  grid-template-columns: ${props =>
+  grid-template-columns: ${(props) =>
     props['data-ispdf']
       ? '40px 65px calc(100% - 105px)'
       : '55px 75px calc(100% - 130px)'};
   grid-gap: 0;
   border-bottom: thin solid #cecbcb;
   border-collapse: collapse;
-  padding-left: ${props => (props['data-ispdf'] ? 0 : '13px')};
-  padding-top: ${props => (props['data-ispdf'] ? '2px' : '10px')};
-  padding-bottom: ${props => (props['data-ispdf'] ? '2px' : '10px')};
+  padding-left: ${(props) => (props['data-ispdf'] ? 0 : '13px')};
+  padding-top: ${(props) => (props['data-ispdf'] ? '2px' : '10px')};
+  padding-bottom: ${(props) => (props['data-ispdf'] ? '2px' : '10px')};
   align-items: center;
-  ${props => props['data-ispdf'] && 'font-size: 10px;'}
+  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
 
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -51,16 +51,13 @@ const AreaHistoryRows = ({ id, index }) => {
     }
   }, [activeId, id, toggleActivatedById])
 
-  const geschaeft = geschaefte.find(g => g.idGeschaeft === id)
+  const geschaeft = geschaefte.find((g) => g.idGeschaeft === id)
   if (!geschaeft) {
     return null
   }
 
   return (
     <HistoryField
-      // add index for cases where two geschaefte
-      // reference each other...
-      key={`${id}${index}`}
       style={{
         cursor: id === activeId ? 'default' : 'pointer',
       }}

@@ -3,10 +3,10 @@ import { Label } from 'reactstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
-import AreaHistoryRow from './AreaHistoryRows'
-import storeContext from '../../storeContext'
-import Input from '../shared/Input'
+import ErrorBoundary from '../../shared/ErrorBoundary'
+import Row from './Row'
+import storeContext from '../../../storeContext'
+import Input from '../../shared/Input'
 
 // eslint-disable-next-line no-unused-vars
 const Container = styled.div`
@@ -93,7 +93,7 @@ const AreaHistory = ({ saveToDb }) => {
         </FieldVorgeschaeft>
         <FieldsContainer>
           {historyOfActiveId.map((id, index) => (
-            <AreaHistoryRow id={id} key={id} index={index} />
+            <Row id={id} key={`${id}${index}`} index={index} />
           ))}
         </FieldsContainer>
       </Container>
