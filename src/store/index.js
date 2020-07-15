@@ -8,6 +8,7 @@ import GeschaefteKontakteExtern from './GeschaefteKontakteExtern'
 import Pages from './Pages'
 import Table from './Table'
 import getDropdownOptions from '../src/getDropdownOptions'
+import getDropdownOptionsHistorisch from '../src/getDropdownOptionsHistorisch'
 
 export default () =>
   types
@@ -25,7 +26,7 @@ export default () =>
       ),
       errors: types.array(types.string),
     })
-    .actions(self => ({
+    .actions((self) => ({
       setLocation(location) {
         self.location = location
       },
@@ -82,7 +83,7 @@ export default () =>
         } catch (error) {
           return self.addErrorMessage(error.message)
         }
-        self.geschaefte.faelligeStatiOptions = options.map(res => res.status)
+        self.geschaefte.faelligeStatiOptions = options.map((res) => res.status)
       },
       geschaeftsartOptionsGet() {
         let geschaeftsartOptions = []
@@ -101,6 +102,18 @@ export default () =>
           return
         }
         self.geschaefte.aktenstandortOptions = aktenstandortOptions
+      },
+      aktenstandortOptionsHistorischGet() {
+        let aktenstandortOptionsHistorisch = []
+        try {
+          aktenstandortOptionsHistorisch = getDropdownOptionsHistorisch(
+            self,
+            'aktenstandort',
+          )
+        } catch (error) {
+          return
+        }
+        self.geschaefte.aktenstandortOptionsHistorisch = aktenstandortOptionsHistorisch
       },
       interneOptionsGet() {
         let interneOptions = []
@@ -200,7 +213,7 @@ export default () =>
           return self.addErrorMessage(error.message)
         }
         self.geschaefte.geko = self.geschaefte.geko.filter(
-          g => g.idGeschaeft !== idGeschaeft || g.gekoNr !== gekoNr,
+          (g) => g.idGeschaeft !== idGeschaeft || g.gekoNr !== gekoNr,
         )
       },
       changeGekoInDb(idGeschaeft, gekoNr, field, value) {
@@ -258,7 +271,7 @@ export default () =>
       },
       linkDelete(idGeschaeft, url) {
         self.geschaefte.links = self.geschaefte.links.filter(
-          l => l.idGeschaeft !== idGeschaeft || l.url !== url,
+          (l) => l.idGeschaeft !== idGeschaeft || l.url !== url,
         )
       },
       getGeschaefteKontakteExtern() {
@@ -315,7 +328,7 @@ export default () =>
       },
       geschaeftKontaktExternDelete(idGeschaeft, idKontakt) {
         self.geschaefteKontakteExtern.geschaefteKontakteExtern = self.geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
-          g => g.idGeschaeft !== idGeschaeft || g.idKontakt !== idKontakt,
+          (g) => g.idGeschaeft !== idGeschaeft || g.idKontakt !== idKontakt,
         )
         self.geschaefteKontakteExtern.activeIdGeschaeft = null
         self.geschaefteKontakteExtern.activeIdKontakt = null
@@ -394,7 +407,7 @@ export default () =>
       },
       geschaeftKontaktInternDelete(idGeschaeft, idKontakt) {
         self.geschaefteKontakteIntern.geschaefteKontakteIntern = self.geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
-          g => g.idGeschaeft !== idGeschaeft || g.idKontakt !== idKontakt,
+          (g) => g.idGeschaeft !== idGeschaeft || g.idKontakt !== idKontakt,
         )
         self.geschaefteKontakteIntern.activeIdGeschaeft = null
         self.geschaefteKontakteIntern.activeIdKontakt = null

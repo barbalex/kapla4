@@ -1,7 +1,7 @@
 import filterForFaelligeGeschaefte from './filterForFaelligeGeschaefte'
 import fetchUsername from './fetchUsername'
 
-export default store => {
+export default (store) => {
   fetchUsername(store)
   store.faelligeStatiOptionsGet()
   store.geschaefte.fetchGeko()
@@ -15,6 +15,7 @@ export default store => {
   store.statusOptionsGet()
   store.geschaeftsartOptionsGet()
   store.aktenstandortOptionsGet()
+  store.aktenstandortOptionsHistorischGet()
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
   store.geschaefte.fetch()

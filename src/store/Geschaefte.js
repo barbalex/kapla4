@@ -41,6 +41,9 @@ export default types
     statusOptions: types.array(types.union(types.string, types.null)),
     geschaeftsartOptions: types.array(types.union(types.string, types.null)),
     aktenstandortOptions: types.array(types.union(types.string, types.null)),
+    aktenstandortOptionsHistorisch: types.array(
+      types.union(types.string, types.null),
+    ),
     interneOptions: types.array(InterneOptions),
     externeOptions: types.array(ExterneOptions),
     filterFields: types.array(FilterFields),
@@ -49,7 +52,7 @@ export default types
   .volatile(() => ({
     error: [],
   }))
-  .views(self => {
+  .views((self) => {
     const store = getParent(self, 1)
 
     return {
@@ -63,7 +66,7 @@ export default types
         return getHistoryOfGeschaeft(self.geschaefte, self.activeId)
       },
       get gekoOfActiveId() {
-        return self.geko.filter(g => g.idGeschaeft === self.activeId)
+        return self.geko.filter((g) => g.idGeschaeft === self.activeId)
       },
       get isFiltered() {
         const existsFilterFulltext = !!self.filterFulltext
@@ -72,7 +75,7 @@ export default types
       },
     }
   })
-  .actions(self => {
+  .actions((self) => {
     const store = getParent(self, 1)
 
     return {
@@ -163,12 +166,12 @@ export default types
         } catch (error) {
           store.addErrorMessage(error.message)
         }
-        self.filterFulltextIds = result.map(o => o.idGeschaeft)
+        self.filterFulltextIds = result.map((o) => o.idGeschaeft)
       },
       removeFilters() {
-        self.GefilterteIds = _.sortBy(self.geschaefte, g => g.idGeschaeft)
+        self.GefilterteIds = _.sortBy(self.geschaefte, (g) => g.idGeschaeft)
           .reverse()
-          .map(g => g.idGeschaeft)
+          .map((g) => g.idGeschaeft)
         self.filterFields = []
         self.filterType = null
         self.filterFulltext = ''
@@ -196,9 +199,9 @@ export default types
          * convert date fields
          * from YYYY-MM-DD to DD.MM.YYYY
          */
-        geschaefte.forEach(g => {
+        geschaefte.forEach((g) => {
           const geschaeft = g
-          Object.keys(geschaeft).forEach(field => {
+          Object.keys(geschaeft).forEach((field) => {
             if (isDateField(field)) {
               geschaeft[field] = convertDateToDdMmYyyy(geschaeft[field])
             }
@@ -314,32 +317,32 @@ export default types
         }
         self.geschaeftRemoveDeleteIntended(idGeschaeft)
         self.geschaefte = self.geschaefte.filter(
-          g => g.idGeschaeft !== idGeschaeft,
+          (g) => g.idGeschaeft !== idGeschaeft,
         )
         // need to delete geschaefteKontakteIntern in self
         const geschaefteKontakteInternToDelete = geschaefteKontakteIntern.geschaefteKontakteIntern.filter(
-          g => g.idGeschaeft === idGeschaeft,
+          (g) => g.idGeschaeft === idGeschaeft,
         )
-        geschaefteKontakteInternToDelete.forEach(g =>
+        geschaefteKontakteInternToDelete.forEach((g) =>
           geschaeftKontaktInternDelete(idGeschaeft, g.idKontakt),
         )
         // need to delete geschaefteKontakteExtern in self
         const geschaefteKontakteExternToDelete = geschaefteKontakteExtern.geschaefteKontakteExtern.filter(
-          g => g.idGeschaeft === idGeschaeft,
+          (g) => g.idGeschaeft === idGeschaeft,
         )
-        geschaefteKontakteExternToDelete.forEach(g =>
+        geschaefteKontakteExternToDelete.forEach((g) =>
           store.geschaeftKontaktExternDelete(idGeschaeft, g.idKontakt),
         )
         // need to delete geKo in self
         const gekoToRemove = self.geko.filter(
-          g => g.idGeschaeft === idGeschaeft,
+          (g) => g.idGeschaeft === idGeschaeft,
         )
-        gekoToRemove.forEach(g => store.gekoRemove(idGeschaeft, g.gekoNr))
+        gekoToRemove.forEach((g) => store.gekoRemove(idGeschaeft, g.gekoNr))
         // need to delete links in self
         const linkselfmove = self.links.filter(
-          l => l.idGeschaeft === idGeschaeft,
+          (l) => l.idGeschaeft === idGeschaeft,
         )
-        linkselfmove.forEach(l => store.linkDelete(idGeschaeft, l.url))
+        linkselfmove.forEach((l) => store.linkDelete(idGeschaeft, l.url))
       },
       geschaeftSetDeleteIntended() {
         self.willDelete = true
