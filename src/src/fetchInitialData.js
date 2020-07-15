@@ -15,7 +15,6 @@ export default (store) => {
   store.statusOptionsGet()
   store.geschaeftsartOptionsGet()
   store.aktenstandortOptionsGet()
-  store.aktenstandortOptionsHistorischGet()
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
   store.geschaefte.fetch()

@@ -41,9 +41,6 @@ export default types
     statusOptions: types.array(types.union(types.string, types.null)),
     geschaeftsartOptions: types.array(types.union(types.string, types.null)),
     aktenstandortOptions: types.array(types.union(types.string, types.null)),
-    aktenstandortOptionsHistorisch: types.array(
-      types.union(types.string, types.null),
-    ),
     interneOptions: types.array(InterneOptions),
     externeOptions: types.array(ExterneOptions),
     filterFields: types.array(FilterFields),

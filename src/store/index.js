@@ -103,18 +103,6 @@ export default () =>
         }
         self.geschaefte.aktenstandortOptions = aktenstandortOptions
       },
-      aktenstandortOptionsHistorischGet() {
-        let aktenstandortOptionsHistorisch = []
-        try {
-          aktenstandortOptionsHistorisch = getDropdownOptionsHistorisch(
-            self,
-            'aktenstandort',
-          )
-        } catch (error) {
-          return
-        }
-        self.geschaefte.aktenstandortOptionsHistorisch = aktenstandortOptionsHistorisch
-      },
       interneOptionsGet() {
         let interneOptions = []
         try {

@@ -155,7 +155,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
 
   const {
     aktenstandortOptions,
-    aktenstandortOptionsHistorisch,
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
     gekoOfActiveId,
@@ -297,17 +296,10 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
               value={geschaeft.aktenstandort}
               field="aktenstandort"
               label="Aktenstandort"
-              options={
-                aktenstandortOptions.includes(geschaeft.aktenstandort)
-                  ? aktenstandortOptions.map((o) => ({
-                      label: o,
-                      value: o,
-                    }))
-                  : aktenstandortOptionsHistorisch.map((o) => ({
-                      label: o,
-                      value: o,
-                    }))
-              }
+              options={aktenstandortOptions.map((o) => ({
+                label: o,
+                value: o,
+              }))}
               saveToDb={saveToDb}
               error={errors.aktenstandort}
               tabIndex={12 + tabsToAdd}

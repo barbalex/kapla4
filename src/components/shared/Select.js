@@ -7,25 +7,25 @@ import styled from 'styled-components'
 import storeContext from '../../storeContext'
 
 const StyledSelect = styled(Select)`
-  height: ${props => (props['data-ispdf'] ? '30px' : '38px')};
+  height: ${(props) => (props['data-ispdf'] ? '30px' : '38px')};
   .react-select__control {
-    ${props => props['data-ispdf'] && 'border-left: none !important;'}
-    ${props => props['data-ispdf'] && 'border-top: none !important;'}
-    ${props => props['data-ispdf'] && 'border-right: none !important;'}
-    ${props => props['data-ispdf'] && 'border-radius: 0 !important;'}
-    ${props => props['data-ispdf'] && 'min-height: 30px !important;'}
-    ${props => props['data-ispdf'] && 'border-bottom-width: thin;'}
+    ${(props) => props['data-ispdf'] && 'border-left: none !important;'}
+    ${(props) => props['data-ispdf'] && 'border-top: none !important;'}
+    ${(props) => props['data-ispdf'] && 'border-right: none !important;'}
+    ${(props) => props['data-ispdf'] && 'border-radius: 0 !important;'}
+    ${(props) => props['data-ispdf'] && 'min-height: 30px !important;'}
+    ${(props) => props['data-ispdf'] && 'border-bottom-width: thin;'}
   }
   .react-select__control:focus-within {
     border-color: #80bdff !important;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
   .react-select__value-container {
-    ${props =>
+    ${(props) =>
       props['data-ispdf'] ? 'padding: 0 !important' : 'padding: 2px 8px'};
   }
   .react-select__indicators {
-    ${props => (props['data-ispdf'] ? 'display: none' : 'display: flex')};
+    ${(props) => (props['data-ispdf'] ? 'display: none' : 'display: flex')};
   }
   @media print {
     .react-select__control {
@@ -50,7 +50,7 @@ const NonRowLabel = styled(Label)`
   font-weight: 500;
 `
 const StyledFormGroup = styled(FormGroup)`
-  margin-bottom: ${props => (props.row ? '16px' : '8px !important')};
+  margin-bottom: ${(props) => (props.row ? '16px' : '8px !important')};
 `
 
 const noOptionsMessage = () => '(keine)'
@@ -67,19 +67,22 @@ const SharedSelect = ({
   placeholder = '',
 }) => {
   const onChange = useCallback(
-    option => saveToDb({ value: option ? option.value : null, field }),
+    (option) => saveToDb({ value: option ? option.value : null, field }),
     [field, saveToDb],
   )
   // need to return '' instead of undefined if no option is found
   // otherwise field does not update
   const option = useMemo(() => {
     // ensure null is never returned as value
-    const option = options.find(o => o.value === value)
+    const option = options.find((o) => o.value === value)
     if (option) {
       if (option.value === null || option.value === undefined) {
         return { ...option, value: '' }
       }
       return option
+    } else if (value) {
+      // allow historical data to be schown
+      return { label: value, value }
     }
     return ''
   }, [options, value])
