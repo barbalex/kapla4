@@ -1,24 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Label } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import moment from 'moment'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
-import Date from '../../shared/Date'
-import Select from '../../shared/Select'
-import Input from '../../shared/Input'
-import Textarea from '../../shared/Textarea'
 import storeContext from '../../../storeContext'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
   background-color: rgb(255, 237, 199);
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf']
-      ? 'calc((100% - 8px) * 0.4) calc((100% - 8px) * 0.6)'
-      : 'calc(100% - 138px) 130px'};
+  grid-template-columns: calc((100% - 8px) * 0.4) calc((100% - 8px) * 0.6);
   grid-template-rows: auto;
   grid-template-areas:
     'areaRechtsmittelTitle areaRechtsmittelTitle' 'fieldInstanz fieldInstanz' 'fieldEntscheidNr fieldEntscheidDatum'
@@ -26,7 +19,7 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  border: thin solid #ccc;
   border-bottom: none;
   border-left: none;
   border-collapse: collapse;
@@ -72,44 +65,14 @@ const AreaRechtsmittel = ({
   onChangeDatePicker,
 }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
-  const {
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-    rechtsmittelErledigungOptions,
-    rechtsmittelInstanzOptions,
-  } = store.geschaefte
-  const isPdf = activeLocation === 'geschaeftPdf'
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
-
-  const [errors, setErrors] = useState({})
-  useEffect(() => {
-    setErrors({})
-  }, [geschaeft.idGeschaeft])
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <Title>Rekurs / Beschwerde</Title>
-        {!isPdf && (
-          <FieldInstanz>
-            <Select
-              key={`${geschaeft.idGeschaeft}rechtsmittelInstanz`}
-              value={geschaeft.rechtsmittelInstanz}
-              field="rechtsmittelInstanz"
-              label="Instanz"
-              options={rechtsmittelInstanzOptions.map((o) => ({
-                label: o,
-                value: o,
-              }))}
-              saveToDb={saveToDb}
-              error={errors.rechtsmittelInstanz}
-              tabIndex={1 + nrOfFieldsBeforePv}
-            />
-          </FieldInstanz>
-        )}
-        {isPdf && !!geschaeft.rechtsmittelInstanz && (
+        {!!geschaeft.rechtsmittelInstanz && (
           <FieldInstanz>
             <NonRowLabel>Instanz</NonRowLabel>
             <PdfField
@@ -131,20 +94,7 @@ const AreaRechtsmittel = ({
             </PdfField>
           </FieldInstanz>
         )}
-        {!isPdf && (
-          <FieldEntscheidNr>
-            <Input
-              key={`${geschaeft.idGeschaeft}rechtsmittelEntscheidNr`}
-              value={geschaeft.rechtsmittelEntscheidNr}
-              field="rechtsmittelEntscheidNr"
-              label="Entscheid Nr."
-              saveToDb={saveToDb}
-              error={errors.rechtsmittelEntscheidNr}
-              tabIndex={2 + nrOfFieldsBeforePv}
-            />
-          </FieldEntscheidNr>
-        )}
-        {isPdf && !!geschaeft.rechtsmittelEntscheidNr && (
+        {!!geschaeft.rechtsmittelEntscheidNr && (
           <FieldEntscheidNr>
             <NonRowLabel>Entscheid Nr.</NonRowLabel>
             <PdfField
@@ -166,21 +116,7 @@ const AreaRechtsmittel = ({
             </PdfField>
           </FieldEntscheidNr>
         )}
-        {!isPdf && (
-          <FieldEntscheidDatum>
-            <Date
-              key={`${geschaeft.idGeschaeft}rechtsmittelEntscheidDatum`}
-              value={geschaeft.rechtsmittelEntscheidDatum}
-              field="rechtsmittelEntscheidDatum"
-              label="Entscheid Datum"
-              saveToDb={saveToDb}
-              error={errors.rechtsmittelEntscheidDatum}
-              tabIndex={3 + nrOfFieldsBeforePv}
-              popperPlacement="left"
-            />
-          </FieldEntscheidDatum>
-        )}
-        {isPdf && !!geschaeft.rechtsmittelEntscheidDatum && (
+        {!!geschaeft.rechtsmittelEntscheidDatum && (
           <FieldEntscheidDatum>
             <NonRowLabel>Entscheid Datum</NonRowLabel>
             <PdfField
@@ -205,24 +141,7 @@ const AreaRechtsmittel = ({
             </PdfField>
           </FieldEntscheidDatum>
         )}
-        {!isPdf && (
-          <FieldErledigung>
-            <Select
-              key={`${geschaeft.idGeschaeft}rechtsmittelErledigung`}
-              value={geschaeft.rechtsmittelErledigung}
-              field="rechtsmittelErledigung"
-              label="Erledigung"
-              options={rechtsmittelErledigungOptions.map((o) => ({
-                label: o,
-                value: o,
-              }))}
-              saveToDb={saveToDb}
-              error={errors.rechtsmittelErledigung}
-              tabIndex={4 + nrOfFieldsBeforePv}
-            />
-          </FieldErledigung>
-        )}
-        {isPdf && !!geschaeft.rechtsmittelErledigung && (
+        {!!geschaeft.rechtsmittelErledigung && (
           <FieldErledigung>
             <NonRowLabel>Erledigung</NonRowLabel>
             <PdfField
@@ -244,20 +163,7 @@ const AreaRechtsmittel = ({
             </PdfField>
           </FieldErledigung>
         )}
-        {!isPdf && (
-          <FieldRechtsmittelTxt>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}rechtsmittelTxt`}
-              value={geschaeft.rechtsmittelTxt}
-              field="rechtsmittelTxt"
-              label="Bemerkungen"
-              saveToDb={saveToDb}
-              error={errors.rechtsmittelTxt}
-              tabIndex={5 + nrOfFieldsBeforePv}
-            />
-          </FieldRechtsmittelTxt>
-        )}
-        {isPdf && !!geschaeft.rechtsmittelTxt && (
+        {!!geschaeft.rechtsmittelTxt && (
           <FieldRechtsmittelTxt>
             <NonRowLabel>Bemerkungen</NonRowLabel>
             <PdfField
