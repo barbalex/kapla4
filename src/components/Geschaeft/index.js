@@ -25,14 +25,8 @@ const ScrollContainerRegular = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `
-const ScrollContainerPdf = styled.div`
-  overflow: visible;
-  height: 29.7cm;
-  max-height: 29.7cm;
-`
 const WrapperNarrow = styled.div`
   display: grid;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-collapse: collapse;
   grid-template-columns: repeat(1, 100%);
   grid-template-rows: auto;
@@ -45,7 +39,6 @@ const WrapperNarrowNoAreaForGeschaeftsart = styled(WrapperNarrow)`
 `
 const WrapperWide = styled.div`
   display: grid;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-collapse: collapse;
   grid-template-columns: repeat(12, 8.33333%);
   grid-template-rows: auto;
@@ -53,15 +46,6 @@ const WrapperWide = styled.div`
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern areaNummern'
     'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaForGeschaeftsart areaForGeschaeftsart areaForGeschaeftsart areaForGeschaeftsart'
     'areaFristen areaFristen areaFristen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen'
-    'areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks'
-    'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
-    'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
-`
-const WrapperWidePdf = styled(WrapperWide)`
-  grid-template-areas:
-    'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'
-    'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaForGeschaeftsart areaForGeschaeftsart areaForGeschaeftsart'
-    'areaFristen areaFristen areaFristen areaFristen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen'
     'areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks'
     'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
     'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
@@ -75,33 +59,14 @@ const WrapperWideNoAreaForGeschaeftsart = styled(WrapperWide)`
     'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
     'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
 `
-const WrapperWideNoAreaForGeschaeftsartPdf = styled(WrapperWide)`
-  grid-template-areas:
-    'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'
-    'areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaGeschaeft areaNummern areaNummern areaNummern'
-    'areaFristen areaFristen areaFristen areaFristen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen areaPersonen'
-    'areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks areaLinks'
-    'areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory areaHistory'
-    'areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert areaZuletztMutiert';
-`
 
 const Geschaeft = () => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { setDirty } = store
-  const {
-    activeId,
-    historyOfActiveId,
-    geschaefteFilteredAndSorted: geschaefte,
-    links,
-  } = store.geschaefte
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const { geschaefteColumnWidth } = store.app
-  const isPdf = activeLocation === 'geschaeftPdf'
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const { setValue } = geschaeft
-
-  console.log('Geschaeft, isPdf:', isPdf)
 
   const change = useCallback((e) => {
     const { type, name: field, dataset } = e.target
@@ -161,24 +126,8 @@ const Geschaeft = () => {
   const showGeschaeft = geschaeft.idGeschaeft
   if (!showGeschaeft) return null
 
-  const showAreaParlVorstoss =
-    geschaeft.geschaeftsart === 'Parlament. Vorstoss' &&
-    !(
-      isPdf &&
-      !geschaeft.parlVorstossStufe &&
-      !geschaeft.parlVorstossZustaendigkeitAwel &&
-      !geschaeft.parlVorstossTyp
-    )
-  const showAreaRechtsmittel =
-    geschaeft.geschaeftsart === 'Rekurs/Beschwerde' &&
-    !(
-      isPdf &&
-      !geschaeft.rechtsmittelInstanz &&
-      !geschaeft.rechtsmittelEntscheidNr &&
-      !geschaeft.rechtsmittelEntscheidDatum &&
-      !geschaeft.rechtsmittelErledigung &&
-      !geschaeft.rechtsmittelTxt
-    )
+  const showAreaParlVorstoss = geschaeft.geschaeftsart === 'Parlament. Vorstoss'
+  const showAreaRechtsmittel = geschaeft.geschaeftsart === 'Rekurs/Beschwerde'
   const showAreaForGeschaeftsart = showAreaParlVorstoss || showAreaRechtsmittel
 
   // need width to adapt layout to differing widths
@@ -194,15 +143,8 @@ const Geschaeft = () => {
   const nrOfFieldsBeforePersonen = nrOfFieldsBeforeFristen + 7
   const viewIsNarrow = areaGeschaefteWidth < 860
   let ScrollContainer = ScrollContainerRegular
-  if (isPdf) ScrollContainer = ScrollContainerPdf
   let Wrapper
-  if (isPdf) {
-    if (showAreaForGeschaeftsart) {
-      Wrapper = WrapperWidePdf
-    } else {
-      Wrapper = WrapperWideNoAreaForGeschaeftsartPdf
-    }
-  } else if (viewIsNarrow) {
+  if (viewIsNarrow) {
     if (showAreaForGeschaeftsart) {
       Wrapper = WrapperNarrow
     } else {
@@ -214,15 +156,10 @@ const Geschaeft = () => {
     Wrapper = WrapperWideNoAreaForGeschaeftsart
   }
 
-  const myLinks = links.filter(
-    (link) => link.idGeschaeft === geschaeft.idGeschaeft,
-  )
-  const showLinks = !(isPdf && myLinks.length === 0)
-
   return (
     <ErrorBoundary>
       <ScrollContainer>
-        <Wrapper data-ispdf={isPdf}>
+        <Wrapper>
           <AreaGeschaeft
             viewIsNarrow={viewIsNarrow}
             nrOfGFields={nrOfGFields}
@@ -257,10 +194,8 @@ const Geschaeft = () => {
             nrOfFieldsBeforePersonen={nrOfFieldsBeforePersonen}
             saveToDb={saveToDb}
           />
-          {showLinks && <AreaLinks />}
-          {(!isPdf || !!historyOfActiveId.length) && (
-            <AreaHistory saveToDb={saveToDb} />
-          )}
+          <AreaLinks />
+          <AreaHistory saveToDb={saveToDb} />
           <AreaZuletztMutiert />
         </Wrapper>
       </ScrollContainer>
