@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Label } from 'reactstrap'
 //import Textarea from 'react-textarea-autosize'
 import styled from 'styled-components'
@@ -158,11 +158,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
     />,
   )
 
-  const [errors, setErrors] = useState({})
-  useEffect(() => {
-    setErrors({})
-  }, [geschaeft.idGeschaeft])
-
   return (
     <ErrorBoundary>
       <Container>
@@ -177,7 +172,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
             type="number"
             value={geschaeft.idGeschaeft}
             field="idGeschaeft"
-            error={errors.idGeschaeft}
             disabled
             background="transparent"
           />
@@ -199,7 +193,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.entscheidAwel}
                 field="entscheidAwel"
                 saveToDb={saveToDb}
-                error={errors.entscheidAwel}
                 tabIndex={2 + tabsToAdd}
               />
             </FieldEntscheidAwel>
@@ -214,7 +207,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.entscheidBdv}
                 field="entscheidBdv"
                 saveToDb={saveToDb}
-                error={errors.entscheidBdv}
                 tabIndex={4 + tabsToAdd}
               />
             </FieldEntscheidBdv>
@@ -229,7 +221,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.entscheidRrb}
                 field="entscheidRrb"
                 saveToDb={saveToDb}
-                error={errors.entscheidRrb}
                 tabIndex={6 + tabsToAdd}
               />
             </FieldEntscheidRrb>
@@ -244,7 +235,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.entscheidBvv}
                 field="entscheidBvv"
                 saveToDb={saveToDb}
-                error={errors.entscheidBvv}
                 tabIndex={8 + tabsToAdd}
               />
             </FieldEntscheidBvv>
@@ -259,7 +249,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.entscheidKr}
                 field="entscheidKr"
                 saveToDb={saveToDb}
-                error={errors.entscheidKr}
                 tabIndex={10 + tabsToAdd}
               />
             </FieldEntscheidKr>
@@ -274,7 +263,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.aktenstandort}
                 field="aktenstandort"
                 saveToDb={saveToDb}
-                error={errors.aktenstandort}
                 tabIndex={12 + tabsToAdd}
               />
             </FieldAktenstandort>
@@ -289,7 +277,6 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
                 value={geschaeft.aktennummer}
                 field="aktennummer"
                 saveToDb={saveToDb}
-                error={errors.aktennummer}
                 tabIndex={13 + tabsToAdd}
               />
             </FieldAktennummer>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Label } from 'reactstrap'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -58,11 +58,6 @@ const AreaHistory = ({ saveToDb }) => {
   } = store.geschaefte
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
 
-  const [errors, setErrors] = useState({})
-  useEffect(() => {
-    setErrors({})
-  }, [geschaeft.idGeschaeft])
-
   return (
     <ErrorBoundary>
       <Container data-single-row={historyOfActiveId.length === 0}>
@@ -80,7 +75,6 @@ const AreaHistory = ({ saveToDb }) => {
             field="idVorgeschaeft"
             label=""
             saveToDb={saveToDb}
-            error={errors.idVorgeschaeft}
             placeholder={null}
             tabIndex={99}
           />
