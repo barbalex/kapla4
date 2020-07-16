@@ -1,18 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Label } from 'reactstrap'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import storeContext from '../../../storeContext'
-import Select from '../../shared/Select'
-import Input from '../../shared/Input'
-import Textarea from '../../shared/Textarea'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
-  background-color: ${(props) =>
-    props.isPdf ? 'white' : 'rgb(255, 186, 137)'};
+  background-color: white;
   display: grid;
   grid-template-columns: repeat(12, calc((100% - 55px) / 12));
   grid-template-rows: auto;
@@ -29,7 +25,7 @@ const Container = styled.div`
   grid-column-gap: 5px;
   grid-row-gap: 2px;
   padding: 8px;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  border: thin solid #ccc;
   border-bottom: none;
   border-left: none;
   border-top: none;
@@ -54,7 +50,7 @@ const Gegenstand = styled.div`
 `
 const Details = styled.div`
   grid-area: fieldDetails;
-  ${(props) => props['data-ispdf'] && 'max-height: 250px;'}
+  max-height: 250px;
 `
 const Status = styled.div`
   grid-area: fieldStatus;
@@ -67,10 +63,7 @@ const NaechsterSchritt = styled.div`
 `
 const Vermerk = styled.div`
   grid-area: fieldVermerk;
-  ${(props) => props['data-ispdf'] && 'max-height: 250px;'}
-`
-const VermerkIntern = styled.div`
-  grid-area: fieldVermerkIntern;
+  max-height: 250px;
 `
 const NonRowLabel = styled(Label)`
   margin-bottom: -2px;
@@ -89,42 +82,14 @@ const PdfField = styled.div`
 
 const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
-  const {
-    activeId,
-    geschaefteFilteredAndSorted: geschaefte,
-    statusOptions,
-    abteilungOptions,
-    geschaeftsartOptions,
-  } = store.geschaefte
-  const isPdf = activeLocation === 'geschaeftPdf'
+  const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
-  const tabsToAdd = viewIsNarrow ? nrOfGFields : 0
-
-  const [errors, setErrors] = useState({})
-  useEffect(() => {
-    setErrors({})
-  }, [geschaeft.idGeschaeft])
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <Title>Geschäft</Title>
-        {!isPdf && (
-          <Gegenstand>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}gegenstand`}
-              value={geschaeft.gegenstand}
-              field="gegenstand"
-              label="Gegenstand"
-              saveToDb={saveToDb}
-              error={errors.gegenstand}
-              tabIndex={1 + tabsToAdd}
-            />
-          </Gegenstand>
-        )}
-        {isPdf && !!geschaeft.gegenstand && (
+        {!!geschaeft.gegenstand && (
           <Gegenstand>
             <NonRowLabel>Gegenstand</NonRowLabel>
             <PdfField
@@ -146,20 +111,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Gegenstand>
         )}
-        {!isPdf && (
-          <Ausloeser>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}ausloeser`}
-              value={geschaeft.ausloeser}
-              field="ausloeser"
-              label="Auslöser"
-              saveToDb={saveToDb}
-              error={errors.ausloeser}
-              tabIndex={2 + tabsToAdd}
-            />
-          </Ausloeser>
-        )}
-        {isPdf && !!geschaeft.ausloeser && (
+        {!!geschaeft.ausloeser && (
           <Ausloeser>
             <NonRowLabel>Auslöser</NonRowLabel>
             <PdfField
@@ -181,20 +133,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Ausloeser>
         )}
-        {!isPdf && (
-          <Ort>
-            <Input
-              key={`${geschaeft.idGeschaeft}ort`}
-              value={geschaeft.ort}
-              field="ort"
-              label="Ort"
-              saveToDb={saveToDb}
-              error={errors.ort}
-              tabIndex={3 + tabsToAdd}
-            />
-          </Ort>
-        )}
-        {isPdf && !!geschaeft.ort && (
+        {!!geschaeft.ort && (
           <Ort>
             <NonRowLabel>Ort</NonRowLabel>
             <PdfField
@@ -216,24 +155,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Ort>
         )}
-        {!isPdf && (
-          <Geschaeftsart>
-            <Select
-              key={`${geschaeft.idGeschaeft}geschaeftsart`}
-              value={geschaeft.geschaeftsart}
-              field="geschaeftsart"
-              label="Geschäftsart"
-              options={geschaeftsartOptions.map((o) => ({
-                label: o,
-                value: o,
-              }))}
-              saveToDb={saveToDb}
-              error={errors.geschaeftsart}
-              tabIndex={4 + tabsToAdd}
-            />
-          </Geschaeftsart>
-        )}
-        {isPdf && !!geschaeft.geschaeftsart && (
+        {!!geschaeft.geschaeftsart && (
           <Geschaeftsart>
             <NonRowLabel>Geschäftsart</NonRowLabel>
             <PdfField
@@ -255,21 +177,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Geschaeftsart>
         )}
-        {!isPdf && (
-          <Status>
-            <Select
-              key={`${geschaeft.idGeschaeft}status`}
-              value={geschaeft.status}
-              field="status"
-              label="Status"
-              options={statusOptions.map((o) => ({ label: o, value: o }))}
-              saveToDb={saveToDb}
-              error={errors.status}
-              tabIndex={5 + tabsToAdd}
-            />
-          </Status>
-        )}
-        {isPdf && !!geschaeft.status && (
+        {!!geschaeft.status && (
           <Status>
             <NonRowLabel>Status</NonRowLabel>
             <PdfField
@@ -291,21 +199,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Status>
         )}
-        {!isPdf && (
-          <Abteilung>
-            <Select
-              key={`${geschaeft.idGeschaeft}abteilung`}
-              value={geschaeft.abteilung}
-              field="abteilung"
-              label="Abteilung"
-              options={abteilungOptions.map((o) => ({ label: o, value: o }))}
-              saveToDb={saveToDb}
-              error={errors.abteilung}
-              tabIndex={6 + tabsToAdd}
-            />
-          </Abteilung>
-        )}
-        {isPdf && !!geschaeft.abteilung && (
+        {!!geschaeft.abteilung && (
           <Abteilung>
             <NonRowLabel>Abteilung</NonRowLabel>
             <PdfField
@@ -327,21 +221,8 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Abteilung>
         )}
-        {!isPdf && (
-          <Details data-ispdf={isPdf}>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}details`}
-              value={geschaeft.details}
-              field="details"
-              label="Details"
-              saveToDb={saveToDb}
-              error={errors.details}
-              tabIndex={7 + tabsToAdd}
-            />
-          </Details>
-        )}
-        {isPdf && !!geschaeft.details && (
-          <Details data-ispdf={isPdf}>
+        {!!geschaeft.details && (
+          <Details>
             <NonRowLabel>Details</NonRowLabel>
             <PdfField
               data-fontsize={
@@ -362,20 +243,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </Details>
         )}
-        {!isPdf && (
-          <NaechsterSchritt>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}naechsterSchritt`}
-              value={geschaeft.naechsterSchritt}
-              field="naechsterSchritt"
-              label="Nächster Schritt"
-              saveToDb={saveToDb}
-              error={errors.naechsterSchritt}
-              tabIndex={8 + tabsToAdd}
-            />
-          </NaechsterSchritt>
-        )}
-        {isPdf && !!geschaeft.naechsterSchritt && (
+        {!!geschaeft.naechsterSchritt && (
           <NaechsterSchritt>
             <NonRowLabel>Nächster Schritt</NonRowLabel>
             <PdfField
@@ -397,21 +265,8 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
             </PdfField>
           </NaechsterSchritt>
         )}
-        {!isPdf && (
-          <Vermerk data-ispdf={isPdf}>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}vermerk`}
-              value={geschaeft.vermerk}
-              field="vermerk"
-              label="Vermerk"
-              saveToDb={saveToDb}
-              error={errors.vermerk}
-              tabIndex={9 + tabsToAdd}
-            />
-          </Vermerk>
-        )}
-        {isPdf && !!geschaeft.vermerk && (
-          <Vermerk data-ispdf={isPdf}>
+        {!!geschaeft.vermerk && (
+          <Vermerk>
             <NonRowLabel>Vermerk</NonRowLabel>
             <PdfField
               data-fontsize={
@@ -431,19 +286,6 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
               {geschaeft.vermerk}
             </PdfField>
           </Vermerk>
-        )}
-        {!isPdf && (
-          <VermerkIntern>
-            <Textarea
-              key={`${geschaeft.idGeschaeft}vermerkIntern`}
-              value={geschaeft.vermerkIntern}
-              field="vermerkIntern"
-              label="Vermerk intern (in Berichten nicht angezeigt)"
-              saveToDb={saveToDb}
-              error={errors.vermerkIntern}
-              tabIndex={10 + tabsToAdd}
-            />
-          </VermerkIntern>
         )}
       </Container>
     </ErrorBoundary>

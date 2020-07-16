@@ -10,22 +10,17 @@ import storeContext from '../../../storeContext'
 
 const Container = styled.div`
   grid-area: areaLinks;
-  background-color: ${(props) =>
-    props['data-ispdf'] ? 'rgb(227, 232, 255)' : '#e3fff0'};
+  background-color: rgb(227, 232, 255);
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf'] ? '100%' : 'calc(100% - 308px) 300px'};
-  grid-template-areas: ${(props) =>
-    props['data-ispdf']
-      ? "'title' 'links'"
-      : "'title dropzone' 'links dropzone'"};
+  grid-template-columns: 100%;
+  grid-template-areas: 'title' 'links';
   grid-column-gap: 8px;
-  grid-row-gap: ${(props) => (props['data-ispdf'] ? '1px' : '8px')};
+  grid-row-gap: 1px;
   padding: 8px;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
+  border: thin solid #ccc;
   border-bottom: none;
   border-collapse: collapse;
-  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
+  font-size: 10px;
 `
 const Title = styled.div`
   font-weight: 900;
@@ -34,8 +29,8 @@ const Title = styled.div`
 `
 const Links = styled.div`
   grid-area: links;
-  display: ${(props) => (props['data-ispdf'] ? 'grid' : 'block')};
-  grid-template-columns: ${(props) => (props['data-ispdf'] ? '100%' : 'none')};
+  display: grid;
+  grid-template-columns: 100%;
 `
 const Field = styled.div`
   grid-column: 1;
@@ -45,7 +40,7 @@ const Field = styled.div`
   border-bottom: thin solid #cecbcb;
   padding: 3px;
   align-items: center;
-  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: 0;
   &:first-of-type {
     border-top: thin solid #cecbcb;
   }
@@ -56,17 +51,6 @@ const Field = styled.div`
 const UrlDiv = styled.div`
   grid-column: 1 / span 1;
   grid-column: 1;
-`
-const RemoveIconContainer = styled.div`
-  grid-column: 2 / span 1;
-  margin-top: -2px;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
-`
-const RemoveIcon = styled(FaRegTimesCircle)`
-  color: red;
-  font-size: 18px;
-  cursor: pointer;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
 `
 const DropzoneContainer = styled.div`
   grid-area: dropzone;
@@ -93,7 +77,7 @@ const AreaLinks = () => {
   const store = useContext(storeContext)
   const location = store.location.toJSON()
   const activeLocation = location[0]
-  const { linkRemove, linkNewCreate } = store
+  const { linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter((l) => l.idGeschaeft === activeId)
   const isPdf = activeLocation === 'geschaeftPdf'
@@ -105,11 +89,11 @@ const AreaLinks = () => {
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <Title>Links</Title>
-        <Links data-ispdf={isPdf}>
+        <Links>
           {myLinks.map((link) => (
-            <Field key={`${link.idGeschaeft}${link.url}`} data-ispdf={isPdf}>
+            <Field key={`${link.idGeschaeft}${link.url}`}>
               <UrlDiv>
                 <a
                   href={link.url}
@@ -121,12 +105,6 @@ const AreaLinks = () => {
                   {link.url}
                 </a>
               </UrlDiv>
-              <RemoveIconContainer data-ispdf={isPdf}>
-                <RemoveIcon
-                  onClick={() => linkRemove(activeId, link.url)}
-                  title="Link entfernen"
-                />
-              </RemoveIconContainer>
             </Field>
           ))}
         </Links>
