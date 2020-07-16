@@ -43,13 +43,11 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf'] ? 'calc(100% - 10px)' : 'calc(100% - 20px) 20px'};
+  grid-template-columns: calc(100% - 20px) 20px;
   grid-gap: 0;
   padding: 3px;
-  margin-right: ${(props) => (props['data-ispdf'] ? '9px' : 'inherit')};
   align-items: center;
-  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: 35px;
   border-bottom: thin solid #cecbcb;
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -69,14 +67,13 @@ const Field = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: ${(props) => (props['data-ispdf'] ? 0 : '7px')};
+    padding: 7px;
   }
 `
 // eslint-disable-next-line no-unused-vars
 const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
@@ -86,12 +83,9 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 
 const GeschaefteKontakteExtern = ({ refresh }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { geschaeftKontaktExternRemove } = store
   const { externeOptions, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
-  const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteExtern.filter(
     (g) => g.idGeschaeft === activeId,
@@ -105,11 +99,9 @@ const GeschaefteKontakteExtern = ({ refresh }) => {
     <ErrorBoundary>
       <Container>
         {gKISorted.map((gKE) => (
-          <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
-            <Field data-ispdf={isPdf}>
-              {verantwortlichData(gKE, externeOptions)}
-            </Field>
-            <RemoveIconContainer data-ispdf={isPdf}>
+          <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`}>
+            <Field>{verantwortlichData(gKE, externeOptions)}</Field>
+            <RemoveIconContainer>
               <RemoveIcon
                 onClick={() => {
                   geschaeftKontaktExternRemove(activeId, gKE.idKontakt)

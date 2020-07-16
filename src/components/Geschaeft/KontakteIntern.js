@@ -9,8 +9,7 @@ import KontakteInternItems from './KontakteInternItems'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
-  grid-column: ${(props) =>
-    props['data-ispdf'] ? '1 / span 1' : '1 / span 2'};
+  grid-column: 1 / span 2;
   display: grid;
   grid-template-columns: 100%;
   grid-gap: 0;
@@ -18,28 +17,21 @@ const Container = styled.div`
 // eslint-disable-next-line no-unused-vars
 const RowfVDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'grid')};
-  grid-template-columns: ${(props) =>
-    props['data-ispdf']
-      ? '160px calc(100% - 160px)'
-      : '260px calc(100% - 260px)'};
+  display: grid;
+  grid-template-columns: 260px calc(100% - 260px);
   grid-gap: 4px;
   margin-top: 5px;
 `
 // eslint-disable-next-line no-unused-vars
 const FvDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 
 const GeschaefteKontakteIntern = ({ tabIndex }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { geschaeftKontaktInternNewCreate } = store
   const { interneOptions: interneOptionsPassed, activeId } = store.geschaefte
   const { geschaefteKontakteIntern } = store.geschaefteKontakteIntern
-  const isPdf = activeLocation === 'geschaeftPdf'
 
   const [value, setValue] = useState('')
 
@@ -72,15 +64,15 @@ const GeschaefteKontakteIntern = ({ tabIndex }) => {
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <KontakteInternItems
           refresh={() => {
             setValue(null)
             setValue('')
           }}
         />
-        <RowfVDropdown data-ispdf={isPdf}>
-          <FvDropdown data-ispdf={isPdf}>
+        <RowfVDropdown>
+          <FvDropdown>
             <Select
               value={value}
               field="not-relevant"

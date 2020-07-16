@@ -35,13 +35,11 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf'] ? '100%' : 'calc(100% - 20px) 20px'};
+  grid-template-columns: calc(100% - 20px) 20px;
   grid-gap: 0;
   padding: 3px;
-  margin-right: ${(props) => (props['data-ispdf'] ? '9px' : 'inherit')};
   align-items: center;
-  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: 35px;
   border-bottom: thin solid #cecbcb;
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -66,7 +64,6 @@ const Fv = styled.div`
 const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
 `
 const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
@@ -76,12 +73,9 @@ const RemoveIcon = styled(FaRegTimesCircle)`
 
 const GeschaefteKontakteInternItems = ({ refresh }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { geschaeftKontaktInternRemove } = store
   const { interneOptions, activeId } = store.geschaefte
   const { geschaefteKontakteIntern } = store.geschaefteKontakteIntern
-  const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteIntern.filter(
     (g) => g.idGeschaeft === activeId,
@@ -96,9 +90,9 @@ const GeschaefteKontakteInternItems = ({ refresh }) => {
     <ErrorBoundary>
       <Container>
         {gkISorted.map((gkI) => (
-          <Row key={`${gkI.idGeschaeft}${gkI.idKontakt}`} data-ispdf={isPdf}>
+          <Row key={`${gkI.idGeschaeft}${gkI.idKontakt}`}>
             <Fv>{verantwortlichData(gkI, interneOptions)}</Fv>
-            <RemoveIconContainer data-ispdf={isPdf}>
+            <RemoveIconContainer>
               <RemoveIcon
                 onClick={() => {
                   geschaeftKontaktInternRemove(activeId, gkI.idKontakt)

@@ -9,19 +9,15 @@ import KontakteExternItems from './KontakteExternItems'
 import storeContext from '../../storeContext'
 
 const Container = styled.div`
-  grid-column: ${(props) =>
-    props['data-ispdf'] ? '1 / span 1' : '1 / span 2'};
+  grid-column: 1 / span 2;
   display: grid;
   grid-template-columns: 100%;
   grid-gap: 0;
 `
 const RowFvDropdown = styled.div`
   grid-column: 1 / span 1;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'grid')};
-  grid-template-columns: ${(props) =>
-    props['data-ispdf']
-      ? '160px calc(100% - 160px)'
-      : '260px calc(100% - 260px)'};
+  display: grid;
+  grid-template-columns: 260px calc(100% - 260px);
   grid-gap: 4px;
   margin-top: 5px;
 `
@@ -32,12 +28,9 @@ const FvDropdown = styled.div`
 
 const GeschaefteKontakteExtern = ({ tabIndex }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { geschaeftKontaktExternNewCreate } = store
   const { externeOptions: externeOptionsPassed, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
-  const isPdf = activeLocation === 'geschaeftPdf'
 
   const [value, setValue] = useState('')
 
@@ -63,15 +56,15 @@ const GeschaefteKontakteExtern = ({ tabIndex }) => {
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <KontakteExternItems
           refresh={() => {
             setValue(null)
             setValue('')
           }}
         />
-        <RowFvDropdown data-ispdf={isPdf}>
-          <FvDropdown data-ispdf={isPdf}>
+        <RowFvDropdown>
+          <FvDropdown>
             <Select
               value={value}
               field="not-relevant"
