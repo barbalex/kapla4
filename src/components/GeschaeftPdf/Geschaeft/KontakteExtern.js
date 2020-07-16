@@ -11,9 +11,9 @@ const Container = styled.div`
   grid-gap: 0;
 `
 
-const GeschaefteKontakteExtern = ({ tabIndex }) => (
+const GeschaefteKontakteExtern = () => (
   <Container>
-    <KontakteExternItems refresh={() => {}} />
+    <KontakteExternItems />
   </Container>
 )
 

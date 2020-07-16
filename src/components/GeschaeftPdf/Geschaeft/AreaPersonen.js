@@ -133,13 +133,9 @@ const AreaPersonen = ({ nrOfFieldsBeforePersonen = 0, saveToDb }) => {
             </>
           )}
           {!(interne.length === 0) && <Subtitle>Interne Kontakte</Subtitle>}
-          {!(interne.length === 0) && (
-            <KontakteIntern tabIndex={nrOfFieldsBeforePersonen + 1} />
-          )}
+          {!(interne.length === 0) && <KontakteIntern />}
           {!(externe.length === 0) && <Subtitle>Externe Kontakte</Subtitle>}
-          {!(externe.length === 0) && (
-            <KontakteExtern tabIndex={nrOfFieldsBeforePersonen + 2} />
-          )}
+          {!(externe.length === 0) && <KontakteExtern />}
         </AreaPersonenDiv>
       </Container>
     </ErrorBoundary>

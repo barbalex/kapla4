@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { FaRegTimesCircle } from 'react-icons/fa'
 import _ from 'lodash'
 import Linkify from 'react-linkify'
 import styled from 'styled-components'
@@ -27,12 +26,6 @@ const verantwortlichData = (gKE, externeOptions) => {
   return <Linkify>{info}</Linkify>
 }
 
-const titleText = (idKontakt, externeOptions) => {
-  const data = externeOptions.find((o) => o.id === idKontakt)
-  if (!data) return 'Kontakt entfernen'
-  return `${data.name} ${data.vorname} entfernen`
-}
-
 const Container = styled.div`
   grid-column: 1 / span 2;
   display: grid;
@@ -43,13 +36,12 @@ const Container = styled.div`
 const Row = styled.div`
   grid-column: 1 / span 1;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf'] ? 'calc(100% - 10px)' : 'calc(100% - 20px) 20px'};
+  grid-template-columns: calc(100% - 10px);
   grid-gap: 0;
   padding: 3px;
-  margin-right: ${(props) => (props['data-ispdf'] ? '9px' : 'inherit')};
+  margin-right: 9px;
   align-items: center;
-  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: 0;
   border-bottom: thin solid #cecbcb;
   &:first-of-type {
     border-top: thin solid #cecbcb;
@@ -69,29 +61,14 @@ const Field = styled.div`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: ${(props) => (props['data-ispdf'] ? 0 : '7px')};
+    padding: 0;
   }
 `
-// eslint-disable-next-line no-unused-vars
-const RemoveIconContainer = styled.div`
-  grid-column: 2 / span 1;
-  margin-top: -2px;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'inherit')};
-`
-const RemoveIcon = styled(FaRegTimesCircle)`
-  color: red;
-  font-size: 18px;
-  cursor: pointer;
-`
 
-const GeschaefteKontakteExtern = ({ refresh }) => {
+const GeschaefteKontakteExtern = () => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
-  const { geschaeftKontaktExternRemove } = store
   const { externeOptions, activeId } = store.geschaefte
   const { geschaefteKontakteExtern } = store.geschaefteKontakteExtern
-  const isPdf = activeLocation === 'geschaeftPdf'
   // filter for this geschaeft
   const gkIFiltered = geschaefteKontakteExtern.filter(
     (g) => g.idGeschaeft === activeId,
@@ -105,19 +82,8 @@ const GeschaefteKontakteExtern = ({ refresh }) => {
     <ErrorBoundary>
       <Container>
         {gKISorted.map((gKE) => (
-          <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`} data-ispdf={isPdf}>
-            <Field data-ispdf={isPdf}>
-              {verantwortlichData(gKE, externeOptions)}
-            </Field>
-            <RemoveIconContainer data-ispdf={isPdf}>
-              <RemoveIcon
-                onClick={() => {
-                  geschaeftKontaktExternRemove(activeId, gKE.idKontakt)
-                  setTimeout(() => refresh())
-                }}
-                title={titleText(gKE.idKontakt, externeOptions)}
-              />
-            </RemoveIconContainer>
+          <Row key={`${gKE.idGeschaeft}${gKE.idKontakt}`}>
+            <Field>{verantwortlichData(gKE, externeOptions)}</Field>
           </Row>
         ))}
       </Container>
