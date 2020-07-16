@@ -10,22 +10,15 @@ import storeContext from '../../storeContext'
 
 const Container = styled.div`
   grid-area: areaLinks;
-  background-color: ${(props) =>
-    props['data-ispdf'] ? 'rgb(227, 232, 255)' : '#e3fff0'};
+  background-color: #e3fff0;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf'] ? '100%' : 'calc(100% - 308px) 300px'};
-  grid-template-areas: ${(props) =>
-    props['data-ispdf']
-      ? "'title' 'links'"
-      : "'title dropzone' 'links dropzone'"};
+  grid-template-columns: calc(100% - 308px) 300px;
+  grid-template-areas: 'title dropzone' 'links dropzone';
   grid-column-gap: 8px;
-  grid-row-gap: ${(props) => (props['data-ispdf'] ? '1px' : '8px')};
+  grid-row-gap: 8px;
   padding: 8px;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #ccc;'}
   border-bottom: none;
   border-collapse: collapse;
-  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
 `
 const Title = styled.div`
   font-weight: 900;
@@ -34,8 +27,8 @@ const Title = styled.div`
 `
 const Links = styled.div`
   grid-area: links;
-  display: ${(props) => (props['data-ispdf'] ? 'grid' : 'block')};
-  grid-template-columns: ${(props) => (props['data-ispdf'] ? '100%' : 'none')};
+  display: block;
+  grid-template-columns: none;
 `
 const Field = styled.div`
   grid-column: 1;
@@ -45,7 +38,7 @@ const Field = styled.div`
   border-bottom: thin solid #cecbcb;
   padding: 3px;
   align-items: center;
-  min-height: ${(props) => (props['data-ispdf'] ? 0 : '35px')};
+  min-height: 35px;
   &:first-of-type {
     border-top: thin solid #cecbcb;
   }
@@ -60,19 +53,16 @@ const UrlDiv = styled.div`
 const RemoveIconContainer = styled.div`
   grid-column: 2 / span 1;
   margin-top: -2px;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
 `
 const RemoveIcon = styled(FaRegTimesCircle)`
   color: red;
   font-size: 18px;
   cursor: pointer;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
 `
 const DropzoneContainer = styled.div`
   grid-area: dropzone;
   width: 100%;
   height: 100%;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
 `
 const StyledDropzone = styled(Dropzone)`
   width: 100%;
@@ -91,12 +81,9 @@ const DropzoneInnerDiv = styled.div`
 
 const AreaLinks = () => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { linkRemove, linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter((l) => l.idGeschaeft === activeId)
-  const isPdf = activeLocation === 'geschaeftPdf'
 
   const onDrop = useCallback(
     (files) => linkNewCreate(activeId, files[0].path),
@@ -105,11 +92,11 @@ const AreaLinks = () => {
 
   return (
     <ErrorBoundary>
-      <Container data-ispdf={isPdf}>
+      <Container>
         <Title>Links</Title>
-        <Links data-ispdf={isPdf}>
+        <Links>
           {myLinks.map((link) => (
-            <Field key={`${link.idGeschaeft}${link.url}`} data-ispdf={isPdf}>
+            <Field key={`${link.idGeschaeft}${link.url}`}>
               <UrlDiv>
                 <a
                   href={link.url}
@@ -121,7 +108,7 @@ const AreaLinks = () => {
                   {link.url}
                 </a>
               </UrlDiv>
-              <RemoveIconContainer data-ispdf={isPdf}>
+              <RemoveIconContainer>
                 <RemoveIcon
                   onClick={() => linkRemove(activeId, link.url)}
                   title="Link entfernen"
@@ -130,7 +117,7 @@ const AreaLinks = () => {
             </Field>
           ))}
         </Links>
-        <DropzoneContainer data-ispdf={isPdf}>
+        <DropzoneContainer>
           <StyledDropzone onDrop={onDrop}>
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
               if (isDragActive) {
