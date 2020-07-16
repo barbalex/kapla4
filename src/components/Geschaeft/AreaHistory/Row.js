@@ -8,19 +8,14 @@ import storeContext from '../../../storeContext'
 const HistoryField = styled.div`
   grid-column: 1;
   display: grid;
-  grid-template-columns: ${(props) =>
-    props['data-ispdf']
-      ? '40px 65px calc(100% - 105px)'
-      : '55px 75px calc(100% - 130px)'};
+  grid-template-columns: 55px 75px calc(100% - 130px);
   grid-gap: 0;
   border-bottom: thin solid #cecbcb;
   border-collapse: collapse;
-  padding-left: ${(props) => (props['data-ispdf'] ? 0 : '13px')};
-  padding-top: ${(props) => (props['data-ispdf'] ? '2px' : '10px')};
-  padding-bottom: ${(props) => (props['data-ispdf'] ? '2px' : '10px')};
+  padding-left: 13px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   align-items: center;
-  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
-
   &:first-of-type {
     border-top: thin solid #cecbcb;
   }
@@ -40,10 +35,7 @@ const Gegenstand = styled.div`
 
 const AreaHistoryRows = ({ id, index }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const { toggleActivatedById, activeId, geschaefte } = store.geschaefte
-  const isPdf = activeLocation === 'geschaeftPdf'
 
   const onClick = useCallback(() => {
     if (id !== activeId) {
@@ -62,7 +54,6 @@ const AreaHistoryRows = ({ id, index }) => {
         cursor: id === activeId ? 'default' : 'pointer',
       }}
       onClick={onClick}
-      data-ispdf={isPdf}
     >
       <IdGeschaeft>{id}</IdGeschaeft>
       <Datum>{geschaeft.datumEingangAwel}</Datum>

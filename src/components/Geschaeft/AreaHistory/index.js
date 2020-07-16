@@ -19,10 +19,8 @@ const Container = styled.div`
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   padding: 8px;
-  ${(props) => props['data-ispdf'] && 'border: thin solid #CCC;'}
   border-left: none;
   border-collapse: collapse;
-  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
   ${(props) => props['data-single-row'] && 'height: 50px;'}
 `
 const Title = styled.div`
@@ -39,7 +37,7 @@ const FieldVorgeschaeft = styled.div`
 // eslint-disable-next-line no-unused-vars
 const LabelVorgeschaeft = styled(Label)`
   grid-area: labelVorgeschaeft;
-  margin-top: ${(props) => (props['data-ispdf'] ? '2px' : '7px')};
+  margin-top: 7px;
   margin-bottom: 0;
   text-align: right;
 `
@@ -51,15 +49,12 @@ const FieldsContainer = styled.div`
 
 const AreaHistory = ({ saveToDb }) => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const {
     activeId,
     geschaefteFilteredAndSorted: geschaefte,
     historyOfActiveId,
   } = store.geschaefte
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
-  const isPdf = activeLocation === 'geschaeftPdf'
 
   const [errors, setErrors] = useState({})
   useEffect(() => {
@@ -68,12 +63,9 @@ const AreaHistory = ({ saveToDb }) => {
 
   return (
     <ErrorBoundary>
-      <Container
-        data-ispdf={isPdf}
-        data-single-row={historyOfActiveId.length === 0}
-      >
+      <Container data-single-row={historyOfActiveId.length === 0}>
         <Title>Historie</Title>
-        <LabelVorgeschaeft data-ispdf={isPdf}>Vorgeschäft</LabelVorgeschaeft>
+        <LabelVorgeschaeft>Vorgeschäft</LabelVorgeschaeft>
         <FieldVorgeschaeft>
           <Input
             key={`${geschaeft.idGeschaeft}idVorgeschaeft`}
@@ -87,7 +79,7 @@ const AreaHistory = ({ saveToDb }) => {
             label=""
             saveToDb={saveToDb}
             error={errors.idVorgeschaeft}
-            placeholder={isPdf ? null : 'ID'}
+            placeholder="ID"
             tabIndex={99}
           />
         </FieldVorgeschaeft>
