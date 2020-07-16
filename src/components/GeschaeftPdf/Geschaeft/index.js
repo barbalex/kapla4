@@ -6,7 +6,7 @@ import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 
-import ErrorBoundary from '../shared/ErrorBoundary'
+import ErrorBoundary from '../../shared/ErrorBoundary'
 import AreaGeschaeft from './AreaGeschaeft'
 import AreaNummern from './AreaNummern'
 import AreaFristen from './AreaFristen'
@@ -16,7 +16,7 @@ import AreaPersonen from './AreaPersonen'
 import AreaHistory from './AreaHistory'
 import AreaLinks from './AreaLinks'
 import AreaZuletztMutiert from './AreaZuletztMutiert'
-import storeContext from '../../storeContext'
+import storeContext from '../../../storeContext'
 
 moment.locale('de')
 
