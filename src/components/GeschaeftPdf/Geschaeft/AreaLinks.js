@@ -1,6 +1,4 @@
-import React, { useContext, useCallback } from 'react'
-import Dropzone from 'react-dropzone'
-import { FaRegTimesCircle } from 'react-icons/fa'
+import React, { useContext } from 'react'
 import { shell } from 'electron'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -52,40 +50,11 @@ const UrlDiv = styled.div`
   grid-column: 1 / span 1;
   grid-column: 1;
 `
-const DropzoneContainer = styled.div`
-  grid-area: dropzone;
-  width: 100%;
-  height: 100%;
-  display: ${(props) => (props['data-ispdf'] ? 'none' : 'block')};
-`
-const StyledDropzone = styled(Dropzone)`
-  width: 100%;
-  height: 100%;
-  border-color: transparent;
-`
-const DropzoneInnerDiv = styled.div`
-  width: 100%;
-  height: 100%;
-  border-width: 2px;
-  border-color: #666;
-  border-style: dashed;
-  border-radius: 5px;
-  padding: 5px;
-`
 
 const AreaLinks = () => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
-  const { linkNewCreate } = store
   const { activeId, links } = store.geschaefte
   const myLinks = links.filter((l) => l.idGeschaeft === activeId)
-  const isPdf = activeLocation === 'geschaeftPdf'
-
-  const onDrop = useCallback(
-    (files) => linkNewCreate(activeId, files[0].path),
-    [activeId, linkNewCreate],
-  )
 
   return (
     <ErrorBoundary>
@@ -108,33 +77,6 @@ const AreaLinks = () => {
             </Field>
           ))}
         </Links>
-        <DropzoneContainer data-ispdf={isPdf}>
-          <StyledDropzone onDrop={onDrop}>
-            {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
-              if (isDragActive) {
-                return (
-                  <DropzoneInnerDiv {...getRootProps()}>
-                    <div>jetzt fallen lassen...</div>
-                  </DropzoneInnerDiv>
-                )
-              }
-              if (isDragReject) {
-                return (
-                  <DropzoneInnerDiv {...getRootProps()}>
-                    <div>Hm. Da ging etwas schief :-(</div>
-                  </DropzoneInnerDiv>
-                )
-              }
-              return (
-                <DropzoneInnerDiv {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <div>Datei hierhin ziehen...</div>
-                  <div>...oder klicken, um sie zu wählen.</div>
-                </DropzoneInnerDiv>
-              )
-            }}
-          </StyledDropzone>
-        </DropzoneContainer>
       </Container>
     </ErrorBoundary>
   )
