@@ -11,19 +11,17 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 100%;
   ${(props) => props['data-border-top'] && 'border-top: thin solid #CCC;'}
-  padding: ${(props) => (props['data-ispdf'] ? '2px 8px' : '8px')};
+  padding: 2px 8px;
   align-items: center;
 `
 // eslint-disable-next-line no-unused-vars
 const Field = styled.div`
   grid-column: 1;
-  ${(props) => props['data-ispdf'] && 'font-size: 10px;'}
+  font-size: 10px;
 `
 
 const AreaZuletztMutiert = () => {
   const store = useContext(storeContext)
-  const location = store.location.toJSON()
-  const activeLocation = location[0]
   const {
     activeId,
     historyOfActiveId,
@@ -31,7 +29,6 @@ const AreaZuletztMutiert = () => {
     interneOptions,
   } = store.geschaefte
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
-  const isPdf = activeLocation === 'geschaeftPdf'
   let zuletztMutiertText
 
   if (!geschaeft || !geschaeft.mutationsperson) {
@@ -57,8 +54,8 @@ const AreaZuletztMutiert = () => {
 
   return (
     <ErrorBoundary>
-      <Container data-border-top={!historyOfActiveId.length} data-ispdf={isPdf}>
-        <Field data-ispdf={isPdf}>{zuletztMutiertText}</Field>
+      <Container data-border-top={!historyOfActiveId.length}>
+        <Field>{zuletztMutiertText}</Field>
       </Container>
     </ErrorBoundary>
   )
