@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Page from './Page'
-import storeContext from '../storeContext'
+import storeContext from '../../storeContext'
 
 const GlobalStyle = createGlobalStyle`
   @page {

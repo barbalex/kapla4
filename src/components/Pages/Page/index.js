@@ -10,11 +10,11 @@ import VernehmlassungenHeader from './vernehmlassungen/Header'
 import VernehmlassungenRows from './vernehmlassungen/Rows'
 import List1Header from './list1/Header'
 import List1Rows from './list1/Rows'
-import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStrings'
-import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
-import logoImg from '../../etc/logo.png'
+import filterCriteriaToArrayOfStrings from '../../../src/filterCriteriaToArrayOfStrings'
+import sortCriteriaToArrayOfStrings from '../../../src/sortCriteriaToArrayOfStrings'
+import logoImg from '../../../etc/logo.png'
 import PageTitle from './PageTitle'
-import storeContext from '../../storeContext'
+import storeContext from '../../../storeContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -50,14 +50,8 @@ const PageContainer = styled.div`
     height: inherit;
 
     /* gingerly set margins and padding */
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 0 !important;
-    padding-top: 0.5cm !important;
-    padding-left: 0.5cm !important;
-    padding-right: 0 !important;
-    padding-bottom: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 
     overflow: hidden !important;
 
@@ -83,6 +77,12 @@ const InnerPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media print {
+    width: 29.7cm;
+    height: 20.95cm;
+    padding: 1.5cm;
+  }
 `
 const StyledRowsContainer = styled.div`
   max-height: 17.2cm;
@@ -91,7 +91,7 @@ const StyledRowsContainer = styled.div`
    * need overflow while building list
    * so list does not flow outside padding
    */
-  overflow-y: ${props => (props.building ? 'auto' : 'hidden')};
+  overflow-y: ${(props) => (props.building ? 'auto' : 'hidden')};
   overflow-x: hidden;
 
   @media print {
@@ -232,12 +232,12 @@ class Page extends Component {
     } = store.geschaefte
     const geschaefteIds = pages[pageIndex].geschaefte
     const geschaefte = geschaefteFilteredAndSorted
-      .filter(g => geschaefteIds.includes(g.idGeschaeft))
+      .filter((g) => geschaefteIds.includes(g.idGeschaeft))
       /**
        * for unknown reason in bericht "laufende Vernehmlassungen"
        * an undefined geschaeft exists
        */
-      .filter(g => !!g)
+      .filter((g) => !!g)
     const firstPage = pageIndex === 0
 
     return (
@@ -245,7 +245,7 @@ class Page extends Component {
         <InnerPageContainer>
           <StyledRowsContainer
             building={building}
-            ref={c => {
+            ref={(c) => {
               this[`rowsContainer${pageIndex}`] = c
             }}
           >

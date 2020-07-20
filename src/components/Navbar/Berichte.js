@@ -129,9 +129,11 @@ const Berichte = () => {
       const landscape = activeLocation === 'pages'
       const win = remote.getCurrentWindow()
       const printToPDFOptions = {
-        marginsType: 0,
-        pageSize: 'A4',
-        landscape,
+        marginsType: 1,
+        //fitToPageEnabled: true,
+        //scaleFactor: 100,
+        //pageSize: 'A4',
+        //landscape,
         printBackground: true,
       }
       console.log('Berichte, printToPdfOptions:', printToPDFOptions)

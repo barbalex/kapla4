@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 
-import shorten from '../../../src/shortenGegenstandField'
-import getVornameNameForVerantwortlich from '../../../src/getVornameNameForVerantwortlich'
-import storeContext from '../../../storeContext'
+import shorten from '../../../../src/shortenGegenstandField'
+import getVornameNameForVerantwortlich from '../../../../src/getVornameNameForVerantwortlich'
+import storeContext from '../../../../storeContext'
 
 const StyledRow = styled.div`
   display: flex;
   padding: 3px;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.shaded ? 'rgba(0, 0, 0, 0.05)' : 'inherit'};
   /* get background colors to show */
   @media print {

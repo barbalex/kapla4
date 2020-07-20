@@ -1,15 +1,15 @@
 import React, { useMemo, useContext } from 'react'
 import styled from 'styled-components'
 
-import shorten from '../../../src/shortenGegenstandField'
-import getVornameNameForVerantwortlich from '../../../src/getVornameNameForVerantwortlich'
-import storeContext from '../../../storeContext'
+import shorten from '../../../../src/shortenGegenstandField'
+import getVornameNameForVerantwortlich from '../../../../src/getVornameNameForVerantwortlich'
+import storeContext from '../../../../storeContext'
 
 const Row = styled.div`
   display: flex;
   padding: 3px;
   border-bottom: 1px solid #bbbbbb;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.shaded ? 'rgba(0, 0, 0, 0.05)' : 'inherit'};
   /* get background colors to show */
   @media print {
@@ -46,7 +46,7 @@ const VerticallyStackedFields = styled.div`
   padding-top: 5px;
 `
 
-const isOdd = num => num % 2
+const isOdd = (num) => num % 2
 
 const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
   const store = useContext(storeContext)
@@ -89,9 +89,9 @@ const PageVernehmlassungenRows = ({ geschaeft, rowIndex }) => {
 
   const shaded = !isOdd(rowIndex)
   const gekoValue = geko
-    .filter(gko => gko.idGeschaeft === geschaeft.idGeschaeft)
-    .map(g => g.gekoNr)
-    .map(val => <div key={val}>{val}</div>)
+    .filter((gko) => gko.idGeschaeft === geschaeft.idGeschaeft)
+    .map((g) => g.gekoNr)
+    .map((val) => <div key={val}>{val}</div>)
   const verantwortlichNameName = getVornameNameForVerantwortlich(
     interneOptions,
     geschaeft.verantwortlich,

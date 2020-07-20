@@ -13,11 +13,11 @@ import VernehmlassungenHeader from './vernehmlassungen/Header'
 import VernehmlassungenRows from './vernehmlassungen/Rows'
 import List1Header from './list1/Header'
 import List1Rows from './list1/Rows'
-import filterCriteriaToArrayOfStrings from '../../src/filterCriteriaToArrayOfStrings'
-import sortCriteriaToArrayOfStrings from '../../src/sortCriteriaToArrayOfStrings'
-import logoImg from '../../etc/logo.png'
+import filterCriteriaToArrayOfStrings from '../../../src/filterCriteriaToArrayOfStrings'
+import sortCriteriaToArrayOfStrings from '../../../src/sortCriteriaToArrayOfStrings'
+import logoImg from '../../../etc/logo.png'
 import PageTitle from './PageTitle'
-import mobxStoreContext from '../../mobxStoreContext'
+import mobxStoreContext from '../../../mobxStoreContext'
 
 /**
  * The size of PageContainer is set in Print by @page, together with portrait/landscape
@@ -94,7 +94,7 @@ const StyledRowsContainer = styled.div`
    * need overflow while building list
    * so list does not flow outside padding
    */
-  overflow-y: ${props => (props.building ? 'auto' : 'hidden')};
+  overflow-y: ${(props) => (props.building ? 'auto' : 'hidden')};
   overflow-x: hidden;
 
   @media print {

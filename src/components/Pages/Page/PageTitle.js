@@ -3,7 +3,7 @@ import { FormGroup, Input } from 'reactstrap'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
-import storeContext from '../../storeContext'
+import storeContext from '../../../storeContext'
 
 const Container = styled.div`
   @media print {
@@ -37,7 +37,7 @@ const Page = ({ firstPage }) => {
 
   const onClickH1 = useCallback(() => pagesQueryTitle(true), [pagesQueryTitle])
   const onKeyPressTitle = useCallback(
-    e => {
+    (e) => {
       if (e.key === 'Enter' && title) {
         pagesQueryTitle(false)
       }
@@ -47,7 +47,7 @@ const Page = ({ firstPage }) => {
   const onBlurTitle = useCallback(() => {
     if (title) pagesQueryTitle(false)
   }, [pagesQueryTitle, title])
-  const changeQueryTitle = useCallback(e => setTitle(e.target.value), [
+  const changeQueryTitle = useCallback((e) => setTitle(e.target.value), [
     setTitle,
   ])
 
