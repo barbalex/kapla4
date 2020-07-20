@@ -1,10 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-/*
- * need defined height and overflow
- * to make the pages scrollable in UI
- * is removed in print
- */
+import styled, { createGlobalStyle } from 'styled-components'
+
 const Container = styled.div`
   background-color: red;
   border: 2px solid black;
@@ -13,9 +9,18 @@ const Container = styled.div`
   /* get background colors to show */
   -webkit-print-color-adjust: exact;
 `
+// without @page the _second_ page printed (!) is A3
+const GlobalStyle = createGlobalStyle`
+  @page {
+    size: A4 portrait;
+  }
+`
 
 const GeschaeftPdf = () => (
-  <Container className="printer-content">GeschaeftPdf2</Container>
+  <>
+    <GlobalStyle />
+    <Container className="printer-content">GeschaeftPdf2</Container>
+  </>
 )
 
 export default GeschaeftPdf
