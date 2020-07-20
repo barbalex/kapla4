@@ -50,8 +50,22 @@ const PageContainer = styled.div`
     height: inherit;
 
     /* gingerly set margins and padding */
-    margin: 0 !important;
-    padding: 0 !important;
+    /**
+     * this is somehow completely fucked up:
+     * would want to set margins and padding to 0 and set inner div's size to A4
+     * that works nicely in printToPdf
+     * but in regular print it DOUBLES padding!!!!!!!!
+     * so after working for hours it seems that below magical numbers make page look same
+     * on printing to pdf and not pdf
+     */
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0.5cm !important;
+    padding-left: 0.5cm !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
 
     overflow: hidden !important;
 
@@ -77,12 +91,6 @@ const InnerPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  @media print {
-    width: 29.7cm;
-    height: 20.95cm;
-    padding: 1.5cm;
-  }
 `
 const StyledRowsContainer = styled.div`
   max-height: 17.2cm;

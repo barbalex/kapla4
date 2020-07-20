@@ -113,9 +113,9 @@ const Berichte = () => {
         margins: {
           marginsType: 'none',
         },
-        printBackground: true,
-        landscape, // does this work?
-        pageSize: 'A4',
+        //printBackground: true,
+        //landscape, // does this work?
+        //pageSize: 'A4',
       },
       (success, failureReason) => {
         console.log('print result', { success, failureReason })
@@ -129,7 +129,7 @@ const Berichte = () => {
       const landscape = activeLocation === 'pages'
       const win = remote.getCurrentWindow()
       const printToPDFOptions = {
-        marginsType: 1,
+        marginsType: 0,
         //fitToPageEnabled: true,
         //scaleFactor: 100,
         //pageSize: 'A4',
