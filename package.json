@@ -81,7 +81,7 @@
     "react-datepicker": "3.1.3",
     "react-dom": "16.13.1",
     "react-dropzone": "11.0.2",
-    "react-error-boundary": "2.2.3",
+    "react-error-boundary": "2.3.0",
     "react-icons": "3.10.0",
     "react-linkify": "0.x",
     "react-select": "3.1.0",
@@ -97,8 +97,8 @@
     "username": "5.1.0"
   },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "3.6.1",
-    "@typescript-eslint/parser": "3.6.1",
+    "@typescript-eslint/eslint-plugin": "3.7.0",
+    "@typescript-eslint/parser": "3.7.0",
     "popper.js": "1.16.1",
     "react-is": "16.13.1"
   },
