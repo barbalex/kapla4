@@ -9,7 +9,7 @@ import TableLayout from './TableLayout'
 import Navbar from './Navbar'
 import Errors from './Errors'
 import storeContext from '../storeContext'
-import GeschaeftPdf from './GeschaeftPdf2'
+import GeschaeftPdf from './GeschaeftPdf'
 
 const App = () => {
   const store = useContext(storeContext)
