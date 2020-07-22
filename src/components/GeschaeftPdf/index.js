@@ -50,8 +50,8 @@ const Container = styled.div`
     background-color: #fff;
     /* with overflow auto an empty page is inserted between each page */
     overflow-y: visible;
-    height: 29.7cm;
-    width: 21cm;
+    height: 297mm;
+    width: 210mm;
     /* make sure body grows as needed */
     /*height: auto !important;*/
 
@@ -75,17 +75,13 @@ const PageContainer = styled.div`
   justify-content: space-between;
 
   /* set dimensions */
-  height: 29.7cm;
-  width: 21cm;
-  padding: 1.5cm;
+  height: 297mm;
+  width: 210mm;
+  padding: 15mm;
 
   overflow-y: visible;
 
   @media print {
-    /* this is when it is actually printed */
-    /*height: 100%;*/
-    /*width: 100%;*/
-
     margin: 0 !important;
     padding: 0.5cm !important;
     overflow-y: hidden !important;
