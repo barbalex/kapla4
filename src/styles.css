@@ -122,7 +122,23 @@ textarea::-webkit-scrollbar {
   body,
   body * {
     visibility: hidden;
-    min-width: unset !important;
+  }
+
+  body {
+    /*
+     * bootstrap sets min-width 992px
+     * THIS FUCKS UP A4 PORTRAIT PRINT ROYALLY
+     * because actual printed div is 7xx pixels wide
+     * and now covers only part of the page
+     * see: https://github.com/twbs/bootstrap/issues/28085
+     */
+    min-width: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box !important;
   }
 
   /* there is a misterious textarea */
