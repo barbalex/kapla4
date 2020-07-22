@@ -127,10 +127,11 @@ const Berichte = () => {
     async (e) => {
       e.preventDefault()
       const landscape = activeLocation === 'pages'
+      const marginsType = landscape ? 0 : 1
       const win = remote.getCurrentWindow()
       const printToPDFOptions = {
-        marginsType: 0,
-        //fitToPageEnabled: true,
+        marginsType,
+        //fitToPageEnabled: !landscape,
         //scaleFactor: 100,
         pageSize: 'A4',
         landscape,
