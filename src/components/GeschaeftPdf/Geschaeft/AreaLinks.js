@@ -15,8 +15,7 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: 1px;
   padding: 8px;
-  border: thin solid #ccc;
-  border-bottom: none;
+  border-top: thin solid #ccc;
   border-collapse: collapse;
   font-size: 10px;
 `

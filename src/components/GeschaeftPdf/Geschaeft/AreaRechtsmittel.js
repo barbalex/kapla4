@@ -20,9 +20,7 @@ const Container = styled.div`
   grid-column-gap: 8px;
   grid-row-gap: 8px;
   padding: 8px;
-  border: thin solid #ccc;
-  border-bottom: none;
-  border-left: none;
+  border-top: thin solid #ccc;
   border-collapse: collapse;
 `
 const Title = styled.div`

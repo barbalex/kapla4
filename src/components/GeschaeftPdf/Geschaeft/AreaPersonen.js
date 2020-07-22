@@ -38,9 +38,7 @@ const verantwortlichData = (geschaeft, interneOptions) => {
 
 const Container = styled.div`
   grid-area: areaPersonen;
-  border: thin solid #ccc;
-  border-bottom: none;
-  border-left: none;
+  border-top: thin solid #ccc;
   border-collapse: collapse;
 `
 const AreaPersonenDiv = styled.div`

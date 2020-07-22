@@ -13,13 +13,11 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 60% 40%;
   grid-template-rows: auto;
-  grid-template-areas: 'areaParlVorstTitle areaParlVorstTitle' 'fieldParlVorstossTyp fieldParlVorstossTyp' 'fieldStufe fieldZustaendigkeit';
+  grid-template-areas: 'areaParlVorstTitle areaParlVorstTitle' 'fieldParlVorstossTyp fieldParlVorstossTyp' 'fieldStufe fieldStufe' 'fieldZustaendigkeit fieldZustaendigkeit';
   grid-gap: 15px 8px;
   padding: 8px;
   padding-right: 15px;
-  border: thin solid #ccc;
-  border-bottom: none;
-  border-left: none;
+  border-top: thin solid #ccc;
   border-collapse: collapse;
 `
 const Title = styled.div`

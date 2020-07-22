@@ -19,8 +19,8 @@ const Container = styled.div`
     'areaHistoryFieldsContainer areaHistoryFieldsContainer areaHistoryFieldsContainer';
   grid-column-gap: 8px;
   padding: 8px;
-  border: thin solid #ccc;
-  border-left: none;
+  border-top: thin solid #ccc;
+  border-bottom: thin solid #ccc;
   border-collapse: collapse;
   font-size: 10px;
   ${(props) => props['data-single-row'] && 'height: 50px;'}
