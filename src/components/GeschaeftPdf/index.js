@@ -84,18 +84,19 @@ const PageContainer = styled.div`
 
   @media print {
     margin: 0 !important;
-    padding: 10mm !important;
+    padding: 0 !important;
     overflow-y: hidden !important;
     /* get background colors to show */
     -webkit-print-color-adjust: exact;
     /* try this */
     page-break-inside: avoid !important;
     page-break-before: avoid !important;
-    page-break-after: avoid !important;
+    page-break-after: always !important;
   }
 `
 const Footer = styled.div`
   padding-top: 5px;
+  height: 18px;
   @media print {
     page-break-inside: avoid !important;
     page-break-before: avoid !important;

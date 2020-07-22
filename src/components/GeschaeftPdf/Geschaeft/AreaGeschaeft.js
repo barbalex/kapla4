@@ -80,6 +80,21 @@ const PdfField = styled.div`
   margin-bottom: 5px;
 `
 
+const fontsizeFromValLength = (length) =>
+  length < 400
+    ? 13
+    : length < 700
+    ? 12
+    : length < 1000
+    ? 11
+    : length < 1500
+    ? 10
+    : length < 2000
+    ? 9
+    : length < 2500
+    ? 8
+    : 7
+
 const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
   const store = useContext(storeContext)
   const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
@@ -93,19 +108,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Gegenstand>
             <NonRowLabel>Gegenstand</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.gegenstand.length < 400
-                  ? 13
-                  : geschaeft.gegenstand.length < 700
-                  ? 12
-                  : geschaeft.gegenstand.length < 1000
-                  ? 11
-                  : geschaeft.gegenstand.length < 1500
-                  ? 10
-                  : geschaeft.gegenstand.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.gegenstand.length)}
             >
               {geschaeft.gegenstand}
             </PdfField>
@@ -115,19 +118,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Ausloeser>
             <NonRowLabel>Auslöser</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.ausloeser.length < 400
-                  ? 13
-                  : geschaeft.ausloeser.length < 700
-                  ? 12
-                  : geschaeft.ausloeser.length < 1000
-                  ? 11
-                  : geschaeft.ausloeser.length < 1500
-                  ? 10
-                  : geschaeft.ausloeser.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.ausloeser.length)}
             >
               {geschaeft.ausloeser}
             </PdfField>
@@ -137,19 +128,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Ort>
             <NonRowLabel>Ort</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.ort.length < 400
-                  ? 13
-                  : geschaeft.ort.length < 700
-                  ? 12
-                  : geschaeft.ort.length < 1000
-                  ? 11
-                  : geschaeft.ort.length < 1500
-                  ? 10
-                  : geschaeft.ort.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.ort.length)}
             >
               {geschaeft.ort}
             </PdfField>
@@ -159,19 +138,9 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Geschaeftsart>
             <NonRowLabel>Geschäftsart</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.geschaeftsart.length < 400
-                  ? 13
-                  : geschaeft.geschaeftsart.length < 700
-                  ? 12
-                  : geschaeft.geschaeftsart.length < 1000
-                  ? 11
-                  : geschaeft.geschaeftsart.length < 1500
-                  ? 10
-                  : geschaeft.geschaeftsart.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(
+                geschaeft.geschaeftsart.length,
+              )}
             >
               {geschaeft.geschaeftsart}
             </PdfField>
@@ -181,19 +150,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Status>
             <NonRowLabel>Status</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.status.length < 400
-                  ? 13
-                  : geschaeft.status.length < 700
-                  ? 12
-                  : geschaeft.status.length < 1000
-                  ? 11
-                  : geschaeft.status.length < 1500
-                  ? 10
-                  : geschaeft.status.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.status.length)}
             >
               {geschaeft.status}
             </PdfField>
@@ -203,19 +160,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Abteilung>
             <NonRowLabel>Abteilung</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.abteilung.length < 400
-                  ? 13
-                  : geschaeft.abteilung.length < 700
-                  ? 12
-                  : geschaeft.abteilung.length < 1000
-                  ? 11
-                  : geschaeft.abteilung.length < 1500
-                  ? 10
-                  : geschaeft.abteilung.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.abteilung.length)}
             >
               {geschaeft.abteilung}
             </PdfField>
@@ -225,19 +170,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Details>
             <NonRowLabel>Details</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.details.length < 400
-                  ? 13
-                  : geschaeft.details.length < 700
-                  ? 12
-                  : geschaeft.details.length < 1000
-                  ? 11
-                  : geschaeft.details.length < 1500
-                  ? 10
-                  : geschaeft.details.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.details.length)}
             >
               {geschaeft.details}
             </PdfField>
@@ -247,19 +180,9 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <NaechsterSchritt>
             <NonRowLabel>Nächster Schritt</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.naechsterSchritt.length < 400
-                  ? 13
-                  : geschaeft.naechsterSchritt.length < 700
-                  ? 12
-                  : geschaeft.naechsterSchritt.length < 1000
-                  ? 11
-                  : geschaeft.naechsterSchritt.length < 1500
-                  ? 10
-                  : geschaeft.naechsterSchritt.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(
+                geschaeft.naechsterSchritt.length,
+              )}
             >
               {geschaeft.naechsterSchritt}
             </PdfField>
@@ -269,19 +192,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Vermerk>
             <NonRowLabel>Vermerk</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.vermerk.length < 400
-                  ? 13
-                  : geschaeft.vermerk.length < 700
-                  ? 12
-                  : geschaeft.vermerk.length < 1000
-                  ? 11
-                  : geschaeft.vermerk.length < 1500
-                  ? 10
-                  : geschaeft.vermerk.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontsizeFromValLength(geschaeft.vermerk.length)}
             >
               {geschaeft.vermerk}
             </PdfField>

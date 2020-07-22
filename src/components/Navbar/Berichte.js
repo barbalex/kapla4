@@ -108,39 +108,50 @@ const Berichte = () => {
      */
     const win = remote.getCurrentWindow()
     const landscape = activeLocation === 'pages'
-    win.webContents.print(
-      {
-        margins: {
-          marginsType: 'none',
-        },
-        //printBackground: true,
-        landscape, // does this work?
-        pageSize: 'A4',
+    const options = {
+      margins: {
+        marginsType: 'none',
       },
-      (success, failureReason) => {
-        console.log('print result', { success, failureReason })
-      },
-    )
+      //printBackground: true,
+      fitToPageEnabled: !landscape,
+      landscape,
+      pageSize: 'A4',
+    }
+    if (!landscape) {
+      options.pageRanges = {
+        from: 0,
+        to: 0,
+      }
+    }
+    console.log('Berichte, options:', options)
+    win.webContents.print(options, (success, failureReason) => {
+      console.log('print result', { success, failureReason })
+    })
     //window.print()
   }
   const onClickCreatePdf = useCallback(
     async (e) => {
       e.preventDefault()
       const landscape = activeLocation === 'pages'
-      const marginsType = landscape ? 0 : 1
+      const marginsType = 0
       const win = remote.getCurrentWindow()
-      const printToPDFOptions = {
+      const options = {
         marginsType,
-        //fitToPageEnabled: !landscape,
-        //scaleFactor: 100,
+        fitToPageEnabled: !landscape,
         pageSize: 'A4',
         landscape,
         printBackground: true,
       }
-      console.log('Berichte, printToPdfOptions:', printToPDFOptions)
+      if (!landscape) {
+        options.pageRanges = {
+          from: 0,
+          to: 0,
+        }
+      }
+      console.log('Berichte, options:', options)
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
-      const data = await win.webContents.printToPDF(printToPDFOptions)
+      const data = await win.webContents.printToPDF(options)
       const { filePath } = await dialog.showSaveDialog(dialogOptions)
       if (filePath) {
         ipcRenderer.send('SAVE_FILE', filePath, data)
