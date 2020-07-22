@@ -5,6 +5,7 @@ import { Label } from 'reactstrap'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import storeContext from '../../../storeContext'
+import fontSizeFromLength from './fontSizeFromLength'
 
 const Container = styled.div`
   grid-area: areaGeschaeft;
@@ -80,21 +81,6 @@ const PdfField = styled.div`
   margin-bottom: 5px;
 `
 
-const fontsizeFromValLength = (length) =>
-  length < 400
-    ? 13
-    : length < 700
-    ? 12
-    : length < 1000
-    ? 11
-    : length < 1500
-    ? 10
-    : length < 2000
-    ? 9
-    : length < 2500
-    ? 8
-    : 7
-
 const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
   const store = useContext(storeContext)
   const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
@@ -108,7 +94,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Gegenstand>
             <NonRowLabel>Gegenstand</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.gegenstand.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.gegenstand.length)}
             >
               {geschaeft.gegenstand}
             </PdfField>
@@ -118,7 +104,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Ausloeser>
             <NonRowLabel>Auslöser</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.ausloeser.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.ausloeser.length)}
             >
               {geschaeft.ausloeser}
             </PdfField>
@@ -127,9 +113,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
         {!!geschaeft.ort && (
           <Ort>
             <NonRowLabel>Ort</NonRowLabel>
-            <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.ort.length)}
-            >
+            <PdfField data-fontsize={fontSizeFromLength(geschaeft.ort.length)}>
               {geschaeft.ort}
             </PdfField>
           </Ort>
@@ -138,9 +122,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Geschaeftsart>
             <NonRowLabel>Geschäftsart</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(
-                geschaeft.geschaeftsart.length,
-              )}
+              data-fontsize={fontSizeFromLength(geschaeft.geschaeftsart.length)}
             >
               {geschaeft.geschaeftsart}
             </PdfField>
@@ -150,7 +132,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Status>
             <NonRowLabel>Status</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.status.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.status.length)}
             >
               {geschaeft.status}
             </PdfField>
@@ -160,7 +142,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Abteilung>
             <NonRowLabel>Abteilung</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.abteilung.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.abteilung.length)}
             >
               {geschaeft.abteilung}
             </PdfField>
@@ -170,7 +152,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Details>
             <NonRowLabel>Details</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.details.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.details.length)}
             >
               {geschaeft.details}
             </PdfField>
@@ -180,7 +162,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <NaechsterSchritt>
             <NonRowLabel>Nächster Schritt</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(
+              data-fontsize={fontSizeFromLength(
                 geschaeft.naechsterSchritt.length,
               )}
             >
@@ -192,7 +174,7 @@ const AreaGeschaeft = ({ saveToDb, nrOfGFields, viewIsNarrow }) => {
           <Vermerk>
             <NonRowLabel>Vermerk</NonRowLabel>
             <PdfField
-              data-fontsize={fontsizeFromValLength(geschaeft.vermerk.length)}
+              data-fontsize={fontSizeFromLength(geschaeft.vermerk.length)}
             >
               {geschaeft.vermerk}
             </PdfField>
