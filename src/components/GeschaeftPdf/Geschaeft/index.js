@@ -20,10 +20,11 @@ import storeContext from '../../../storeContext'
 
 moment.locale('de')
 
+// height is: 297 - 2*10mm padding - 23mm for footer
 const ScrollContainer = styled.div`
   overflow: visible;
-  height: 29.7cm;
-  max-height: 29.7cm;
+  height: 254mm;
+  max-height: 254mm;
 `
 const WrapperWide = styled.div`
   display: grid;

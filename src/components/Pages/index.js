@@ -5,9 +5,10 @@ import styled, { createGlobalStyle } from 'styled-components'
 import Page from './Page'
 import storeContext from '../../storeContext'
 
+// https://github.com/twbs/bootstrap/issues/25629#issuecomment-606619398
 const GlobalStyle = createGlobalStyle`
   @page {
-    size: A4 landscape;
+    size: auto;
   }
 `
 const Container = styled.div`

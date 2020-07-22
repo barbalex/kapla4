@@ -114,8 +114,8 @@ const Berichte = () => {
           marginsType: 'none',
         },
         //printBackground: true,
-        //landscape, // does this work?
-        //pageSize: 'A4',
+        landscape, // does this work?
+        pageSize: 'A4',
       },
       (success, failureReason) => {
         console.log('print result', { success, failureReason })
@@ -132,8 +132,8 @@ const Berichte = () => {
         marginsType: 0,
         //fitToPageEnabled: true,
         //scaleFactor: 100,
-        //pageSize: 'A4',
-        //landscape,
+        pageSize: 'A4',
+        landscape,
         printBackground: true,
       }
       console.log('Berichte, printToPdfOptions:', printToPDFOptions)

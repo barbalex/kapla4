@@ -4,9 +4,10 @@ import styled, { createGlobalStyle } from 'styled-components'
 
 import Geschaeft from './Geschaeft'
 
+// https://github.com/twbs/bootstrap/issues/25629#issuecomment-606619398
 const GlobalStyle = createGlobalStyle`
   @page {
-    size: A4 portrait;
+    size: auto;
   }
 `
 /*
@@ -77,13 +78,13 @@ const PageContainer = styled.div`
   /* set dimensions */
   height: 297mm;
   width: 210mm;
-  padding: 15mm;
+  padding: 10mm;
 
   overflow-y: visible;
 
   @media print {
     margin: 0 !important;
-    padding: 0.5cm !important;
+    padding: 10mm !important;
     overflow-y: hidden !important;
     /* get background colors to show */
     -webkit-print-color-adjust: exact;
