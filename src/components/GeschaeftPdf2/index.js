@@ -5,8 +5,6 @@ const Container = styled.div`
   background-color: white;
   height: 297mm;
   width: 210mm;
-  /*height: 279.4mm;
-  width: 215.9mm;*/
   /* get background colors to show */
   -webkit-print-color-adjust: exact;
   box-shadow: inset 0 0 1px 1px red !important;
