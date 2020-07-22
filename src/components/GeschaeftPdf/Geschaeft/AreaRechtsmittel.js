@@ -6,6 +6,7 @@ import moment from 'moment'
 
 import ErrorBoundary from '../../shared/ErrorBoundary'
 import storeContext from '../../../storeContext'
+import fontSizeFromLength from './fontSizeFromLength'
 
 const Container = styled.div`
   grid-area: areaForGeschaeftsart;
@@ -14,7 +15,7 @@ const Container = styled.div`
   grid-template-columns: calc((100% - 8px) * 0.4) calc((100% - 8px) * 0.6);
   grid-template-rows: auto;
   grid-template-areas:
-    'areaRechtsmittelTitle areaRechtsmittelTitle' 'fieldInstanz fieldInstanz' 'fieldEntscheidNr fieldEntscheidDatum'
+    'areaRechtsmittelTitle areaRechtsmittelTitle' 'fieldInstanz fieldInstanz' 'fieldEntscheidNr fieldEntscheidNr' 'fieldEntscheidDatum fieldEntscheidDatum'
     'fieldErledigung fieldErledigung' 'fieldRechtsmittelTxt fieldRechtsmittelTxt';
   grid-column-gap: 8px;
   grid-row-gap: 8px;
@@ -76,19 +77,9 @@ const AreaRechtsmittel = ({
           <FieldInstanz>
             <NonRowLabel>Instanz</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.rechtsmittelInstanz.length < 400
-                  ? 13
-                  : geschaeft.rechtsmittelInstanz.length < 700
-                  ? 12
-                  : geschaeft.rechtsmittelInstanz.length < 1000
-                  ? 11
-                  : geschaeft.rechtsmittelInstanz.length < 1500
-                  ? 10
-                  : geschaeft.rechtsmittelInstanz.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontSizeFromLength(
+                geschaeft.rechtsmittelInstanz.length,
+              )}
             >
               {geschaeft.rechtsmittelInstanz}
             </PdfField>
@@ -98,19 +89,9 @@ const AreaRechtsmittel = ({
           <FieldEntscheidNr>
             <NonRowLabel>Entscheid Nr.</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.rechtsmittelEntscheidNr.length < 400
-                  ? 13
-                  : geschaeft.rechtsmittelEntscheidNr.length < 700
-                  ? 12
-                  : geschaeft.rechtsmittelEntscheidNr.length < 1000
-                  ? 11
-                  : geschaeft.rechtsmittelEntscheidNr.length < 1500
-                  ? 10
-                  : geschaeft.rechtsmittelEntscheidNr.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontSizeFromLength(
+                geschaeft.rechtsmittelEntscheidNr.length,
+              )}
             >
               {geschaeft.rechtsmittelEntscheidNr}
             </PdfField>
@@ -120,19 +101,9 @@ const AreaRechtsmittel = ({
           <FieldEntscheidDatum>
             <NonRowLabel>Entscheid Datum</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.rechtsmittelEntscheidDatum.length < 400
-                  ? 13
-                  : geschaeft.rechtsmittelEntscheidDatum.length < 700
-                  ? 12
-                  : geschaeft.rechtsmittelEntscheidDatum.length < 1000
-                  ? 11
-                  : geschaeft.rechtsmittelEntscheidDatum.length < 1500
-                  ? 10
-                  : geschaeft.rechtsmittelEntscheidDatum.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontSizeFromLength(
+                geschaeft.rechtsmittelEntscheidDatum.length,
+              )}
             >
               {moment(
                 geschaeft.rechtsmittelEntscheidDatum,
@@ -145,19 +116,9 @@ const AreaRechtsmittel = ({
           <FieldErledigung>
             <NonRowLabel>Erledigung</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.rechtsmittelErledigung.length < 400
-                  ? 13
-                  : geschaeft.rechtsmittelErledigung.length < 700
-                  ? 12
-                  : geschaeft.rechtsmittelErledigung.length < 1000
-                  ? 11
-                  : geschaeft.rechtsmittelErledigung.length < 1500
-                  ? 10
-                  : geschaeft.rechtsmittelErledigung.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontSizeFromLength(
+                geschaeft.rechtsmittelErledigung.length,
+              )}
             >
               {geschaeft.rechtsmittelErledigung}
             </PdfField>
@@ -167,19 +128,9 @@ const AreaRechtsmittel = ({
           <FieldRechtsmittelTxt>
             <NonRowLabel>Bemerkungen</NonRowLabel>
             <PdfField
-              data-fontsize={
-                geschaeft.rechtsmittelTxt.length < 400
-                  ? 13
-                  : geschaeft.rechtsmittelTxt.length < 700
-                  ? 12
-                  : geschaeft.rechtsmittelTxt.length < 1000
-                  ? 11
-                  : geschaeft.rechtsmittelTxt.length < 1500
-                  ? 10
-                  : geschaeft.rechtsmittelTxt.length < 2000
-                  ? 9
-                  : 8
-              }
+              data-fontsize={fontSizeFromLength(
+                geschaeft.rechtsmittelTxt.length,
+              )}
             >
               {geschaeft.rechtsmittelTxt}
             </PdfField>
