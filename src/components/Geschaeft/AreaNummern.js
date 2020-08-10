@@ -117,9 +117,9 @@ const AreaNummern = ({ viewIsNarrow, nrOfGFields, saveToDb }) => {
   const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
   const tabsToAdd = viewIsNarrow ? 0 : nrOfGFields
   const gekoValues = gekoOfActiveId.map((g) => g.gekoNr).sort()
-  const gekoFields = gekoValues.map((g) => (
+  const gekoFields = gekoValues.map((g, i) => (
     <GekoNrField
-      key={g || 0}
+      key={g || i + 1}
       idGeschaeft={geschaeft.idGeschaeft}
       gekoNr={g}
       tabsToAdd={tabsToAdd}
