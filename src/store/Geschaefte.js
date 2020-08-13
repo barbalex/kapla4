@@ -157,7 +157,7 @@ export default types
         try {
           result = store.app.db
             .prepare(
-              `select idGeschaeft from fts where value match '${filterValue}*'`,
+              `select idGeschaeft from fts where value match '"${filterValue}"*'`,
             )
             .all()
         } catch (error) {
