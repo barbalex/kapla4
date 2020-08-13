@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
-import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -75,8 +74,7 @@ const Geschaefte = () => {
   const store = useContext(storeContext)
   const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   // get index of active id
-  const indexOfActiveId = _.findIndex(
-    geschaefte,
+  const indexOfActiveId = geschaefte.findIndex(
     (g) => g.idGeschaeft === activeId,
   )
 
