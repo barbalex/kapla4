@@ -20,7 +20,7 @@ export default types
     rechtsmittelErledigung: types.array(RechtsmittelErledigung),
     status: types.array(Status),
   })
-  .actions(self => {
+  .actions((self) => {
     const store = getParent(self, 2)
 
     return {
@@ -43,7 +43,7 @@ export default types
           return addErrorMessage(error.message)
         }
         store.table.toggleActivatedRow(id)
-        self[table] = self[table].filter(g => g.id !== id)
+        self[table] = self[table].filter((g) => g.id !== id)
       },
       insert(table) {
         const location = store.location.toJSON()
