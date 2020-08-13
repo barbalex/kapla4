@@ -26,8 +26,8 @@ const browserWindowOptions = {
     // this should be respected but warning remains in console
     // see: https://github.com/electron/electron/issues/24950
     worldSafeExecuteJavaScript: true,
-    // this should be the default but seems not to be respected
-    // see: https://github.com/electron/electron/issues/24951
+    // this needs to be explicitly set in electron v10
+    // see: https://github.com/electron/electron/issues/21408
     enableRemoteModule: true,
   },
 }
