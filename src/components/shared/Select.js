@@ -73,6 +73,7 @@ const SharedSelect = ({
   // need to return '' instead of undefined if no option is found
   // otherwise field does not update
   const option = useMemo(() => {
+    if (!value) return ''
     // ensure null is never returned as value
     const option = options.find((o) => o.value === value)
     if (option) {
