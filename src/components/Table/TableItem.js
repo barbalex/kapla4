@@ -1,7 +1,6 @@
 import React, { useContext, useCallback } from 'react'
 import { observer } from 'mobx-react-lite'
 import Linkify from 'react-linkify'
-import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
 
@@ -12,7 +11,7 @@ const StyledRow = styled.div`
   cursor: pointer;
   min-height: 38px;
   max-height: 38px;
-  background-color: ${props => (props.isActive ? '#FFBF73' : 'inherit')};
+  background-color: ${(props) => (props.isActive ? '#FFBF73' : 'inherit')};
   display: flex;
   padding: 5px;
 `
@@ -23,16 +22,16 @@ const StyledBodyCell = styled.div`
   overflow: hidden;
   white-space: nowrap;
   overflow: hidden;
-  max-width: ${props => `${props.maxWidth}px`};
+  max-width: ${(props) => `${props.maxWidth}px`};
 `
 
-const TableItem = ({ index }) => {
+const TableItem = ({ index, rows }) => {
   const store = useContext(storeContext)
-  const { rows, table, id, toggleActivatedRow } = store.table
-  const row = rows[table][index]
+  const { id, toggleActivatedRow } = store.table
+  const row = rows[index]
   const { tableColumnWidth } = store.app
   const keys = Object.keys(row)
-  const values = _.values(row)
+  const values = Object.values(row)
   const windowWidth = $(window).width()
   const tableWidth = (windowWidth * tableColumnWidth) / 100
   const normalFieldWidth = (tableWidth - 50) / (keys.length - 1)

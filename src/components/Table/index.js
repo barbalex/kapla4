@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useCallback } from 'react'
 import { AutoSizer, List } from 'react-virtualized'
-import _ from 'lodash'
 import $ from 'jquery'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -51,20 +50,72 @@ const StyledList = styled(List)`
   overflow-y: overlay !important;
 `
 
-const rowRenderer = ({ key, index, style }) => (
-  <div key={key} style={style}>
-    <TableItem index={index} />
-  </div>
-)
 const noRowsRenderer = () => <StyledNoRowsDiv>lade Daten...</StyledNoRowsDiv>
 
 const Table = () => {
   const store = useContext(storeContext)
   const { tableColumnWidth } = store.app
   const { rows, id, table, reset } = store.table
+  let rowsSorted = [...rows[table]]
+  switch (table) {
+    case 'interne':
+    case 'externe':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.name ?? '').localeCompare(b.name),
+      )
+      break
+    case 'abteilung':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.abteilung ?? '').localeCompare(b.abteilung),
+      )
+      break
+    case 'aktenstandort':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.aktenstandort ?? '').localeCompare(b.aktenstandort),
+      )
+      break
+    case 'geschaeftsart':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.geschaeftsart ?? '').localeCompare(b.geschaeftsart),
+      )
+      break
+    case 'parlVorstossTyp':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.parlVorstossTyp ?? '').localeCompare(b.parlVorstossTyp),
+      )
+      break
+    case 'rechtsmittelInstanz':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.rechtsmittelInstanz ?? '').localeCompare(b.rechtsmittelInstanz),
+      )
+      break
+    case 'rechtsmittelErledigung':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.rechtsmittelErledigung ?? '').localeCompare(
+          b.rechtsmittelErledigung,
+        ),
+      )
+      break
+    case 'status':
+      rowsSorted = rowsSorted.sort((a, b) =>
+        (a?.status ?? '').localeCompare(b.status),
+      )
+      break
+    default:
+    // do nothing
+  }
 
-  const indexOfActiveId = _.findIndex(rows[table], (r) => r.id === id)
-  const headers = Object.keys(rows[table][0] || {})
+  const rowRenderer = useCallback(
+    ({ key, index, style }) => (
+      <div key={key} style={style}>
+        <TableItem index={index} rows={rowsSorted} />
+      </div>
+    ),
+    [rowsSorted],
+  )
+
+  const indexOfActiveId = rowsSorted.findIndex((r) => r.id === id)
+  const headers = Object.keys(rowsSorted[0] || {})
   const windowWidth = $(window).width()
   const tableWidth = (windowWidth * tableColumnWidth) / 100
   const normalFieldWidth = (tableWidth - 50) / (headers.length - 1)
@@ -94,13 +145,13 @@ const Table = () => {
               {({ height, width }) => (
                 <StyledList
                   height={height}
-                  rowCount={rows[table].length}
+                  rowCount={rowsSorted.length}
                   rowHeight={38}
                   rowRenderer={rowRenderer}
                   noRowsRenderer={noRowsRenderer}
                   width={width}
                   scrollToIndex={indexOfActiveId}
-                  {...rows[table]}
+                  {...rowsSorted}
                 />
               )}
             </AutoSizer>
