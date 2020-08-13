@@ -14,7 +14,7 @@ export default types
   .volatile(() => ({
     error: [],
   }))
-  .actions(self => {
+  .actions((self) => {
     const store = getParent(self, 1)
 
     return {
@@ -37,7 +37,7 @@ export default types
         }
       },
       reset() {
-        Object.keys(tableStandardState).forEach(k => {
+        Object.keys(tableStandardState).forEach((k) => {
           self[k] = tableStandardState[k]
         })
       },
@@ -45,7 +45,7 @@ export default types
         self.id = self.id && self.id === id ? null : id
       },
       changeState(id, field, value) {
-        const row = self.rows[self.table].find(r => r.id === id)
+        const row = self.rows[self.table].find((r) => r.id === id)
         if (row) {
           row[field] = value
         }
@@ -54,18 +54,16 @@ export default types
         const { app, addErrorMessage } = store
         // no need to do something on then
         // ui was updated on TABLE_CHANGE_STATE
+        const sql = `
+        UPDATE
+          ${self.table}
+        SET
+          ${field} = ${value === null ? null : `'${value}'`}
+        WHERE
+          id = ${id}`
+        //console.log('Store, updateInDb, sql:', sql)
         try {
-          app.db
-            .prepare(
-              `
-            UPDATE
-              ${self.table}
-            SET
-              ${field} = ${value === null ? null : `'${value}'`},
-            WHERE
-              id = ${id}`,
-            )
-            .run()
+          app.db.prepare(sql).run()
         } catch (error) {
           // TODO: reset ui
           console.log('Store, updateInDb, error:', error.message)
