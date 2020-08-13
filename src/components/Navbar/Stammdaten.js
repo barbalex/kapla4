@@ -18,7 +18,7 @@ const Sup = styled.sup`
 `
 const StamdatenContainer = styled.div`
   display: flex;
-  border: ${props =>
+  border: ${(props) =>
     props.active ? '1px solid rgb(255, 255, 255, .5)' : 'unset'};
   border-radius: 0.25rem;
 `
@@ -44,6 +44,7 @@ const Stammdaten = () => {
   const activeLocation = location[0]
   const { table, id, rows, fetch } = store.table
   const tableName = table ? tableNameObject[table] || table : ''
+  const fetchAbteilungen = useCallback(() => fetch('abteilung'), [fetch])
   const fetchInterne = useCallback(() => fetch('interne'), [fetch])
   const fetchExterne = useCallback(() => fetch('externe'), [fetch])
   const fetchAktenstandort = useCallback(() => fetch('aktenstandort'), [fetch])
@@ -90,6 +91,9 @@ const Stammdaten = () => {
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem header>Auswahllisten:</DropdownItem>
+          <DropdownItem name="interneAbteilungen" onClick={fetchAbteilungen}>
+            Abteilungen
+          </DropdownItem>
           <DropdownItem name="aktenstandortWerte" onClick={fetchAktenstandort}>
             Aktenstandort
           </DropdownItem>
