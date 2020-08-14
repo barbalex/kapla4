@@ -9,6 +9,7 @@ import createStore from './store'
 import './styles.css'
 import getDb from './src/getDb'
 import fetchInitialData from './src/fetchInitialData'
+import setInitialFilters from './src/setInitialFilters'
 
 const run = async () => {
   const store = createStore().create()
@@ -21,6 +22,7 @@ const run = async () => {
   }
   store.app.setDb(db)
   fetchInitialData(store)
+  setInitialFilters(store)
 
   registerLocale('de', de)
   setDefaultLocale('de')

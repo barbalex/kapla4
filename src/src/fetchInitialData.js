@@ -1,4 +1,3 @@
-import filterForFaelligeGeschaefte from './filterForFaelligeGeschaefte'
 import fetchUsername from './fetchUsername'
 
 export default (store) => {
@@ -18,7 +17,4 @@ export default (store) => {
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
   store.geschaefte.fetchAll()
-  // set filter to fällige
-  store.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
-  store.geschaefte.sortByFields('fristMitarbeiter', 'DESCENDING')
 }
