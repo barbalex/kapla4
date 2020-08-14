@@ -125,7 +125,7 @@ const Filter = () => {
 
   const [onChangeFilterFulltextDebounced] = useDebouncedCallback(
     (value) => filterByFulltext(value),
-    300,
+    600,
   )
 
   const onSelectFaelligeGeschaefte = useCallback(() => {
