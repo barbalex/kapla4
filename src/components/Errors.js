@@ -31,6 +31,11 @@ const ErrorDiv = styled.div`
 
 const Errors = () => {
   const { errors } = useContext(storeContext)
+  // example error to test placement
+  /*const errors = [
+    'this is an error message',
+    'this is an error message this is an error message this is an error message this is an error message ',
+  ]*/
 
   if (errors.length === 0) return null
 
@@ -38,7 +43,7 @@ const Errors = () => {
     <ErrorBoundary>
       <Container>
         {errors.map((message, index) => (
-          <ErrorDiv key={index}>{message}</ErrorDiv>
+          <ErrorDiv key={index}>{`Fehler: ${message}`}</ErrorDiv>
         ))}
       </Container>
     </ErrorBoundary>

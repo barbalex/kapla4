@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import useDetectPrint from 'use-detect-print'
 import 'mobx-react-lite/batchingForReactDom'
+import styled from 'styled-components'
 
 import GeschaefteLayout from './GeschaefteLayout'
 import FilterFieldsLayout from './FilterFieldsLayout'
@@ -10,6 +11,13 @@ import Navbar from './Navbar'
 import Errors from './Errors'
 import storeContext from '../storeContext'
 import GeschaeftPdf from './GeschaeftPdf'
+
+// need this container to set Error component at bottom left
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+`
 
 const App = () => {
   const store = useContext(storeContext)
@@ -32,13 +40,13 @@ const App = () => {
   }
 
   return (
-    <>
+    <Container>
       <Navbar />
       {showGeschaefteLayout && <GeschaefteLayout />}
       {showFilterFieldsLayout && <FilterFieldsLayout />}
       {showTableLayout && <TableLayout />}
       <Errors />
-    </>
+    </Container>
   )
 }
 
