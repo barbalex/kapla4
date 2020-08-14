@@ -4,7 +4,7 @@ import fetchUsername from './fetchUsername'
 export default (store) => {
   fetchUsername(store)
   store.faelligeStatiOptionsGet()
-  store.geschaefte.fetchGeko()
+  store.geschaefte.fetchAllGeko()
   store.geschaefte.fetchLinks()
   store.interneOptionsGet()
   store.externeOptionsGet()
@@ -17,7 +17,7 @@ export default (store) => {
   store.aktenstandortOptionsGet()
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
-  store.geschaefte.fetch()
+  store.geschaefte.fetchAll()
   // set filter to fällige
   store.geschaefte.filterByFields(filterForFaelligeGeschaefte, 'fällige')
   store.geschaefte.sortByFields('fristMitarbeiter', 'DESCENDING')

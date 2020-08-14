@@ -178,7 +178,7 @@ export default types
         self.activeId =
           self.activeId && self.activeId === idGeschaeft ? null : idGeschaeft
       },
-      fetch() {
+      fetchAll() {
         const location = store.location.toJSON()
         const activeLocation = location[0]
         const { app, addErrorMessage, setLocation } = store
@@ -210,7 +210,7 @@ export default types
           setLocation(['geschaefte'])
         }
       },
-      fetchGeko() {
+      fetchAllGeko() {
         const { app, addErrorMessage } = store
         self.fetching = true
         let geko = []
