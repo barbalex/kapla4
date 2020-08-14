@@ -24,7 +24,6 @@ import geschaefteSortByFieldsGetSortFields from '../src/geschaefteSortByFieldsGe
 
 export default types
   .model('Geschaefte', {
-    fetching: types.optional(types.boolean, false),
     filterFulltext: types.optional(types.string, ''),
     filterFulltextIds: types.optional(types.array(types.number), []),
     filterType: types.maybeNull(types.string),
@@ -182,14 +181,12 @@ export default types
         const location = store.location.toJSON()
         const activeLocation = location[0]
         const { app, addErrorMessage, setLocation } = store
-        self.fetching = true
         let geschaefte = []
         try {
           geschaefte = app.db
             .prepare('SELECT * FROM geschaefte ORDER BY idGeschaeft DESC')
             .all()
         } catch (error) {
-          self.fetching = false
           addErrorMessage(error.message)
         }
         /**
@@ -204,7 +201,6 @@ export default types
             }
           })
         })
-        self.fetching = false
         self.geschaefte = geschaefte
         if (activeLocation !== 'geschaefte') {
           setLocation(['geschaefte'])
@@ -212,32 +208,26 @@ export default types
       },
       fetchAllGeko() {
         const { app, addErrorMessage } = store
-        self.fetching = true
         let geko = []
         try {
           geko = app.db
             .prepare('SELECT * FROM geko ORDER BY idGeschaeft, gekoNr')
             .all()
         } catch (error) {
-          self.fetching = false
           addErrorMessage(error.message)
         }
-        self.fetching = false
         self.geko = geko
       },
       fetchLinks() {
         const { app, addErrorMessage } = store
-        self.fetching = true
         let links = []
         try {
           links = app.db
             .prepare('SELECT * FROM links ORDER BY idGeschaeft, url')
             .all()
         } catch (error) {
-          self.fetching = false
           return addErrorMessage(error.message)
         }
-        self.fetching = false
         self.links = links
       },
       geschaeftInsert() {

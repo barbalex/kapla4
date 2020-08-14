@@ -5,7 +5,6 @@ import TableRows from './TableRows'
 
 export default types
   .model('Table', {
-    fetching: types.optional(types.boolean, false),
     // following: state for active row
     id: types.maybeNull(types.number),
     table: types.maybeNull(types.string),

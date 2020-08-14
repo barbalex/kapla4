@@ -263,17 +263,14 @@ export default () =>
       },
       getGeschaefteKontakteExtern() {
         const { app } = self
-        self.geschaefteKontakteExtern.fetching = true
         let geschaefteKontakteExtern
         try {
           geschaefteKontakteExtern = app.db
             .prepare('SELECT * FROM geschaefteKontakteExtern')
             .all()
         } catch (error) {
-          self.geschaefteKontakteExtern.fetching = false
           self.addErrorMessage(error.message)
         }
-        self.geschaefteKontakteExtern.fetching = false
         self.geschaefteKontakteExtern.geschaefteKontakteExtern = geschaefteKontakteExtern
       },
       geschaeftKontaktExternNewCreate(idGeschaeft, idKontakt) {
@@ -340,17 +337,14 @@ export default () =>
       },
       getGeschaefteKontakteIntern() {
         const { app } = self
-        self.geschaefteKontakteIntern.fetching = true
         let geschaefteKontakteIntern = []
         try {
           geschaefteKontakteIntern = app.db
             .prepare('SELECT * FROM geschaefteKontakteIntern')
             .all()
         } catch (error) {
-          self.geschaefteKontakteIntern.fetching = false
           return self.addErrorMessage(error.message)
         }
-        self.geschaefteKontakteIntern.fetching = false
         self.geschaefteKontakteIntern.geschaefteKontakteIntern = geschaefteKontakteIntern
       },
       geschaeftKontaktInternNewCreate(idGeschaeft, idKontakt) {

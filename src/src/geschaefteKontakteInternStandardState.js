@@ -1,5 +1,4 @@
 export default {
-  fetching: false,
   error: [],
   geschaefteKontakteIntern: [],
   // state for active geschaeftKontaktIntern:
