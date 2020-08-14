@@ -8,7 +8,6 @@ import GeschaefteKontakteExtern from './GeschaefteKontakteExtern'
 import Pages from './Pages'
 import Table from './Table'
 import getDropdownOptions from '../src/getDropdownOptions'
-import getDropdownOptionsHistorisch from '../src/getDropdownOptionsHistorisch'
 
 export default () =>
   types
