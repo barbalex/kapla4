@@ -12,6 +12,7 @@ import getDropdownOptions from '../src/getDropdownOptions'
 export default () =>
   types
     .model({
+      fetching: types.optional(types.boolean, false),
       app: types.optional(App, {}),
       dirty: types.optional(types.boolean, false),
       geschaefte: types.optional(Geschaefte, {}),
@@ -26,6 +27,9 @@ export default () =>
       errors: types.array(types.string),
     })
     .actions((self) => ({
+      setFetching(val) {
+        self.fetching = val
+      },
       setLocation(location) {
         self.location = location
       },

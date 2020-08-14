@@ -26,7 +26,7 @@ export default types
     db: null,
     lastWindowState: standardConfig.lastWindowState,
   }))
-  .actions(self => ({
+  .actions((self) => ({
     setDb(val) {
       self.db = val
     },

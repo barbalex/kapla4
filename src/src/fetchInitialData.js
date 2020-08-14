@@ -1,6 +1,8 @@
 import fetchUsername from './fetchUsername'
 
 export default (store) => {
+  const { fetching, setFetching } = store
+  !fetching && setFetching(true)
   fetchUsername(store)
   store.faelligeStatiOptionsGet()
   store.geschaefte.fetchAllGeko()
@@ -17,4 +19,6 @@ export default (store) => {
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
   store.geschaefte.fetchAll()
+  setFetching(false)
+  console.log('fetched initial data')
 }
