@@ -3,6 +3,7 @@ import moment from 'moment'
 
 import isDateField from '../src/isDateField'
 import convertDateToYyyyMmDd from '../src/convertDateToYyyyMmDd'
+import convertDateToDdMmYyyy from '../src/convertDateToDdMmYyyy'
 
 export default types
   .model('Geschaeft', {
@@ -112,7 +113,29 @@ export default types
       types.union(types.string, types.integer, types.null),
     ),
   })
-  .actions(self => ({
+  .actions((self) => ({
+    fetch() {
+      // ensure data is always fresh
+      const store = getParent(self, 3)
+      const { app, addErrorMessage } = store
+      let geschaeft
+      try {
+        geschaeft = app.db
+          .prepare(`SELECT * FROM geschaefte where idGeschaeft = ?`)
+          .get(self.idGeschaeft)
+      } catch (error) {
+        console.log('error:', error)
+        return addErrorMessage(error.message)
+      }
+      Object.keys(geschaeft).forEach((field) => {
+        if (isDateField(field)) {
+          // convert date fields from YYYY-MM-DD to DD.MM.YYYY
+          self[field] = convertDateToDdMmYyyy(geschaeft[field])
+        } else {
+          self[field] = geschaeft[field]
+        }
+      })
+    },
     setValue({ field, value }) {
       const store = getParent(self, 3)
       const { app, addErrorMessage } = store

@@ -122,6 +122,11 @@ const Geschaeft = () => {
     setDirty(false)
   }, [geschaeft.idGeschaeft, setDirty])
 
+  useEffect(() => {
+    // fetch data every time a geschaeft is activated
+    geschaeft.fetch()
+  }, [geschaeft, activeId])
+
   // return immediately if no geschaeft
   const showGeschaeft = geschaeft.idGeschaeft
   if (!showGeschaeft) return null
