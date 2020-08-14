@@ -426,7 +426,7 @@ export default () =>
       addErrorMessage(message) {
         // use uniq in case multiple same messages arrive
         self.errors = uniq([...self.errors, message])
-        setTimeout(() => self.popError(), 1000 * 10)
+        setTimeout(() => self.popError(), 1000 * 20)
       },
       popError() {
         // eslint-disable-next-line no-unused-vars
