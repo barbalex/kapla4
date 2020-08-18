@@ -57,19 +57,19 @@
     "date-fns": "2.15.0",
     "electron": "10.0.0-beta.23",
     "electron-squirrel-startup": "1.0.0",
-    "eslint": "7.6.0",
+    "eslint": "7.7.0",
     "eslint-config-react-app": "5.2.1",
     "eslint-plugin-flowtype": "5.2.0",
     "eslint-plugin-import": "2.x",
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
-    "eslint-plugin-react-hooks": "4.0.8",
+    "eslint-plugin-react-hooks": "4.1.0",
     "exceljs": "4.1.1",
     "file-loader": "6.0.0",
     "global": "4.4.0",
     "jquery": "3.5.1",
     "lodash": "4.17.20",
-    "mobx": "5.15.4",
+    "mobx": "5.15.6",
     "mobx-react": "6.2.5",
     "mobx-react-lite": "2.0.7",
     "mobx-state-tree": "3.17.2",
@@ -97,13 +97,12 @@
     "username": "5.1.0"
   },
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "3.9.0",
-    "@typescript-eslint/parser": "3.9.0",
+    "@typescript-eslint/eslint-plugin": "3.9.1",
+    "@typescript-eslint/parser": "3.9.1",
     "popper.js": "1.16.1",
     "react-is": "16.13.1"
   },
   "dependenciesComments": {
-    "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
-    "mobx": "do not upgrade from v5.15.4 to 5.15.5 because of this issue: https://github.com/mobxjs/mobx/issues/2423"
+    "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498"
   }
 }
