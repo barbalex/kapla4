@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import useDetectPrint from 'use-detect-print'
-import 'mobx-react-lite/batchingForReactDom'
 import styled from 'styled-components'
 
 import GeschaefteLayout from './GeschaefteLayout'
