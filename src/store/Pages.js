@@ -11,20 +11,17 @@ export default types
     title: types.optional(types.string, ''),
     queryTitle: types.optional(types.boolean, true),
     reportType: types.optional(types.string, 'fristen'),
-    showPagesModal: types.optional(types.boolean, false),
-    modalTextLine1: types.optional(types.string, ''),
-    modalTextLine2: types.optional(types.string, ''),
     // this is array of idGeschaeft
     remainingGeschaefte: types.array(types.integer),
   })
-  .actions(self => ({
+  .actions((self) => ({
     initiate(reportType) {
       const store = getParent(self, 1)
       self.cleanUp()
       const { geschaefteFilteredAndSorted } = store.geschaefte
       self.reportType = reportType
       self.remainingGeschaefte = geschaefteFilteredAndSorted.map(
-        g => g.idGeschaeft,
+        (g) => g.idGeschaeft,
       )
       self.building = true
       store.setLocation(['pages'])
@@ -37,21 +34,10 @@ export default types
       self.title = ''
       self.queryTitle = true
       self.reportType = 'fristen'
-      self.showPagesModal = false
-      self.modalTextLine1 = ''
-      self.modalTextLine2 = ''
     },
     stop() {
       self.remainingGeschaefte = []
       self.building = false
-      self.showPagesModal = false
-      self.modalTextLine1 = ''
-      self.modalTextLine2 = ''
-    },
-    showModal(showPagesModal, modalTextLine1, modalTextLine2) {
-      self.showPagesModal = showPagesModal
-      self.modalTextLine1 = modalTextLine1
-      self.modalTextLine2 = modalTextLine2
     },
     finishedBuilding() {
       self.building = false
