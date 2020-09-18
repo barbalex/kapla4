@@ -62,7 +62,7 @@ const Page = ({ firstPage }) => {
             onChange={changeQueryTitle}
             onKeyPress={onKeyPressTitle}
             onBlur={onBlurTitle}
-            size="lg"
+            bsSize="lg"
             autoFocus
           />
         </FormGroup>
