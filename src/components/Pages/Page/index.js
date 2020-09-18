@@ -1,10 +1,7 @@
-/**
- * This is A LOT SLOWER than the version using classes
- * Do not know why
- */
-import React, { useContext, useEffect, useRef, useMemo } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
 import FaelligeGeschaefteHeader from './faelligeGeschaefte/Header'
@@ -148,147 +145,155 @@ const StyledFooter = styled.div`
 `
 
 /**
- * TODO:
- * when remainingGeschaefte changes, this page does not rerender
- * need to use map instead of array!
+ * using the class because it is about double as fast as hook solution
  */
-const Page = ({ pageIndex }) => {
-  const store = useContext(storeContext)
-  const {
-    activePageIndex,
-    addGeschaeft,
-    building,
-    finishedBuilding,
-    moveGeschaeftToNewPage,
-    pages,
-    remainingGeschaefte,
-    reportType,
-  } = store.pages
-  const {
-    geschaefteFilteredAndSorted,
-    filterFields,
-    sortFields,
-  } = store.geschaefte
+class Page extends Component {
+  static propTypes = {
+    pageIndex: PropTypes.number.isRequired,
+  }
 
-  const activePage = pages[pageIndex]
-  const geschaefteIds = activePage.geschaefte.slice()
-  const geschaefte = useMemo(
-    () =>
-      geschaefteFilteredAndSorted
-        .filter((g) => geschaefteIds.includes(g.idGeschaeft))
-        /**
-         * for unknown reason in bericht "laufende Vernehmlassungen"
-         * an undefined geschaeft exists
-         */
-        .filter((g) => !!g),
-    [geschaefteFilteredAndSorted, geschaefteIds],
-  )
-  const firstPage = pageIndex === 0
+  componentDidMount = () => {
+    const store = this.context
+    const { addGeschaeft } = store.pages
+    addGeschaeft()
+  }
 
-  const rowsContainer = useRef(null)
-
-  useEffect(() => {
-    // don't do anything on not active pages
-    if (pageIndex !== activePageIndex) return
-
-    /**
-     * - measure height of pageSize-component
-     * - if > desired page height:
-     *  - move last row to next page
-     *  - render
-     * - else:
-     *  - insert next row
-     *  - render
-     */
+  componentDidUpdate = () => {
+    // need to wait for next tick
+    // otherwise in vernehmlassungen
+    // some rows were only listed on second call
     setTimeout(() => {
-      const offsetHeight = rowsContainer
-        ? rowsContainer.current.offsetHeight
-        : null
-      const scrollHeight = rowsContainer
-        ? rowsContainer.current.scrollHeight
-        : null
-      const activePageIsFull = activePage.full
+      /**
+       * - measure height of pageSize-component
+       * - if > desired page height:
+       *  - move last row to next page
+       *  - render
+       * - else:
+       *  - insert next row
+       *  - render
+       */
+      const store = this.context
+      const { pageIndex } = this.props
+      const {
+        pages,
+        activePageIndex,
+        remainingGeschaefte,
+        addGeschaeft,
+        moveGeschaeftToNewPage,
+        finishedBuilding,
+      } = store.pages
 
-      if (!activePageIsFull && remainingGeschaefte.length > 0) {
-        if (offsetHeight < scrollHeight) {
-          moveGeschaeftToNewPage(activePageIndex)
-        } else {
-          addGeschaeft()
+      // don't do anything on not active pages
+      if (pageIndex === activePageIndex) {
+        const rowsContainerPageIndex = this[`rowsContainer${pageIndex}`]
+        const offsetHeight = rowsContainerPageIndex
+          ? rowsContainerPageIndex.offsetHeight
+          : null
+        const scrollHeight = rowsContainerPageIndex
+          ? rowsContainerPageIndex.scrollHeight
+          : null
+        const activePageIsFull = pages[pageIndex].full
+
+        if (!activePageIsFull && remainingGeschaefte.length > 0) {
+          if (offsetHeight < scrollHeight) {
+            moveGeschaeftToNewPage(activePageIndex)
+          } else {
+            addGeschaeft()
+          }
+          return
         }
-        return
-      }
-      if (!remainingGeschaefte.length > 0) {
-        if (offsetHeight < scrollHeight) {
-          moveGeschaeftToNewPage(activePageIndex)
-        } else {
-          // for unknown reason setTimeout is needed
-          setTimeout(() => {
-            finishedBuilding()
-          })
+        if (remainingGeschaefte.length === 0) {
+          if (offsetHeight < scrollHeight) {
+            moveGeschaeftToNewPage(activePageIndex)
+          } else {
+            // for unknown reason setTimeout is needed
+            setTimeout(() => {
+              finishedBuilding()
+            })
+          }
         }
       }
     })
-  }, [
-    activePage.full,
-    activePageIndex,
-    addGeschaeft,
-    finishedBuilding,
-    moveGeschaeftToNewPage,
-    pageIndex,
-    remainingGeschaefte.length,
-  ])
+  }
 
-  return (
-    <PageContainer building={building}>
-      <InnerPageContainer>
-        <StyledRowsContainer building={building} ref={rowsContainer}>
-          {firstPage && (
-            <img
-              src={logoImg}
-              height="70"
-              style={{ marginBottom: 15 }}
-              alt="Logo"
-            />
-          )}
-          <PageTitle firstPage={firstPage} />
-          {firstPage && (
-            <>
-              <StyledFilterCriteria>
-                Filterkriterien:{' '}
-                {filterCriteriaToArrayOfStrings(filterFields).join(' & ')}
-              </StyledFilterCriteria>
-              <StyledSortCriteria>
-                Sortierkriterien:{' '}
-                {sortCriteriaToArrayOfStrings(sortFields).join(' & ')}
-              </StyledSortCriteria>
-            </>
-          )}
-          {reportType === 'typFaelligeGeschaefte' && (
-            <FaelligeGeschaefteHeader />
-          )}
-          {(reportType === 'angekVernehml' ||
-            reportType === 'laufendeVernehml') && <VernehmlassungenHeader />}
-          {reportType === 'list1' && <List1Header />}
-          {reportType === 'typFaelligeGeschaefte' && (
-            <FaelligeGeschaefteRows geschaefte={geschaefte} />
-          )}
-          {reportType === 'angekVernehml' && (
-            <VernehmlassungenRows geschaefte={geschaefte} />
-          )}
-          {reportType === 'laufendeVernehml' && (
-            <VernehmlassungenRows geschaefte={geschaefte} />
-          )}
-          {reportType === 'list1' && <List1Rows geschaefte={geschaefte} />}
-        </StyledRowsContainer>
-        <StyledFooter>
-          <div>{moment().format('DD.MM.YYYY')}</div>
-          <div>
-            Seite {pageIndex + 1}/{pages.length}
-          </div>
-        </StyledFooter>
-      </InnerPageContainer>
-    </PageContainer>
-  )
+  render() {
+    const store = this.context
+    const { pageIndex } = this.props
+    const { pages, building, reportType } = store.pages
+    const {
+      filterFields,
+      sortFields,
+      geschaefteFilteredAndSorted,
+    } = store.geschaefte
+    const geschaefteIds = pages[pageIndex].geschaefte
+    const geschaefte = geschaefteFilteredAndSorted
+      .filter((g) => geschaefteIds.includes(g.idGeschaeft))
+      /**
+       * for unknown reason in bericht "laufende Vernehmlassungen"
+       * an undefined geschaeft exists
+       */
+      .filter((g) => !!g)
+    const firstPage = pageIndex === 0
+
+    return (
+      <PageContainer building={building}>
+        <InnerPageContainer>
+          <StyledRowsContainer
+            building={building}
+            ref={(c) => {
+              this[`rowsContainer${pageIndex}`] = c
+            }}
+          >
+            {firstPage && (
+              <img
+                src={logoImg}
+                height="70"
+                style={{ marginBottom: 15 }}
+                alt="Logo"
+              />
+            )}
+            <PageTitle firstPage={firstPage} />
+            {firstPage && (
+              <>
+                <StyledFilterCriteria>
+                  Filterkriterien:{' '}
+                  {filterCriteriaToArrayOfStrings(filterFields).join(' & ')}
+                </StyledFilterCriteria>
+                <StyledSortCriteria>
+                  Sortierkriterien:{' '}
+                  {sortCriteriaToArrayOfStrings(sortFields).join(' & ')}
+                </StyledSortCriteria>
+              </>
+            )}
+            {reportType === 'typFaelligeGeschaefte' && (
+              <FaelligeGeschaefteHeader />
+            )}
+            {reportType === 'angekVernehml' && <VernehmlassungenHeader />}
+            {reportType === 'laufendeVernehml' && <VernehmlassungenHeader />}
+            {reportType === 'list1' && <List1Header />}
+            {reportType === 'typFaelligeGeschaefte' && (
+              <FaelligeGeschaefteRows geschaefte={geschaefte} />
+            )}
+            {reportType === 'angekVernehml' && (
+              <VernehmlassungenRows geschaefte={geschaefte} />
+            )}
+            {reportType === 'laufendeVernehml' && (
+              <VernehmlassungenRows geschaefte={geschaefte} />
+            )}
+            {reportType === 'list1' && <List1Rows geschaefte={geschaefte} />}
+          </StyledRowsContainer>
+          <StyledFooter>
+            <div>{moment().format('DD.MM.YYYY')}</div>
+            <div>
+              Seite {pageIndex + 1}/{pages.length}
+            </div>
+          </StyledFooter>
+        </InnerPageContainer>
+      </PageContainer>
+    )
+  }
 }
+
+Page.contextType = storeContext
 
 export default observer(Page)
