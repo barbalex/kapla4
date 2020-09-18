@@ -10,6 +10,7 @@ import Navbar from './Navbar'
 import Errors from './Errors'
 import storeContext from '../storeContext'
 import GeschaeftPdf from './GeschaeftPdf'
+import Pages from './Pages'
 
 // need this container to set Error component at bottom left
 const Container = styled.div`
@@ -22,7 +23,6 @@ const App = () => {
   const store = useContext(storeContext)
 
   const isPrinting = useDetectPrint()
-  //console.log('App, isPrinting:', isPrinting)
 
   const location = store.location.toJSON()
   const activeLocation = location[0]
@@ -37,8 +37,8 @@ const App = () => {
     console.log('App, directly printing GeschaeftPdf')
     return <GeschaeftPdf />
   } else if (isPrinting) {
-    console.log('printing')
-    return <GeschaefteLayout />
+    console.log('App, directly printing pages')
+    return <Pages />
   }
 
   return (
