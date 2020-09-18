@@ -2,13 +2,7 @@
  * This is A LOT SLOWER than the version using classes
  * Do not know why
  */
-import React, {
-  useContext,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react'
+import React, { useContext, useEffect, useRef, useMemo } from 'react'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -153,6 +147,11 @@ const StyledFooter = styled.div`
   }
 `
 
+/**
+ * TODO:
+ * when remainingGeschaefte changes, this page does not rerender
+ * need to use map instead of array!
+ */
 const Page = ({ pageIndex }) => {
   const store = useContext(storeContext)
   const {
@@ -164,7 +163,6 @@ const Page = ({ pageIndex }) => {
     pages,
     remainingGeschaefte,
     reportType,
-    showModal,
   } = store.pages
   const {
     geschaefteFilteredAndSorted,
@@ -187,19 +185,9 @@ const Page = ({ pageIndex }) => {
   )
   const firstPage = pageIndex === 0
 
-  const showPagesModal = useCallback(() => {
-    const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 = geschaefteFilteredAndSorted.length > 50 ? msgLine2Txt : ''
-    showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
-  }, [
-    geschaefteFilteredAndSorted.length,
-    pages.length,
-    showModal,
-    remainingGeschaefte.length,
-  ])
-
   const rowsContainer = useRef(null)
   const existRemainingGeschaefte = remainingGeschaefte.length > 0
+  console.log('Page', { existRemainingGeschaefte, remainingGeschaefte })
 
   useEffect(() => {
     // don't do anything on not active pages
@@ -225,7 +213,6 @@ const Page = ({ pageIndex }) => {
     if (!activePageIsFull && existRemainingGeschaefte) {
       if (offsetHeight < scrollHeight) {
         moveGeschaeftToNewPage(activePageIndex)
-        showPagesModal()
       } else {
         addGeschaeft()
       }
@@ -233,11 +220,9 @@ const Page = ({ pageIndex }) => {
     if (!existRemainingGeschaefte) {
       if (offsetHeight < scrollHeight) {
         moveGeschaeftToNewPage(activePageIndex)
-        showPagesModal()
       } else {
         // for unknown reason setTimeout is needed
         setTimeout(() => {
-          showModal(false, '', '')
           finishedBuilding()
         })
       }
@@ -250,8 +235,6 @@ const Page = ({ pageIndex }) => {
     finishedBuilding,
     moveGeschaeftToNewPage,
     pageIndex,
-    showModal,
-    showPagesModal,
   ])
 
   return (
