@@ -172,7 +172,8 @@ const Page = ({ pageIndex }) => {
     sortFields,
   } = store.geschaefte
 
-  const geschaefteIds = pages[pageIndex].geschaefte.slice()
+  const activePage = pages[pageIndex]
+  const geschaefteIds = activePage.geschaefte.slice()
   const geschaefte = useMemo(
     () =>
       geschaefteFilteredAndSorted
@@ -198,8 +199,12 @@ const Page = ({ pageIndex }) => {
   ])
 
   const rowsContainer = useRef(null)
+  const existRemainingGeschaefte = remainingGeschaefte.length > 0
 
   useEffect(() => {
+    // don't do anything on not active pages
+    if (pageIndex !== activePageIndex) return
+
     /**
      * - measure height of pageSize-component
      * - if > desired page height:
@@ -209,47 +214,42 @@ const Page = ({ pageIndex }) => {
      *  - insert next row
      *  - render
      */
-    setTimeout(() => {
-      // don't do anything on not active pages
-      if (pageIndex === activePageIndex) {
-        const offsetHeight = rowsContainer
-          ? rowsContainer.current.offsetHeight
-          : null
-        const scrollHeight = rowsContainer
-          ? rowsContainer.current.scrollHeight
-          : null
-        const activePageIsFull = pages[pageIndex].full
+    const offsetHeight = rowsContainer
+      ? rowsContainer.current.offsetHeight
+      : null
+    const scrollHeight = rowsContainer
+      ? rowsContainer.current.scrollHeight
+      : null
+    const activePageIsFull = activePage.full
 
-        if (!activePageIsFull && remainingGeschaefte.length > 0) {
-          if (offsetHeight < scrollHeight) {
-            moveGeschaeftToNewPage(activePageIndex)
-            showPagesModal()
-          } else {
-            addGeschaeft()
-          }
-        }
-        if (remainingGeschaefte.length === 0) {
-          if (offsetHeight < scrollHeight) {
-            moveGeschaeftToNewPage(activePageIndex)
-            showPagesModal()
-          } else {
-            // for unknown reason setTimeout is needed
-            setTimeout(() => {
-              showModal(false, '', '')
-              finishedBuilding()
-            })
-          }
-        }
+    if (!activePageIsFull && existRemainingGeschaefte) {
+      if (offsetHeight < scrollHeight) {
+        moveGeschaeftToNewPage(activePageIndex)
+        showPagesModal()
+      } else {
+        addGeschaeft()
       }
-    })
+    }
+    if (!existRemainingGeschaefte) {
+      if (offsetHeight < scrollHeight) {
+        moveGeschaeftToNewPage(activePageIndex)
+        showPagesModal()
+      } else {
+        // for unknown reason setTimeout is needed
+        setTimeout(() => {
+          showModal(false, '', '')
+          finishedBuilding()
+        })
+      }
+    }
   }, [
+    activePage.full,
     activePageIndex,
     addGeschaeft,
+    existRemainingGeschaefte,
     finishedBuilding,
     moveGeschaeftToNewPage,
     pageIndex,
-    pages,
-    remainingGeschaefte.length,
     showModal,
     showPagesModal,
   ])
