@@ -152,7 +152,6 @@ class Page extends Component {
   componentDidMount = () => {
     const store = this.context
     const { addGeschaeft } = store.pages
-    this.showPagesModal()
     // wait with next stepp until message is shown
     setTimeout(() => {
       addGeschaeft()
@@ -199,15 +198,14 @@ class Page extends Component {
         if (!activePageIsFull && remainingGeschaefte.length > 0) {
           if (offsetHeight < scrollHeight) {
             moveGeschaeftToNewPage(activePageIndex)
-            this.showPagesModal()
           } else {
             addGeschaeft()
           }
+          return
         }
         if (remainingGeschaefte.length === 0) {
           if (offsetHeight < scrollHeight) {
             moveGeschaeftToNewPage(activePageIndex)
-            this.showPagesModal()
           } else {
             // for unknown reason setTimeout is needed
             setTimeout(() => {
@@ -218,15 +216,6 @@ class Page extends Component {
         }
       }
     })
-  }
-
-  showPagesModal = () => {
-    const store = this.context
-    const { pages, remainingGeschaefte, showModal } = store.pages
-    const { geschaefteFilteredAndSorted } = store.geschaefte
-    const msgLine2Txt = `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
-    const msgLine2 = geschaefteFilteredAndSorted.length > 50 ? msgLine2Txt : ''
-    showModal(true, 'Der Bericht wird aufgebaut...', msgLine2)
   }
 
   render() {
