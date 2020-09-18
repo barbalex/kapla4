@@ -69,7 +69,7 @@ const NavbarComponent = () => {
 
   const { dirty } = store
   const { showMessageModal } = store.app
-  const { showPagesModal } = store.pages
+  const showPagesModal = store.pages.remainingGeschaefte.length > 0
   const { willDelete } = store.geschaefte
   const showBerichteNavs =
     activeLocation === 'pages' || activeLocation === 'geschaeftPdf'
