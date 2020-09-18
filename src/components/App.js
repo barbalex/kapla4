@@ -36,6 +36,9 @@ const App = () => {
   if (isPrinting && activeLocation === 'geschaeftPdf') {
     console.log('App, directly printing GeschaeftPdf')
     return <GeschaeftPdf />
+  } else if (isPrinting) {
+    console.log('printing')
+    return <GeschaefteLayout />
   }
 
   return (
