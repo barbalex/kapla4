@@ -8,7 +8,4 @@ export default {
   title: '',
   queryTitle: true,
   reportType: 'fristen',
-  showPagesModal: false,
-  modalTextLine1: '',
-  modalTextLine2: '',
 }
