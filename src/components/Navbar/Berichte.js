@@ -46,7 +46,7 @@ const Berichte = () => {
   const activeLocation = location[0]
   const { navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
-  const { initiate, reportType } = store.pages
+  const { initiate, reportType, pages } = store.pages
   const isActive = ['geschaeftPdf', 'pages'].includes(activeLocation)
   const nameObject = {
     typFaelligeGeschaefte: 'Bericht: Typ "fällige Geschäfte"',
@@ -99,7 +99,8 @@ const Berichte = () => {
   const onClickDeckblatt = useCallback(() => {
     setTimeout(() => navigateToGeschaeftPdf())
   }, [navigateToGeschaeftPdf])
-  const onClickPrint = () => {
+
+  const onClickPrint = useCallback(() => {
     console.log('hi from onClickPrint')
     // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprintoptions
     /**
@@ -117,18 +118,17 @@ const Berichte = () => {
       landscape,
       pageSize: 'A4',
     }
-    if (!landscape) {
-      options.pageRanges = {
-        from: 0,
-        to: 0,
-      }
+    options.pageRanges = {
+      from: 0,
+      to: landscape ? (pages.length ? pages.length - 1 : 0) : 0,
     }
     console.log('Berichte, options:', options)
     win.webContents.print(options, (success, failureReason) => {
       console.log('print result', { success, failureReason })
     })
     //window.print()
-  }
+  }, [activeLocation, pages.length])
+
   const onClickCreatePdf = useCallback(
     async (e) => {
       e.preventDefault()
@@ -142,13 +142,13 @@ const Berichte = () => {
         landscape,
         printBackground: true,
       }
-      if (!landscape) {
-        options.pageRanges = {
-          from: 0,
-          to: 0,
-        }
+      options.pageRanges = {
+        from: 0,
+        to: landscape ? (pages.length ? pages.length - 1 : 0) : 0,
       }
-      console.log('Berichte, options:', options)
+      console.log('Berichte:', {
+        options,
+      })
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
       const data = await win.webContents.printToPDF(options)
@@ -163,7 +163,7 @@ const Berichte = () => {
         })
       }
     },
-    [activeLocation],
+    [activeLocation, pages.length],
   )
 
   return (
