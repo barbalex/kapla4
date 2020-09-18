@@ -83,6 +83,8 @@ const PageContainer = styled.div`
   overflow-y: visible;
 
   @media print {
+    height: 277mm;
+    width: 190mm;
     margin: 0 !important;
     padding: 0 !important;
     overflow-y: hidden !important;
@@ -95,7 +97,7 @@ const PageContainer = styled.div`
   }
 `
 const Footer = styled.div`
-  padding-top: 5px;
+  padding-top: 3px;
   height: 18px;
   @media print {
     page-break-inside: avoid !important;
