@@ -34,10 +34,10 @@ const App = () => {
   const showTableLayout = activeLocation === 'table' && !isPrinting
 
   if (isPrinting && activeLocation === 'geschaeftPdf') {
-    console.log('App, directly printing GeschaeftPdf')
+    //console.log('App, directly printing GeschaeftPdf')
     return <GeschaeftPdf />
   } else if (isPrinting) {
-    console.log('App, directly printing pages')
+    //console.log('App, directly printing pages')
     return <Pages />
   }
 
