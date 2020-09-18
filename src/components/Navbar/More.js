@@ -80,7 +80,7 @@ const OptionsNav = () => {
           Fehler und Wünsche melden
         </DropdownItem>
         <DropdownItem divider />
-        <Version>Version: 2.1.2 vom 13.8.2020</Version>
+        <Version>Version: 2.1.4 vom 18.9.2020</Version>
       </DropdownMenu>
     </MoreMenu>
   )
