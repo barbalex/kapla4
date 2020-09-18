@@ -186,8 +186,6 @@ const Page = ({ pageIndex }) => {
   const firstPage = pageIndex === 0
 
   const rowsContainer = useRef(null)
-  const existRemainingGeschaefte = remainingGeschaefte.length > 0
-  console.log('Page', { existRemainingGeschaefte, remainingGeschaefte })
 
   useEffect(() => {
     // don't do anything on not active pages
@@ -210,14 +208,15 @@ const Page = ({ pageIndex }) => {
       : null
     const activePageIsFull = activePage.full
 
-    if (!activePageIsFull && existRemainingGeschaefte) {
+    if (!activePageIsFull && remainingGeschaefte.length > 0) {
       if (offsetHeight < scrollHeight) {
         moveGeschaeftToNewPage(activePageIndex)
       } else {
         addGeschaeft()
       }
+      return
     }
-    if (!existRemainingGeschaefte) {
+    if (!remainingGeschaefte.length > 0) {
       if (offsetHeight < scrollHeight) {
         moveGeschaeftToNewPage(activePageIndex)
       } else {
@@ -231,10 +230,10 @@ const Page = ({ pageIndex }) => {
     activePage.full,
     activePageIndex,
     addGeschaeft,
-    existRemainingGeschaefte,
     finishedBuilding,
     moveGeschaeftToNewPage,
     pageIndex,
+    remainingGeschaefte.length,
   ])
 
   return (
