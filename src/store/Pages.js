@@ -55,7 +55,7 @@ export default types
     addGeschaeft() {
       if (self.building) {
         const activePage = self.pages.find((p, i) => i === self.activePageIndex)
-        if (activePage) {
+        if (activePage && self.remainingGeschaefte.length) {
           activePage.geschaefte.push(self.remainingGeschaefte.shift())
         }
       }
