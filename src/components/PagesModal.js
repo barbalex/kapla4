@@ -21,7 +21,14 @@ const P = styled.p`
 
 const PagesModal = () => {
   const store = useContext(storeContext)
-  const { modalTextLine1, modalTextLine2, stop } = store.pages
+  const { pages, remainingGeschaefte, stop } = store.pages
+
+  const modalTextLine1 = remainingGeschaefte.length
+    ? 'Der Bericht wird aufgebaut...'
+    : ''
+  const modalTextLine2 = remainingGeschaefte.length
+    ? `Bisher ${pages.length} Seiten, ${remainingGeschaefte.length} Geschäfte noch zu verarbeiten`
+    : ''
 
   return (
     <Modal isOpen={true} size={modalTextLine2 ? 'lg' : 'sm'}>
