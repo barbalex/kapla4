@@ -2,7 +2,13 @@
  * This is A LOT SLOWER than the version using classes
  * Do not know why
  */
-import React, { useContext, useCallback, useEffect, useRef } from 'react'
+import React, {
+  useContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from 'react'
 import moment from 'moment'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -166,14 +172,18 @@ const Page = ({ pageIndex }) => {
     sortFields,
   } = store.geschaefte
 
-  const geschaefteIds = pages[pageIndex].geschaefte
-  const geschaefte = geschaefteFilteredAndSorted
-    .filter((g) => geschaefteIds.includes(g.idGeschaeft))
-    /**
-     * for unknown reason in bericht "laufende Vernehmlassungen"
-     * an undefined geschaeft exists
-     */
-    .filter((g) => !!g)
+  const geschaefteIds = pages[pageIndex].geschaefte.slice()
+  const geschaefte = useMemo(
+    () =>
+      geschaefteFilteredAndSorted
+        .filter((g) => geschaefteIds.includes(g.idGeschaeft))
+        /**
+         * for unknown reason in bericht "laufende Vernehmlassungen"
+         * an undefined geschaeft exists
+         */
+        .filter((g) => !!g),
+    [geschaefteFilteredAndSorted, geschaefteIds],
+  )
   const firstPage = pageIndex === 0
 
   const showPagesModal = useCallback(() => {
@@ -199,9 +209,6 @@ const Page = ({ pageIndex }) => {
      *  - insert next row
      *  - render
      */
-
-    // for some reason need to wait
-    // maybe for filtering to have happended?
     setTimeout(() => {
       // don't do anything on not active pages
       if (pageIndex === activePageIndex) {
