@@ -34,7 +34,7 @@ const GeschaefteLayout = () => {
   const showPages = activeLocation === 'pages'
   const showGeschaeftPdf = activeLocation === 'geschaeftPdf' && !!activeId
 
-  const [saveConfigDebounced] = useDebouncedCallback(size => {
+  const saveConfigDebounced = useDebouncedCallback((size) => {
     saveConfig()
   }, 200)
 
@@ -43,9 +43,9 @@ const GeschaefteLayout = () => {
       split="vertical"
       minSize={100}
       defaultSize={isPrinting ? 0 : geschaefteColumnWidth}
-      onChange={value => {
+      onChange={(value) => {
         setGeschaefteColumnWidth(value)
-        saveConfigDebounced(value)
+        saveConfigDebounced.callback(value)
       }}
     >
       <Geschaefte />

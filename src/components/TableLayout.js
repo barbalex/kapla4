@@ -17,18 +17,16 @@ const TableLayout = () => {
   const { setTableColumnWidth, tableColumnWidth, saveConfig } = store.app
   const { id } = store.table
 
-  const [saveConfigDebounced] = useDebouncedCallback(size => {
-    saveConfig()
-  }, 200)
+  const saveConfigDebounced = useDebouncedCallback((size) => saveConfig(), 200)
 
   return (
     <StyledSplitPane
       split="vertical"
       minSize={100}
       defaultSize={tableColumnWidth}
-      onChange={value => {
+      onChange={(value) => {
         setTableColumnWidth(value)
-        saveConfigDebounced(value)
+        saveConfigDebounced.callback(value)
       }}
     >
       <Table />

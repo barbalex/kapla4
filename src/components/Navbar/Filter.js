@@ -123,7 +123,7 @@ const Filter = () => {
     [filterDropdownIsOpen],
   )
 
-  const [onChangeFilterFulltextDebounced] = useDebouncedCallback(
+  const filterFulltextDebounced = useDebouncedCallback(
     (value) => filterByFulltext(value),
     600,
   )
@@ -174,7 +174,7 @@ const Filter = () => {
             placeholder="Volltext filtern"
             onChange={(e) => {
               setFilterFulltext(e.target.value)
-              onChangeFilterFulltextDebounced(e.target.value)
+              filterFulltextDebounced.callback(e.target.value)
             }}
             value={filterFulltext}
             data-isfiltered={dataIsFilteredByFulltext.toString()}

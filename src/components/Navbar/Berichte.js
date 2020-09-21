@@ -146,9 +146,7 @@ const Berichte = () => {
         from: 0,
         to: landscape ? (pages.length ? pages.length - 1 : 0) : 0,
       }
-      console.log('Berichte:', {
-        options,
-      })
+      console.log('Berichte, options:', options)
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
       const data = await win.webContents.printToPDF(options)

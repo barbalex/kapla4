@@ -20,7 +20,7 @@ const FilterFieldsLayout = () => {
     saveConfig,
   } = store.app
 
-  const [saveConfigDebounced] = useDebouncedCallback(size => {
+  const saveConfigDebounced = useDebouncedCallback((size) => {
     saveConfig()
   }, 200)
 
@@ -29,9 +29,9 @@ const FilterFieldsLayout = () => {
       split="vertical"
       minSize={100}
       defaultSize={geschaefteColumnWidth}
-      onChange={value => {
+      onChange={(value) => {
         setGeschaefteColumnWidth(value)
-        saveConfigDebounced(value)
+        saveConfigDebounced.callback(value)
       }}
     >
       <Geschaefte />
