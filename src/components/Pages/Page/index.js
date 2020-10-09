@@ -59,10 +59,7 @@ const PageContainer = styled.div`
      * so after working for hours it seems that below magical numbers make page look same
      * on printing to pdf and not pdf
      */
-    margin-top: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 0 !important;
+    margin: 0 !important;
     padding-top: 0.5cm !important;
     padding-left: 0.5cm !important;
     padding-right: 0 !important;
