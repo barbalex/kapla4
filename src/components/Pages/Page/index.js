@@ -86,9 +86,11 @@ const InnerPageContainer = styled.div`
   height: 17.95cm;
 
   /* place rowsContainer top and footer bottom */
-  display: flex;
+  position: relative;
+
+  /*display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between;*/
 `
 const StyledRowsContainer = styled.div`
   max-height: 17.2cm;
@@ -100,11 +102,9 @@ const StyledRowsContainer = styled.div`
   overflow-y: ${(props) => (props['data-building'] ? 'auto' : 'hidden')};
   overflow-x: hidden;
 
-  @media print {
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
 `
 const StyledFilterCriteria = styled.div`
   margin-top: 10px;
@@ -122,6 +122,10 @@ const StyledFooter = styled.div`
   width: 26.7cm;
   max-width: 26.7cm;
 
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
   display: flex;
   justify-content: space-between;
 
@@ -133,12 +137,6 @@ const StyledFooter = styled.div`
 
   div:first-of-type {
     text-align: left;
-  }
-
-  @media print {
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
   }
 `
 
