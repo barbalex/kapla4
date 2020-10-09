@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+// do not use mobx-react-lite for this is a class
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
@@ -99,7 +100,7 @@ const StyledRowsContainer = styled.div`
    * need overflow while building list
    * so list does not flow outside padding
    */
-  overflow-y: ${(props) => (props.building ? 'auto' : 'hidden')};
+  overflow-y: ${(props) => (props['data-building'] ? 'auto' : 'hidden')};
   overflow-x: hidden;
 
   @media print {
@@ -235,11 +236,13 @@ class Page extends Component {
       .filter((g) => !!g)
     const firstPage = pageIndex === 0
 
+    console.log('Page', { building, pageIndex })
+
     return (
-      <PageContainer building={building}>
+      <PageContainer>
         <InnerPageContainer>
           <StyledRowsContainer
-            building={building}
+            data-building={building}
             ref={(c) => {
               this[`rowsContainer${pageIndex}`] = c
             }}
