@@ -6,6 +6,8 @@ import Page from './Page'
 import storeContext from '../../storeContext'
 
 // https://github.com/twbs/bootstrap/issues/25629#issuecomment-606619398
+// this is to counter a hack in bootstrap v4
+// should not be necessary when using bootstrap v5
 const GlobalStyle = createGlobalStyle`
   @page {
     size: auto;
@@ -21,7 +23,7 @@ const Container = styled.div`
   * is removed in print
   */
   overflow-y: auto;
-  height: 100vh;
+  height: calc(100vh - 61px);
 
   @media print {
     /* remove grey backgrond set for nice UI */
@@ -38,6 +40,7 @@ const Container = styled.div`
 
 const Pages = () => {
   const store = useContext(storeContext)
+  console.log('Pages, pages length:', store.pages.pages.length)
 
   return (
     <>
