@@ -102,7 +102,7 @@ const StyledRowsContainer = styled.div`
    * need overflow while building list
    * so list does not flow outside padding
    */
-  overflow-y: ${(props) => (props.building ? 'auto' : 'hidden')};
+  overflow-y: ${(props) => (props['data-building'] ? 'auto' : 'hidden')};
   overflow-x: hidden;
 
   @media print {
@@ -239,9 +239,9 @@ const Page = ({ pageIndex }) => {
   ])
 
   return (
-    <PageContainer building={building}>
+    <PageContainer>
       <InnerPageContainer>
-        <StyledRowsContainer building={building} ref={rowsContainer}>
+        <StyledRowsContainer data-building={building} ref={rowsContainer}>
           {firstPage && (
             <img
               src={logoImg}
