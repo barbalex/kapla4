@@ -20,7 +20,7 @@ const Container = styled.div`
   font-size: 9pt;
   cursor: default;
   overflow-y: auto;
-  height: 100vh;
+  height: calc(100vh - 61px);
 
   & div {
     background-color: white !important;
