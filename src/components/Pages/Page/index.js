@@ -60,7 +60,9 @@ const PageContainer = styled.div`
      * on printing to pdf and not pdf
      */
     margin: 0 !important;
-    padding-top: 0.5cm !important;
+    /* somehow first page is set lower */
+    padding-top: ${(props) =>
+      props['data-first'] ? '0 !important' : '0.5cm !important'};
     padding-left: 0.5cm !important;
     padding-right: 0 !important;
     padding-bottom: 0 !important;
@@ -230,9 +232,10 @@ class Page extends Component {
        */
       .filter((g) => !!g)
     const firstPage = pageIndex === 0
+    console.log({ firstPage, pageIndex })
 
     return (
-      <PageContainer>
+      <PageContainer data-first={firstPage}>
         <InnerPageContainer>
           <StyledRowsContainer
             data-building={building}
