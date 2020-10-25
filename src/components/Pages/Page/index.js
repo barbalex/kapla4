@@ -231,8 +231,6 @@ class Page extends Component {
       .filter((g) => !!g)
     const firstPage = pageIndex === 0
 
-    console.log('Page', { building, pageIndex })
-
     return (
       <PageContainer>
         <InnerPageContainer>
