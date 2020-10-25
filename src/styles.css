@@ -153,15 +153,17 @@ textarea::-webkit-scrollbar {
     border-width: 0 !important;
   }
 
-  .printer-content,
-  .printer-content * {
-    visibility: visible !important;
-  }
-
   .printer-content {
+    visibility: visible !important;
     position: absolute;
     left: 0;
     top: 0;
+    height: auto;
+    width: auto;
+  }
+
+  .printer-content * {
+    visibility: visible !important;
   }
 
   /**
@@ -186,6 +188,10 @@ textarea::-webkit-scrollbar {
   height: calc(100vh - 58px) !important;
 }
 
+/*
+ * dont know why
+ * but this is necessary or only first page will be printed
+ */
 @media print {
   .SplitPane.vertical {
     flex: none !important;
@@ -197,6 +203,8 @@ textarea::-webkit-scrollbar {
 
   .Pane.Pane1 {
     flex: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .Pane.Pane2 {
