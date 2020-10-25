@@ -23,8 +23,6 @@ moment.locale('de')
 // height is: 297 - 2*10mm padding or print margin - 18mm for footer
 const ScrollContainer = styled.div`
   overflow: visible;
-  /*height: 259mm;
-  max-height: 259mm;*/
 `
 const WrapperWide = styled.div`
   display: grid;
