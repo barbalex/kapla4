@@ -32,9 +32,6 @@ const Container = styled.div`
     overflow-y: visible !important;
     /* make sure body grows as needed */
     height: auto !important;
-
-    page-break-before: avoid !important;
-    page-break-after: avoid !important;
   }
 `
 
