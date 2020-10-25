@@ -15,7 +15,7 @@
     "name": "Alexander Gabriel",
     "email": "alex.barbalex@gmail.com"
   },
-  "license": "MIT",
+  "license": "ISC",
   "config": {
     "forge": "./forge.config.js"
   },
@@ -55,9 +55,9 @@
     "copy-webpack-plugin": "6.2.1",
     "css-loader": "5.0.0",
     "date-fns": "2.16.1",
-    "electron": "10.1.4",
+    "electron": "10.1.5",
     "electron-squirrel-startup": "1.0.0",
-    "eslint": "7.11.0",
+    "eslint": "7.12.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-flowtype": "5.2.0",
     "eslint-plugin-import": "2.x",
