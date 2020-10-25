@@ -38,6 +38,9 @@ const App = () => {
   const showFilterFieldsLayout =
     activeLocation === 'filterFields' && !isPrinting
   const showTableLayout = activeLocation === 'table' && !isPrinting
+  /**
+   * leave this for testing printing problems
+   */
   //return <GeschaeftPdf />
   /*if (isPrinting && activeLocation === 'geschaeftPdf') {
     return <GeschaeftPdf />
