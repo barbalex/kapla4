@@ -9,14 +9,20 @@ import TableLayout from './TableLayout'
 import Navbar from './Navbar'
 import Errors from './Errors'
 import storeContext from '../storeContext'
-import GeschaeftPdf from './GeschaeftPdf'
-import Pages from './Pages'
+//import GeschaeftPdf from './GeschaeftPdf'
+//import Pages from './Pages'
 
 // need this container to set Error component at bottom left
 const Container = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
+
+  @media print {
+    width: auto;
+    height: auto;
+    position: relative;
+  }
 `
 
 const App = () => {
@@ -32,14 +38,12 @@ const App = () => {
   const showFilterFieldsLayout =
     activeLocation === 'filterFields' && !isPrinting
   const showTableLayout = activeLocation === 'table' && !isPrinting
-
-  if (isPrinting && activeLocation === 'geschaeftPdf') {
-    //console.log('App, directly printing GeschaeftPdf')
+  //return <GeschaeftPdf />
+  /*if (isPrinting && activeLocation === 'geschaeftPdf') {
     return <GeschaeftPdf />
   } else if (isPrinting) {
-    //console.log('App, directly printing pages')
     return <Pages />
-  }
+  }*/
 
   return (
     <Container>
