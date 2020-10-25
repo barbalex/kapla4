@@ -108,45 +108,53 @@ const Berichte = () => {
      * printBackground and landscape seem to be ignored
      */
     const win = remote.getCurrentWindow()
-    const landscape = activeLocation === 'pages'
     const options = {
       margins: {
-        marginsType: 'none',
+        marginType: 'none',
       },
       //printBackground: true,
-      fitToPageEnabled: !landscape,
-      landscape,
+      fitToPageEnabled: !(activeLocation === 'pages'),
+      landscape: activeLocation === 'pages',
       pageSize: 'A4',
+      //header: 'header test', // has no influence
+      //footer: 'footer test', // has no influence
     }
-    options.pageRanges = {
+    /*options.pageRanges = {
       from: 0,
-      to: landscape ? (pages.length ? pages.length - 1 : 0) : 0,
-    }
-    console.log('Berichte, options:', options)
+      to:
+        activeLocation === 'pages' ? (pages.length ? pages.length - 1 : 0) : 0,
+    }*/
+    //console.log('Berichte, options:', options)
     win.webContents.print(options, (success, failureReason) => {
       console.log('print result', { success, failureReason })
     })
-    //window.print()
-  }, [activeLocation, pages.length])
+  }, [activeLocation])
 
   const onClickCreatePdf = useCallback(
     async (e) => {
       e.preventDefault()
-      const landscape = activeLocation === 'pages'
-      const marginsType = 0
       const win = remote.getCurrentWindow()
       const options = {
-        marginsType,
-        fitToPageEnabled: !landscape,
+        marginsType: 0, // default
+        fitToPageEnabled: !(activeLocation === 'pages'),
         pageSize: 'A4',
-        landscape,
+        landscape: activeLocation === 'pages',
         printBackground: true,
+        /*headerFooter: {
+          title: 'title test', // has no influence - standard titles are shown
+          url: ' ', // replaces url, page-numbers are shown
+        },*/
       }
-      options.pageRanges = {
+      /*options.pageRanges = {
         from: 0,
-        to: landscape ? (pages.length ? pages.length - 1 : 0) : 0,
-      }
-      console.log('Berichte, options:', options)
+        to:
+          activeLocation === 'pages'
+            ? pages.length
+              ? pages.length - 1
+              : 0
+            : 0,
+      }*/
+      //console.log('Berichte, options:', options)
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
       const data = await win.webContents.printToPDF(options)
@@ -161,7 +169,7 @@ const Berichte = () => {
         })
       }
     },
-    [activeLocation, pages.length],
+    [activeLocation],
   )
 
   return (
