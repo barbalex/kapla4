@@ -83,8 +83,6 @@ const PageContainer = styled.div`
   overflow-y: visible;
 
   @media print {
-    height: 277mm;
-    width: 190mm;
     margin: 0 !important;
     padding: 0 !important;
     overflow-y: hidden !important;
