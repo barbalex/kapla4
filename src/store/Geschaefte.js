@@ -161,8 +161,16 @@ export default types
             .all()
         } catch (error) {
           store.addErrorMessage(error.message)
+          self.filterFulltextIds = []
+          return
         }
-        self.filterFulltextIds = result.map((o) => o.idGeschaeft)
+        const filterFulltextIds = result.map((o) => o.idGeschaeft)
+        /*console.log('fetchFilterFulltextIds', {
+          filter,
+          filterFulltextIds,
+          result,
+        })*/
+        self.filterFulltextIds = filterFulltextIds
       },
       removeFilters() {
         self.GefilterteIds = _.sortBy(self.geschaefte, (g) => g.idGeschaeft)
