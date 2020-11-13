@@ -1,12 +1,12 @@
 import fetchUsername from './fetchUsername'
 
-export default (store) => {
+const fetchInitialData = (store) => {
   const { fetching, setFetching } = store
   !fetching && setFetching(true)
   fetchUsername(store)
   store.faelligeStatiOptionsGet()
-  store.geschaefte.fetchAllGeko()
-  store.geschaefte.fetchLinks()
+  store.geschaefte?.fetchAllGeko()
+  store.geschaefte?.fetchLinks()
   store.interneOptionsGet()
   store.externeOptionsGet()
   store.getGeschaefteKontakteIntern()
@@ -18,7 +18,9 @@ export default (store) => {
   store.aktenstandortOptionsGet()
   store.rechtsmittelInstanzOptionsGet()
   store.abteilungOptionsGet()
-  store.geschaefte.fetchAll()
+  store.geschaefte?.fetchAll()
   setFetching(false)
   console.log('fetched initial data')
 }
+
+export default fetchInitialData
