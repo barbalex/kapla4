@@ -1,4 +1,4 @@
-export default (store, name) => {
+const getDropdownOptions = (store, name) => {
   let result = []
   try {
     result = store.app.db
@@ -11,3 +11,5 @@ export default (store, name) => {
   const options = result.map((res) => res[name])
   return options
 }
+
+export default getDropdownOptions

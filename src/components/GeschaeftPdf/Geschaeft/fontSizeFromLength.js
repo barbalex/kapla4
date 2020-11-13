@@ -1,4 +1,4 @@
-export default (length) =>
+const fontSizeFromLength = (length) =>
   length < 400
     ? 13
     : length < 700
@@ -12,3 +12,5 @@ export default (length) =>
     : length < 2500
     ? 8
     : 7
+
+export default fontSizeFromLength
