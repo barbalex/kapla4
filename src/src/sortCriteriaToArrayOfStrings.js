@@ -1,4 +1,4 @@
-export default (sortFields) =>
+const sortCriteriaToArrayOfStrings = (sortFields) =>
   sortFields
     .filter((sf) => sf.field || sf.field === 0)
     .map(
@@ -10,3 +10,5 @@ export default (sortFields) =>
         })`,
     )
     .sort()
+
+export default sortCriteriaToArrayOfStrings
