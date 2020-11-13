@@ -9,7 +9,7 @@ import Pages from './Pages'
 import Table from './Table'
 import getDropdownOptions from '../src/getDropdownOptions'
 
-export default () =>
+const store = () =>
   types
     .model({
       fetching: types.optional(types.boolean, false),
@@ -434,3 +434,5 @@ export default () =>
         self.dirty = val
       },
     }))
+
+export default store
