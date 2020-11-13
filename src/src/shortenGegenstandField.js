@@ -1,4 +1,4 @@
-export default (valuePassed, label, maxStringLength) => {
+const shortenGegenstandField = (valuePassed, label, maxStringLength) => {
   let value = valuePassed
   if (value) {
     value = label ? `${label}: ` : ''
@@ -9,3 +9,5 @@ export default (valuePassed, label, maxStringLength) => {
   }
   return value
 }
+
+export default shortenGegenstandField
