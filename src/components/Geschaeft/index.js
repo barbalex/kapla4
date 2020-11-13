@@ -124,7 +124,7 @@ const Geschaeft = () => {
 
   useEffect(() => {
     // fetch data every time a geschaeft is activated
-    geschaeft.fetch()
+    geschaeft?.fetch()
   }, [geschaeft, activeId])
 
   // return immediately if no geschaeft
