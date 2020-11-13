@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-import React, { useCallback, useEffect, useContext } from 'react'
+import React, { useCallback, useEffect, useContext, useMemo } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 import styled from 'styled-components'
@@ -65,8 +65,14 @@ const Geschaeft = () => {
   const { setDirty } = store
   const { activeId, geschaefteFilteredAndSorted: geschaefte } = store.geschaefte
   const { geschaefteColumnWidth } = store.app
-  const geschaeft = geschaefte.find((g) => g.idGeschaeft === activeId) || {}
-  const { setValue } = geschaeft
+  const geschaeft = useMemo(
+    () =>
+      geschaefte.find((g) => g.idGeschaeft === activeId) || {
+        fetch: () => {},
+      },
+    [activeId, geschaefte],
+  )
+  const { setValue = () => {} } = geschaeft
 
   const change = useCallback((e) => {
     const { type, name: field, dataset } = e.target
