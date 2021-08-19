@@ -20,7 +20,7 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "better-sqlite3": "7.4.3"
+    "better-sqlite3": "7.1.1"
   },
   "devDependencies": {
     "@babel/core": "7.15.0",
@@ -78,13 +78,13 @@
     "prettier": "2.3.2",
     "prop-types": "15.7.2",
     "react": "17.0.2",
-    "react-datepicker": "3.3.0",
+    "react-datepicker": "4.2.1",
     "react-dom": "17.0.2",
     "react-dropzone": "11.3.4",
     "react-error-boundary": "3.1.3",
-    "react-icons": "3.11.0",
+    "react-icons": "4.2.0",
     "react-linkify": "0.x",
-    "react-select": "3.1.0",
+    "react-select": "4.3.1",
     "react-split-pane": "0.1.92",
     "react-textarea-autosize": "8.3.3",
     "react-virtualized": "9.22.3",
@@ -105,6 +105,7 @@
   "dependenciesComments": {
     "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
     "@electron-forge": "Do not update beyond 6.0.0-beta.50 (54 tested): https://github.com/electron-userland/electron-forge/issues/1929",
-    "mobx": "6.0.5: do not upgrade to 6.1.0 or higher until this issue is solved: https://github.com/mobxjs/mobx-state-tree/issues/1653"
+    "mobx": "6.0.5: do not upgrade to 6.1.0 or higher until this issue is solved: https://github.com/mobxjs/mobx-state-tree/issues/1653",
+    "better-sqlite3": "7.1.1: do not upgrade to 7.4.3 as node mismatch is created"
   }
 }
