@@ -31,7 +31,7 @@ const FilterFieldsLayout = () => {
       defaultSize={geschaefteColumnWidth}
       onChange={(value) => {
         setGeschaefteColumnWidth(value)
-        saveConfigDebounced.callback(value)
+        saveConfigDebounced(value)
       }}
     >
       <Geschaefte />

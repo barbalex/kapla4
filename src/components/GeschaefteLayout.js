@@ -45,7 +45,7 @@ const GeschaefteLayout = () => {
       defaultSize={isPrinting ? 0 : geschaefteColumnWidth}
       onChange={(value) => {
         setGeschaefteColumnWidth(value)
-        saveConfigDebounced.callback(value)
+        saveConfigDebounced(value)
       }}
     >
       <Geschaefte />

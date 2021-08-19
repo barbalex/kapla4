@@ -26,7 +26,7 @@ const TableLayout = () => {
       defaultSize={tableColumnWidth}
       onChange={(value) => {
         setTableColumnWidth(value)
-        saveConfigDebounced.callback(value)
+        saveConfigDebounced(value)
       }}
     >
       <Table />

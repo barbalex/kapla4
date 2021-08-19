@@ -174,7 +174,7 @@ const Filter = () => {
             placeholder="Volltext filtern"
             onChange={(e) => {
               setFilterFulltext(e.target.value)
-              filterFulltextDebounced.callback(e.target.value)
+              filterFulltextDebounced(e.target.value)
             }}
             value={filterFulltext}
             data-isfiltered={dataIsFilteredByFulltext.toString()}
