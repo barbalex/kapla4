@@ -1,6 +1,8 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu, dialog, shell } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
+// needed to prevent error:
+require('@babel/polyfill')
 
 const getConfig = () => {
   const userPath = app.getPath('userData')
@@ -136,6 +138,14 @@ ipcMain.on('SAVE_FILE', (event, path, data) => {
 ipcMain.handle('get-config', () => getConfig())
 
 ipcMain.handle('save-config', (event, data) => saveConfig(data))
+
+ipcMain.handle('save-dialog-get-path', async (event, dialogOptions) => {
+  const { filePath } = await dialog.showSaveDialog(dialogOptions)
+  return filePath
+})
+ipcMain.handle('open-url', (event, url) => {
+  return shell.openPath(url)
+})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

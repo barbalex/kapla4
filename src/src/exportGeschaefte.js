@@ -2,10 +2,8 @@
  * gets save path
  */
 
-import { remote, shell } from 'electron'
+import { ipcRenderer } from 'electron'
 import writeExport from './writeExport'
-
-const { dialog } = remote
 
 function getDataArrayFromExportObjects(exportObjects) {
   const dataArray = []
@@ -40,7 +38,7 @@ const dialogOptions = {
 }
 
 const exportGeschaefte = async (geschaefte, messageShow) => {
-  const { filePath: path } = await dialog.showSaveDialog(dialogOptions)
+  const path = await ipcRenderer.invoke('save-dialog-get-path', dialogOptions)
   if (path) {
     messageShow(true, 'Der Export wird aufgebaut...', '')
     // set timeout so message appears before exceljs starts working
@@ -49,7 +47,7 @@ const exportGeschaefte = async (geschaefte, messageShow) => {
       const dataArray = getDataArrayFromExportObjects(geschaefte)
       const callback = () => {
         messageShow(false, '', '')
-        shell.openPath(path)
+        ipcRenderer.invoke('open-url', path)
       }
       try {
         await writeExport(path, dataArray, callback)
