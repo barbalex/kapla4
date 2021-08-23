@@ -8,6 +8,7 @@ import {
 import moment from 'moment'
 import _ from 'lodash'
 import { observer } from 'mobx-react-lite'
+import { toJS } from 'mobx'
 
 import exportGeschaefte from '../../src/exportGeschaefte'
 import getHistoryOfGeschaefte from '../../src/getHistoryOfGeschaefte'
@@ -25,27 +26,32 @@ const Export = () => {
   } = store.geschaefte
 
   const onClickExportAllGeschaefte = useCallback(
-    e => {
+    (e) => {
       e.preventDefault()
       // TODO: compute?
       const history = getHistoryOfGeschaefte(geschaefte)
       // need to make geko, interne and externe readable
       // and add history
-      const geschaefteReadable = [...geschaefte].map(g => {
+      const geschaefteReadable = geschaefte.map((ge) => {
+        const g = toJS(ge)
         const interne = store.geschaefteKontakteIntern.geschaefteKontakteIntern
-          .filter(k => k.idGeschaeft === g.idGeschaeft)
-          .map(gk => interneOptions.find(i => i.id === gk.idKontakt) || null)
+          .filter((k) => k.idGeschaeft === g.idGeschaeft)
+          .map(
+            (gk) => interneOptions.find((i) => i.id === gk.idKontakt) || null,
+          )
         const externe = store.geschaefteKontakteExtern.geschaefteKontakteExtern
-          .filter(k => k.idGeschaeft === g.idGeschaeft)
-          .map(gk => externeOptions.find(i => i.id === gk.idKontakt) || null)
+          .filter((k) => k.idGeschaeft === g.idGeschaeft)
+          .map(
+            (gk) => externeOptions.find((i) => i.id === gk.idKontakt) || null,
+          )
         g.geko =
           geko
-            .filter(gko => gko.idGeschaeft === g.idGeschaeft)
-            .map(g => g.gekoNr)
+            .filter((gko) => gko.idGeschaeft === g.idGeschaeft)
+            .map((g) => g.gekoNr)
             .join(', ') || null
         g.interne =
           interne
-            .map(i => {
+            .map((i) => {
               const name = `${i.name} ${i.vorname}, ${i.kurzzeichen}`
               const abt = i.abteilung ? `, ${i.abteilung}` : ''
               const eMail = i.eMail ? `, ${i.eMail}` : ''
@@ -55,7 +61,7 @@ const Export = () => {
             .join('; ') || null
         g.externe =
           externe
-            .map(i => {
+            .map((i) => {
               const name = `${i.name} ${i.vorname}`
               const firma = i.firma ? `, ${i.firma}` : ''
               const eMail = i.eMail ? `, ${i.eMail}` : ''
@@ -65,8 +71,8 @@ const Export = () => {
             .join('; ') || null
         g.links =
           links
-            .filter(l => l.idGeschaeft === g.idGeschaeft)
-            .map(l => l.url)
+            .filter((l) => l.idGeschaeft === g.idGeschaeft)
+            .map((l) => l.url)
             .join(', ') || null
         g.historie = history.get(g.idGeschaeft).join(', ')
         return g
@@ -85,15 +91,15 @@ const Export = () => {
     ],
   )
   const onClickExportGeschaefteRechtsmittelVorjahre = useCallback(
-    e => {
+    (e) => {
       e.preventDefault()
       const thisYear = moment().year()
       const firstDate = moment(`01.01.${thisYear - 2}`, 'DD.MM.YYYY')
       const lastDate = moment(`31.12.${thisYear - 1}`, 'DD.MM.YYYY')
-      const isInPreviousTwoYears = date =>
+      const isInPreviousTwoYears = (date) =>
         moment(date, 'DD.MM.YYYY').isBetween(firstDate, lastDate, 'days', '[]')
       const geschaefteGefiltert = geschaefte.filter(
-        g =>
+        (g) =>
           g.geschaeftsart === 'Rekurs/Beschwerde' &&
           !!g.datumEingangAwel &&
           isInPreviousTwoYears(g.datumEingangAwel),
@@ -129,9 +135,9 @@ const Export = () => {
         rechtsmittelTxt: 'Bemerkungen',
         idGeschaeft: 'Kapla ID',
       }
-      const geschaefteWithNewFieldNames = geschaefteGefiltert.map(g => {
+      const geschaefteWithNewFieldNames = geschaefteGefiltert.map((g) => {
         const newGeschaeft = {}
-        Object.keys(g).forEach(key => {
+        Object.keys(g).forEach((key) => {
           newGeschaeft[newFieldNames[key]] = g[key]
         })
         return newGeschaeft
