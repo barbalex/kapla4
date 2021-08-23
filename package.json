@@ -64,7 +64,7 @@
     "eslint-plugin-jsx-a11y": "6.x",
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "4.x",
-    "exceljs": "4.2.1",
+    "exceljs": "4.3.0",
     "file-loader": "6.2.0",
     "global": "4.4.0",
     "jquery": "3.6.0",
