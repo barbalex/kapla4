@@ -39,7 +39,7 @@ const dialogOptions = {
   ],
 }
 
-export default async (geschaefte, messageShow) => {
+const exportGeschaefte = async (geschaefte, messageShow) => {
   const { filePath: path } = await dialog.showSaveDialog(dialogOptions)
   if (path) {
     messageShow(true, 'Der Export wird aufgebaut...', '')
@@ -61,3 +61,5 @@ export default async (geschaefte, messageShow) => {
     })
   }
 }
+
+export default exportGeschaefte
