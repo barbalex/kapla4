@@ -1,4 +1,4 @@
-import { remote } from 'electron'
+import { ipcRenderer } from 'electron'
 
 import chooseDb from './chooseDb'
 
@@ -14,7 +14,7 @@ const chooseDbConnection = async (store) => {
   setDbPath(dbPath)
   setTimeout(() => {
     saveConfig({ dbPath })
-    setTimeout(() => remote.getCurrentWindow().reload())
+    setTimeout(() => ipcRenderer.invoke('reload-main-window'))
   })
 }
 
