@@ -6,7 +6,7 @@ import {
   DropdownItem,
 } from 'reactstrap'
 import styled from 'styled-components'
-import { shell } from 'electron'
+import { ipcRenderer } from 'electron'
 import { observer } from 'mobx-react-lite'
 
 import storeContext from '../../storeContext'
@@ -39,12 +39,13 @@ const StyledDropdownItem = styled(DropdownItem)`
 `
 
 const onGetProjektbeschreibung = () => {
-  shell.openPath(
+  ipcRenderer.invoke(
+    'open-url',
     'https://github.com/barbalex/kapla3/raw/master/app/etc/Projektbeschreibung.pdf',
   )
 }
 const onClickIssues = () => {
-  shell.openPath('https://github.com/barbalex/kapla3/issues')
+  ipcRenderer.invoke('open-url', 'https://github.com/barbalex/kapla3/issues')
 }
 
 const OptionsNav = () => {
