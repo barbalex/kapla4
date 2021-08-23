@@ -2,7 +2,7 @@ import { remote } from 'electron'
 
 import chooseDb from './chooseDb'
 
-export default async store => {
+const chooseDbConnection = async (store) => {
   const { setDbPath, saveConfig } = store.app
 
   let dbPath
@@ -17,3 +17,5 @@ export default async store => {
     setTimeout(() => remote.getCurrentWindow().reload())
   })
 }
+
+export default chooseDbConnection

@@ -2,6 +2,22 @@ const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
 
+const getConfig = () => {
+  const userPath = app.getPath('userData')
+  const dataFilePath = path.join(userPath, 'kaplaConfig.json')
+  if (!fs.existsSync(dataFilePath)) return {}
+  const configFile = fs.readFileSync(dataFilePath, 'utf-8') || {}
+  if (!configFile) return {}
+  return JSON.parse(configFile)
+}
+
+const saveConfig = (data) => {
+  const userPath = app.getPath('userData')
+  const dataFilePath = path.join(userPath, 'kaplaConfig.json')
+  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2))
+  return null
+}
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -11,9 +27,6 @@ if (require('electron-squirrel-startup')) {
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-
-const saveConfigValue = require('./src/saveConfigValue.js')
-const getConfig = require('./src/getConfig.js')
 
 const browserWindowOptions = {
   width: 1800,
@@ -73,13 +86,15 @@ const createWindow = () => {
     e.preventDefault()
 
     const bounds = mainWindow.getBounds()
-    saveConfigValue('lastWindowState', {
+    const config = getConfig()
+    config.lastWindowState = {
       x: bounds.x,
       y: bounds.y,
       width: bounds.width,
       height: bounds.height,
       maximized: mainWindow.isMaximized(),
-    })
+    }
+    saveConfig(config)
 
     // in case user has changed data inside an input and not blured yet,
     // force bluring so data is saved
@@ -118,14 +133,9 @@ ipcMain.on('SAVE_FILE', (event, path, data) => {
     .catch((error) => event.sender.send('ERROR', error.message))
 })
 
-ipcMain.handle('get-config', async () => {
-  const userPath = app.getPath('userData')
-  const dataFilePath = path.join(userPath, 'kaplaConfig.json')
-  if (!fs.existsSync(dataFilePath)) return {}
-  const configFile = fs.readFileSync(dataFilePath, 'utf-8') || {}
-  if (!configFile) return {}
-  return JSON.parse(configFile)
-})
+ipcMain.handle('get-config', () => getConfig())
+
+ipcMain.handle('save-config', (event, data) => saveConfig(data))
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
