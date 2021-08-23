@@ -218,11 +218,8 @@ class Page extends Component {
     const store = this.context
     const { pageIndex } = this.props
     const { pages, building, reportType } = store.pages
-    const {
-      filterFields,
-      sortFields,
-      geschaefteFilteredAndSorted,
-    } = store.geschaefte
+    const { filterFields, sortFields, geschaefteFilteredAndSorted } =
+      store.geschaefte
     const geschaefteIds = pages[pageIndex].geschaefte
     const geschaefte = geschaefteFilteredAndSorted
       .filter((g) => geschaefteIds.includes(g.idGeschaeft))
@@ -232,7 +229,7 @@ class Page extends Component {
        */
       .filter((g) => !!g)
     const firstPage = pageIndex === 0
-    console.log({ firstPage, pageIndex })
+    //console.log({ firstPage, pageIndex })
 
     return (
       <PageContainer data-first={firstPage}>
