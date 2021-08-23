@@ -1,4 +1,4 @@
-const { dialog } = require('electron').remote
+import { ipcRenderer } from 'electron'
 
 const options = {
   title: 'Datenbank für Kapla wählen',
@@ -7,8 +7,8 @@ const options = {
 }
 
 const chooseDb = async () => {
-  const result = await dialog.showOpenDialog(options)
-  return result.filePaths[0]
+  const path = await ipcRenderer.invoke('open-dialog-get-path', options)
+  return path.filePaths[0]
 }
 
 export default chooseDb

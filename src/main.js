@@ -139,6 +139,11 @@ ipcMain.handle('get-config', () => getConfig())
 
 ipcMain.handle('save-config', (event, data) => saveConfig(data))
 
+ipcMain.handle('open-dialog-get-path', async (event, dialogOptions) => {
+  const { filePath } = await dialog.showOpenDialog(dialogOptions)
+  return filePath
+})
+
 ipcMain.handle('save-dialog-get-path', async (event, dialogOptions) => {
   const { filePath } = await dialog.showSaveDialog(dialogOptions)
   return filePath
