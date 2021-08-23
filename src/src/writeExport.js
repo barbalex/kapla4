@@ -5,7 +5,7 @@
 import { ipcRenderer } from 'electron'
 import Excel from 'exceljs'
 
-export default async (path, dataArray, callback) => {
+const writeExport = async (path, dataArray, callback) => {
   const workbook = new Excel.Workbook()
   const numberOfColumns =
     dataArray && dataArray[0] && dataArray[0].length ? dataArray[0].length : 0
@@ -53,8 +53,10 @@ export default async (path, dataArray, callback) => {
   ipcRenderer.once('SAVED_FILE', () => {
     if (callback) return callback()
   })
-  ipcRenderer.once('ERROR', message => {
+  ipcRenderer.once('ERROR', (message) => {
     throw new Error({ message })
   })
   return
 }
+
+export default writeExport
