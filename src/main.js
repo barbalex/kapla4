@@ -38,12 +38,8 @@ const browserWindowOptions = {
   show: false,
   webPreferences: {
     nodeIntegration: true,
-    // this should be respected but warning remains in console
-    // see: https://github.com/electron/electron/issues/24950
-    worldSafeExecuteJavaScript: true,
-    // this needs to be explicitly set in electron v10
-    // see: https://github.com/electron/electron/issues/21408
-    enableRemoteModule: true,
+    // needs to be false, see: https://github.com/electron/electron-quick-start/issues/463#issuecomment-869219170
+    contextIsolation: false,
   },
 }
 
