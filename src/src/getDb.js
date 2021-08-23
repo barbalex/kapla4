@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron'
 import chooseDb from './chooseDb'
 import standardDbPath from './standardDbPath'
 
-export default async (store) => {
+const getDb = async (store) => {
   const { addErrorMessage } = store
   const {
     setDbPath,
@@ -46,3 +46,5 @@ export default async (store) => {
   }
   return db
 }
+
+export default getDb
