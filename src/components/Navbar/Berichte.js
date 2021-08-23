@@ -9,14 +9,12 @@ import {
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { FaPrint, FaRegFilePdf } from 'react-icons/fa'
-import { remote, shell, ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron'
 
 import storeContext from '../../storeContext'
 import filterForFaelligeGeschaefte from '../../src/filterForFaelligeGeschaefte'
 import filterForVernehmlAngek from '../../src/filterForVernehmlAngek'
 import filterForVernehmlLaeuft from '../../src/filterForVernehmlLaeuft'
-
-const { dialog } = remote
 
 const dialogOptions = {
   title: 'pdf speichern',
@@ -46,7 +44,7 @@ const Berichte = () => {
   const activeLocation = location[0]
   const { navigateToGeschaeftPdf } = store
   const { sortByFields, resetSort, filterByFields, activeId } = store.geschaefte
-  const { initiate, reportType, pages } = store.pages
+  const { initiate, reportType } = store.pages
   const isActive = ['geschaeftPdf', 'pages'].includes(activeLocation)
   const nameObject = {
     typFaelligeGeschaefte: 'Bericht: Typ "fällige Geschäfte"',
@@ -107,7 +105,6 @@ const Berichte = () => {
      * PROBLEM
      * printBackground and landscape seem to be ignored
      */
-    const win = remote.getCurrentWindow()
     const options = {
       margins: {
         marginType: 'none',
@@ -125,16 +122,13 @@ const Berichte = () => {
         activeLocation === 'pages' ? (pages.length ? pages.length - 1 : 0) : 0,
     }*/
     //console.log('Berichte, options:', options)
-    win.webContents.print(options, (success, failureReason) => {
-      console.log('print result', { success, failureReason })
-    })
+    ipcRenderer.invoke('print', options)
   }, [activeLocation])
 
   const onClickCreatePdf = useCallback(
     async (e) => {
       e.preventDefault()
-      const win = remote.getCurrentWindow()
-      const options = {
+      const printToPDFOptions = {
         marginsType: 0, // default
         fitToPageEnabled: !(activeLocation === 'pages'),
         pageSize: 'A4',
@@ -145,7 +139,7 @@ const Berichte = () => {
           url: ' ', // replaces url, page-numbers are shown
         },*/
       }
-      /*options.pageRanges = {
+      /*printToPDFOptions.pageRanges = {
         from: 0,
         to:
           activeLocation === 'pages'
@@ -154,20 +148,13 @@ const Berichte = () => {
               : 0
             : 0,
       }*/
-      //console.log('Berichte, options:', options)
+      //console.log('Berichte, printToPDFOptions:', printToPDFOptions)
 
       // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprinttopdfoptions-callback
-      const data = await win.webContents.printToPDF(options)
-      const { filePath } = await dialog.showSaveDialog(dialogOptions)
-      if (filePath) {
-        ipcRenderer.send('SAVE_FILE', filePath, data)
-        ipcRenderer.once('SAVED_FILE', () => {
-          shell.openPath(filePath)
-        })
-        ipcRenderer.once('ERROR', (error) => {
-          throw new Error(error)
-        })
-      }
+      await ipcRenderer.invoke('print-to-pdf', printToPDFOptions, dialogOptions)
+      ipcRenderer.once('ERROR', (error) => {
+        throw new Error(error)
+      })
     },
     [activeLocation],
   )

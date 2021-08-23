@@ -156,5 +156,22 @@ ipcMain.handle('reload-main-window', () => {
   mainWindow.reload()
 })
 
+ipcMain.handle('print', async (event, options) => {
+  await mainWindow.webContents.print(options)
+  return null
+})
+
+ipcMain.handle(
+  'print-to-pdf',
+  async (event, printToPDFOptions, dialogOptions) => {
+    const data = await mainWindow.webContents.printToPDF(printToPDFOptions)
+    const { filePath } = await dialog.showSaveDialog(dialogOptions)
+    fs.outputFile(filePath, data)
+      .then(() => shell.openPath(filePath))
+      .catch((error) => event.sender.send('ERROR', error.message))
+    return data
+  },
+)
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
