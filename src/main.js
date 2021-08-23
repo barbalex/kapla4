@@ -118,5 +118,14 @@ ipcMain.on('SAVE_FILE', (event, path, data) => {
     .catch((error) => event.sender.send('ERROR', error.message))
 })
 
+ipcMain.handle('get-config', async () => {
+  const userPath = app.getPath('userData')
+  const dataFilePath = path.join(userPath, 'kaplaConfig.json')
+  if (!fs.existsSync(dataFilePath)) return {}
+  const configFile = fs.readFileSync(dataFilePath, 'utf-8') || {}
+  if (!configFile) return {}
+  return JSON.parse(configFile)
+})
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

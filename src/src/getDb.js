@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3'
+import { ipcRenderer } from 'electron'
 
 import chooseDb from './chooseDb'
-import getConfig from './getConfig'
 import standardDbPath from './standardDbPath'
 
 export default async (store) => {
@@ -13,7 +13,7 @@ export default async (store) => {
     setLastWindowState,
     saveConfig,
   } = store.app
-  const config = getConfig()
+  const config = await ipcRenderer.invoke('get-config')
   if (config.dbPath) setDbPath(config.dbPath)
   if (config.tableColumnWidth) setTableColumnWidth(config.tableColumnWidth)
   if (config.geschaefteColumnWidth)
