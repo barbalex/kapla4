@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react'
 import Dropzone from 'react-dropzone'
 import { FaRegTimesCircle } from 'react-icons/fa'
-import { shell } from 'electron'
+import { ipcRenderer } from 'electron'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -102,7 +102,7 @@ const AreaLinks = () => {
                   href={link.url}
                   onClick={(event) => {
                     event.preventDefault()
-                    shell.openPath(link.url)
+                    ipcRenderer.invoke('open-url', link.url)
                   }}
                 >
                   {link.url}
