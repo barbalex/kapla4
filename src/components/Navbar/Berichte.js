@@ -99,7 +99,7 @@ const Berichte = () => {
   }, [navigateToGeschaeftPdf])
 
   const onClickPrint = useCallback(() => {
-    console.log('hi from onClickPrint')
+    //console.log('hi from onClickPrint')
     // https://github.com/electron/electron/blob/master/docs/api/web-contents.md#contentsprintoptions
     /**
      * PROBLEM
