@@ -22,7 +22,6 @@ const FieldVerticallyStacked = styled.div`
   padding-top: 5px;
 `
 const StyledId = styled.div`
-  flex: 1;
   padding: 2px;
   min-width: 65px;
   max-width: 65px;
@@ -33,13 +32,11 @@ const StyledGegenstand = styled.div`
   width: calc(100% - 355px);
 `
 const StyledStatus = styled.div`
-  flex: 1;
   padding: 2px;
   min-width: 140px;
   max-width: 140px;
 `
 const StyledKontakt = styled.div`
-  flex: 1;
   padding: 2px;
   min-width: 100px;
   max-width: 100px;
