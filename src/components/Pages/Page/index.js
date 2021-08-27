@@ -97,13 +97,7 @@ const InnerPageContainer = styled.div`
 const StyledRowsContainer = styled.div`
   max-height: 17.2cm;
   max-width: 26.7cm;
-  /*
-   * need overflow while building list
-   * so list does not flow outside padding
-   */
-  overflow-y: ${(props) => (props['data-building'] ? 'auto' : 'hidden')};
-  overflow-x: hidden;
-
+  overflow: hidden;
   position: absolute;
   top: 0;
   left: 0;
@@ -217,7 +211,7 @@ class Page extends Component {
   render() {
     const store = this.context
     const { pageIndex } = this.props
-    const { pages, building, reportType } = store.pages
+    const { pages, reportType } = store.pages
     const { filterFields, sortFields, geschaefteFilteredAndSorted } =
       store.geschaefte
     const geschaefteIds = pages[pageIndex].geschaefte
@@ -229,13 +223,11 @@ class Page extends Component {
        */
       .filter((g) => !!g)
     const firstPage = pageIndex === 0
-    //console.log({ firstPage, pageIndex })
 
     return (
       <PageContainer data-first={firstPage}>
         <InnerPageContainer>
           <StyledRowsContainer
-            data-building={building}
             ref={(c) => {
               this[`rowsContainer${pageIndex}`] = c
             }}
