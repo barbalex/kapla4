@@ -96,6 +96,7 @@ const InnerPageContainer = styled.div`
 `
 const StyledRowsContainer = styled.div`
   max-height: 17.2cm;
+  min-width: 26.7cm;
   max-width: 26.7cm;
   overflow: hidden;
   position: absolute;
