@@ -1,7 +1,7 @@
 {
   "name": "kapla",
   "productName": "Kapla",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Damit verwaltet das AWEL Kt. ZH seine juristischen Geschäfte",
   "main": ".webpack/main",
   "scripts": {
