@@ -20,7 +20,7 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "better-sqlite3": "7.1.1"
+    "better-sqlite3": "7.1.5"
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
@@ -105,7 +105,7 @@
   },
   "dependenciesComments": {
     "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
-    "@electron-forge": "Do not update beyond 6.0.0-beta.50 (59 tested): https://github.com/electron-userland/electron-forge/issues/1929",
+    "@electron-forge": "Do not update beyond 6.0.0-beta.50 (60 tested): https://github.com/electron-userland/electron-forge/issues/1929",
     "better-sqlite3": "7.1.1: do not upgrade to 7.4.3 as node mismatch is created",
     "username": "5.1.0: do not upgrade to 6.0.0 as asset-relocator breaks"
   }
