@@ -1,9 +1,8 @@
+// needed to prevent error, see: https://stackoverflow.com/a/49253810/712005
+require('@babel/polyfill')
 const { app, BrowserWindow, ipcMain, Menu, dialog, shell } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
-// needed to prevent error:
-require('@babel/polyfill')
-
 const getConfig = () => {
   const userPath = app.getPath('userData')
   const dataFilePath = path.join(userPath, 'kaplaConfig.json')
@@ -40,6 +39,7 @@ const browserWindowOptions = {
     nodeIntegration: true,
     // needs to be false, see: https://github.com/electron/electron-quick-start/issues/463#issuecomment-869219170
     contextIsolation: false,
+    nativeWindowOpen: true,
   },
 }
 
@@ -67,9 +67,9 @@ const createWindow = () => {
   mainWindow.show()
 
   // Open the DevTools
-  if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools()
-  }
+  // if (!app.isPackaged) {
+  mainWindow.webContents.openDevTools()
+  // }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {

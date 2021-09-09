@@ -1,4 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin')
+const nodeExternals = require('webpack-node-externals')
 
 const rules = require('./webpack.rules')
 
@@ -24,6 +25,7 @@ module.exports = {
       }
       callback()
     },
+    nodeExternals(),
   ],
   plugins: [
     // dont know why but now have to copy image

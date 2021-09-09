@@ -20,7 +20,7 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "better-sqlite3": "7.1.1"
+    "better-sqlite3": "7.4.0"
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
@@ -40,7 +40,7 @@
     "@babel/plugin-proposal-throw-expressions": "7.14.5",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-syntax-import-meta": "7.10.4",
-    "@babel/polyfill": "^7.12.1",
+    "@babel/polyfill": "7.12.1",
     "@babel/preset-env": "7.15.4",
     "@babel/preset-react": "7.14.5",
     "@electron-forge/cli": "6.0.0-beta.60",
@@ -49,7 +49,7 @@
     "@electron-forge/maker-squirrel": "6.0.0-beta.60",
     "@electron-forge/maker-zip": "6.0.0-beta.60",
     "@electron-forge/plugin-webpack": "6.0.0-beta.60",
-    "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "babel-eslint": "10.x",
     "babel-loader": "8.2.2",
     "bootstrap": "4.5.3",
@@ -95,7 +95,8 @@
     "url-loader": "4.1.1",
     "use-debounce": "7.0.0",
     "use-detect-print": "0.0.2",
-    "username": "5.1.0"
+    "username": "5.1.0",
+    "webpack-node-externals": "3.0.0"
   },
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "4.31.0",
@@ -105,8 +106,8 @@
   },
   "dependenciesComments": {
     "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
-    "@electron-forge": "Do not update beyond 6.0.0-beta.50 (59 tested): https://github.com/electron-userland/electron-forge/issues/1929",
-    "better-sqlite3": "7.1.1: do not upgrade to 7.4.3 as node mismatch is created",
+    "@electron-forge": "Do not update beyond 6.0.0-beta.50 (60 tested): https://github.com/electron-userland/electron-forge/issues/1929",
+    "better-sqlite3": "7.4.0: do not upgrade to 7.4.1 or higher as node mismatch is created",
     "username": "5.1.0: do not upgrade to 6.0.0 as asset-relocator breaks"
   }
 }

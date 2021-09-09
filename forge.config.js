@@ -45,7 +45,9 @@ module.exports = {
               name: 'main_window',
             },
           ],
+          nodeIntegration: true, // defaults to false
         },
+        devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
       },
     ],
   ],
