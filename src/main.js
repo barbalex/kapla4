@@ -3,10 +3,13 @@ require('@babel/polyfill')
 const { app, BrowserWindow, ipcMain, Menu, dialog, shell } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
+
 const getConfig = () => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/path#datadir
   const userPath = app.getPath('userData')
   const dataFilePath = path.join(userPath, 'kaplaConfig.json')
   if (!fs.existsSync(dataFilePath)) return {}
+  // tauri: https://tauri.studio/en/docs/api/js/modules/fs#readtextfile
   const configFile = fs.readFileSync(dataFilePath, 'utf-8') || {}
   if (!configFile) return {}
   return JSON.parse(configFile)
@@ -15,6 +18,7 @@ const getConfig = () => {
 const saveConfig = (data) => {
   const userPath = app.getPath('userData')
   const dataFilePath = path.join(userPath, 'kaplaConfig.json')
+  // tauri: https://tauri.studio/en/docs/api/js/modules/fs#writefile
   fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2))
   return null
 }
@@ -126,6 +130,7 @@ app.on('activate', () => {
 // exceljs workbook.xlsx.writeFile does not work
 // so export in main thread
 ipcMain.on('SAVE_FILE', (event, path, data) => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/fs#writefile
   fs.outputFile(path, data)
     .then(() => event.sender.send('SAVED_FILE'))
     .catch((error) => event.sender.send('ERROR', error.message))
@@ -136,23 +141,28 @@ ipcMain.handle('get-config', () => getConfig())
 ipcMain.handle('save-config', (event, data) => saveConfig(data))
 
 ipcMain.handle('open-dialog-get-path', async (event, dialogOptions) => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/dialog#open
   const { filePath } = await dialog.showOpenDialog(dialogOptions)
   return filePath
 })
 
 ipcMain.handle('save-dialog-get-path', async (event, dialogOptions) => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/dialog#save
   const { filePath } = await dialog.showSaveDialog(dialogOptions)
   return filePath
 })
 ipcMain.handle('open-url', (event, url) => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/shell#open
   return shell.openPath(url)
 })
 
 ipcMain.handle('reload-main-window', () => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/process#relaunch
   mainWindow.reload()
 })
 
 ipcMain.handle('print', async (event, options) => {
+  // tauri: https://tauri.studio/en/docs/api/js/modules/window then use window.print?
   await mainWindow.webContents.print(options)
   return null
 })
@@ -160,9 +170,12 @@ ipcMain.handle('print', async (event, options) => {
 ipcMain.handle(
   'print-to-pdf',
   async (event, printToPDFOptions, dialogOptions) => {
+    // tauri: https://tauri.studio/en/docs/api/js/modules/window then use window.printToPDF?
     const data = await mainWindow.webContents.printToPDF(printToPDFOptions)
+    // tauri: https://tauri.studio/en/docs/api/js/modules/dialog#save
     const { filePath } = await dialog.showSaveDialog(dialogOptions)
     fs.outputFile(filePath, data)
+      // tauri: https://tauri.studio/en/docs/api/js/modules/shell#open
       .then(() => shell.openPath(filePath))
       .catch((error) => event.sender.send('ERROR', error.message))
     return data
