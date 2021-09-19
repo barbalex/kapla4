@@ -4,6 +4,15 @@ const { app, BrowserWindow, ipcMain, Menu, dialog, shell } = require('electron')
 const fs = require('fs-extra')
 const path = require('path')
 
+const isSingleInstance = app.requestSingleInstanceLock()
+
+if (!isSingleInstance) {
+  app.quit()
+  process.exit(0)
+}
+
+app.disableHardwareAcceleration()
+
 const getConfig = () => {
   // tauri: https://tauri.studio/en/docs/api/js/modules/path#datadir
   const userPath = app.getPath('userData')
@@ -44,6 +53,7 @@ const browserWindowOptions = {
     // needs to be false, see: https://github.com/electron/electron-quick-start/issues/463#issuecomment-869219170
     contextIsolation: false,
     nativeWindowOpen: true,
+    preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
   },
 }
 
@@ -71,9 +81,9 @@ const createWindow = () => {
   mainWindow.show()
 
   // Open the DevTools
-  // if (!app.isPackaged) {
-  mainWindow.webContents.openDevTools()
-  // }
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
