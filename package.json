@@ -105,7 +105,6 @@
   },
   "dependenciesComments": {
     "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
-    "@electron-forge": "Do not update beyond 6.0.0-beta.50 (60 tested): https://github.com/electron-userland/electron-forge/issues/1929",
     "better-sqlite3": "7.4.0: do not upgrade beyond as node mismatch is created. https://github.com/JoshuaWise/better-sqlite3/issues/694#issuecomment-916060018",
     "username": "5.1.0: do not upgrade to 6.0.0 as asset-relocator breaks"
   },
