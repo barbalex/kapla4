@@ -1,5 +1,3 @@
-// polyfill needed to prevent 'regenaratorRuntime is not defined' error
-import '@babel/polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { registerLocale, setDefaultLocale } from 'react-datepicker'
