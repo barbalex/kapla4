@@ -1,9 +1,6 @@
 module.exports = {
-  // see: https://github.com/electron-userland/electron-forge/issues/1224#issuecomment-544294836
-  // this seems to be to ensure all deps of better-sqlite3 are copied
   packagerConfig: {
     icon: './src/etc/app.png',
-    ignore: ['\\.gitignore', 'node_modules/\\.cache'],
   },
   makers: [
     {
@@ -45,7 +42,9 @@ module.exports = {
               name: 'main_window',
             },
           ],
+          nodeIntegration: true, // defaults to false
         },
+        devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
       },
     ],
   ],
