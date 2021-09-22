@@ -1,6 +1,7 @@
 module.exports = {
   packagerConfig: {
     icon: './src/etc/app.png',
+    asar: true,
   },
   makers: [
     {
@@ -47,5 +48,6 @@ module.exports = {
         devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
       },
     ],
+    ['@electron-forge/plugin-auto-unpack-natives'],
   ],
 }
