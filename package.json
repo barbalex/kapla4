@@ -83,7 +83,7 @@
     "url-loader": "4.1.1",
     "use-debounce": "7.0.0",
     "use-detect-print": "0.0.2",
-    "username": "5.1.0"
+    "username": "6.0.0"
   },
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "5.2.0",

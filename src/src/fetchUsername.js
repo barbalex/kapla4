@@ -1,11 +1,9 @@
-import getUsername from 'username'
-// WARNING
-// v6.0.0 imports using esm
-// this seems to break asset-relocator from the build process...
+import { username as getUsername } from 'username'
 
-const fetchUsername = (store) => {
+const fetchUsername = async (store) => {
   const { setUsername } = store.app
-  const username = getUsername.sync()
+  const username = await getUsername()
+
   if (username) {
     setUsername(username)
   } else {
