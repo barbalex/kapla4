@@ -38,6 +38,8 @@
     "@electron-forge/maker-zip": "6.0.0-beta.61",
     "@electron-forge/plugin-auto-unpack-natives": "6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "6.0.0-beta.61",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "babel-loader": "8.2.3",
     "bootstrap": "4.6.0",
@@ -64,6 +66,7 @@
     "mobx-state-tree": "5.0.4",
     "moment": "2.29.1",
     "node-loader": "2.0.0",
+    "popper.js": "^1.16.1",
     "prettier": "2.4.1",
     "prop-types": "15.7.2",
     "react": "17.0.2",
@@ -72,6 +75,7 @@
     "react-dropzone": "11.4.2",
     "react-error-boundary": "3.1.4",
     "react-icons": "4.3.1",
+    "react-is": "^17.0.2",
     "react-linkify": "0.x",
     "react-select": "5.2.0",
     "react-split-pane": "0.1.92",
@@ -85,16 +89,14 @@
     "use-detect-print": "0.0.2",
     "username": "6.0.0"
   },
-  "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.3.0",
-    "@typescript-eslint/parser": "5.3.0",
-    "popper.js": "1.16.1",
-    "react-is": "17.0.2"
-  },
   "dependenciesComments": {
     "depsVsDevDeps": "only placing sqlite in deps makes webpack bundle the right deps while ommitting sqlite, see: https://github.com/electron-userland/electron-forge/issues/1451#issuecomment-606039498",
     "better-sqlite3": "7.4.0: do not upgrade beyond as node mismatch is created. https://github.com/JoshuaWise/better-sqlite3/issues/694#issuecomment-916060018",
-    "username": "5.1.0: do not upgrade to 6.0.0 as asset-relocator breaks"
+    "username": "5.1.0: do not upgrade to 6.0.0 as asset-relocator breaks",
+    "@typescript-eslint/eslint-plugin": "is peer",
+    "@typescript-eslint/parser": "is peer",
+    "popper.js": "is peer",
+    "react-is": "is peer"
   },
   "browserslist": [
     ">0.2%",
