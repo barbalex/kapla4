@@ -21,16 +21,16 @@
     "forge": "./forge.config.js"
   },
   "dependencies": {
-    "better-sqlite3": "7.4.6"
+    "better-sqlite3": "7.4.5"
   },
   "devDependencies": {
-    "@babel/core": "7.16.5",
+    "@babel/core": "7.16.7",
     "@babel/eslint-parser": "7.16.5",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-syntax-import-meta": "7.10.4",
     "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.16.5",
-    "@babel/preset-react": "7.16.5",
+    "@babel/preset-env": "7.16.7",
+    "@babel/preset-react": "7.16.7",
     "@electron-forge/cli": "6.0.0-beta.61",
     "@electron-forge/maker-deb": "6.0.0-beta.61",
     "@electron-forge/maker-rpm": "6.0.0-beta.61",
@@ -38,17 +38,17 @@
     "@electron-forge/maker-zip": "6.0.0-beta.61",
     "@electron-forge/plugin-auto-unpack-natives": "6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "6.0.0-beta.61",
-    "@typescript-eslint/eslint-plugin": "5.8.1",
-    "@typescript-eslint/parser": "5.8.1",
+    "@typescript-eslint/eslint-plugin": "5.9.0",
+    "@typescript-eslint/parser": "5.9.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
     "babel-loader": "8.2.3",
     "bootstrap": "4.6.1",
     "copy-webpack-plugin": "10.2.0",
     "css-loader": "6.5.1",
     "date-fns": "2.28.0",
-    "electron": "16.0.5",
+    "electron": "16.0.6",
     "electron-squirrel-startup": "1.0.0",
-    "eslint": "8.5.0",
+    "eslint": "8.6.0",
     "eslint-config-react-app": "7.0.0",
     "eslint-plugin-flowtype": "8.0.3",
     "eslint-plugin-import": "2.x",
@@ -68,7 +68,7 @@
     "node-loader": "2.0.0",
     "popper.js": "1.16.1",
     "prettier": "2.5.1",
-    "prop-types": "15.8.0",
+    "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-datepicker": "4.5.0",
     "react-dom": "17.0.2",
@@ -96,7 +96,8 @@
     "@typescript-eslint/eslint-plugin": "is peer",
     "@typescript-eslint/parser": "is peer",
     "popper.js": "is peer",
-    "react-is": "is peer"
+    "react-is": "is peer",
+    "better-sqlite3_": "when upgrading from 7.4.5 to 7.4.6 got node version mismatch error"
   },
   "browserslist": [
     ">0.2%",
