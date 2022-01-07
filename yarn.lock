@@ -4639,15 +4639,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"better-sqlite3@npm:7.4.5":
-  version: 7.4.5
-  resolution: "better-sqlite3@npm:7.4.5"
+"better-sqlite3@npm:7.4.6":
+  version: 7.4.6
+  resolution: "better-sqlite3@npm:7.4.6"
   dependencies:
     bindings: ^1.5.0
     node-gyp: latest
     prebuild-install: ^7.0.0
     tar: ^6.1.11
-  checksum: 676fe1f940c2d8f1eadcdda59675dc0f7dda646a7de9aa2b8cb737907cc853d1022ffc1dc2334d25d9775fb4bff97701330f87ccee49f786327258e1c682bd94
+  checksum: 593241b9deb6621c7f4c72f1679c3b07b5711df48d91a6743119e4563866c3c1ba62f1ebfd34181d14144cdb8f287811b9391a16d384fdfb25089b88ee6a5633
   languageName: node
   linkType: hard
 
@@ -8798,7 +8798,7 @@ __metadata:
     "@typescript-eslint/parser": 5.9.0
     "@vercel/webpack-asset-relocator-loader": 1.7.0
     babel-loader: 8.2.3
-    better-sqlite3: 7.4.5
+    better-sqlite3: 7.4.6
     bootstrap: 4.6.1
     copy-webpack-plugin: 10.2.0
     css-loader: 6.5.1
@@ -8817,7 +8817,7 @@ __metadata:
     global: 4.4.0
     jquery: 3.6.0
     lodash: 4.17.21
-    mobx: 6.3.10
+    mobx: 6.3.12
     mobx-react: 7.2.1
     mobx-react-lite: 3.2.3
     mobx-state-tree: 5.1.0
@@ -9640,10 +9640,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mobx@npm:6.3.10":
-  version: 6.3.10
-  resolution: "mobx@npm:6.3.10"
-  checksum: d632c656f740ce67eef00c4c73be15acfc8fc057ab08492cba58ef904d617a1df465e059edaf4b2c02659c8d286be88a57eef4544b879ed6092faabf08b7e4ac
+"mobx@npm:6.3.12":
+  version: 6.3.12
+  resolution: "mobx@npm:6.3.12"
+  checksum: 1f1e414ffa1ed1efa92ff91e470d08e2a602d07dcf316ea12dc48d1077adb291643148badee4a052170260e3b0161842ddeae3cf3fdedd13599fee72cdf85c38
   languageName: node
   linkType: hard
 
