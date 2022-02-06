@@ -6433,16 +6433,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron@npm:16.0.8":
-  version: 16.0.8
-  resolution: "electron@npm:16.0.8"
+"electron@npm:17.0.0":
+  version: 17.0.0
+  resolution: "electron@npm:17.0.0"
   dependencies:
     "@electron/get": ^1.13.0
     "@types/node": ^14.6.2
     extract-zip: ^1.0.3
   bin:
     electron: cli.js
-  checksum: 9d3a2e1c3e6dcfdce25b4d9e1ef9dfe736354f9c3605945cfc5b1568862b69ad0a81e402cfaf09c2f51615b64bc3585ef4828a013437b9506cd0dbff3e6db903
+  checksum: c945a1a5475ba66ca70637b150b3f10ea9d28b1f2167a9d8d2137e087785f647e1153f4335f898238470392ed689e3d207b2b96928025c5dd092d6f601e21414
   languageName: node
   linkType: hard
 
@@ -9010,7 +9010,7 @@ __metadata:
     copy-webpack-plugin: 10.2.4
     css-loader: 6.6.0
     date-fns: 2.28.0
-    electron: 16.0.8
+    electron: 17.0.0
     electron-squirrel-startup: 1.0.0
     eslint: 8.8.0
     eslint-config-react-app: 7.0.0
@@ -9029,6 +9029,7 @@ __metadata:
     mobx-react-lite: 3.2.3
     mobx-state-tree: 5.1.3
     moment: 2.29.1
+    node-abi: ^3.8.0
     node-loader: 2.0.0
     popper.js: 1.16.1
     prettier: 2.5.1
@@ -9969,12 +9970,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-abi@npm:^3.0.0, node-abi@npm:^3.3.0":
-  version: 3.5.0
-  resolution: "node-abi@npm:3.5.0"
+"node-abi@npm:3.8.0":
+  version: 3.8.0
+  resolution: "node-abi@npm:3.8.0"
   dependencies:
     semver: ^7.3.5
-  checksum: e7fa2363cea366e788e460ead39cf900cc3c49b5978fa56790fda87df54b6937424c72ea00cbfb72fe1513eedcbb48a0ac50a56e7961cc6bd425ef09efbe1916
+  checksum: 3644dd51f4f189358ef56055407501aa698632d67448585b38c46c81a482a0c3bfb06da513ac4060a12ce5f607f208ba9d9c8280f1c38329670b709bd735fcae
   languageName: node
   linkType: hard
 
